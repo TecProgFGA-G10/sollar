@@ -50,40 +50,35 @@
 
 
 
-typedef struct
-{
-	GLubyte Header[12];									// TGA File Header
-} TGAHeader;//cabeçalho TGA.
+//typedef struct
+//{
+//	GLubyte Header[12];									// TGA File Header
+//} TGAHeader;//cabeçalho TGA.
 
 
-typedef struct
-{
-	GLubyte		header[6];								// First 6 Useful Bytes From The Header
-	GLuint		bytesPerPixel;							// Holds Number Of Bytes Per Pixel Used In The TGA File
-	GLuint		imageSize;								// Used To Store The Image Size When Setting Aside Ram
-	GLuint		temp;									// Temporary Variable
-	GLuint		type;
-	GLuint		Height;									//Height of Image
-	GLuint		Width;									//Width ofImage
-	GLuint		Bpp;									// Bits Per Pixel
-} TGA;//imagem tga.
+//typedef struct
+//{
+//	GLubyte		header[6];								// First 6 Useful Bytes From The Header
+//	GLuint		bytesPerPixel;							// Holds Number Of Bytes Per Pixel Used In The TGA File
+//	GLuint		imageSize;								// Used To Store The Image Size When Setting Aside Ram
+//	GLuint		temp;									// Temporary Variable
+//	GLuint		type;
+//	GLuint		Height;									//Height of Image
+//	GLuint		Width;									//Width ofImage
+//	GLuint		Bpp;									// Bits Per Pixel
+//} TGA;//imagem tga.
 
 
-TGAHeader tgaheader;									// TGA header
-TGA tga;												// TGA image data
+//TGAHeader tgaheader;									// TGA header
+//TGA tga;												// TGA image data
 
-GLubyte uTGAcompare[12] = {0,0,2,0,0,0,0,0,0,0,0,0};	// Uncompressed TGA Header
-GLubyte cTGAcompare[12] = {0,0,10,0,0,0,0,0,0,0,0,0};	// Compressed TGA Header
+//GLubyte uTGAcompare[12] = {0,0,2,0,0,0,0,0,0,0,0,0};	// Uncompressed TGA Header
+//GLubyte cTGAcompare[12] = {0,0,10,0,0,0,0,0,0,0,0,0};	// Compressed TGA Header
 
 /**
 * Protótipos de funções.
 */
-void desenhaCaixaColisao(caixaColisao *);
-void criaCaixaColisao(GLMmodel *, caixaColisao *);
 void inicializaObjetos(void);
-void setaCaixaColisao(caixaColisao *, ponto);
-void atualizaCaixaColisao(itemDeJogo *);
-void atualizaCaixaColisaoTiro(itemDeJogo *);
 void desenhaGameOver(void);
 void atualizarEstados(void);
 void configuraTexturas(void);
@@ -102,11 +97,9 @@ void redimensiona(int , int);
 void timerExplosao(int );
 void timer(int );
 void configura();
-void configuraIluminacao();
 int LoadTGA(Texture * , char * );
 int LoadUncompressedTGA(Texture * , char * , FILE * );
 int LoadCompressedTGA(Texture * , char * , FILE * );
-void configuraAudio();
 void reconfigura();
 void teclaGameOverEspecial(int, int, int);
 void teclaGameOverNormal(unsigned char , int, int);
@@ -1051,8 +1044,10 @@ void configura()//configuração inicial do game.
     musica = Mix_LoadMUS("data/musica/musica.ogg");
     somTiro = Mix_LoadWAV("data/audio/tiro.wav");
     somExplosao = Mix_LoadWAV("data/audio/explosao.wav");
+
     tocaMusica(musica);
 }
+
 void reconfigura()//chamado ao recomeçar um novo game.
 {
     inicializaObjetos();
@@ -1071,338 +1066,4 @@ void reconfigura()//chamado ao recomeçar um novo game.
 	    meteoros[i].visivel = FALSE;
 	}
 }
-void configuraIluminacao()
-{
-    float corAmbienteLuz[] = {1,1,1,1};//uma luz branca.
-    float corDifusaLuz[] = {1,1,1,1};
-    float corSpecularLuz[] = {1,1,1,1};
-    float posicaoLuz[] = {0,0,0 ,0.2};//posicao da luz.
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT, corAmbienteLuz);
-    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-    float materialAmbiente[] = {0.2,0.2,0.2,1};
-    float materialDifusa[] = {1,1,1,1};
-    float materialSpecular[] = {1,1,1,1};
-    float materialEmissao[] = {0,0,0,1};
-    float brilho = 70;
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbiente);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDifusa);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular);
-
-    glMateriali(GL_FRONT_AND_BACK,GL_SHININESS,brilho);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-}
-
-/**
-* O Código abaixo abre uma imagem do tipo TGA e a carrega. Este código foi obtido no endereço
-    http://www.3dcodingtutorial.com/Textures/Loading-Textures.html
-
-*/
-int LoadTGA(Texture * texture, char * filename)				// Load a TGA file
-{
-	FILE * fTGA;												// File pointer to texture file
-	fTGA = fopen(filename, "rb");								// Open file for reading
-
-	if(fTGA == NULL)											// If it didn't open....
-	{
-		//MessageBox(NULL, "Could not open texture file", "ERROR", MB_OK);	// Display an error message
-		return FALSE;														// Exit function
-	}
-
-	if(fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0)					// Attempt to read 12 byte header from file
-	{
-		//MessageBox(NULL, "Could not read file header", "ERROR", MB_OK);		// If it fails, display an error message
-		if(fTGA != NULL)													// Check to seeiffile is still open
-		{
-			fclose(fTGA);													// If it is, close it
-		}
-		return FALSE;														// Exit function
-	}
-
-	if(memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)				// See if header matches the predefined header of
-	{																		// an Uncompressed TGA image
-		LoadUncompressedTGA(texture, filename, fTGA);						// If so, jump to Uncompressed TGA loading code
-	}
-	else if(memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)		// See if header matches the predefined header of
-	{																		// an RLE compressed TGA image
-		LoadCompressedTGA(texture, filename, fTGA);							// If so, jump to Compressed TGA loading code
-	}
-	else																	// If header matches neither type
-	{
-		//MessageBox(NULL, "TGA file be type 2 or type 10 ", "Invalid Image", MB_OK);	// Display an error
-		fclose(fTGA);
-		return FALSE;																// Exit function
-	}
-	return TRUE;															// All went well, continue on
-}
-
-int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)	// Load an uncompressed TGA (note, much of this code is based on NeHe's
-{																			// TGA Loading code nehe.gamedev.net)
-	if(fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)					// Read TGA header
-	{
-		//MessageBox(NULL, "Could not read info header", "ERROR", MB_OK);		// Display error
-		if(fTGA != NULL)													// if file is still open
-		{
-			fclose(fTGA);													// Close it
-		}
-		return FALSE;														// Return failular
-	}
-
-	texture->width  = tga.header[1] * 256 + tga.header[0];					// Determine The TGA Width	(highbyte*256+lowbyte)
-	texture->height = tga.header[3] * 256 + tga.header[2];					// Determine The TGA Height	(highbyte*256+lowbyte)
-	texture->bpp	= tga.header[4];										// Determine the bits per pixel
-	tga.Width		= texture->width;										// Copy width into local structure
-	tga.Height		= texture->height;										// Copy height into local structure
-	tga.Bpp			= texture->bpp;											// Copy BPP into local structure
-
-	if((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32)))	// Make sure all information is valid
-	{
-		//MessageBox(NULL, "Invalid texture information", "ERROR", MB_OK);	// Display Error
-		if(fTGA != NULL)													// Check if file is still open
-		{
-			fclose(fTGA);													// If so, close it
-		}
-		return FALSE;														// Return failed
-	}
-
-	if(texture->bpp == 24)													// If the BPP of the image is 24...
-		texture->type	= GL_RGB;											// Set Image type to GL_RGB
-	else																	// Else if its 32 BPP
-		texture->type	= GL_RGBA;											// Set image type to GL_RGBA
-
-	tga.bytesPerPixel	= (tga.Bpp / 8);									// Compute the number of BYTES per pixel
-	tga.imageSize		= (tga.bytesPerPixel * tga.Width * tga.Height);		// Compute the total amout ofmemory needed to store data
-	texture->imageData	= (GLubyte *)malloc(tga.imageSize);					// Allocate that much memory
-
-	if(texture->imageData == NULL)											// If no space was allocated
-	{
-		//MessageBox(NULL, "Could not allocate memory for image", "ERROR", MB_OK);	// Display Error
-		fclose(fTGA);														// Close the file
-		return FALSE;														// Return failed
-	}
-
-	if(fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize)	// Attempt to read image data
-	{
-		//MessageBox(NULL, "Could not read image data", "ERROR", MB_OK);		// Display Error
-		if(texture->imageData != NULL)										// If imagedata has data in it
-		{
-			free(texture->imageData);										// Delete data from memory
-		}
-		fclose(fTGA);														// Close file
-		return FALSE;														// Return failed
-	}
-
-	// Byte Swapping Optimized By Steve Thomas
-	GLuint cswap;
-	for( cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel)
-	{
-		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=
-		texture->imageData[cswap] ^= texture->imageData[cswap+2];
-	}
-
-	fclose(fTGA);															// Close file
-	return TRUE;															// Return success
-}
-
-int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)		// Load COMPRESSED TGAs
-{
-	if(fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)					// Attempt to read header
-	{
-		//MessageBox(NULL, "Could not read info header", "ERROR", MB_OK);		// Display Error
-		if(fTGA != NULL)													// If file is open
-		{
-			fclose(fTGA);													// Close it
-		}
-		return FALSE;														// Return failed
-	}
-
-	texture->width  = tga.header[1] * 256 + tga.header[0];					// Determine The TGA Width	(highbyte*256+lowbyte)
-	texture->height = tga.header[3] * 256 + tga.header[2];					// Determine The TGA Height	(highbyte*256+lowbyte)
-	texture->bpp	= tga.header[4];										// Determine Bits Per Pixel
-	tga.Width		= texture->width;										// Copy width to local structure
-	tga.Height		= texture->height;										// Copy width to local structure
-	tga.Bpp			= texture->bpp;											// Copy width to local structure
-
-	if((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32)))	//Make sure all texture info is ok
-	{
-		//MessageBox(NULL, "Invalid texture information", "ERROR", MB_OK);	// If it isnt...Display error
-		if(fTGA != NULL)													// Check if file is open
-		{
-			fclose(fTGA);													// Ifit is, close it
-		}
-		return FALSE;														// Return failed
-	}
-
-	if(texture->bpp == 24)													// If the BPP of the image is 24...
-		texture->type	= GL_RGB;											// Set Image type to GL_RGB
-	else																	// Else if its 32 BPP
-		texture->type	= GL_RGBA;											// Set image type to GL_RGBA
-
-	tga.bytesPerPixel	= (tga.Bpp / 8);									// Compute BYTES per pixel
-	tga.imageSize		= (tga.bytesPerPixel * tga.Width * tga.Height);		// Compute amout of memory needed to store image
-	texture->imageData	= (GLubyte *)malloc(tga.imageSize);					// Allocate that much memory
-
-	if(texture->imageData == NULL)											// If it wasnt allocated correctly..
-	{
-		//MessageBox(NULL, "Could not allocate memory for image", "ERROR", MB_OK);	// Display Error
-		fclose(fTGA);														// Close file
-		return FALSE;														// Return failed
-	}
-
-	GLuint pixelcount	= tga.Height * tga.Width;							// Nuber of pixels in the image
-	GLuint currentpixel	= 0;												// Current pixel being read
-	GLuint currentbyte	= 0;												// Current byte
-	GLubyte * colorbuffer = (GLubyte *)malloc(tga.bytesPerPixel);			// Storage for 1 pixel
-
-	do
-	{
-		GLubyte chunkheader = 0;											// Storage for "chunk" header
-
-		if(fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0)				// Read in the 1 byte header
-		{
-			//MessageBox(NULL, "Could not read RLE header", "ERROR", MB_OK);	// Display Error
-			if(fTGA != NULL)												// If file is open
-			{
-				fclose(fTGA);												// Close file
-			}
-			if(texture->imageData != NULL)									// If there is stored image data
-			{
-				free(texture->imageData);									// Delete image data
-			}
-			return FALSE;													// Return failed
-		}
-
-		if(chunkheader < 128)												// If the ehader is < 128, it means the that is the number of RAW color packets minus 1
-		{																	// that follow the header
-			chunkheader++;
-			short counter;											// add 1 to get number of following color values
-			for(counter = 0; counter < chunkheader; counter++)		// Read RAW color values
-			{
-				if(fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) // Try to read 1 pixel
-				{
-					//MessageBox(NULL, "Could not read image data", "ERROR", MB_OK);		// IF we cant, display an error
-
-					if(fTGA != NULL)													// See if file is open
-					{
-						fclose(fTGA);													// If so, close file
-					}
-
-					if(colorbuffer != NULL)												// See if colorbuffer has data in it
-					{
-						free(colorbuffer);												// If so, delete it
-					}
-
-					if(texture->imageData != NULL)										// See if there is stored Image data
-					{
-						free(texture->imageData);										// If so, delete it too
-					}
-
-					return FALSE;														// Return failed
-				}
-																						// write to memory
-				texture->imageData[currentbyte		] = colorbuffer[2];				    // Flip R and B vcolor values around in the process
-				texture->imageData[currentbyte + 1	] = colorbuffer[1];
-				texture->imageData[currentbyte + 2	] = colorbuffer[0];
-
-				if(tga.bytesPerPixel == 4)												// if its a 32 bpp image
-				{
-					texture->imageData[currentbyte + 3] = colorbuffer[3];				// copy the 4th byte
-				}
-
-				currentbyte += tga.bytesPerPixel;										// Increase thecurrent byte by the number of bytes per pixel
-				currentpixel++;															// Increase current pixel by 1
-
-				if(currentpixel > pixelcount)											// Make sure we havent read too many pixels
-				{
-					//MessageBox(NULL, "Too many pixels read", "ERROR", NULL);			// if there is too many... Display an error!
-
-					if(fTGA != NULL)													// If there is a file open
-					{
-						fclose(fTGA);													// Close file
-					}
-
-					if(colorbuffer != NULL)												// If there is data in colorbuffer
-					{
-						free(colorbuffer);												// Delete it
-					}
-
-					if(texture->imageData != NULL)										// If there is Image data
-					{
-						free(texture->imageData);										// delete it
-					}
-
-					return FALSE;														// Return failed
-				}
-			}
-		}
-		else																			// chunkheader > 128 RLE data, next color reapeated chunkheader - 127 times
-		{
-			chunkheader -= 127;															// Subteact 127 to get rid of the ID bit
-			if(fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel)		// Attempt to read following color values
-			{
-				//MessageBox(NULL, "Could not read from file", "ERROR", MB_OK);			// If attempt fails.. Display error (again)
-
-				if(fTGA != NULL)														// If thereis a file open
-				{
-					fclose(fTGA);														// Close it
-				}
-
-				if(colorbuffer != NULL)													// If there is data in the colorbuffer
-				{
-					free(colorbuffer);													// delete it
-				}
-
-				if(texture->imageData != NULL)											// If thereis image data
-				{
-					free(texture->imageData);											// delete it
-				}
-
-				return FALSE;															// return failed
-			}
-            short counter;
-			for( counter = 0; counter < chunkheader; counter++)					// copy the color into the image data as many times as dictated
-			{																			// by the header
-				texture->imageData[currentbyte		] = colorbuffer[2];					// switch R and B bytes areound while copying
-				texture->imageData[currentbyte + 1	] = colorbuffer[1];
-				texture->imageData[currentbyte + 2	] = colorbuffer[0];
-
-				if(tga.bytesPerPixel == 4)												// If TGA images is 32 bpp
-				{
-					texture->imageData[currentbyte + 3] = colorbuffer[3];				// Copy 4th byte
-				}
-
-				currentbyte += tga.bytesPerPixel;										// Increase current byte by the number of bytes per pixel
-				currentpixel++;															// Increase pixel count by 1
-
-				if(currentpixel > pixelcount)											// Make sure we havent written too many pixels
-				{
-					//MessageBox(NULL, "Too many pixels read", "ERROR", NULL);			// if there is too many... Display an error!
-
-					if(fTGA != NULL)													// If there is a file open
-					{
-						fclose(fTGA);													// Close file
-					}
-
-					if(colorbuffer != NULL)												// If there is data in colorbuffer
-					{
-						free(colorbuffer);												// Delete it
-					}
-
-					if(texture->imageData != NULL)										// If there is Image data
-					{
-						free(texture->imageData);										// delete it
-					}
-
-					return FALSE;														// Return failed
-				}
-			}
-		}
-	}
-
-	while(currentpixel < pixelcount);													// Loop while there are still pixels left
-	fclose(fTGA);																		// Close the file
-	return TRUE;																		// return success
-}

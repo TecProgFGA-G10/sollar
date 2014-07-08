@@ -12,6 +12,7 @@ void iniciaAudio(int audio_rate, Uint16 audio_format, int audio_channels, int au
  
 }
 
+
 int tocaMusica(Mix_Music *musica)
 {
     if(musica == NULL)

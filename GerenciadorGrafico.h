@@ -32,6 +32,28 @@ void iniciaCamera(){
 
 }
 
+void configuraIluminacao()
+{
+    float corAmbienteLuz[] = {1,1,1,1};//uma luz branca.
+    float posicaoLuz[] = {0,0,0 ,0.2};//posicao da luz.
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, corAmbienteLuz);
+    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
+    float materialAmbiente[] = {0.2,0.2,0.2,1};
+    float materialDifusa[] = {1,1,1,1};
+    float materialSpecular[] = {1,1,1,1};
+    float brilho = 70;
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbiente);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDifusa);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular);
+
+    glMateriali(GL_FRONT_AND_BACK,GL_SHININESS,brilho);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+}
+
 void desenhaModelo(int tipo, Texture textura,GLMmodel *modelo)
 {
 
