@@ -508,20 +508,8 @@ void configuraTexturas(void)//carrega as texturas para variáveis globais.
         printf("\nErro carregando a textura do jato.");
     }
 
-    if(LoadTGA(&texturaMetoro,"data/meteoro/meteoro_Sphere.tga"))
-    {
-        glGenTextures(1,&texturaMetoro.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaMetoro.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaMetoro.bpp / 8, texturaMetoro.width,
-                     texturaMetoro.height, 0, texturaMetoro.type, GL_UNSIGNED_BYTE, texturaMetoro.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do meteoro");
-    }
+
+	texturaMetoro=carregaTexturaMeteoro(texturaMetoro,"data/meteoro/meteoro_Sphere.tga");
 
     if(LoadTGA(&texturaTiro,"data/tiro/tiro_Cube.tga"))
     {
