@@ -24,9 +24,8 @@ void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
     if(!modelo)
         exit(1);
     int i =0;
-    int max = modelo->numvertices;//pega o numero de vertices.
+    int max = modelo->numvertices;
 
-    //a pos de 0 a 2 guardam seil� o que..
     float maiorX = modelo->vertices[3];
     float menorX = modelo->vertices[3];
     float maiorY = modelo->vertices[4];
@@ -39,9 +38,8 @@ void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
     float tmpZ;
     for(i = 2; i < max; i++)
     {
-        //cada vertice tem 3 pontos..
-        tmpX = modelo->vertices[i*3];//i=0, 0; i=1, 3 - o pr�ximo x est� em 3
-        tmpY = modelo->vertices[i*3+1];//i=0, 2;
+        tmpX = modelo->vertices[i*3];
+        tmpY = modelo->vertices[i*3+1];
         tmpZ = modelo->vertices[i*3+2];
         if(tmpX > maiorX)
         {
@@ -169,7 +167,7 @@ void setaCaixaColisao(caixaColisao *c, ponto posicao)
 void atualizaCaixaColisao(itemDeJogo *item)
 {
     int i =0;
-    for(i = 0; i < 8; i++)//tem 8 pontos da caixa de colisao.
+    for(i = 0; i < 8; i++)
     {
         if(item->posicao.z > item->posicaoAnterior.z)
             item->colisao.pontos[i].z+= item->aceleracao;

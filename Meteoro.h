@@ -13,7 +13,7 @@ void carregaModeloMeteoro(GLMmodel **meteoro){
                 printf("\n\nErro carregando meteoro.obj");
                 exit(0);
             }
-            glmUnitize(*meteoro);//redimensiona para a matrix unitdade..
+            glmUnitize(*meteoro);//redimensiona para a matrix uni
             glmFacetNormals(*meteoro);
             glmVertexNormals(*meteoro, 90.0);
     }else{
@@ -27,19 +27,18 @@ int posicaoVaziaMeteoros(itemDeJogo *meteoros)
     int i =0;
     for(i = 0; i < NUM_MAX_METEOROS; i++)
     {
-        //encontra o primeiro meteoro vazio e o retorna.
         if(!meteoros[i].visivel)
             return i;
     }
-    return -1;//caso n�o encontra retorna -1;
+    return -1;
 }
 
 void enviaMeteoro(itemDeJogo *meteoros, int meteorosEnviar, caixaColisao colisaoMeteoroDefault){
     int i =0;
-    for(i = 0; i < meteorosEnviar; i++)//envia meteorosEnviar meteoros
+    for(i = 0; i < meteorosEnviar; i++)
     {
        int pos = posicaoVaziaMeteoros(meteoros);
-        if(pos >=0)//se tem uma pos disponivel..
+        if(pos >=0)
         {
             meteoros[pos].visivel = TRUE;
             meteoros[pos].posicao.z = (Z_INICIAL_METEORO-10) - rand()%(Z_INICIAL_METEORO - -20);
@@ -53,13 +52,11 @@ void enviaMeteoro(itemDeJogo *meteoros, int meteorosEnviar, caixaColisao colisao
 
             int c =0;
             for(c =0; c< 8; c++)
-            //configura a caixa de colis�o, para um meteoro na posi��o <0,0,0>
             {
                 meteoros[pos].colisao.pontos[c].x = colisaoMeteoroDefault.pontos[c].x;
                 meteoros[pos].colisao.pontos[c].y = colisaoMeteoroDefault.pontos[c].y;
                 meteoros[pos].colisao.pontos[c].z = colisaoMeteoroDefault.pontos[c].z;
             }
-            //calcula a posi��o da caixa para posi��o do meteoro.
             setaCaixaColisao(&meteoros[pos].colisao, meteoros[pos].posicao);
         }
 	}
@@ -102,7 +99,7 @@ void configuraAceleracaoMeteoros(itemDeJogo *meteoros){
 
 }
 
-void desenhaMeteoros(itemDeJogo *meteoros, Texture texturaMetoro,GLMmodel *meteoro)//desenha os meteoros vis�veis.
+void desenhaMeteoros(itemDeJogo *meteoros, Texture texturaMetoro,GLMmodel *meteoro)
 {
     int i =0;
     for(i = 0; i < NUM_MAX_METEOROS; i++)
@@ -110,7 +107,6 @@ void desenhaMeteoros(itemDeJogo *meteoros, Texture texturaMetoro,GLMmodel *meteo
         if(meteoros[i].visivel)
         {
             glPushMatrix();
-               // desenhaCaixaColisao( &meteoros[i].colisao);
                 glTranslatef(meteoros[i].posicao.x, meteoros[i].posicao.y, meteoros[i].posicao.z);
                 desenhaModelo(MODELO_METEORO,texturaMetoro,meteoro);
             glPopMatrix();

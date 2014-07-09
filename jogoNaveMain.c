@@ -13,9 +13,6 @@
 #include "Nave.h"
 
 
-/**
-* Protótipos de funções.
-*/
 void desenhaGameOver(void);
 void atualizarEstados(void);
 void trataTeclas(void);
@@ -35,9 +32,6 @@ void teclaGameOverNormal(unsigned char , int, int);
 extern void mixaudio(void *unused, Uint8 *stream, int len);
 
 
-/**
-dados globais
-*/
 SDL_AudioSpec fmt;
 itemDeJogo nave;
 //os modelos do tiro e do aviao sao carregados somente 1 vez, pois, para todos é o mesmo modelo!
@@ -97,19 +91,16 @@ int audio_buffers = 4096;
 
 int main(int argc,char** argv)
 {
-    glutInit(&argc,argv);
-    configura();
+    configura(argc,argv);
     glutMainLoop();
     return 0;
 }
 
 void desenhaGameOver()
 {
-    //desativa as callbacks de teclado do jogo..
     glutSpecialFunc(NULL);
     glutKeyboardFunc(NULL);
 
-    //ativa callbacks de teclado para selecionar se quer continuar ou nao.
     glutSpecialFunc(teclaGameOverEspecial);
     glutKeyboardFunc(teclaGameOverNormal);
 
@@ -190,7 +181,7 @@ void atualizarEstados(void)
                 }
                 if(vida<0)
                 {
-                    nave.visivel = FALSE;//morreu
+                    nave.visivel = FALSE;
                 }
             }
             if(meteoros[i].posicao.z > MAXIMO_DESENHO_METEORO)
@@ -203,7 +194,6 @@ void atualizarEstados(void)
 
 
 //trata as teclas de game over, para teclas especiais ESQUERDA e DIREITA. ao pressionar uma destes
-//seleciona se quer continuar ou não o game.
 void teclaGameOverEspecial(int tecla, int x, int y)
 {
     switch(tecla)
@@ -227,16 +217,16 @@ void teclaGameOverNormal(unsigned char tecla, int x, int y)
     switch(tecla)
     {
         case ' ':
-        case 13://13 é o ENTER
+        case 13:// ENTER
         {
             if(gameOverSelecionado == GAME_OVER)
-                exit(0);//se está selecionado game over então sai do game
+                exit(0);
             else
-                reconfigura();//recarrega o game..
+                reconfigura();
             glutPostRedisplay();
             break;
         }
-        case 27:
+        case 27: // ESC
         {
             exit(0);
             break;
@@ -259,9 +249,6 @@ void DesenhaTexto(char *string,int posx, int posy)
 
 void trataTeclas()
 {
-    //se for true vai ser somado com a aceleração, senão, soma com ZERO, pois aceleracao * 0 = 0!
-    //faz aqui pois caso duas setas sejam pressionadas a posição é calculada e só faz um movimento.
-    //a posicao da camera é alterada para seguir a nave.
     nave.posicaoAnterior.x = nave.posicao.x;
     nave.posicaoAnterior.y = nave.posicao.y;
     if(nave.posicao.x >MINIMO_X)
@@ -269,7 +256,6 @@ void trataTeclas()
         nave.posicao.x-=(nave.aceleracao * esquerdaPressionada);
         glLoadIdentity();
         gluLookAt( nave.posicao.x,nave.posicao.y+VAR_CAMERA,CAMERA_Z,
-        //gluLookAt( posicaoNave[0],posicaoNave[1],20,
               nave.posicao.x,nave.posicao.y,nave.posicao.z ,
               0,1,0);
     }
@@ -278,8 +264,7 @@ void trataTeclas()
         nave.posicao.x+=(nave.aceleracao * direitaPressionada);
         glLoadIdentity();
         gluLookAt( nave.posicao.x,nave.posicao.y+VAR_CAMERA,CAMERA_Z,
-        //gluLookAt( posicaoNave[0],posicaoNave[1],20,
-              nave.posicao.x,nave.posicao.y,0,
+             nave.posicao.x,nave.posicao.y,0,
               0,1,0);
     }
 
@@ -289,7 +274,6 @@ void trataTeclas()
         nave.posicao.y+= (nave.aceleracao  * cimaPressionada);
         glLoadIdentity();
         gluLookAt( nave.posicao.x,nave.posicao.y+VAR_CAMERA,CAMERA_Z,
-        //gluLookAt( posicaoNave[0],posicaoNave[1],20,
               nave.posicao.x,nave.posicao.y,0,
               0,1,0);
     }
@@ -299,24 +283,24 @@ void trataTeclas()
         nave.posicao.y-= (nave.aceleracao  * baixoPressionada);
         glLoadIdentity();
         gluLookAt( nave.posicao.x,nave.posicao.y+VAR_CAMERA,CAMERA_Z,
-        //gluLookAt( posicaoNave[0],posicaoNave[1],20,
-              nave.posicao.x,nave.posicao.y,nave.posicao.z ,
+             nave.posicao.x,nave.posicao.y,nave.posicao.z ,
               0,1,0);
+
     }
     atualizaCaixaColisao(&nave);
-    //se apertou para atirar começa a tratar um disparo.
+
     if(atirar)
     {
         PlaySound(MODELO_TIRO,somTiro);
         atirar = FALSE;
-        int tiro = posicaoVaziaTiros(tiros);//pega a primeira pos vazia.
+        int tiro = posicaoVaziaTiros(tiros);
 
         if(tiro >=0)
         {
             tiros[tiro].posicao.x = nave.posicao.x-1;
             tiros[tiro].posicao.y = nave.posicao.y+0.9;
             tiros[tiro].posicao.z = nave.posicao.z;
-            tiros[tiro].visivel = TRUE;//passa a ser 'ocupado'
+            tiros[tiro].visivel = TRUE;
 
             tiros[tiro].posicaoAnterior.x = nave.posicao.x-1;
             tiros[tiro].posicaoAnterior.y = nave.posicao.y+0.9;
@@ -336,14 +320,10 @@ void trataTeclas()
         }
     }
 
-    //pede para a OpenGL redesenhar a tela, agora a nave terá novas coordenadas.
+    //pede para a OpenGL redesenhar a tela, agora a nave tem novas coordenadas.
     glutPostRedisplay();
-
 }
 
-/**
-* Controla a ação para teclas especiais, como F*, SETAS, CTRL, quando estas são pressionadas.
-*/
 void teclaEspecial(int tecla, int x, int y)
 {
     //ao pressionar uma tecla armazena seu estado para baixo. Assim a nave se movimenta enquanto
@@ -379,9 +359,6 @@ void teclaEspecial(int tecla, int x, int y)
     }
 }
 
-/**
-* Controla a ação para teclas especiais, como F*, SETAS, CTRL, quando estas são soltas.
-*/
 void teclaEspecialSolta(int tecla, int x, int y)
 {
     //ao soltar uma tecla, armazena o estado que esta foi solta.
@@ -414,7 +391,7 @@ void teclaEspecialSolta(int tecla, int x, int y)
     }
 }
 
-void aumentaDificuldade(int t)//a cada tempo esta funcao é chamada e a dificuldade aumenta.
+void aumentaDificuldade(int t)
 {
     if(nave.visivel)
     {
@@ -474,7 +451,7 @@ void controla(unsigned char tecla, int x, int y)
         }
     }
 }
-void desenhaHUD()//desenha as informações na tela.
+void desenhaHUD()
 {
     char texto[20];
     sprintf( texto,"Vida: %d",vida);
@@ -483,7 +460,8 @@ void desenhaHUD()//desenha as informações na tela.
     sprintf(texto2,"Pontuacao: %d",pontos);
     DesenhaTexto(texto2,6,6);
 }
-void desenha()//desenha os itens do jogo.
+
+void desenha()
 {
     //limpa os buffers de cor e profundidade.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -492,11 +470,10 @@ void desenha()//desenha os itens do jogo.
         if(nave.visivel)
         {
             desenhaFundo(texturaFundo);
-            //desenha a nave na posição atual dela.
             glPushMatrix();
-            glTranslatef(nave.posicao.x,nave.posicao.y,nave.posicao.z);
-            glRotatef( nave.rotacao,0,0,nave.rotZ);
-            desenhaModelo(MODELO_NAVE,texturaAviao,nave.modelo);
+                glTranslatef(nave.posicao.x,nave.posicao.y,nave.posicao.z);
+                glRotatef( nave.rotacao,0,0,nave.rotZ);
+                desenhaModelo(MODELO_NAVE,texturaAviao,nave.modelo);
             glPopMatrix();
             desenhaTiros(tiros,texturaTiro,tiro);
             desenhaMeteoros(meteoros,texturaMetoro,meteoro);
@@ -515,9 +492,9 @@ void desenha()//desenha os itens do jogo.
     glutSwapBuffers();
 }
 
+
 void redimensiona(int larg, int alt)
 {
-    //altera a projeção
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(60,larg/alt,0.5,110);
@@ -525,19 +502,15 @@ void redimensiona(int larg, int alt)
     //reseta as alterações do MODELVIEW
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    //'olha'
     gluLookAt(nave.posicao.x,nave.posicao.y+20,20,
               0,0,0,
               0,1,0);
-    //calcula a nova viewport
     glViewport(0,0,larg,alt);
-    //habilita o teste de profundidade.
     glEnable(GL_DEPTH_TEST);
 }
 
 
-void timerExplosao(int t)//chamado a cada tempo e diminui o tamanho da explosao, para dar
-//efeito que ela desapareça aos poucos.
+void timerExplosao(int t)
 {
     if(nave.visivel)
     {
@@ -559,7 +532,7 @@ void timerExplosao(int t)//chamado a cada tempo e diminui o tamanho da explosao,
 }
 
 
-void timer(int t)//timer para invocar um/uns novo/novos metoro/meteoros
+void timer(int t)
 {
     if(nave.visivel)
     {
@@ -575,7 +548,7 @@ void timer(int t)//timer para invocar um/uns novo/novos metoro/meteoros
     }
 }
 
-void configura()//configuração inicial do game.
+void configura(int argc,char** argv)
 {
     meteorosEnviar = 10;
     tempoMeteoro = 2000;
@@ -584,9 +557,9 @@ void configura()//configuração inicial do game.
     gameOverSelecionado = CONTINUAR;
 
     inicializaObjetos(&nave,&meteoro,&explosao,&tiro,&colisaoMeteoroDefault,meteoros,explosoes,&colisaoTiroDefault,tiros);
-	iniciaGlut();
+	iniciaGlut(argc,argv);
 
-    glutDisplayFunc(desenha);//configura a função de desenho
+    glutDisplayFunc(desenha);
     glutKeyboardFunc(controla);
     glutSpecialFunc(teclaEspecial);
     glutSpecialUpFunc(teclaEspecialSolta);
@@ -609,11 +582,11 @@ void configura()//configuração inicial do game.
     tocaMusica(musica);
 }
 
-void reconfigura()//chamado ao recomeçar um novo game.
+void reconfigura()
 {
     inicializaObjetos(&nave,&meteoro,&explosao,&tiro,&colisaoMeteoroDefault,meteoros,explosoes,&colisaoTiroDefault,tiros);
     criaCaixaColisao(nave.modelo, &nave.colisao);
-    glClearColor(0,0,0,0);//cor de limpeza, ou seja, do fundo
+    glClearColor(0,0,0,0);
     glutKeyboardFunc(controla);
     glutSpecialFunc(teclaEspecial);
     glutSpecialUpFunc(teclaEspecialSolta);

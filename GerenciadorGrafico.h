@@ -6,7 +6,8 @@
 
 #include "SolarUtil.h"
 
-void iniciaGlut(){
+void iniciaGlut(int argc,char** argv){
+	glutInit(&argc,argv);
 	glutInitDisplayMode(MODO_GRAFICO); //diz que o modo � com 2 buffer e RGBA (aceita alpha)
     glutInitWindowSize(LARGURA,ALTURA);//tamanho inicial da janela
     glutInitWindowPosition(0,0);//poisi��o inicial da janela

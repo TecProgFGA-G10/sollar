@@ -12,7 +12,7 @@ int posicaoVaziaTiros(itemDeJogo *tiros)
         if(!tiros[i].visivel)
             return i;
     }
-    return -1;//caso n�o encontra retorna -1;
+    return -1;
 }
 
 void carregaModeloTiro(GLMmodel **tiro){
@@ -26,7 +26,7 @@ void carregaModeloTiro(GLMmodel **tiro){
             exit(0);
         }
         //calcula as normais.
-        glmUnitize(*tiro);//redimensiona para a matrix unitdade..
+        glmUnitize(*tiro);
         glmFacetNormals(*tiro);
         glmVertexNormals(*tiro, 90.0);
     }else{
@@ -37,22 +37,21 @@ void carregaModeloTiro(GLMmodel **tiro){
 
 void atualizaCaixaColisaoTiro(itemDeJogo *item)
 {
-    //� diferente pois o tiro se move em um valor diferente no eixo z.
     int i =0;
-    for(i = 0; i < 8; i++)//tem 8 pontos da caixa de colisao.
+    for(i = 0; i < 8; i++)//pontos totais caixa de colisão
     {
         if(item->posicao.z > item->posicaoAnterior.z)
-            item->colisao.pontos[i].z+= -item->aceleracao;//(item->posicao.x - item->posicaoAnterior.x);
+            item->colisao.pontos[i].z+= -item->aceleracao;
 
         if(item->posicao.z < item->posicaoAnterior.z)
-            item->colisao.pontos[i].z+= item->aceleracao;//(item->posicao.x - item->posicaoAnterior.x);
+            item->colisao.pontos[i].z+= item->aceleracao;
     }
 }
 
 void carregaTexturaTiro(Texture *texturaTiro, char * filePath){
    if(LoadTGA(texturaTiro,filePath))
     {
-        glGenTextures(1,&texturaTiro->texID);//cria uma textura..
+        glGenTextures(1,&texturaTiro->texID);
         glBindTexture(GL_TEXTURE_2D, texturaTiro->texID);
         glTexImage2D(GL_TEXTURE_2D, 0, texturaTiro->bpp / 8, texturaTiro->width,
                      texturaTiro->height, 0, texturaTiro->type, GL_UNSIGNED_BYTE, texturaTiro->imageData);
@@ -67,7 +66,7 @@ void carregaTexturaTiro(Texture *texturaTiro, char * filePath){
 
 }
 
-void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)//desenha os tiros disparados.
+void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)
 {
     int i =0;
     for(i = 0; i < NUM_MAX_TIROS; i++)
@@ -75,7 +74,6 @@ void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)//desen
         if(tiros[i].visivel)
         {
             glPushMatrix();
-                   // desenhaCaixaColisao( &tiros[i].colisao);
                     glTranslatef(tiros[i].posicao.x,tiros[i].posicao.y,tiros[i].posicao.z);
                     desenhaModelo(MODELO_TIRO,texturaTiro,tiro);
             glPopMatrix();

@@ -10,7 +10,7 @@
 void carregaTexturaFundo(Texture *texturaFundo, char *filePath){
     if(LoadTGA(texturaFundo,filePath))
     {
-        glGenTextures(1,&texturaFundo->texID);//cria uma textura..
+        glGenTextures(1,&texturaFundo->texID);
         glBindTexture(GL_TEXTURE_2D, texturaFundo->texID);
         glTexImage2D(GL_TEXTURE_2D, 0, texturaFundo->bpp / 8, texturaFundo->width,
                      texturaFundo->height, 0, texturaFundo->type, GL_UNSIGNED_BYTE, texturaFundo->imageData);
@@ -28,7 +28,7 @@ void carregaTexturaFundo(Texture *texturaFundo, char *filePath){
 void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath){
     if(LoadTGA(texturaGameOver,filePath))
     {
-        glGenTextures(1,&texturaGameOver->texID);//cria uma textura..
+        glGenTextures(1,&texturaGameOver->texID);
         glBindTexture(GL_TEXTURE_2D, texturaGameOver->texID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texturaGameOver->width,
                      texturaGameOver->height, 0, texturaGameOver->type, GL_UNSIGNED_BYTE, texturaGameOver->imageData);
@@ -46,7 +46,7 @@ void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath){
 void carregaTexturaJogo(Texture *continuaJogo, char* filePath){
     if(LoadTGA(continuaJogo,filePath))
     {
-        glGenTextures(1,&continuaJogo->texID);//cria uma textura..
+        glGenTextures(1,&continuaJogo->texID);
         glBindTexture(GL_TEXTURE_2D, continuaJogo->texID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogo->width,
                      continuaJogo->height, 0, continuaJogo->type, GL_UNSIGNED_BYTE, continuaJogo->imageData);
@@ -63,7 +63,7 @@ void carregaTexturaJogo(Texture *continuaJogo, char* filePath){
 void carregaTexturaFimJogo(Texture *fimDeJogo, char* filePath){
     if(LoadTGA(fimDeJogo,filePath))
     {
-        glGenTextures(1,&fimDeJogo->texID);//cria uma textura..
+        glGenTextures(1,&fimDeJogo->texID);
         glBindTexture(GL_TEXTURE_2D, fimDeJogo->texID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fimDeJogo->width,
                      fimDeJogo->height, 0, fimDeJogo->type, GL_UNSIGNED_BYTE, fimDeJogo->imageData);
@@ -80,23 +80,14 @@ void carregaTexturaFimJogo(Texture *fimDeJogo, char* filePath){
 void configuraTexturas(Texture **texturas)
 {
     carregaTexturaNave(texturas[0],"data/aviao/textura_jato.tga");
-
     carregaTexturaMeteoro(texturas[1],"data/meteoro/meteoro_Sphere.tga");
-
     carregaTexturaTiro(texturas[2],"data/tiro/tiro_Cube.tga");
-
     carregaTexturaFundo(texturas[3],"data/fundo/fundo.tga");
-
     carregaTexturaExplosao(texturas[4],"data/explosao/explosao.tga");
-
     carregaTexturaGameOver(texturas[5],"data/gameover/gameover.tga");
-
     carregaTexturaJogo(texturas[6],"data/gameover/continuarVerde.tga");
-
     carregaTexturaJogo(texturas[7],"data/gameover/continuarVermelho.tga");
-
     carregaTexturaFimJogo(texturas[8],"data/gameover/fimJogoVerde.tga");
-
     carregaTexturaFimJogo(texturas[9],"data/gameover/fimJogoVermelho.tga");
 }
 
@@ -180,27 +171,16 @@ void desenhaBotaoSair(int gameOverSelecionado, Texture fimJogoVerde, Texture fim
 
 void inicializaObjetos(itemDeJogo *nave, GLMmodel **meteoro,GLMmodel **explosao, GLMmodel **tiro, caixaColisao *colisaoMeteoroDefault,itemDeJogo *meteoros, itemDeJogo *explosoes, caixaColisao *colisaoTiroDefault,itemDeJogo *tiros)
 {
-
     carregaModeloNave(nave);
-
     carregaModeloMeteoro(meteoro);
-
     carregaModeloExplosao(explosao);
-
     carregaModeloTiro(tiro);
-
     criaCaixaColisao(meteoro[0],colisaoMeteoroDefault);
-
     configuraCaixaColisaoMeteoro(colisaoMeteoroDefault);
-
     configuraAceleracaoMeteoros(meteoros);
-
     configuraTamanhoExplosoes(explosoes);
-
     criaCaixaColisao(tiro[0],colisaoTiroDefault);
-
     configuraCaixaColisaoTiro(colisaoTiroDefault);
-
     configuraAceleracaoTiros(tiros);
 }
 

@@ -2,8 +2,8 @@
 #define SOLAR_UTIL_H
 #define NUM_MAX_TIROS 10 //n�mero m�ximo de tiros que podem ser disparados
 #define NUM_MAX_METEOROS 20 //n�mero m�ximo de meteoros que podem vir
-#define FALSE 0 //booleano falso
-#define TRUE 1//booleano verdadeiro
+#define FALSE 0 
+#define TRUE 1
 
 #define MAXIMO_DESENHO_TIRO -30//distancia maxima para tratar um tiro, no eixo Z
 #define MAXIMO_DESENHO_METEORO 20//distancia m�xima que o meteoro se movimenta no eixo Z, vindo em dire��o � nave.
@@ -19,9 +19,9 @@
 #define MAXIMO_Y 14
 
 #define AUMENTO_VELOCIDADE_METEORO 0.05//a varia��o de velocidade do meteoro.
-#define ESCALA_AVIAO 2//o objeto avi�o ser� redimensionado.
-#define ESCALA_METEORO 1//redimensionar o meteoro..
-#define ESCALA_TIRO 1//redimensionar o tiro.
+#define ESCALA_AVIAO 2
+#define ESCALA_METEORO 1
+#define ESCALA_TIRO 1
 
 #define NOVO_METEORO 88//para representar um evento para enviar novo meteoro
 #define DIMINUI_EXPLOSAO 99//para o timer, diminuir o tamanho da explosao.
@@ -31,26 +31,26 @@
 #define MODELO_TIRO 3//para desenhar o modelo do tiro.
 #define MODELO_EXPLOSAO 4//para desenhar o modelo da explosao.
 #define EXPLOSAO_DECRESCIMENTO 0.1//ser� diminuida de 0.1 a cada intervalo de tempo.
-//configura��es da janela, etc.
+
 #define GAME_OVER 666//para representar que selecionou o "botao" para game over.
 #define CONTINUAR 777//para representar que selecionou o "botao" para game CONTINUE.
 
 
 #define MODO_GRAFICO  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH //modo gr�fico de buffer duplo, cores RGBA e teste de profundidade.
-#define LARGURA 800//largura da tela
-#define ALTURA 600//altura da tela
-#define NOME_JANELA "Sollar"//nome da janela.
+#define LARGURA 800
+#define ALTURA 600
+#define NOME_JANELA "Sollar"
 
 typedef struct{
     float x;
     float y;
     float z;
-}ponto;//define um ponto.
+}ponto;
 
 typedef struct
 {
  ponto pontos[8];
-}caixaColisao;//define uma caixa de colis�o.
+}caixaColisao;
 
 
 typedef struct{
@@ -69,19 +69,18 @@ typedef struct{
 
 typedef struct
 {
-        GLubyte * imageData;                                                                    // Image Data (Up To 32 Bits)
-        GLuint  bpp;                                                                                    // Image Color Depth In Bits Per Pixel
-        GLuint  width;                                                                                  // Image Width
-        GLuint  height;                                                                                 // Image Height
-        GLuint  texID;                                                                                  // Texture ID Used To Select A Texture
-        GLuint  type;                                                                                   // Image Type (GL_RGB, GL_RGBA)
-} Texture;//textura
+        GLubyte * imageData;
+        GLuint  bpp;
+        GLuint  width;
+        GLuint  height;
+        GLuint  texID;
+        GLuint  type;
+} Texture;
 
 typedef struct
 {
-        GLubyte Header[12];                                                                     // TGA File Header
-} TGAHeader;//cabe�alho TGA.
-
+        GLubyte Header[12];
+} TGAHeader;
 
 typedef struct
 {
@@ -93,8 +92,7 @@ typedef struct
         GLuint          Height;                                                                 
         GLuint          Width;                                                                  
         GLuint          Bpp;   
-} TGA;//imagem tga.
-
+} TGA;
 
 TGAHeader tgaheader;
 TGA tga;
