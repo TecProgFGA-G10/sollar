@@ -12,6 +12,7 @@
 #include "Tiros.h"
 #include "Explosao.h"
 #include "Game.h"
+#include "Nave.h"
 
 #define NUM_MAX_TIROS 10 //número máximo de tiros que podem ser disparados
 #define NUM_MAX_METEOROS 20 //número máximo de meteoros que podem vir
@@ -470,21 +471,7 @@ void teclaGameOverNormal(unsigned char tecla, int x, int y)
 }
 void configuraTexturas(void)//carrega as texturas para variáveis globais.
 {
-    if(LoadTGA(&texturaAviao,"data/aviao/textura_jato.tga"))
-    {
-        glGenTextures(1,&texturaAviao.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaAviao.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaAviao.bpp / 8, texturaAviao.width,
-                     texturaAviao.height, 0, texturaAviao.type, GL_UNSIGNED_BYTE, texturaAviao.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do jato.");
-    }
-
+	texturaAviao = carregaTexturaNave(texturaAviao,"data/aviao/textura_jato.tga");
 
 	texturaMetoro=carregaTexturaMeteoro(texturaMetoro,"data/meteoro/meteoro_Sphere.tga");
 
@@ -496,51 +483,13 @@ void configuraTexturas(void)//carrega as texturas para variáveis globais.
 
 	texturaGameOver = carregaTexturaGameOver(texturaGameOver,"data/gameover/gameover.tga");
 
-	continuaJogoVerde = carregaTexturaJogoVerde(continuaJogoVerde,"data/gameover/continuarVerde.tga");
+	continuaJogoVerde = carregaTexturaJogo(continuaJogoVerde,"data/gameover/continuarVerde.tga");
 
-    if(LoadTGA(&continuaJogoVermelho,"data/gameover/continuarVermelho.tga"))
-    {
-        glGenTextures(1,&continuaJogoVermelho.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, continuaJogoVermelho.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogoVermelho.width,
-                     continuaJogoVermelho.height, 0, continuaJogoVermelho.type, GL_UNSIGNED_BYTE, continuaJogoVermelho.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do continuarVermelho");
-    }
-    if(LoadTGA(&fimJogoVerde,"data/gameover/fimJogoVerde.tga"))
-    {
-        glGenTextures(1,&fimJogoVerde.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, fimJogoVerde.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fimJogoVerde.width,
-                     fimJogoVerde.height, 0, fimJogoVerde.type, GL_UNSIGNED_BYTE, fimJogoVerde.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do fimJogoVerde");
-    }
+	continuaJogoVermelho = carregaTexturaJogo(continuaJogoVermelho,"data/gameover/continuarVermelho.tga");
 
-    if(LoadTGA(&fimJogoVermelho,"data/gameover/fimJogoVermelho.tga"))
-    {
-        glGenTextures(1,&fimJogoVermelho.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, fimJogoVermelho.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fimJogoVermelho.width,
-                     fimJogoVermelho.height, 0, fimJogoVermelho.type, GL_UNSIGNED_BYTE, fimJogoVermelho.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do fimJogoVermelho");
-    }
+	fimJogoVerde = carregaTexturaFimJogo(fimJogoVerde,"data/gameover/fimJogoVerde.tga");
+
+	fimJogoVermelho = carregaTexturaFimJogo(fimJogoVermelho,"data/gameover/fimJogoVermelho.tga");
 }
 
 void desenhaMeteoros(void)//desenha os meteoros visíveis.

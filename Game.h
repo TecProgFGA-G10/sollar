@@ -39,23 +39,39 @@ Texture carregaTexturaGameOver(Texture texturaGameOver, char* filePath){
 }
 
 
-Texture carregaTexturaJogoVerde(Texture continuaJogoVerde, char* filePath){
-    if(LoadTGA(&continuaJogoVerde,"data/gameover/continuarVerde.tga"))
+Texture carregaTexturaJogo(Texture continuaJogo, char* filePath){
+    if(LoadTGA(&continuaJogo,filePath))
     {
-        glGenTextures(1,&continuaJogoVerde.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogoVerde.width,
-                     continuaJogoVerde.height, 0, continuaJogoVerde.type, GL_UNSIGNED_BYTE, continuaJogoVerde.imageData);
+        glGenTextures(1,&continuaJogo.texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, continuaJogo.texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogo.width,
+                     continuaJogo.height, 0, continuaJogo.type, GL_UNSIGNED_BYTE, continuaJogo.imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
     }
     else
     {
-        printf("\nErro carregando a textura do continuarVerde");
+        printf("\nErro carregando a textura continuar jogo");
     }
-	return continuaJogoVerde;
+	return continuaJogo;
 }
 
-
+Texture carregaTexturaFimJogo(Texture fimDeJogo, char* filePath){
+    if(LoadTGA(&fimDeJogo,filePath))
+    {
+        glGenTextures(1,&fimDeJogo.texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, fimDeJogo.texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fimDeJogo.width,
+                     fimDeJogo.height, 0, fimDeJogo.type, GL_UNSIGNED_BYTE, fimDeJogo.imageData);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+        glEnable(GL_TEXTURE_2D);
+    }
+    else
+    {
+        printf("\nErro carregando a textura do fimDeJogo");
+    }
+	return fimDeJogo;
+}
 #endif
