@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-//código de Nate Robins, que escreveu a GLUT Win32: http://www.xmission.com/~nate/glut.html
-//carrega modelos a partir de arquivos OBJ.
 #include "glm.h"
 #include "GerenciadorGrafico.h"
 #include "GerenciadorAudio.h"
@@ -14,44 +12,6 @@
 #include "Game.h"
 #include "Nave.h"
 
-#define NUM_MAX_TIROS 10 //número máximo de tiros que podem ser disparados
-#define NUM_MAX_METEOROS 20 //número máximo de meteoros que podem vir
-#define FALSE 0 //booleano falso
-#define TRUE 1//booleano verdadeiro
-
-#define MAXIMO_DESENHO_TIRO -30//distancia maxima para tratar um tiro, no eixo Z
-#define MAXIMO_DESENHO_METEORO 20//distancia máxima que o meteoro se movimenta no eixo Z, vindo em direção à nave.
-#define Z_INICIAL_METEORO -28//posição inicial dos meteoros.
-
-#define CAMERA_Z 8//distancia da camera no eixo Z
-#define VAR_CAMERA 4//inclinação da camera
-
-//para definir o 'campo' do jogo, representando cada canto
-#define MINIMO_X -14
-#define MAXIMO_X 14
-#define MINIMO_Y -14
-#define MAXIMO_Y 14
-
-#define AUMENTO_VELOCIDADE_METEORO 0.05//a variação de velocidade do meteoro.
-#define ESCALA_AVIAO 2//o objeto avião será redimensionado.
-#define ESCALA_METEORO 1//redimensionar o meteoro..
-#define ESCALA_TIRO 1//redimensionar o tiro.
-
-//definicoes de evento de timer
-#define NOVO_METEORO 88//para representar um evento para enviar novo meteoro
-#define DIMINUI_EXPLOSAO 99//para o timer, diminuir o tamanho da explosao.
-#define VALOR_PONTO 10//valor da pontuacao para ser somado.
-#define MODELO_NAVE 1//para desenhar o modelo da nave.
-#define MODELO_METEORO 2//para desenhar o modelo do meteoro.
-#define MODELO_TIRO 3//para desenhar o modelo do tiro.
-#define MODELO_EXPLOSAO 4//para desenhar o modelo da explosao.
-#define EXPLOSAO_DECRESCIMENTO 0.1//será diminuida de 0.1 a cada intervalo de tempo.
-//configurações da janela, etc.
-#define GAME_OVER 666//para representar que selecionou o "botao" para game over.
-#define CONTINUAR 777//para representar que selecionou o "botao" para game CONTINUE.
-
-
-
 
 /**
 * Protótipos de funções.
@@ -60,10 +20,6 @@ void inicializaObjetos(void);
 void desenhaGameOver(void);
 void atualizarEstados(void);
 void configuraTexturas(void);
-void desenhaMeteoros(void);
-void desenhaExplosoes();
-void desenhaTiros(void);
-void DesenhaTexto(char *,int , int);
 void trataTeclas(void);
 void teclaEspecial(int , int , int );
 void teclaEspecialSolta(int, int , int );
@@ -75,9 +31,6 @@ void redimensiona(int , int);
 void timerExplosao(int );
 void timer(int );
 void configura();
-int LoadTGA(Texture * , char * );
-int LoadUncompressedTGA(Texture * , char * , FILE * );
-int LoadCompressedTGA(Texture * , char * , FILE * );
 void reconfigura();
 void teclaGameOverEspecial(int, int, int);
 void teclaGameOverNormal(unsigned char , int, int);
@@ -279,75 +232,11 @@ void desenhaGameOver()
                0,0,0 ,
                0,1,0);
     //desenha um plano de fundo e dois 'botões' para continuar ou abandonar o jogo.
-    glPushMatrix();
-        glTranslatef(0,0,0);
-        glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
-        glScalef(0.6,0.6,0.6);
-        glBegin(GL_QUADS);
-            glTexCoord2f(0.0,1.0);
-            glVertex3i(MINIMO_X,MAXIMO_Y,0);
-            glTexCoord2f(0.0,0.0);
-            glVertex3i(MINIMO_X,MINIMO_Y,0);
-            glTexCoord2f(1.0,0.0);
-            glVertex3i(MAXIMO_X,MINIMO_Y,0);
-            glTexCoord2f(1.0,1.0);
-            glVertex3i(MAXIMO_X,MAXIMO_Y, 0);
-        glEnd();
-    glPopMatrix();
-    glTranslatef(0,0,1);
+	desenhaPlanoGameOver(texturaGameOver);
     //botão continuar
-    glPushMatrix();
-        glTranslatef(-3,-2,0);
-        if(gameOverSelecionado == CONTINUAR)
-        {
-            glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
-        }
-        else
-        {
-            glBindTexture(GL_TEXTURE_2D, continuaJogoVermelho.texID);
-        }
-
-        glBegin(GL_QUADS);
-            glTexCoord2f(1.0,1.0);
-            glVertex3f(1,1,1);
-
-            glTexCoord2f(1.0,0.0);
-            glVertex3f(1,-1,1);
-
-            glTexCoord2f(0.0,0.0);
-            glVertex3f(-1,-1,1);
-
-            glTexCoord2f(0.0,1.0);
-            glVertex3f(-1,1,1);
-
-        glEnd();
+	desenhaBotaoContinuar(gameOverSelecionado,continuaJogoVerde,continuaJogoVermelho);
     //botão sair.
-    glPopMatrix();
-    glPushMatrix();
-        glTranslatef(3,-2,0);
-        if(gameOverSelecionado == GAME_OVER)
-        {
-            glBindTexture(GL_TEXTURE_2D, fimJogoVerde.texID);
-        }
-        else
-        {
-            glBindTexture(GL_TEXTURE_2D, fimJogoVermelho.texID);
-        }
-        glBegin(GL_QUADS);
-            glTexCoord2f(1.0,1.0);
-            glVertex3f(1,1,1);
-
-            glTexCoord2f(1.0,0.0);
-            glVertex3f(1,-1,1);
-
-            glTexCoord2f(0.0,0.0);
-            glVertex3f(-1,-1,1);
-
-            glTexCoord2f(0.0,1.0);
-            glVertex3f(-1,1,1);
-
-        glEnd();
-    glPopMatrix();
+	desenhaBotaoSair(gameOverSelecionado,fimJogoVerde,fimJogoVermelho);
 }
 void atualizarEstados(void)
 {
@@ -490,67 +379,6 @@ void configuraTexturas(void)//carrega as texturas para variáveis globais.
 	fimJogoVerde = carregaTexturaFimJogo(fimJogoVerde,"data/gameover/fimJogoVerde.tga");
 
 	fimJogoVermelho = carregaTexturaFimJogo(fimJogoVermelho,"data/gameover/fimJogoVermelho.tga");
-}
-
-void desenhaMeteoros(void)//desenha os meteoros visíveis.
-{
-    int i =0;
-    for(i = 0; i < NUM_MAX_METEOROS; i++)
-    {
-        if(meteoros[i].visivel)
-        {
-            glPushMatrix();
-               // desenhaCaixaColisao( &meteoros[i].colisao);
-                glTranslatef(meteoros[i].posicao.x, meteoros[i].posicao.y, meteoros[i].posicao.z);
-                desenhaModelo(MODELO_METEORO,texturaMetoro,meteoro);
-            glPopMatrix();
-        }
-    }
-}
-
-void desenhaExplosoes()//desenha as explosões visíveis.
-{
-    int i =0;
-    for(i = 0; i < NUM_MAX_METEOROS; i++)
-    {
-        if(explosoes[i].visivel)
-        {
-            glColor3ub(255,255,255);
-            glPushMatrix();
-
-                glTranslatef(explosoes[i].posicao.x,explosoes[i].posicao.y,explosoes[i].posicao.z);
-                glScalef(explosoes[i].tamanho,explosoes[i].tamanho,explosoes[i].tamanho);
-                desenhaModelo(MODELO_EXPLOSAO,texturaExplosao,explosao);
-            glPopMatrix();
-        }
-    }
-}
-void desenhaTiros(void)//desenha os tiros disparados.
-{
-    int i =0;
-    for(i = 0; i < NUM_MAX_TIROS; i++)
-    {
-        if(tiros[i].visivel)
-        {
-            glPushMatrix();
-                   // desenhaCaixaColisao( &tiros[i].colisao);
-                    glTranslatef(tiros[i].posicao.x,tiros[i].posicao.y,tiros[i].posicao.z);
-                    desenhaModelo(MODELO_TIRO,texturaTiro,tiro);
-            glPopMatrix();
-        }
-    }
-}
-void DesenhaTexto(char *string,int posx, int posy)//desenha texto em uma posição do mundo 3d.
-{
-  	glPushMatrix();
-        // Posição no universo onde o texto será colocado
-        glRasterPos2f(nave.posicao.x-posx,nave.posicao.y-posy);
-        // Exibe caracter a caracter
-       // glScalef(2,2,2);
-
-        while(*string)
-             glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,*string++);
-	glPopMatrix();
 }
 
 void trataTeclas()
@@ -796,9 +624,9 @@ void desenha()//desenha os itens do jogo.
             glRotatef( nave.rotacao,0,0,nave.rotZ);
             desenhaModelo(MODELO_NAVE,texturaAviao,nave.modelo);
             glPopMatrix();
-            desenhaTiros();
-            desenhaMeteoros();
-            desenhaExplosoes();
+            desenhaTiros(tiros,texturaTiro,tiro);
+            desenhaMeteoros(meteoros,texturaMetoro,meteoro);
+            desenhaExplosoes(explosoes,texturaExplosao,explosao);
             desenhaHUD();
         }
         else
