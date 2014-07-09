@@ -65,4 +65,22 @@ Texture carregaTexturaMeteoro(Texture texturaMetoro,char * filePath){
 return texturaMetoro;
 }
 
+void desenhaMeteoros(itemDeJogo *meteoros, Texture texturaMetoro,GLMmodel *meteoro)//desenha os meteoros vis�veis.
+{
+    int i =0;
+    for(i = 0; i < NUM_MAX_METEOROS; i++)
+    {
+        if(meteoros[i].visivel)
+        {
+            glPushMatrix();
+               // desenhaCaixaColisao( &meteoros[i].colisao);
+                glTranslatef(meteoros[i].posicao.x, meteoros[i].posicao.y, meteoros[i].posicao.z);
+                desenhaModelo(MODELO_METEORO,texturaMetoro,meteoro);
+            glPopMatrix();
+        }
+    }
+}
+
+
+
 #endif

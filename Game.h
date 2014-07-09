@@ -1,5 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
+#include <GL/glut.h>
 #include "SolarUtil.h"
 
 Texture carregaTexturaFundo(Texture texturaFundo, char *filePath){
@@ -74,4 +75,82 @@ Texture carregaTexturaFimJogo(Texture fimDeJogo, char* filePath){
     }
 	return fimDeJogo;
 }
+
+void desenhaPlanoGameOver(Texture texturaGameOver){
+    glPushMatrix();
+        glTranslatef(0,0,0);
+        glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
+        glScalef(0.6,0.6,0.6);
+        glBegin(GL_QUADS);
+            glTexCoord2f(0.0,1.0);
+            glVertex3i(MINIMO_X,MAXIMO_Y,0);
+            glTexCoord2f(0.0,0.0);
+            glVertex3i(MINIMO_X,MINIMO_Y,0);
+            glTexCoord2f(1.0,0.0);
+            glVertex3i(MAXIMO_X,MINIMO_Y,0);
+            glTexCoord2f(1.0,1.0);
+            glVertex3i(MAXIMO_X,MAXIMO_Y, 0);
+        glEnd();
+    glPopMatrix();
+    glTranslatef(0,0,1);
+}
+
+void desenhaBotaoContinuar(int gameOverSelecionado, Texture continuaJogoVerde, Texture continuaJogoVermelho){
+    glPushMatrix();
+        glTranslatef(-3,-2,0);
+        if(gameOverSelecionado == CONTINUAR)
+        {
+            glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
+        }
+        else
+        {
+            glBindTexture(GL_TEXTURE_2D, continuaJogoVermelho.texID);
+        }
+
+        glBegin(GL_QUADS);
+            glTexCoord2f(1.0,1.0);
+            glVertex3f(1,1,1);
+
+            glTexCoord2f(1.0,0.0);
+            glVertex3f(1,-1,1);
+
+            glTexCoord2f(0.0,0.0);
+            glVertex3f(-1,-1,1);
+
+            glTexCoord2f(0.0,1.0);
+            glVertex3f(-1,1,1);
+
+        glEnd();
+	glPopMatrix();
+}
+
+void desenhaBotaoSair(int gameOverSelecionado, Texture fimJogoVerde, Texture fimJogoVermelho){
+    glPushMatrix();
+        glTranslatef(3,-2,0);
+        if(gameOverSelecionado == GAME_OVER)
+        {
+            glBindTexture(GL_TEXTURE_2D, fimJogoVerde.texID);
+        }
+        else
+        {
+            glBindTexture(GL_TEXTURE_2D, fimJogoVermelho.texID);
+        }
+        glBegin(GL_QUADS);
+            glTexCoord2f(1.0,1.0);
+            glVertex3f(1,1,1);
+
+            glTexCoord2f(1.0,0.0);
+            glVertex3f(1,-1,1);
+
+            glTexCoord2f(0.0,0.0);
+            glVertex3f(-1,-1,1);
+
+            glTexCoord2f(0.0,1.0);
+            glVertex3f(-1,1,1);
+
+        glEnd();
+    glPopMatrix();
+
+}
+
 #endif

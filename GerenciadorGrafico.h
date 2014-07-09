@@ -69,7 +69,6 @@ void desenhaModelo(int tipo, Texture textura,GLMmodel *modelo)
 
 void desenhaFundo(Texture texturaFundo)
 {
-    //desenha um quadrado no fundo texturizado.
     glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
         glBegin(GL_QUADS);
@@ -84,6 +83,16 @@ void desenhaFundo(Texture texturaFundo)
             glVertex3i(MAXIMO_X*5,MAXIMO_Y*5, -50);
         glEnd();
     glPopMatrix();
+}
+
+void DesenhaTexto(char *string,int posx, int posy)
+{
+        glPushMatrix();
+	        glRasterPos2f(nave.posicao.x-posx,nave.posicao.y-posy);
+
+	        while(*string)
+	             glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,*string++);
+        glPopMatrix();
 }
 
 

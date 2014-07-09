@@ -48,4 +48,20 @@ Texture carregaTexturaTiro(Texture texturaTiro, char * filePath){
 	return texturaTiro;
 }
 
+void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)//desenha os tiros disparados.
+{
+    int i =0;
+    for(i = 0; i < NUM_MAX_TIROS; i++)
+    {
+        if(tiros[i].visivel)
+        {
+            glPushMatrix();
+                   // desenhaCaixaColisao( &tiros[i].colisao);
+                    glTranslatef(tiros[i].posicao.x,tiros[i].posicao.y,tiros[i].posicao.z);
+                    desenhaModelo(MODELO_TIRO,texturaTiro,tiro);
+            glPopMatrix();
+        }
+    }
+}
+
 #endif
