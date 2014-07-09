@@ -15,6 +15,35 @@ int posicaoVaziaExplosoes(itemDeJogo *explosoes)
     return -1;//caso n�o encontra retorna -1;
 }
 
+void configuraTamanhoExplosoes(itemDeJogo *explosoes){
+    int i =0;
+
+    for(i =0; i < NUM_MAX_METEOROS;i++)
+    {
+        explosoes[i].tamanho = 1;
+    }
+
+}
+
+void carregaModeloExplosao(GLMmodel **explosao){
+    if ( *explosao==NULL)
+    {
+            *explosao= glmReadOBJ("data/explosao/explosao.obj");
+
+            if (*explosao==NULL)
+            {
+                printf("\n\nErro carregando explosao.obj");
+                exit(0);
+            }
+            glmUnitize(*explosao);//redimensiona para a matrix unitdade..
+            glmFacetNormals(*explosao);
+            glmVertexNormals(*explosao, 90.0);
+    }else{
+    	printf("Modelo explosao nao carregou!");
+    }
+
+}
+
 void carregaTexturaExplosao(Texture *texturaExplosao, char* filePath){
     if(LoadTGA(texturaExplosao,filePath))
     {

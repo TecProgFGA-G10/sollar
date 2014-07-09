@@ -3,6 +3,24 @@
 #include <GL/glut.h>
 #include "Colisao.h"
 
+void carregaModeloMeteoro(GLMmodel **meteoro){
+    if ( *meteoro==NULL)
+    {
+            *meteoro= glmReadOBJ("data/meteoro/meteoro.obj");
+
+            if (*meteoro==NULL)
+            {
+                printf("\n\nErro carregando meteoro.obj");
+                exit(0);
+            }
+            glmUnitize(*meteoro);//redimensiona para a matrix unitdade..
+            glmFacetNormals(*meteoro);
+            glmVertexNormals(*meteoro, 90.0);
+    }else{
+    	printf("Meteoro nao carregado! \n");
+    }
+
+}
 
 int posicaoVaziaMeteoros(itemDeJogo *meteoros)
 {
@@ -61,6 +79,25 @@ void carregaTexturaMeteoro(Texture *texturaMetoro,char * filePath){
     else
     {
         printf("\nErro carregando a textura do meteoro");
+    }
+}
+
+void configuraCaixaColisaoMeteoro(caixaColisao *colisaoMeteoroDefault){
+    int c;
+    for(c =0; c< 8; c++)
+    {
+        colisaoMeteoroDefault->pontos[c].x*=ESCALA_METEORO;
+        colisaoMeteoroDefault->pontos[c].y*=ESCALA_METEORO;
+        colisaoMeteoroDefault->pontos[c].z*=ESCALA_METEORO;
+    }
+
+}
+
+void configuraAceleracaoMeteoros(itemDeJogo *meteoros){
+    int i =0;
+
+    for(i=0;i< NUM_MAX_METEOROS; i++){
+        meteoros[i].aceleracao = 0.02;
     }
 
 }

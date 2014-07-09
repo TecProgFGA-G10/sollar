@@ -178,4 +178,30 @@ void desenhaBotaoSair(int gameOverSelecionado, Texture fimJogoVerde, Texture fim
 
 }
 
+void inicializaObjetos(itemDeJogo *nave, GLMmodel **meteoro,GLMmodel **explosao, GLMmodel **tiro, caixaColisao *colisaoMeteoroDefault,itemDeJogo *meteoros, itemDeJogo *explosoes, caixaColisao *colisaoTiroDefault,itemDeJogo *tiros)
+{
+
+    carregaModeloNave(nave);
+
+    carregaModeloMeteoro(meteoro);
+
+    carregaModeloExplosao(explosao);
+
+    carregaModeloTiro(tiro);
+
+    criaCaixaColisao(meteoro[0],colisaoMeteoroDefault);
+
+    configuraCaixaColisaoMeteoro(colisaoMeteoroDefault);
+
+    configuraAceleracaoMeteoros(meteoros);
+
+    configuraTamanhoExplosoes(explosoes);
+
+    criaCaixaColisao(tiro[0],colisaoTiroDefault);
+
+    configuraCaixaColisaoTiro(colisaoTiroDefault);
+
+    configuraAceleracaoTiros(tiros);
+}
+
 #endif

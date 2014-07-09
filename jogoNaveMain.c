@@ -16,7 +16,6 @@
 /**
 * Protótipos de funções.
 */
-void inicializaObjetos(void);
 void desenhaGameOver(void);
 void atualizarEstados(void);
 void trataTeclas(void);
@@ -102,117 +101,6 @@ int main(int argc,char** argv)
     configura();
     glutMainLoop();
     return 0;
-}
-
-//inicializa os objetos, variáveis e reinicializa estes ao dar um "continue" no jogo.
-void inicializaObjetos(void)
-{
-    meteorosEnviar = 10;
-    tempoMeteoro = 2000;
-    pontos = 0;
-    vida = 3;
-    gameOverSelecionado = CONTINUAR;
-
-    nave.posicao.x = 0;
-    nave.posicao.y = 0;
-    nave.posicao.z = 0;
-    nave.rotX = 0;
-    nave.rotY = 0;
-    nave.rotZ = 0;
-    nave.posicaoAnterior.x = 0;
-    nave.posicaoAnterior.y = 0;
-    nave.posicaoAnterior.z = 0;
-    nave.aceleracao = 0.03;
-    nave.visivel = TRUE;
-    int scala = 0;
-
-    if (!nave.modelo)//se o modelo não está carregado, carrega este.
-    {
-            nave.modelo = glmReadOBJ("data/aviao/jato.obj");
-            if (!nave.modelo) exit(0);
-            glmUnitize(nave.modelo);//redimensiona para a matrix unitdade..
-            criaCaixaColisao(nave.modelo, &nave.colisao);
-            //calcula as normais.
-            glmFacetNormals(nave.modelo);
-            glmVertexNormals(nave.modelo, 90.0);
-    }
-     for(scala = 0; scala < 8; scala++)//aplica a escala na colision box.
-    {
-        nave.colisao.pontos[scala].x*=ESCALA_AVIAO;
-        nave.colisao.pontos[scala].y*=ESCALA_AVIAO;
-        nave.colisao.pontos[scala].z*=ESCALA_AVIAO;
-    }
-
-        //carrega o meteoro
-    if (! meteoro)
-    {
-            meteoro= glmReadOBJ("data/meteoro/meteoro.obj");
-
-            if (!meteoro)
-            {
-                printf("\n\nErro carregando meteoro.obj");
-                exit(0);
-            }
-            glmUnitize(meteoro);//redimensiona para a matrix unitdade..
-            glmFacetNormals(meteoro);
-            glmVertexNormals(meteoro, 90.0);
-    }
-
-    if (! explosao)
-    {
-            explosao= glmReadOBJ("data/explosao/explosao.obj");
-
-            if (!explosao)
-            {
-                printf("\n\nErro carregando explosao.obj");
-                exit(0);
-            }
-            glmUnitize(explosao);//redimensiona para a matrix unitdade..
-            glmFacetNormals(explosao);
-            glmVertexNormals(explosao, 90.0);
-    }
-
-    if (! tiro)
-    {
-        tiro= glmReadOBJ("data/tiro/tiro.obj");
-
-        if (!tiro)
-        {
-            printf("\n\nErro carregando tiro.obj");
-            exit(0);
-        }
-        //calcula as normais.
-        glmUnitize(tiro);//redimensiona para a matrix unitdade..
-        glmFacetNormals(tiro);
-        glmVertexNormals(tiro, 90.0);
-    }
-
-    criaCaixaColisao(meteoro,&colisaoMeteoroDefault);
-    int c;
-    for(c =0; c< 8; c++)
-    {
-        colisaoMeteoroDefault.pontos[c].x*=ESCALA_METEORO;
-        colisaoMeteoroDefault.pontos[c].y*=ESCALA_METEORO;
-        colisaoMeteoroDefault.pontos[c].z*=ESCALA_METEORO;
-    }
-    int i =0;
-    for(i =0; i < NUM_MAX_METEOROS;i++)
-    {
-        meteoros[i].aceleracao = 0.02;
-        explosoes[i].tamanho = 1;
-    }
-    criaCaixaColisao(tiro,&colisaoTiroDefault);
-
-    for(c =0; c< 8; c++)
-    {
-        colisaoTiroDefault.pontos[c].x*=ESCALA_TIRO;
-        colisaoTiroDefault.pontos[c].y*=ESCALA_TIRO;
-        colisaoTiroDefault.pontos[c].z*=ESCALA_TIRO;
-    }
-    for(i =0; i < NUM_MAX_TIROS;i++)
-    {
-        tiros[i].aceleracao = -0.1;
-    }
 }
 
 void desenhaGameOver()
@@ -525,9 +413,7 @@ void teclaEspecialSolta(int tecla, int x, int y)
         }
     }
 }
-/**
-* Controla a função de teclas normais no jogo. Teclas normais como letras, ESC, etc.
-*/
+
 void aumentaDificuldade(int t)//a cada tempo esta funcao é chamada e a dificuldade aumenta.
 {
     if(nave.visivel)
@@ -691,7 +577,13 @@ void timer(int t)//timer para invocar um/uns novo/novos metoro/meteoros
 
 void configura()//configuração inicial do game.
 {
-    inicializaObjetos();
+    meteorosEnviar = 10;
+    tempoMeteoro = 2000;
+    pontos = 0;
+    vida = 3;
+    gameOverSelecionado = CONTINUAR;
+
+    inicializaObjetos(&nave,&meteoro,&explosao,&tiro,&colisaoMeteoroDefault,meteoros,explosoes,&colisaoTiroDefault,tiros);
 	iniciaGlut();
 
     glutDisplayFunc(desenha);//configura a função de desenho
@@ -702,7 +594,6 @@ void configura()//configuração inicial do game.
 
 	iniciaCamera();
 
-    //configuraTexturas(&texturaAviao, &texturaMetoro,&texturaTiro,&texturaFundo,&texturaExplosao,&texturaGameOver,&continuaJogoVerde,&continuaJogoVermelho,&fimJogoVerde,&fimJogoVermelho);
     Texture *texturas[]={&texturaAviao,&texturaMetoro,&texturaTiro,&texturaFundo,&texturaExplosao,&texturaGameOver,&continuaJogoVerde,&continuaJogoVermelho,&fimJogoVerde,&fimJogoVermelho};
 	configuraTexturas(texturas);
 	glutTimerFunc(1000,  timer,  NOVO_METEORO);
@@ -720,7 +611,7 @@ void configura()//configuração inicial do game.
 
 void reconfigura()//chamado ao recomeçar um novo game.
 {
-    inicializaObjetos();
+    inicializaObjetos(&nave,&meteoro,&explosao,&tiro,&colisaoMeteoroDefault,meteoros,explosoes,&colisaoTiroDefault,tiros);
     criaCaixaColisao(nave.modelo, &nave.colisao);
     glClearColor(0,0,0,0);//cor de limpeza, ou seja, do fundo
     glutKeyboardFunc(controla);
