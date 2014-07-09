@@ -11,6 +11,7 @@
 #include "Meteoro.h"
 #include "Tiros.h"
 #include "Explosao.h"
+#include "Game.h"
 
 #define NUM_MAX_TIROS 10 //número máximo de tiros que podem ser disparados
 #define NUM_MAX_METEOROS 20 //número máximo de meteoros que podem vir
@@ -50,30 +51,6 @@
 
 
 
-//typedef struct
-//{
-//	GLubyte Header[12];									// TGA File Header
-//} TGAHeader;//cabeçalho TGA.
-
-
-//typedef struct
-//{
-//	GLubyte		header[6];								// First 6 Useful Bytes From The Header
-//	GLuint		bytesPerPixel;							// Holds Number Of Bytes Per Pixel Used In The TGA File
-//	GLuint		imageSize;								// Used To Store The Image Size When Setting Aside Ram
-//	GLuint		temp;									// Temporary Variable
-//	GLuint		type;
-//	GLuint		Height;									//Height of Image
-//	GLuint		Width;									//Width ofImage
-//	GLuint		Bpp;									// Bits Per Pixel
-//} TGA;//imagem tga.
-
-
-//TGAHeader tgaheader;									// TGA header
-//TGA tga;												// TGA image data
-
-//GLubyte uTGAcompare[12] = {0,0,2,0,0,0,0,0,0,0,0,0};	// Uncompressed TGA Header
-//GLubyte cTGAcompare[12] = {0,0,10,0,0,0,0,0,0,0,0,0};	// Compressed TGA Header
 
 /**
 * Protótipos de funções.
@@ -511,80 +488,16 @@ void configuraTexturas(void)//carrega as texturas para variáveis globais.
 
 	texturaMetoro=carregaTexturaMeteoro(texturaMetoro,"data/meteoro/meteoro_Sphere.tga");
 
-    if(LoadTGA(&texturaTiro,"data/tiro/tiro_Cube.tga"))
-    {
-        glGenTextures(1,&texturaTiro.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaTiro.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaTiro.bpp / 8, texturaTiro.width,
-                     texturaTiro.height, 0, texturaTiro.type, GL_UNSIGNED_BYTE, texturaTiro.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do tiro");
-    }
+	texturaTiro =carregaTexturaTiro(texturaTiro,"data/tiro/tiro_Cube.tga");
 
-    if(LoadTGA(&texturaFundo,"data/fundo/fundo.tga"))
-    {
-        glGenTextures(1,&texturaFundo.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaFundo.bpp / 8, texturaFundo.width,
-                     texturaFundo.height, 0, texturaFundo.type, GL_UNSIGNED_BYTE, texturaFundo.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do fundo");
-    }
+	texturaFundo =carregaTexturaFundo(texturaFundo,"data/fundo/fundo.tga");
 
-    if(LoadTGA(&texturaExplosao,"data/explosao/explosao.tga"))
-    {
-        glGenTextures(1,&texturaExplosao.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaExplosao.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texturaExplosao.width,
-                     texturaExplosao.height, 0, texturaExplosao.type, GL_UNSIGNED_BYTE, texturaExplosao.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura da explosao");
-    }
+	texturaExplosao =carregaTexturaExplosao(texturaExplosao,"data/explosao/explosao.tga");
 
-    if(LoadTGA(&texturaGameOver,"data/gameover/gameover.tga"))
-    {
-        glGenTextures(1,&texturaGameOver.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texturaGameOver.width,
-                     texturaGameOver.height, 0, texturaGameOver.type, GL_UNSIGNED_BYTE, texturaGameOver.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do gameover");
-    }
+	texturaGameOver = carregaTexturaGameOver(texturaGameOver,"data/gameover/gameover.tga");
 
-    if(LoadTGA(&continuaJogoVerde,"data/gameover/continuarVerde.tga"))
-    {
-        glGenTextures(1,&continuaJogoVerde.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogoVerde.width,
-                     continuaJogoVerde.height, 0, continuaJogoVerde.type, GL_UNSIGNED_BYTE, continuaJogoVerde.imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glEnable(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("\nErro carregando a textura do continuarVerde");
-    }
+	continuaJogoVerde = carregaTexturaJogoVerde(continuaJogoVerde,"data/gameover/continuarVerde.tga");
+
     if(LoadTGA(&continuaJogoVermelho,"data/gameover/continuarVermelho.tga"))
     {
         glGenTextures(1,&continuaJogoVermelho.texID);//cria uma textura..
@@ -1015,6 +928,7 @@ void configura()//configuração inicial do game.
 {
     inicializaObjetos();
 	iniciaGlut();
+
     glutDisplayFunc(desenha);//configura a função de desenho
     glutKeyboardFunc(controla);
     glutSpecialFunc(teclaEspecial);
