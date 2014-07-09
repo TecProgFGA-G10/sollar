@@ -77,27 +77,27 @@ void carregaTexturaFimJogo(Texture *fimDeJogo, char* filePath){
     }
 }
 
-void configuraTexturas(Texture *texturaNave,Texture *texturaMeteoro,Texture *texturaTiro,Texture *texturaFundo,Texture *texturaExplosao,Texture *texturaGameOver,Texture *continuaJogoVerde,Texture *continuaJogoVermelho, Texture *fimJogoVerde, Texture *fimJogoVermelho)
+void configuraTexturas(Texture **texturas)
 {
-    carregaTexturaNave(texturaNave,"data/aviao/textura_jato.tga");
+    carregaTexturaNave(texturas[0],"data/aviao/textura_jato.tga");
 
-    carregaTexturaMeteoro(texturaMeteoro,"data/meteoro/meteoro_Sphere.tga");
+    carregaTexturaMeteoro(texturas[1],"data/meteoro/meteoro_Sphere.tga");
 
-    carregaTexturaTiro(texturaTiro,"data/tiro/tiro_Cube.tga");
+    carregaTexturaTiro(texturas[2],"data/tiro/tiro_Cube.tga");
 
-    carregaTexturaFundo(texturaFundo,"data/fundo/fundo.tga");
+    carregaTexturaFundo(texturas[3],"data/fundo/fundo.tga");
 
-    carregaTexturaExplosao(texturaExplosao,"data/explosao/explosao.tga");
+    carregaTexturaExplosao(texturas[4],"data/explosao/explosao.tga");
 
-    carregaTexturaGameOver(texturaGameOver,"data/gameover/gameover.tga");
+    carregaTexturaGameOver(texturas[5],"data/gameover/gameover.tga");
 
-    carregaTexturaJogo(continuaJogoVerde,"data/gameover/continuarVerde.tga");
+    carregaTexturaJogo(texturas[6],"data/gameover/continuarVerde.tga");
 
-    carregaTexturaJogo(continuaJogoVermelho,"data/gameover/continuarVermelho.tga");
+    carregaTexturaJogo(texturas[7],"data/gameover/continuarVermelho.tga");
 
-    carregaTexturaFimJogo(fimJogoVerde,"data/gameover/fimJogoVerde.tga");
+    carregaTexturaFimJogo(texturas[8],"data/gameover/fimJogoVerde.tga");
 
-    carregaTexturaFimJogo(fimJogoVermelho,"data/gameover/fimJogoVermelho.tga");
+    carregaTexturaFimJogo(texturas[9],"data/gameover/fimJogoVermelho.tga");
 }
 
 

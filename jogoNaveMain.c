@@ -702,8 +702,10 @@ void configura()//configuração inicial do game.
 
 	iniciaCamera();
 
-    configuraTexturas(&texturaAviao, &texturaMetoro,&texturaTiro,&texturaFundo,&texturaExplosao,&texturaGameOver,&continuaJogoVerde,&continuaJogoVermelho,&fimJogoVerde,&fimJogoVermelho);
-    glutTimerFunc(1000,  timer,  NOVO_METEORO);
+    //configuraTexturas(&texturaAviao, &texturaMetoro,&texturaTiro,&texturaFundo,&texturaExplosao,&texturaGameOver,&continuaJogoVerde,&continuaJogoVermelho,&fimJogoVerde,&fimJogoVermelho);
+    Texture *texturas[]={&texturaAviao,&texturaMetoro,&texturaTiro,&texturaFundo,&texturaExplosao,&texturaGameOver,&continuaJogoVerde,&continuaJogoVermelho,&fimJogoVerde,&fimJogoVermelho};
+	configuraTexturas(texturas);
+	glutTimerFunc(1000,  timer,  NOVO_METEORO);
     glutTimerFunc(500, timerExplosao, 0);
     glutTimerFunc(20000,aumentaDificuldade,0);
 
