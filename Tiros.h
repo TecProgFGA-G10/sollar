@@ -29,13 +29,13 @@ void atualizaCaixaColisaoTiro(itemDeJogo *item)
     }
 }
 
-Texture carregaTexturaTiro(Texture texturaTiro, char * filePath){
-   if(LoadTGA(&texturaTiro,filePath))
+void carregaTexturaTiro(Texture *texturaTiro, char * filePath){
+   if(LoadTGA(texturaTiro,filePath))
     {
-        glGenTextures(1,&texturaTiro.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaTiro.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaTiro.bpp / 8, texturaTiro.width,
-                     texturaTiro.height, 0, texturaTiro.type, GL_UNSIGNED_BYTE, texturaTiro.imageData);
+        glGenTextures(1,&texturaTiro->texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, texturaTiro->texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, texturaTiro->bpp / 8, texturaTiro->width,
+                     texturaTiro->height, 0, texturaTiro->type, GL_UNSIGNED_BYTE, texturaTiro->imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
@@ -45,7 +45,6 @@ Texture carregaTexturaTiro(Texture texturaTiro, char * filePath){
         printf("\nErro carregando a textura do tiro");
     }
 
-	return texturaTiro;
 }
 
 void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)//desenha os tiros disparados.

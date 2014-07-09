@@ -85,15 +85,6 @@ void desenhaFundo(Texture texturaFundo)
     glPopMatrix();
 }
 
-void DesenhaTexto(char *string,int posx, int posy)
-{
-        glPushMatrix();
-	        glRasterPos2f(nave.posicao.x-posx,nave.posicao.y-posy);
-
-	        while(*string)
-	             glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,*string++);
-        glPopMatrix();
-}
 
 
 #endif

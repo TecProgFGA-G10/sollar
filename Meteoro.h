@@ -47,13 +47,13 @@ void enviaMeteoro(itemDeJogo *meteoros, int meteorosEnviar, caixaColisao colisao
 	}
 }
 
-Texture carregaTexturaMeteoro(Texture texturaMetoro,char * filePath){
-    if(LoadTGA(&texturaMetoro,filePath))
-    {
-        glGenTextures(1,&texturaMetoro.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaMetoro.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaMetoro.bpp / 8, texturaMetoro.width,
-                     texturaMetoro.height, 0, texturaMetoro.type, GL_UNSIGNED_BYTE, texturaMetoro.imageData);
+void carregaTexturaMeteoro(Texture *texturaMetoro,char * filePath){
+    if(LoadTGA(texturaMetoro,filePath))
+    {	
+        glGenTextures(1,&texturaMetoro->texID);
+        glBindTexture(GL_TEXTURE_2D, texturaMetoro->texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, texturaMetoro->bpp / 8, texturaMetoro->width,
+                     texturaMetoro->height, 0, texturaMetoro->type, GL_UNSIGNED_BYTE, texturaMetoro->imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
@@ -62,7 +62,7 @@ Texture carregaTexturaMeteoro(Texture texturaMetoro,char * filePath){
     {
         printf("\nErro carregando a textura do meteoro");
     }
-return texturaMetoro;
+
 }
 
 void desenhaMeteoros(itemDeJogo *meteoros, Texture texturaMetoro,GLMmodel *meteoro)//desenha os meteoros vis�veis.

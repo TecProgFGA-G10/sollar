@@ -2,14 +2,18 @@
 #define GAME_H
 #include <GL/glut.h>
 #include "SolarUtil.h"
+#include "Nave.h"
+#include "Explosao.h"
+#include "Meteoro.h"
+#include "Tiros.h"
 
-Texture carregaTexturaFundo(Texture texturaFundo, char *filePath){
-    if(LoadTGA(&texturaFundo,filePath))
+void carregaTexturaFundo(Texture *texturaFundo, char *filePath){
+    if(LoadTGA(texturaFundo,filePath))
     {
-        glGenTextures(1,&texturaFundo.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaFundo.bpp / 8, texturaFundo.width,
-                     texturaFundo.height, 0, texturaFundo.type, GL_UNSIGNED_BYTE, texturaFundo.imageData);
+        glGenTextures(1,&texturaFundo->texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, texturaFundo->texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, texturaFundo->bpp / 8, texturaFundo->width,
+                     texturaFundo->height, 0, texturaFundo->type, GL_UNSIGNED_BYTE, texturaFundo->imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
@@ -18,16 +22,16 @@ Texture carregaTexturaFundo(Texture texturaFundo, char *filePath){
     {
         printf("\nErro carregando a textura do fundo");
     }
-	return texturaFundo;
+
 }
 
-Texture carregaTexturaGameOver(Texture texturaGameOver, char* filePath){
-    if(LoadTGA(&texturaGameOver,filePath))
+void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath){
+    if(LoadTGA(texturaGameOver,filePath))
     {
-        glGenTextures(1,&texturaGameOver.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texturaGameOver.width,
-                     texturaGameOver.height, 0, texturaGameOver.type, GL_UNSIGNED_BYTE, texturaGameOver.imageData);
+        glGenTextures(1,&texturaGameOver->texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, texturaGameOver->texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texturaGameOver->width,
+                     texturaGameOver->height, 0, texturaGameOver->type, GL_UNSIGNED_BYTE, texturaGameOver->imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
@@ -36,17 +40,16 @@ Texture carregaTexturaGameOver(Texture texturaGameOver, char* filePath){
     {
         printf("\nErro carregando a textura do gameover");
     }
-	return texturaGameOver;
 }
 
 
-Texture carregaTexturaJogo(Texture continuaJogo, char* filePath){
-    if(LoadTGA(&continuaJogo,filePath))
+void carregaTexturaJogo(Texture *continuaJogo, char* filePath){
+    if(LoadTGA(continuaJogo,filePath))
     {
-        glGenTextures(1,&continuaJogo.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, continuaJogo.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogo.width,
-                     continuaJogo.height, 0, continuaJogo.type, GL_UNSIGNED_BYTE, continuaJogo.imageData);
+        glGenTextures(1,&continuaJogo->texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, continuaJogo->texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, continuaJogo->width,
+                     continuaJogo->height, 0, continuaJogo->type, GL_UNSIGNED_BYTE, continuaJogo->imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
@@ -55,16 +58,15 @@ Texture carregaTexturaJogo(Texture continuaJogo, char* filePath){
     {
         printf("\nErro carregando a textura continuar jogo");
     }
-	return continuaJogo;
 }
 
-Texture carregaTexturaFimJogo(Texture fimDeJogo, char* filePath){
-    if(LoadTGA(&fimDeJogo,filePath))
+void carregaTexturaFimJogo(Texture *fimDeJogo, char* filePath){
+    if(LoadTGA(fimDeJogo,filePath))
     {
-        glGenTextures(1,&fimDeJogo.texID);//cria uma textura..
-        glBindTexture(GL_TEXTURE_2D, fimDeJogo.texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fimDeJogo.width,
-                     fimDeJogo.height, 0, fimDeJogo.type, GL_UNSIGNED_BYTE, fimDeJogo.imageData);
+        glGenTextures(1,&fimDeJogo->texID);//cria uma textura..
+        glBindTexture(GL_TEXTURE_2D, fimDeJogo->texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fimDeJogo->width,
+                     fimDeJogo->height, 0, fimDeJogo->type, GL_UNSIGNED_BYTE, fimDeJogo->imageData);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
@@ -73,8 +75,31 @@ Texture carregaTexturaFimJogo(Texture fimDeJogo, char* filePath){
     {
         printf("\nErro carregando a textura do fimDeJogo");
     }
-	return fimDeJogo;
 }
+
+void configuraTexturas(Texture *texturaNave,Texture *texturaMeteoro,Texture *texturaTiro,Texture *texturaFundo,Texture *texturaExplosao,Texture *texturaGameOver,Texture *continuaJogoVerde,Texture *continuaJogoVermelho, Texture *fimJogoVerde, Texture *fimJogoVermelho)
+{
+    carregaTexturaNave(texturaNave,"data/aviao/textura_jato.tga");
+
+    carregaTexturaMeteoro(texturaMeteoro,"data/meteoro/meteoro_Sphere.tga");
+
+    carregaTexturaTiro(texturaTiro,"data/tiro/tiro_Cube.tga");
+
+    carregaTexturaFundo(texturaFundo,"data/fundo/fundo.tga");
+
+    carregaTexturaExplosao(texturaExplosao,"data/explosao/explosao.tga");
+
+    carregaTexturaGameOver(texturaGameOver,"data/gameover/gameover.tga");
+
+    carregaTexturaJogo(continuaJogoVerde,"data/gameover/continuarVerde.tga");
+
+    carregaTexturaJogo(continuaJogoVermelho,"data/gameover/continuarVermelho.tga");
+
+    carregaTexturaFimJogo(fimJogoVerde,"data/gameover/fimJogoVerde.tga");
+
+    carregaTexturaFimJogo(fimJogoVermelho,"data/gameover/fimJogoVermelho.tga");
+}
+
 
 void desenhaPlanoGameOver(Texture texturaGameOver){
     glPushMatrix();

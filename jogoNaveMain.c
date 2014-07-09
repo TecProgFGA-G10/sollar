@@ -19,7 +19,6 @@
 void inicializaObjetos(void);
 void desenhaGameOver(void);
 void atualizarEstados(void);
-void configuraTexturas(void);
 void trataTeclas(void);
 void teclaEspecial(int , int , int );
 void teclaEspecialSolta(int, int , int );
@@ -358,28 +357,17 @@ void teclaGameOverNormal(unsigned char tecla, int x, int y)
     }
 
 }
-void configuraTexturas(void)//carrega as texturas para variáveis globais.
+
+void DesenhaTexto(char *string,int posx, int posy)
 {
-	texturaAviao = carregaTexturaNave(texturaAviao,"data/aviao/textura_jato.tga");
+        glPushMatrix();
+	        glRasterPos2f(nave.posicao.x-posx,nave.posicao.y-posy);
 
-	texturaMetoro=carregaTexturaMeteoro(texturaMetoro,"data/meteoro/meteoro_Sphere.tga");
-
-	texturaTiro =carregaTexturaTiro(texturaTiro,"data/tiro/tiro_Cube.tga");
-
-	texturaFundo =carregaTexturaFundo(texturaFundo,"data/fundo/fundo.tga");
-
-	texturaExplosao =carregaTexturaExplosao(texturaExplosao,"data/explosao/explosao.tga");
-
-	texturaGameOver = carregaTexturaGameOver(texturaGameOver,"data/gameover/gameover.tga");
-
-	continuaJogoVerde = carregaTexturaJogo(continuaJogoVerde,"data/gameover/continuarVerde.tga");
-
-	continuaJogoVermelho = carregaTexturaJogo(continuaJogoVermelho,"data/gameover/continuarVermelho.tga");
-
-	fimJogoVerde = carregaTexturaFimJogo(fimJogoVerde,"data/gameover/fimJogoVerde.tga");
-
-	fimJogoVermelho = carregaTexturaFimJogo(fimJogoVermelho,"data/gameover/fimJogoVermelho.tga");
+	        while(*string)
+	             glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,*string++);
+        glPopMatrix();
 }
+
 
 void trataTeclas()
 {
@@ -713,7 +701,8 @@ void configura()//configuração inicial do game.
     glutReshapeFunc(redimensiona);
 
 	iniciaCamera();
-    configuraTexturas();
+
+    configuraTexturas(&texturaAviao, &texturaMetoro,&texturaTiro,&texturaFundo,&texturaExplosao,&texturaGameOver,&continuaJogoVerde,&continuaJogoVermelho,&fimJogoVerde,&fimJogoVermelho);
     glutTimerFunc(1000,  timer,  NOVO_METEORO);
     glutTimerFunc(500, timerExplosao, 0);
     glutTimerFunc(20000,aumentaDificuldade,0);
