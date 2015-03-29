@@ -1,7 +1,6 @@
 #ifndef COLISAO_H
 #define COLISAO_H
 #include <GL/glut.h>
-
 #include "SolarUtil.h"
 
 void desenhaCaixaColisao(caixaColisao *c)
