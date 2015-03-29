@@ -6,19 +6,19 @@
 
 int posicaoVaziaExplosoes(itemDeJogo *explosoes)
 {
-    int i =0;
+    int i = 0;
     for(i = 0; i < NUM_MAX_METEOROS; i++)
     {
         if(!explosoes[i].visivel)
             return i;
     }
-    return -1;//caso n�o encontra retorna -1;
+    return -1; //caso n�o encontra retorna -1;
 }
 
 void configuraTamanhoExplosoes(itemDeJogo *explosoes){
-    int i =0;
+    int i = 0;
 
-    for(i =0; i < NUM_MAX_METEOROS;i++)
+    for(i = 0; i < NUM_MAX_METEOROS;i++)
     {
         explosoes[i].tamanho = 1;
     }
@@ -26,11 +26,11 @@ void configuraTamanhoExplosoes(itemDeJogo *explosoes){
 }
 
 void carregaModeloExplosao(GLMmodel **explosao){
-    if ( *explosao==NULL)
+    if (*explosao==NULL)
     {
             *explosao= glmReadOBJ("data/explosao/explosao.obj");
 
-            if (*explosao==NULL)
+            if (*explosao == NULL)
             {
                 printf("\n\nErro carregando explosao.obj");
                 exit(0);
@@ -64,7 +64,7 @@ void carregaTexturaExplosao(Texture *texturaExplosao, char* filePath){
 
 void desenhaExplosoes(itemDeJogo *explosoes,Texture texturaExplosao, GLMmodel *explosao)
 {
-    int i =0;
+    int i = 0;
     for(i = 0; i < NUM_MAX_METEOROS; i++)
     {
         if(explosoes[i].visivel)
@@ -79,6 +79,4 @@ void desenhaExplosoes(itemDeJogo *explosoes,Texture texturaExplosao, GLMmodel *e
         }
     }
 }
-
-
 #endif
