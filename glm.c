@@ -19,7 +19,6 @@
 
 #define T(x) (model->triangles[(x)])
 
-
 /* _GLMnode: general purpose node */
 typedef struct _GLMnode {
 	GLuint         index;
@@ -27,23 +26,28 @@ typedef struct _GLMnode {
 	struct _GLMnode* next;
 } GLMnode;
 
-
 /* glmMax: returns the maximum of two floats */
 static GLfloat
 glmMax(GLfloat a, GLfloat b)
 {
-	if (b > a)
+	if (b > a) {
 		return b;
-	return a;
+	}
+	else {
+		return a;
+	}
 }
 
 /* glmAbs: returns the absolute value of a float */
 static GLfloat
 glmAbs(GLfloat f)
 {
-	if (f < 0)
+	if (f < 0) {
 		return -f;
-	return f;
+	}
+	else {
+		return f;
+	}
 }
 
 /*
@@ -112,7 +116,9 @@ glmEqual(GLfloat* u, GLfloat* v, GLfloat epsilon)
 	{
 		return GL_TRUE;
 	}
-	return GL_FALSE;
+	else {
+		return GL_FALSE;
+	}
 }
 
 /*
@@ -139,6 +145,9 @@ glmWeldVectors(GLfloat* vectors, GLuint* numvectors, GLfloat epsilon)
 		for (j = 1; j <= copied; j++) {
 			if (glmEqual(&vectors[3 * i], &copies[3 * j], epsilon)) {
 				goto duplicate;
+			}
+			else {
+				/* nothing to do */
 			}
 		}
 
@@ -171,9 +180,12 @@ glmFindGroup(GLMmodel* model, char* name)
 
 	group = model->groups;
 	while(group) {
-		if (!strcmp(name, group->name))
+		if (!strcmp(name, group->name)) {
 			break;
-		group = group->next;
+		}
+		else {
+			group = group->next;
+		}
 	}
 
 	return group;
@@ -196,6 +208,9 @@ glmAddGroup(GLMmodel* model, char* name)
 		model->groups = group;
 		model->numgroups++;
 	}
+	else {
+		/* nothing to do */
+	}
 
 	return group;
 }
@@ -211,8 +226,12 @@ glmFindMaterial(GLMmodel* model, char* name)
 	 * but it works and is fast enough for now.
 	 */
 	for (i = 0; i < model->nummaterials; i++) {
-		if (!strcmp(model->materials[i].name, name))
+		if (!strcmp(model->materials[i].name, name)) {
 			goto found;
+		}
+		else {
+			/* nothing to do */
+		}
 	}
 
 	/*
@@ -225,7 +244,6 @@ glmFindMaterial(GLMmodel* model, char* name)
 found:
 	return i;
 }
-
 
 /*
  * glmDirName: return the directory given a path
@@ -243,14 +261,15 @@ glmDirName(char* path)
 	dir = strdup(path);
 
 	s = strrchr(dir, '/');
-	if (s)
+	if (s) {
 		s[1] = '\0';
-	else
+	}
+	else {
 		dir[0] = '\0';
+	}
 
 	return dir;
 }
-
 
 /*
  * glmReadMTL: read a wavefront material library file
@@ -278,6 +297,9 @@ glmReadMTL(GLMmodel* model, char* name)
 		fprintf(stderr, "glmReadMTL() failed: can't open material file \"%s\".\n",
 			filename);
 		exit(1);
+	}
+	else {
+		/* nothing to do */
 	}
 	free(filename);
 
@@ -408,6 +430,9 @@ glmWriteMTL(GLMmodel* model, char* modelpath, char* mtllibname)
 			filename);
 		exit(1);
 	}
+	else {
+		/* nothing to do */
+	}
 	free(filename);
 
 	/* spit out a header */
@@ -433,7 +458,6 @@ glmWriteMTL(GLMmodel* model, char* modelpath, char* mtllibname)
 		fprintf(file, "\n");
 	}
 }
-
 
 /*
  * glmFirstPass: first pass at a Wavefront OBJ file that gets all the
@@ -521,7 +545,8 @@ glmFirstPass(GLMmodel* model, FILE* file)
 						numtriangles++;
 						group->numtriangles++;
 					}
-				} else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
+				}
+				else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
 					/* v/t/n */
 					fscanf(file, "%d/%d/%d", &v, &t, &n);
 					fscanf(file, "%d/%d/%d", &v, &t, &n);
@@ -531,7 +556,8 @@ glmFirstPass(GLMmodel* model, FILE* file)
 						numtriangles++;
 						group->numtriangles++;
 					}
-				} else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
+				}
+				else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
 					/* v/t */
 					fscanf(file, "%d/%d", &v, &t);
 					fscanf(file, "%d/%d", &v, &t);
@@ -541,7 +567,8 @@ glmFirstPass(GLMmodel* model, FILE* file)
 						numtriangles++;
 						group->numtriangles++;
 					}
-				} else {
+				}
+				else {
 					/* v */
 					fscanf(file, "%d", &v);
 					fscanf(file, "%d", &v);
@@ -684,7 +711,8 @@ glmSecondPass(GLMmodel* model, FILE* file)
 						group->triangles[group->numtriangles++] = numtriangles;
 						numtriangles++;
 					}
-				} else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
+				}
+				else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
 					/* v/t/n */
 					T(numtriangles).vindices[0] = v;
 					T(numtriangles).tindices[0] = t;
@@ -712,7 +740,8 @@ glmSecondPass(GLMmodel* model, FILE* file)
 						group->triangles[group->numtriangles++] = numtriangles;
 						numtriangles++;
 					}
-				} else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
+				}
+				else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
 					/* v/t */
 					T(numtriangles).vindices[0] = v;
 					T(numtriangles).tindices[0] = t;
@@ -734,7 +763,8 @@ glmSecondPass(GLMmodel* model, FILE* file)
 						group->triangles[group->numtriangles++] = numtriangles;
 						numtriangles++;
 					}
-				} else {
+				}
+				else {
 					/* v */
 					sscanf(buf, "%d", &v);
 					T(numtriangles).vindices[0] = v;
@@ -771,7 +801,6 @@ glmSecondPass(GLMmodel* model, FILE* file)
 #endif
 }
 
-
 /* public functions */
 
 /*
@@ -797,20 +826,47 @@ glmUnitize(GLMmodel* model)
 	maxy = miny = model->vertices[3 + 1];
 	maxz = minz = model->vertices[3 + 2];
 	for (i = 1; i <= model->numvertices; i++) {
-		if (maxx < model->vertices[3 * i + 0])
+		if (maxx < model->vertices[3 * i + 0]) {
 			maxx = model->vertices[3 * i + 0];
-		if (minx > model->vertices[3 * i + 0])
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (minx > model->vertices[3 * i + 0]) {
 			minx = model->vertices[3 * i + 0];
+		}
+		else {
+			/* nothing to do */
+		}
 
-		if (maxy < model->vertices[3 * i + 1])
+		if (maxy < model->vertices[3 * i + 1]) {
 			maxy = model->vertices[3 * i + 1];
-		if (miny > model->vertices[3 * i + 1])
-			miny = model->vertices[3 * i + 1];
+		}
+		else {
+			/* nothing to do */
+		}
 
-		if (maxz < model->vertices[3 * i + 2])
+		if (miny > model->vertices[3 * i + 1]) {
+			miny = model->vertices[3 * i + 1];
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (maxz < model->vertices[3 * i + 2]) {
 			maxz = model->vertices[3 * i + 2];
-		if (minz > model->vertices[3 * i + 2])
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (minz > model->vertices[3 * i + 2]) {
 			minz = model->vertices[3 * i + 2];
+		}
+		else {
+			/* nothing to do */
+		}
 	}
 
 	/* calculate model width, height, and depth */
@@ -861,20 +917,47 @@ glmDimensions(GLMmodel* model, GLfloat* dimensions)
 	maxy = miny = model->vertices[3 + 1];
 	maxz = minz = model->vertices[3 + 2];
 	for (i = 1; i <= model->numvertices; i++) {
-		if (maxx < model->vertices[3 * i + 0])
+		if (maxx < model->vertices[3 * i + 0]) {
 			maxx = model->vertices[3 * i + 0];
-		if (minx > model->vertices[3 * i + 0])
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (minx > model->vertices[3 * i + 0]) {
 			minx = model->vertices[3 * i + 0];
+		}
+		else {
+			/* nothing to do */
+		}
 
-		if (maxy < model->vertices[3 * i + 1])
+		if (maxy < model->vertices[3 * i + 1]) {
 			maxy = model->vertices[3 * i + 1];
-		if (miny > model->vertices[3 * i + 1])
-			miny = model->vertices[3 * i + 1];
+		}
+		else {
+			/* nothing to do */
+		}
 
-		if (maxz < model->vertices[3 * i + 2])
+		if (miny > model->vertices[3 * i + 1]) {
+			miny = model->vertices[3 * i + 1];
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (maxz < model->vertices[3 * i + 2]) {
 			maxz = model->vertices[3 * i + 2];
-		if (minz > model->vertices[3 * i + 2])
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (minz > model->vertices[3 * i + 2]) {
 			minz = model->vertices[3 * i + 2];
+		}
+		else {
+			/* nothing to do */
+		}
 	}
 
 	/* calculate model width, height, and depth */
@@ -925,11 +1008,17 @@ glmReverseWinding(GLMmodel* model)
 			T(i).nindices[0] = T(i).nindices[2];
 			T(i).nindices[2] = swap;
 		}
+		else {
+			/* nothing to do */
+		}
 
 		if (model->numtexcoords) {
 			swap = T(i).tindices[0];
 			T(i).tindices[0] = T(i).tindices[2];
 			T(i).tindices[2] = swap;
+		}
+		else {
+			/* nothing to do */
 		}
 	}
 
@@ -966,8 +1055,12 @@ glmFacetNormals(GLMmodel* model)
 	assert(model->vertices);
 
 	/* clobber any old facetnormals */
-	if (model->facetnorms)
+	if (model->facetnorms){
 		free(model->facetnorms);
+	}
+	else {
+		/* nothing to do */
+	}
 
 	/* allocate memory for the new facet normals */
 	model->numfacetnorms = model->numtriangles;
@@ -1033,8 +1126,12 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 	cos_angle = cos(angle * M_PI / 180.0);
 
 	/* nuke any previous normals */
-	if (model->normals)
+	if (model->normals) {
 		free(model->normals);
+	}
+	else {
+		/* nothing to do */
+	}
 
 	/* allocate space for new normals */
 	model->numnormals = model->numtriangles * 3; /* 3 normals per triangle */
@@ -1045,8 +1142,9 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 	 * indices for each vertex
 	 */
 	members = (GLMnode**)malloc(sizeof(GLMnode*) * (model->numvertices + 1));
-	for (i = 1; i <= model->numvertices; i++)
+	for (i = 1; i <= model->numvertices; i++) {
 		members[i] = NULL;
+	}
 
 	/* for every triangle, create a node for each vertex in it */
 	for (i = 0; i < model->numtriangles; i++) {
@@ -1074,8 +1172,13 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 	 * by averaging the facet normal of every triangle this vertex is in.
 	 */
 		node = members[i];
-		if (!node)
+		if (!node) {
 			fprintf(stderr, "glmVertexNormals(): vertex w/o a triangle\n");
+		}
+		else {
+			/* nothing to do */
+		}
+
 		average[0] = 0.0; average[1] = 0.0; average[2] = 0.0;
 		avg = 0;
 		while (node) {
@@ -1093,7 +1196,8 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 				average[1] += model->facetnorms[3 * T(node->index).findex + 1];
 				average[2] += model->facetnorms[3 * T(node->index).findex + 2];
 				avg = 1;            /* we averaged at least one normal! */
-			} else {
+			}
+			else {
 				node->averaged = GL_FALSE;
 			}
 			node = node->next;
@@ -1110,19 +1214,29 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 			avg = numnormals;
 			numnormals++;
 		}
+		else {
+			/* nothing to do */
+		}
 
 		/* set the normal of this vertex in each triangle it is in */
 		node = members[i];
 		while (node) {
 			if (node->averaged) {
 				/* if this node was averaged, use the average normal */
-				if (T(node->index).vindices[0] == i)
+				if (T(node->index).vindices[0] == i) {
 					T(node->index).nindices[0] = avg;
-				else if (T(node->index).vindices[1] == i)
+				}
+				else if (T(node->index).vindices[1] == i) {
 					T(node->index).nindices[1] = avg;
-				else if (T(node->index).vindices[2] == i)
+				}
+				else if (T(node->index).vindices[2] == i) {
 					T(node->index).nindices[2] = avg;
-			} else {
+				}
+				else {
+					/* nothing to do */
+				}
+			}
+			else {
 				/* if this node wasn't averaged, use the facet normal */
 				model->normals[3 * numnormals + 0] =
 					model->facetnorms[3 * T(node->index).findex + 0];
@@ -1130,12 +1244,18 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 					model->facetnorms[3 * T(node->index).findex + 1];
 				model->normals[3 * numnormals + 2] =
 					model->facetnorms[3 * T(node->index).findex + 2];
-				if (T(node->index).vindices[0] == i)
+				if (T(node->index).vindices[0] == i) {
 					T(node->index).nindices[0] = numnormals;
-				else if (T(node->index).vindices[1] == i)
+				}
+				else if (T(node->index).vindices[1] == i) {
 					T(node->index).nindices[1] = numnormals;
-				else if (T(node->index).vindices[2] == i)
+				}
+				else if (T(node->index).vindices[2] == i) {
 					T(node->index).nindices[2] = numnormals;
+				}
+				else {
+					/* nothing to do */
+				}
 				numnormals++;
 			}
 			node = node->next;
@@ -1171,7 +1291,6 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 	free(normals);
 }
 
-
 /*
  * glmLinearTexture: Generates texture coordinates according to a
  * linear projection of the texture map.  It generates these by
@@ -1189,8 +1308,12 @@ glmLinearTexture(GLMmodel* model)
 
 	assert(model);
 
-	if (model->texcoords)
+	if (model->texcoords) {
 		free(model->texcoords);
+	}
+	else {
+		/* nothing to do */
+	}
 	model->numtexcoords = model->numvertices;
 	model->texcoords=(GLfloat*)malloc(sizeof(GLfloat)*2*(model->numtexcoords+1));
 
@@ -1245,8 +1368,12 @@ glmSpheremapTexture(GLMmodel* model)
 	assert(model);
 	assert(model->normals);
 
-	if (model->texcoords)
+	if (model->texcoords) {
 		free(model->texcoords);
+	}
+	else {
+		/* nothing to do */
+	}
 	model->numtexcoords = model->numnormals;
 	model->texcoords=(GLfloat*)malloc(sizeof(GLfloat)*2*(model->numtexcoords+1));
 
@@ -1261,15 +1388,19 @@ glmSpheremapTexture(GLMmodel* model)
 			theta = 0.0;
 			phi = 0.0;
 		} else {
-			if(z == 0.0)
+			if(z == 0.0) {
 				phi = 3.14159265 / 2.0;
-			else
+			}
+			else {
 				phi = acos(z / rho);
+			}
 
-			if(y == 0.0)
+			if(y == 0.0) {
 				theta = 3.141592365 / 2.0;
-			else
+			}
+			else {
 				theta = asin(y / r) + (3.14159265 / 2.0);
+			}
 		}
 
 		model->texcoords[2 * i + 0] = theta / 3.14159265;
@@ -1301,17 +1432,64 @@ glmDelete(GLMmodel* model)
 
 	assert(model);
 
-	if (model->pathname)     free(model->pathname);
-	if (model->mtllibname) free(model->mtllibname);
-	if (model->vertices)     free(model->vertices);
-	if (model->normals)  free(model->normals);
-	if (model->texcoords)  free(model->texcoords);
-	if (model->facetnorms) free(model->facetnorms);
-	if (model->triangles)  free(model->triangles);
-	if (model->materials) {
-		for (i = 0; i < model->nummaterials; i++)
-			free(model->materials[i].name);
+	if (model->pathname) {
+		free(model->pathname);
 	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->mtllibname) {
+		free(model->mtllibname);
+	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->vertices) {
+		free(model->vertices);
+	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->normals) {
+		free(model->normals);
+	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->texcoords) {
+		free(model->texcoords);
+	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->facetnorms) {
+		free(model->facetnorms);
+	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->triangles) {
+		free(model->triangles);
+	}
+	else {
+		/* nothing to do */
+	}
+
+	if (model->materials) {
+		for (i = 0; i < model->nummaterials; i++) {
+			free(model->materials[i].name);
+		}
+	}
+	else {
+		/* nothing to do */
+	}
+
 	free(model->materials);
 	while(model->groups) {
 		group = model->groups;
@@ -1341,7 +1519,7 @@ glmReadOBJ(char* filename)
 	file = fopen(filename, "r");
 	if (!file) {
 		fprintf(stderr, "glmReadOBJ() failed: can't open data file \"%s\".\n",
-			filename);
+		    filename);
 		exit(1);
 	}
 
@@ -1382,9 +1560,16 @@ glmReadOBJ(char* filename)
 		model->normals = (GLfloat*)malloc(sizeof(GLfloat) *
 			3 * (model->numnormals + 1));
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (model->numtexcoords) {
 		model->texcoords = (GLfloat*)malloc(sizeof(GLfloat) *
 			2 * (model->numtexcoords + 1));
+	}
+	else {
+		/* nothing to do */
 	}
 
 	/* rewind to beginning of file and read in the data this pass */
@@ -1430,37 +1615,63 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 			"with no facet normals defined.\n");
 		mode &= ~GLM_FLAT;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_SMOOTH && !model->normals) {
 		printf("glmWriteOBJ() warning: smooth normal output requested "
 			"with no normals defined.\n");
 		mode &= ~GLM_SMOOTH;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_TEXTURE && !model->texcoords) {
 		printf("glmWriteOBJ() warning: texture coordinate output requested "
 			"with no texture coordinates defined.\n");
 		mode &= ~GLM_TEXTURE;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_FLAT && mode & GLM_SMOOTH) {
 		printf("glmWriteOBJ() warning: flat normal output requested "
 			"and smooth normal output requested (using smooth).\n");
 		mode &= ~GLM_FLAT;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_COLOR && !model->materials) {
 		printf("glmWriteOBJ() warning: color output requested "
 			"with no colors (materials) defined.\n");
 		mode &= ~GLM_COLOR;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_MATERIAL && !model->materials) {
 		printf("glmWriteOBJ() warning: material output requested "
 			"with no materials defined.\n");
 		mode &= ~GLM_MATERIAL;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_COLOR && mode & GLM_MATERIAL) {
 		printf("glmWriteOBJ() warning: color and material output requested "
 			"outputting only materials.\n");
 		mode &= ~GLM_COLOR;
 	}
-
+	else {
+		/* nothing to do */
+	}
 
 	/* open the file */
 	file = fopen(filename, "w");
@@ -1468,6 +1679,9 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 		fprintf(stderr, "glmWriteOBJ() failed: can't open file \"%s\" to write.\n",
 			filename);
 		exit(1);
+	}
+	else {
+		/* nothing to do */
 	}
 
 	/* spit out a header */
@@ -1483,6 +1697,9 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 	if (mode & GLM_MATERIAL && model->mtllibname) {
 		fprintf(file, "\nmtllib %s\n\n", model->mtllibname);
 		glmWriteMTL(model, filename, model->mtllibname);
+	}
+	else {
+		/* nothing to do */
 	}
 
 	/* spit out the vertices */
@@ -1505,7 +1722,8 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 				model->normals[3 * i + 1],
 				model->normals[3 * i + 2]);
 		}
-	} else if (mode & GLM_FLAT) {
+	}
+	else if (mode & GLM_FLAT) {
 		fprintf(file, "\n");
 		fprintf(file, "# %d normals\n", model->numfacetnorms);
 		for (i = 1; i <= model->numnormals; i++) {
@@ -1514,6 +1732,9 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 				model->facetnorms[3 * i + 1],
 				model->facetnorms[3 * i + 2]);
 		}
+	}
+	else {
+		/* nothing to do */
 	}
 
 	/* spit out the texture coordinates */
@@ -1526,6 +1747,9 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 				model->texcoords[2 * i + 1]);
 		}
 	}
+	else {
+		/* nothing to do */
+	}
 
 	fprintf(file, "\n");
 	fprintf(file, "# %d groups\n", model->numgroups);
@@ -1535,8 +1759,13 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 	group = model->groups;
 	while(group) {
 		fprintf(file, "g %s\n", group->name);
-		if (mode & GLM_MATERIAL)
+		if (mode & GLM_MATERIAL) {
 			fprintf(file, "usemtl %s\n", model->materials[group->material].name);
+		}
+		else {
+			/* nothing to do */
+		}
+
 		for (i = 0; i < group->numtriangles; i++) {
 			if (mode & GLM_SMOOTH && mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d/%d %d/%d/%d %d/%d/%d\n",
@@ -1549,7 +1778,8 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 					T(group->triangles[i]).vindices[2],
 					T(group->triangles[i]).nindices[2],
 					T(group->triangles[i]).tindices[2]);
-			} else if (mode & GLM_FLAT && mode & GLM_TEXTURE) {
+			}
+			else if (mode & GLM_FLAT && mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d %d/%d %d/%d\n",
 					T(group->triangles[i]).vindices[0],
 					T(group->triangles[i]).findex,
@@ -1557,7 +1787,8 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 					T(group->triangles[i]).findex,
 					T(group->triangles[i]).vindices[2],
 					T(group->triangles[i]).findex);
-			} else if (mode & GLM_TEXTURE) {
+			}
+			else if (mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d %d/%d %d/%d\n",
 					T(group->triangles[i]).vindices[0],
 					T(group->triangles[i]).tindices[0],
@@ -1565,7 +1796,8 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 					T(group->triangles[i]).tindices[1],
 					T(group->triangles[i]).vindices[2],
 					T(group->triangles[i]).tindices[2]);
-			} else if (mode & GLM_SMOOTH) {
+			}
+			else if (mode & GLM_SMOOTH) {
 				fprintf(file, "f %d//%d %d//%d %d//%d\n",
 					T(group->triangles[i]).vindices[0],
 					T(group->triangles[i]).nindices[0],
@@ -1573,7 +1805,8 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 					T(group->triangles[i]).nindices[1],
 					T(group->triangles[i]).vindices[2],
 					T(group->triangles[i]).nindices[2]);
-			} else if (mode & GLM_FLAT) {
+			}
+			else if (mode & GLM_FLAT) {
 				fprintf(file, "f %d//%d %d//%d %d//%d\n",
 					T(group->triangles[i]).vindices[0],
 					T(group->triangles[i]).findex,
@@ -1581,7 +1814,8 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
 					T(group->triangles[i]).findex,
 					T(group->triangles[i]).vindices[2],
 					T(group->triangles[i]).findex);
-			} else {
+			}
+			else {
 				fprintf(file, "f %d %d %d\n",
 					T(group->triangles[i]).vindices[0],
 					T(group->triangles[i]).vindices[1],
@@ -1628,40 +1862,73 @@ glmDraw(GLMmodel* model, GLuint mode)
 			"with no facet normals defined.\n");
 		mode &= ~GLM_FLAT;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_SMOOTH && !model->normals) {
 		printf("glmDraw() warning: smooth render mode requested "
 			"with no normals defined.\n");
 		mode &= ~GLM_SMOOTH;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_TEXTURE && !model->texcoords) {
 		printf("glmDraw() warning: texture render mode requested "
 			"with no texture coordinates defined.\n");
 		mode &= ~GLM_TEXTURE;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_FLAT && mode & GLM_SMOOTH) {
 		printf("glmDraw() warning: flat render mode requested "
 			"and smooth render mode requested (using smooth).\n");
 		mode &= ~GLM_FLAT;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_COLOR && !model->materials) {
 		printf("glmDraw() warning: color render mode requested "
 			"with no materials defined.\n");
 		mode &= ~GLM_COLOR;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_MATERIAL && !model->materials) {
 		printf("glmDraw() warning: material render mode requested "
 			"with no materials defined.\n");
 		mode &= ~GLM_MATERIAL;
 	}
+	else {
+		/* nothing to do */
+	}
+
 	if (mode & GLM_COLOR && mode & GLM_MATERIAL) {
 		printf("glmDraw() warning: color and material render mode requested "
 			"using only material mode.\n");
 		mode &= ~GLM_COLOR;
 	}
-	if (mode & GLM_COLOR)
+	else {
+		/* nothing to do */
+	}
+
+	if (mode & GLM_COLOR) {
 		glEnable(GL_COLOR_MATERIAL);
-	else if (mode & GLM_MATERIAL)
+	}
+	else if (mode & GLM_MATERIAL) {
 		glDisable(GL_COLOR_MATERIAL);
+	}
+	else {
+		/* nothing to do */
+	}
 
 	/*
 	 * Perhaps this loop should be unrolled into material, color, flat,
@@ -1683,30 +1950,67 @@ glmDraw(GLMmodel* model, GLuint mode)
 		if (mode & GLM_COLOR) {
 			glColor3fv(material->diffuse);
 		}
+		else {
+			/* nothing to do */
+		}
 
 		glBegin(GL_TRIANGLES);
 		for (i = 0; i < group->numtriangles; i++) {
 			triangle = &T(group->triangles[i]);
 
-			if (mode & GLM_FLAT)
+			if (mode & GLM_FLAT) {
 				glNormal3fv(&model->facetnorms[3 * triangle->findex]);
+			}
+			else {
+				/* nothing to do */
+			}
 
-			if (mode & GLM_SMOOTH)
+			if (mode & GLM_SMOOTH) {
 				glNormal3fv(&model->normals[3 * triangle->nindices[0]]);
-			if (mode & GLM_TEXTURE)
+			}
+			else {
+				/* nothing to do */
+			}
+
+			if (mode & GLM_TEXTURE) {
 				glTexCoord2fv(&model->texcoords[2 * triangle->tindices[0]]);
+			}
+			else {
+				/* nothing to do */
+			}
+
 			glVertex3fv(&model->vertices[3 * triangle->vindices[0]]);
 
-			if (mode & GLM_SMOOTH)
+			if (mode & GLM_SMOOTH) {
 				glNormal3fv(&model->normals[3 * triangle->nindices[1]]);
-			if (mode & GLM_TEXTURE)
+			}
+			else {
+				/* nothing to do */
+			}
+
+			if (mode & GLM_TEXTURE) {
 				glTexCoord2fv(&model->texcoords[2 * triangle->tindices[1]]);
+			}
+			else {
+				/* nothing to do */
+			}
+
 			glVertex3fv(&model->vertices[3 * triangle->vindices[1]]);
 
-			if (mode & GLM_SMOOTH)
+			if (mode & GLM_SMOOTH) {
 				glNormal3fv(&model->normals[3 * triangle->nindices[2]]);
-			if (mode & GLM_TEXTURE)
+			}
+			else {
+				/* nothing to do */
+			}
+
+			if (mode & GLM_TEXTURE) {
 				glTexCoord2fv(&model->texcoords[2 * triangle->tindices[2]]);
+			}
+			else {
+				/* nothing to do */
+			}
+
 			glVertex3fv(&model->vertices[3 * triangle->vindices[2]]);
 
 		}
@@ -1837,6 +2141,9 @@ glmReadPPM(char* filename, int* width, int* height)
 		perror(filename);
 		return NULL;
 	}
+	else {
+		/* nothing to do */
+	}
 
 	/*
 	 * grab first two chars of the file and make sure that it has the
@@ -1847,19 +2154,33 @@ glmReadPPM(char* filename, int* width, int* height)
 		fprintf(stderr, "%s: Not a raw PPM file\n", filename);
 		return NULL;
 	}
+	else {
+		/* nothing to do */
+	}
 
 	/* grab the three elements in the header (width, height, maxval). */
 	i = 0;
 	while(i < 3) {
 		fgets(head, 70, fp);
-		if (head[0] == '#')     /* skip comments. */
+		if (head[0] == '#') {     /* skip comments. */
 			continue;
-		if (i == 0)
+		}
+		else {
+			/* nothing to do */
+		}
+
+		if (i == 0) {
 			i += sscanf(head, "%d %d %d", &w, &h, &d);
-		else if (i == 1)
+		}
+		else if (i == 1) {
 			i += sscanf(head, "%d %d", &h, &d);
-		else if (i == 2)
+		}
+		else if (i == 2) {
 			i += sscanf(head, "%d", &d);
+		}
+		else {
+			/* nothing to do */
+		}
 	}
 
 	/* grab all the image data in one fell swoop. */
@@ -1905,6 +2226,9 @@ if (model->numnormals) {
 
 	free(copies);
 }
+else {
+	/* nothing to do */
+}
 
 /* texcoords */
 if (model->numtexcoords) {
@@ -1937,6 +2261,9 @@ if (model->numtexcoords) {
 
 	free(copies);
 }
+else {
+	/* nothing to do */
+}
 #endif
 
 #if 0
@@ -1948,7 +2275,12 @@ for (i = 1; i <= model->numvertices; i++) {
 		if (T(j).vindices[0] == i ||
 			T(j).vindices[1] == i ||
 			T(j).vindices[1] == i)
+		{
 			break;
+		}
+		else {
+			/* nothing to do */
+		}
 	}
 }
 #endif
