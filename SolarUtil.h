@@ -377,10 +377,7 @@ int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 		}
 	return FALSE;
 	}
-	else
-	{
-		/* nothing to do */
-	}
+	
 	texture->width  = tga.header[1] * 256 + tga.header[0];
 	texture->height = tga.header[3] * 256 + tga.header[2];
 	texture->bpp    = tga.header[4];
