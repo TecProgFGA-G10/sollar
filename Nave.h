@@ -3,7 +3,8 @@
 #include <GL/glut.h>
 #include "SolarUtil.h"
 
-void carregaModeloNave(itemDeJogo *nave){
+void carregaModeloNave(itemDeJogo *nave)
+{
 	nave->posicao.x = 0;
 	nave->posicao.y = 0;
 	nave->posicao.z = 0;
@@ -17,27 +18,22 @@ void carregaModeloNave(itemDeJogo *nave){
 	nave->visivel = TRUE;
 	int scala = 0;
 
-	if (!nave->modelo)
-	{
+	if (!nave->modelo) {
 			nave->modelo = glmReadOBJ("data/aviao/jato.obj");
-			if (!nave->modelo) exit(0);
-			{
+			if (!nave->modelo) exit(0); {
 			glmUnitize(nave->modelo);
 			criaCaixaColisao(nave->modelo, &nave->colisao);
 			glmFacetNormals(nave->modelo);
 			glmVertexNormals(nave->modelo, 90.0);
 			}
-			else
-			{
+			else {
 				/*Nothing to do.*/
 			}
 	}
-	else
-	{
+	else {
 		/* Nothing to do. */
 	}
-	 for(scala = 0; scala < 8; scala++)
-	{
+	 for(scala = 0; scala < 8; scala++) {
 		nave->colisao.pontos[scala].x*=ESCALA_AVIAO;
 		nave->colisao.pontos[scala].y*=ESCALA_AVIAO;
 		nave->colisao.pontos[scala].z*=ESCALA_AVIAO;
@@ -47,8 +43,7 @@ void carregaModeloNave(itemDeJogo *nave){
 
 void carregaTexturaNave(Texture *texturaNave, char* filePath)
 {
-	if(LoadTGA(texturaNave,filePath))
-	{
+	if(LoadTGA(texturaNave,filePath)) {
 		glGenTextures(1,&texturaNave->texID);
 		glBindTexture(GL_TEXTURE_2D, texturaNave->texID);
 		glTexImage2D(GL_TEXTURE_2D, 0, texturaNave->bpp / 8, texturaNave->width,
@@ -57,8 +52,7 @@ void carregaTexturaNave(Texture *texturaNave, char* filePath)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
 	}
-	else
-	{
+	else {
 		printf("\nErro carregando a textura do jato.");
 	}
 

@@ -37,21 +37,18 @@
 #define ALTURA 600
 #define NOME_JANELA "Sollar"
 
-typedef struct
-{
+typedef struct {
 	float x;
 	float y;
 	float z;
-}ponto;
+} ponto;
 
-typedef struct
-{
+typedef struct {
 	ponto pontos[8];
-}caixaColisao;
+} caixaColisao;
 
 
-typedef struct
-{
+typedef struct {
 	GLMmodel *modelo;
 	ponto posicao;
 	caixaColisao colisao;
@@ -63,34 +60,31 @@ typedef struct
 	float rotX;
 	float rotY;
 	float rotZ;
-}itemDeJogo;
+} itemDeJogo;
 
-typedef struct
-{
+typedef struct {
 	GLubyte * imageData;
 	GLuint  bpp;
 	GLuint  width;
 	GLuint  height;
 	GLuint  texID;
 	GLuint  type;
-}Texture;
+} Texture;
 
-typedef struct
-{
+typedef struct {
 	GLubyte Header[12];
-}TGAHeader;
+} TGAHeader;
 
-typedef struct
-{
-	GLubyte         header[6];                                                              
-	GLuint          bytesPerPixel;                                                  
-	GLuint          imageSize;                                                              
-	GLuint          temp;                                                                   
-	GLuint          type;
-	GLuint          Height;                                                                 
-	GLuint          Width;                                                                  
-	GLuint          Bpp;   
-}TGA;
+typedef struct {
+	GLubyte header[6];                                                              
+	GLuint bytesPerPixel;                                                  
+	GLuint imageSize;                                                              
+	GLuint temp;                                                                   
+	GLuint type;
+	GLuint Height;                                                                 
+	GLuint Width;                                                                  
+	GLuint Bpp;   
+} TGA;
 
 TGAHeader tgaheader;
 TGA tga;
@@ -100,20 +94,16 @@ GLubyte cTGAcompare[12] = {0,0,10,0,0,0,0,0,0,0,0,0};
 
 int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 {
-	if(fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)
-	{
-		if(fTGA !=NULL)
-		{
+	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
+		if (fTGA !=NULL) {
 			fclose(fTGA);
 		}
-		else
-		{
+		else {
 			/* nothing to do */
 		}
 			return FALSE;
 	}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
 
@@ -122,40 +112,33 @@ int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 	texture->bpp    = tga.header[4];
 	tga.Width       = texture->width;
 	tga.Height      = texture->height;
-	tga.Bpp                 = texture->bpp;
+	tga.Bpp         = texture->bpp;
 
-	if((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32)))
-	{
-		if(fTGA != NULL)
-		{
+	if ((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32))) {
+		if (fTGA != NULL) {
 			fclose(fTGA);
 		}
-		else
-		{
+		else {
 			/* nothing to do */
 		}
 			return FALSE;
 		}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
 	}
 
-	if(texture->bpp == 24)
-	{
+	if (texture->bpp == 24) {
 		texture->type   = GL_RGB;
 	}
-	else
-	{
+	else {
 		texture->type   = GL_RGBA;
 		tga.bytesPerPixel       = (tga.Bpp / 8);
 		tga.imageSize           = (tga.bytesPerPixel * tga.Width * tga.Height);
 		texture->imageData      = (GLubyte *)malloc(tga.imageSize);
 	}
 	
-	if(texture->imageData == NULL)
-	{
+	if (texture->imageData == NULL) {
 		fclose(fTGA);
 		return FALSE;
 	}
@@ -163,216 +146,168 @@ int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 	GLuint currentpixel     = 0;
 	GLuint currentbyte      = 0;
 	GLubyte * colorbuffer = (GLubyte *)malloc(tga.bytesPerPixel);
-	do
-	{
+	do {
 		GLubyte chunkheader = 0;
-		if(fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0)
-		{
-			if(fTGA != NULL)
-			{
+		if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0) {
+			if (fTGA != NULL) {
 				fclose(fTGA);
 			}
-			else
-			{
+			else {
 				/* nothing to do */
 			}
-			if(texture->imageData != NULL)
-			{
+			if (texture->imageData != NULL) {
 				free(texture->imageData);
 			}
-			else
-			{
+			else {
 				/* nothing to do */
 			}
 				return FALSE;
 			}
-			if(chunkheader < 128)
-			{
+			if (chunkheader < 128) {
 				chunkheader++;
 				short counter;
-				for(counter = 0; counter < chunkheader; counter++)
-				{
-					if(fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel)
-					{
-						if(fTGA != NULL)
-						{
+				for (counter = 0; counter < chunkheader; counter++) {
+					if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
+						if (fTGA != NULL) {
 							fclose(fTGA);
 						}
-						else
-						{
+						else {
 							/* nothing to do */
 						}
-						if(colorbuffer != NULL)
-						{
+						if (colorbuffer != NULL) {
 							free(colorbuffer);
 						}
-						else
-						{
+						else {
 							/* nothing to do */
 						}
-						if(texture->imageData != NULL)
-						{
+						if (texture->imageData != NULL) {
 							free(texture->imageData);
 						}
-						else
-						{
+						else {
 							/* nothing to do */
 						}
 						return FALSE;
 					}
-					else
-					{
+					else {
 						/* nothing to do */
 					}
 					texture->imageData[currentbyte          ] = colorbuffer[2];
 					texture->imageData[currentbyte + 1      ] = colorbuffer[1];
 					texture->imageData[currentbyte + 2      ] = colorbuffer[0];
 
-								if(tga.bytesPerPixel == 4)
-								{
+								if (tga.bytesPerPixel == 4) {
 										texture->imageData[currentbyte + 3] = colorbuffer[3];
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
 								currentbyte += tga.bytesPerPixel;
 								currentpixel++;
 
-								if(currentpixel > pixelcount)
-								{
+								if (currentpixel > pixelcount) {
 
-										if(fTGA != NULL)
-										{
+										if (fTGA != NULL) {
 												fclose(fTGA);
 										}
-										else
-										{
+										else {
 											/* nothing to do */
 										}
-										if(colorbuffer != NULL)
-										{
+										if (colorbuffer != NULL) {
 												free(colorbuffer);
 										}
-										else
-										{
+										else {
 											/* nothing to do */
 										}
-										if(texture->imageData != NULL)
-										{
+										if (texture->imageData != NULL) {
 												free(texture->imageData);
 										}
-										else
-										{
+										else {
 											/* nothing to do */
 										}
 										return FALSE;
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
 						}
 				}
-				else
-				{
+				else {
 						chunkheader -= 127;
-						if(fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel)
-						{
+						if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
 
-								if(fTGA != NULL)
-								{
+								if (fTGA != NULL) {
 										fclose(fTGA);
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
-								if(colorbuffer != NULL)
-								{
+								if (colorbuffer != NULL) {
 										free(colorbuffer);
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
-								if(texture->imageData != NULL)
-								{
+								if (texture->imageData != NULL) {
 										free(texture->imageData);
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
 								return FALSE;
 						}
 			short counter;
-						for( counter = 0; counter < chunkheader; counter++)
-						{
+						for ( counter = 0; counter < chunkheader; counter++) {
 							texture->imageData[currentbyte          ] = colorbuffer[2];
 							texture->imageData[currentbyte + 1      ] = colorbuffer[1];
 							texture->imageData[currentbyte + 2      ] = colorbuffer[0];
-							if(tga.bytesPerPixel == 4)                                
-							{
+							if (tga.bytesPerPixel == 4) {
 								texture->imageData[currentbyte + 3] = colorbuffer[3];
 							}
-							else
-							{
+							else {
 								/* nothing to do */
 							}
 							currentbyte += tga.bytesPerPixel;
 							currentpixel++;
-							if(currentpixel > pixelcount)
-							{
-								if(fTGA != NULL)
-								{
+							if (currentpixel > pixelcount) {
+								if (fTGA != NULL) {
 									fclose(fTGA);
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
-								if(colorbuffer != NULL)
-								{
+								if (colorbuffer != NULL) {
 									free(colorbuffer);
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
-								if(texture->imageData != NULL)
-								{
+								if (texture->imageData != NULL) {
 									free(texture->imageData);
 								}
-								else
-								{
+								else {
 									/* nothing to do */
 								}
 								return FALSE;
 							}
-							else
-							{
+							else {
 								/* nothing to do */
 							}
 						}
 				}
 		}
 
-		while(currentpixel < pixelcount);
+		while (currentpixel < pixelcount);
 		fclose(fTGA);
 		return TRUE;
 }
 
 int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 {                                                                                                                                                       // 
-	if(fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)
-	{
-		if(fTGA != NULL)
-		{
+	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
+		if (fTGA != NULL) {
 			fclose(fTGA);
 		}
-		else
-		{
+		else {
 			/* nothing to do */
 		}
 	return FALSE;
@@ -385,25 +320,20 @@ int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 	tga.Height              = texture->height;
 	tga.Bpp                 = texture->bpp;
 
-	if((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32)))
-	{
-		if(fTGA != NULL)
-		{
+	if ((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32))) {
+		if (fTGA != NULL) {
 			fclose(fTGA);
 		}
-		else
-		{
+		else {
 			/* nothing to do */
 		}
 		return FALSE;
 	}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
 
-	if(texture->bpp == 24)
-	{
+	if (texture->bpp == 24) {
 		texture->type   = GL_RGB;
 	}
 	else
@@ -412,36 +342,30 @@ int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 		tga.imageSize           = (tga.bytesPerPixel * tga.Width * tga.Height);
 		texture->imageData      = (GLubyte *)malloc(tga.imageSize);
 
-	if(texture->imageData == NULL)
-	{
+	if (texture->imageData == NULL) {
 		fclose(fTGA);
 		return FALSE;
 	}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
-	if(fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize)  // Attempt to read image data
-	{
-		if(texture->imageData != NULL)
-		{
+	 // Attempt to read image data
+	if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize) {
+		if (texture->imageData != NULL) {
 			free(texture->imageData);
 		}
-		else
-		{
+		else {
 			/* nothing to do */
 		}
 		fclose(fTGA);
 		return FALSE;
 	}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
 
 	GLuint cswap;
-	for( cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel)
-	{
+	for (cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
 		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=
 		texture->imageData[cswap] ^= texture->imageData[cswap+2];
 	}
@@ -454,40 +378,31 @@ int LoadTGA(Texture * texture, char * filename)
 {
 	FILE * fTGA;
 	fTGA = fopen(filename, "rb");
-	if(fTGA == NULL)
-	{
+	if (fTGA == NULL) {
 		return FALSE;
 	}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
-	if(fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0)
-	{
-		if(fTGA != NULL)
-		{
+	if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0) {
+		if (fTGA != NULL) {
 			fclose(fTGA);
 		}
-		else
-		{
+		else {
 			/* nothing to do */
 		}
 		return FALSE;
 	}
-	else
-	{
+	else {
 		/* nothing to do */
 	}
-	if(memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)
-	{
+	if (memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
 		LoadUncompressedTGA(texture, filename, fTGA);
 	}
-	else if(memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)
-	{
+	else if (memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
 		LoadCompressedTGA(texture, filename, fTGA);
 	}
-	else
-	{
+	else {
 		fclose(fTGA);
 		return FALSE;
 	}
