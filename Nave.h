@@ -29,23 +29,30 @@ void carregaModeloNave(itemDeJogo *nave)
 		glmFacetNormals(nave->modelo);
 		glmVertexNormals(nave->modelo, 90.0);
 
-	 	for(scala = 0; scala < 8; scala++) {
-			nave->colisao.pontos[scala].x*=ESCALA_AVIAO;
-			nave->colisao.pontos[scala].y*=ESCALA_AVIAO;
-			nave->colisao.pontos[scala].z*=ESCALA_AVIAO;
+	 	for (scala = 0; scala < 8; scala++) {
+			nave->colisao.pontos[scala].x *= ESCALA_AVIAO;
+			nave->colisao.pontos[scala].y *= ESCALA_AVIAO;
+			nave->colisao.pontos[scala].z *= ESCALA_AVIAO;
 		}
 	}
 }
 
 void carregaTexturaNave(Texture *texturaNave, char* filePath)
 {
-	if(LoadTGA(texturaNave,filePath)) {
-		glGenTextures(1,&texturaNave->texID);
+	if (LoadTGA(texturaNave,filePath)) {
+		glGenTextures(1, &texturaNave->texID);
 		glBindTexture(GL_TEXTURE_2D, texturaNave->texID);
-		glTexImage2D(GL_TEXTURE_2D, 0, texturaNave->bpp / 8, texturaNave->width,
-					 texturaNave->height, 0, texturaNave->type, GL_UNSIGNED_BYTE, texturaNave->imageData);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D,
+		             0,
+		             texturaNave->bpp / 8,
+		             texturaNave->width,
+					 texturaNave->height,
+					 0,
+					 texturaNave->type,
+					 GL_UNSIGNED_BYTE,
+					 texturaNave->imageData);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
