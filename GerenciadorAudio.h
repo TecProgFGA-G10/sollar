@@ -10,7 +10,7 @@ void iniciaAudio(int audio_rate,
                  int audio_buffers)
 {
 	if (Mix_OpenAudio(audio_rate, audio_format,
-	                 audio_channels, audio_buffers) != 0)
+	                  audio_channels, audio_buffers) != 0)
 	{
 		printf("Unable to initialize audio: %s\n", Mix_GetError());
 	}
@@ -35,7 +35,7 @@ void PlaySound(int som,Mix_Chunk *somEfeito)
 		Mix_PlayChannel(2,somEfeito,0);
 	}
 	else if (som == MODELO_EXPLOSAO) {
-		Mix_PlayChannel(3,somEfeito,0);
+		Mix_PlayChannel(3, somEfeito, 0);
 	}
 
 }

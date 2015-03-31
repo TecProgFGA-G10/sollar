@@ -3,47 +3,58 @@
 #include <GL/glut.h>
 #include "Colisao.h"
 
-void carregaModeloMeteoro(GLMmodel **meteoro){
-    if ( *meteoro==NULL){
-        *meteoro= glmReadOBJ("data/meteoro/meteoro.obj");
-        if (*meteoro==NULL){
+void carregaModeloMeteoro(GLMmodel **meteoro)
+{
+    if (*meteoro == NULL) {
+        *meteoro = glmReadOBJ("data/meteoro/meteoro.obj");
+        if (*meteoro == NULL){
             printf("\n\nErro carregando meteoro.obj");
             exit(0);
         }
-        glmUnitize(*meteoro);//redimensiona para a matrix uni
+        glmUnitize(*meteoro); /* redimensiona para a matrix uni */
         glmFacetNormals(*meteoro);
         glmVertexNormals(*meteoro, 90.0);
-    }else{
+    } else {
     	printf("Meteoro nao carregado! \n");
     }
 }
 
-int posicaoVaziaMeteoros(itemDeJogo *meteoros){
+int posicaoVaziaMeteoros(itemDeJogo *meteoros)
+{
     int i = 0;
-    for(i = 0; i < NUM_MAX_METEOROS; i++){
-        if(!meteoros[i].visivel)
+    for (i = 0; i < NUM_MAX_METEOROS; i++) {
+        if (!meteoros[i].visivel) {
             return i;
+        }
     }
     return -1;
 }
 
-void enviaMeteoro(itemDeJogo *meteoros, int meteorosEnviar, caixaColisao colisaoMeteoroDefault){
+void enviaMeteoro(itemDeJogo *meteoros,
+                  int meteorosEnviar,
+                  caixaColisao colisaoMeteoroDefault)
+{
     int i = 0;
-    for(i = 0; i < meteorosEnviar; i++){
-       int pos = posicaoVaziaMeteoros(meteoros);
-        if(pos >= 0){
+    for (i = 0; i < meteorosEnviar; i++) {
+        int pos = posicaoVaziaMeteoros(meteoros);
+        if (pos >= 0) {
             meteoros[pos].visivel = TRUE;
-            meteoros[pos].posicao.z = (Z_INICIAL_METEORO-10) - rand()%(Z_INICIAL_METEORO - -20);
-            meteoros[pos].posicao.x = MINIMO_X + rand()%(MAXIMO_X-MINIMO_X);
-            meteoros[pos].posicao.y = MINIMO_Y + rand()%(MAXIMO_Y-MINIMO_Y) ;
-            //guarda a posi��o anterior para calcular a caixa de colis�o para o metoro
-            //em uma posi��o diferente da <0,0,0>
+            meteoros[pos].posicao.z = (Z_INICIAL_METEORO-10) -
+                                       rand()%(Z_INICIAL_METEORO -
+                                       -20);
+            meteoros[pos].posicao.x = MINIMO_X + rand() % (MAXIMO_X-MINIMO_X);
+            meteoros[pos].posicao.y = MINIMO_Y + rand() % (MAXIMO_Y-MINIMO_Y);
+            /*
+             * Guarda a posição anterior para calcular a caixa de colisão
+             * para o metoro em uma posição diferente da <0, 0, 0>
+             */
             meteoros[pos].posicaoAnterior.z = meteoros[pos].posicao.z;
             meteoros[pos].posicaoAnterior.x = meteoros[pos].posicao.x;
             meteoros[pos].posicaoAnterior.y = meteoros[pos].posicao.y;
 
             int c = 0;
-            for(c = 0; c< 8; c++){
+            /* fix me. I am out of the bounds*/
+            for (c = 0; c < 8; c++){
                 meteoros[pos].colisao.pontos[c].x = colisaoMeteoroDefault.pontos[c].x;
                 meteoros[pos].colisao.pontos[c].y = colisaoMeteoroDefault.pontos[c].y;
                 meteoros[pos].colisao.pontos[c].z = colisaoMeteoroDefault.pontos[c].z;
@@ -53,46 +64,60 @@ void enviaMeteoro(itemDeJogo *meteoros, int meteorosEnviar, caixaColisao colisao
     }
 }
 
-void carregaTexturaMeteoro(Texture *texturaMetoro,char * filePath){
-    if(LoadTGA(texturaMetoro,filePath)){	
-        glGenTextures(1,&texturaMetoro->texID);
+void carregaTexturaMeteoro(Texture *texturaMetoro, char *filePath)
+{
+    if (LoadTGA(texturaMetoro, filePath)) {
+        glGenTextures(1, &texturaMetoro->texID);
         glBindTexture(GL_TEXTURE_2D, texturaMetoro->texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, texturaMetoro->bpp / 8, texturaMetoro->width,
-                     texturaMetoro->height, 0, texturaMetoro->type, GL_UNSIGNED_BYTE, texturaMetoro->imageData);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D,
+                     0,
+                     texturaMetoro->bpp / 8,
+                     texturaMetoro->width,
+                     texturaMetoro->height,
+                     0,
+                     texturaMetoro->type,
+                     GL_UNSIGNED_BYTE,
+                     texturaMetoro->imageData);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glEnable(GL_TEXTURE_2D);
     }
-    else{
+    else {
         printf("\nErro carregando a textura do meteoro");
     }
 }
 
-void configuraCaixaColisaoMeteoro(caixaColisao *colisaoMeteoroDefault){
+void configuraCaixaColisaoMeteoro(caixaColisao *colisaoMeteoroDefault)
+{
     int c;
-    for(c = 0; c < 8; c++){
+    for (c = 0; c < 8; c++){
         colisaoMeteoroDefault->pontos[c].x*=ESCALA_METEORO;
         colisaoMeteoroDefault->pontos[c].y*=ESCALA_METEORO;
         colisaoMeteoroDefault->pontos[c].z*=ESCALA_METEORO;
     }
-
 }
 
-void configuraAceleracaoMeteoros(itemDeJogo *meteoros){
+void configuraAceleracaoMeteoros(itemDeJogo *meteoros)
+{
     int i = 0;
 
-    for(i = 0; i < NUM_MAX_METEOROS; i++){
+    for (i = 0; i < NUM_MAX_METEOROS; i++) {
         meteoros[i].aceleracao = 0.02;
     }
 }
 
-void desenhaMeteoros(itemDeJogo *meteoros, Texture texturaMetoro,GLMmodel *meteoro){
+void desenhaMeteoros(itemDeJogo *meteoros,
+                     Texture texturaMetoro,
+                     GLMmodel *meteoro)
+{
     int i = 0;
-    for(i = 0; i < NUM_MAX_METEOROS; i++){
-        if(meteoros[i].visivel){
+    for (i = 0; i < NUM_MAX_METEOROS; i++) {
+        if (meteoros[i].visivel) {
             glPushMatrix();
-            glTranslatef(meteoros[i].posicao.x, meteoros[i].posicao.y, meteoros[i].posicao.z);
-            desenhaModelo(MODELO_METEORO,texturaMetoro,meteoro);
+            glTranslatef(meteoros[i].posicao.x,
+                         meteoros[i].posicao.y,
+                         meteoros[i].posicao.z);
+            desenhaModelo(MODELO_METEORO, texturaMetoro, meteoro);
             glPopMatrix();
         }
     }

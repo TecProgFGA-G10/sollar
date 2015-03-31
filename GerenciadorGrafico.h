@@ -5,9 +5,9 @@
 #include <GL/glut.h>
 #include "SolarUtil.h"
 
-void iniciaGlut(int argc,char** argv)
+void iniciaGlut(int argc,char **argv)
 {
-	glutInit(&argc,argv);
+	glutInit(&argc, argv);
 	/* diz que o modo é com 2 buffer e RGBA (aceita alpha) */
 	glutInitDisplayMode(MODO_GRAFICO);
 	glutInitWindowSize(LARGURA,ALTURA); /* tamanho inicial da janela */
@@ -20,31 +20,31 @@ void iniciaCamera()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60,75,0.5,120);
+	gluPerspective(60, 75, 0.5, 120);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0,10,20,
-			  0,0,0,
-			  0,1,0);
-	glViewport(0,0,LARGURA,ALTURA);
+	gluLookAt(0, 10, 20,
+			  0,  0,  0,
+			  0,  1,  0);
+	glViewport(0, 0, LARGURA,ALTURA);
 	glEnable(GL_DEPTH_TEST); /* habilita o teste de profundidade */
 	glDepthFunc(GL_LESS);
 }
 
 void configuraIluminacao()
 {
-	float corAmbienteLuz[] = {1,1,1,1}; /* uma luz branca. */
-	float posicaoLuz[] = {0,0,0 ,0.2}; /* posicao da luz. */
+	float corAmbienteLuz[] = {1, 1, 1, 1}; /* uma luz branca. */
+	float posicaoLuz[] = {0, 0, 0, 0.2}; /* posicao da luz. */
 	glLightfv(GL_LIGHT0, GL_AMBIENT, corAmbienteLuz);
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-	float materialAmbiente[] = {0.2,0.2,0.2,1};
-	float materialDifusa[] = {1,1,1,1};
-	float materialSpecular[] = {1,1,1,1};
+	float materialAmbiente[] = {0.2, 0.2, 0.2, 1};
+	float materialDifusa[] = {1, 1, 1, 1};
+	float materialSpecular[] = {1, 1, 1, 1};
 	float brilho = 70;
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbiente);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDifusa);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular);
-	glMateriali(GL_FRONT_AND_BACK,GL_SHININESS,brilho);
+	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, brilho);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -55,25 +55,25 @@ void desenhaModelo(int tipo, Texture textura, GLMmodel *modelo)
 	glBindTexture(GL_TEXTURE_2D, textura.texID);
 
 	if (tipo == MODELO_NAVE) {
-		glScalef(ESCALA_AVIAO,ESCALA_AVIAO,ESCALA_AVIAO);
+		glScalef(ESCALA_AVIAO, ESCALA_AVIAO, ESCALA_AVIAO);
 	}
-	glmDraw(modelo, GLM_SMOOTH | GLM_TEXTURE );
+	glmDraw(modelo, GLM_SMOOTH | GLM_TEXTURE);
 }
 
 void desenhaFundo(Texture texturaFundo)
 {
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
+		glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
 		glBegin(GL_QUADS);
-			glColor3ub(255,255,255);
-			glTexCoord2f(0.0,0.0);
-			glVertex3i(MINIMO_X*5,MAXIMO_Y*5,-50);
-			glTexCoord2f(1.0,0.0);
-			glVertex3i(MINIMO_X*5,MINIMO_Y*5,-50);
-			glTexCoord2f(1.0,1.0);
-			glVertex3i(MAXIMO_X*5,MINIMO_Y*5,-50);
-			glTexCoord2f(0.0,1.0);
-			glVertex3i(MAXIMO_X*5,MAXIMO_Y*5, -50);
+			glColor3ub(255, 255, 255);
+			glTexCoord2f(0.0, 0.0);
+			glVertex3i(MINIMO_X*5, MAXIMO_Y*5, -50);
+			glTexCoord2f(1.0, 0.0);
+			glVertex3i(MINIMO_X*5, MINIMO_Y*5, -50);
+			glTexCoord2f(1.0, 1.0);
+			glVertex3i(MAXIMO_X*5, MINIMO_Y*5, -50);
+			glTexCoord2f(0.0, 1.0);
+			glVertex3i(MAXIMO_X*5, MAXIMO_Y*5, -50);
 		glEnd();
 	glPopMatrix();
 }
