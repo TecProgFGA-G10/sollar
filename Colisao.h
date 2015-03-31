@@ -7,19 +7,20 @@ void desenhaCaixaColisao(caixaColisao *c)
 {
 	int i = 0;
 	glBegin(GL_LINES);
-	for(i = 0; i < 8; i++) {
-		glColor3ub(i*10,i*10,i*10);
-		glVertex3f(c->pontos[i].x,c->pontos[i].y,c->pontos[i].z);
+	for (i = 0; i < 8; i++) {
+		glColor3ub(i * 10, i * 10, i * 10);
+		glVertex3f(c->pontos[i].x, c->pontos[i].y, c->pontos[i].z);
 	}
 	glEnd();
 }
 
 void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
 {
-	/*
-	* cria uma caixa de colisao atraves dos maiores e menores pontos em cada eixo.
-	*/
-	if(!modelo) {
+    /*
+	 * Cria uma caixa de colisao atraves dos maiores
+	 * e menores pontos em cada eixo.
+	 */
+	if (!modelo) {
 		exit(1);
 	}
 
@@ -36,39 +37,39 @@ void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
 	float tmpX;
 	float tmpY;
 	float tmpZ;
-	for(i = 2; i < max; i++) {
+	for (i = 2; i < max; i++) {
 		tmpX = modelo->vertices[i*3];
 		tmpY = modelo->vertices[i*3+1];
 		tmpZ = modelo->vertices[i*3+2];
-		if(tmpX > maiorX) {
+		if (tmpX > maiorX) {
 			maiorX = tmpX;
 		}
-		if(tmpX < menorX) {
+		if (tmpX < menorX) {
 			menorX = tmpX;
 		}
-		if(tmpY > maiorY) {
+		if (tmpY > maiorY) {
 			maiorY = tmpY;
 		}
-		if(tmpY < menorY) {
+		if (tmpY < menorY) {
 			menorY = tmpY;
 		}
-	   tmpZ = modelo->vertices[i*3+2];
-		if(tmpX > maiorX) {
+	   tmpZ = modelo->vertices[i * 3 + 2];
+		if (tmpX > maiorX) {
 			maiorX = tmpX;
 		}
-		if(tmpX < menorX) {
+		if (tmpX < menorX) {
 			menorX = tmpX;
 		}
-		if(tmpY > maiorY) {
+		if (tmpY > maiorY) {
 			maiorY = tmpY;
 		}
-		if(tmpY < menorY) {
+		if (tmpY < menorY) {
 			menorY = tmpY;
 		}
-		if(tmpZ > maiorZ) {
+		if (tmpZ > maiorZ) {
 			maiorZ = tmpZ;
 		}
-		if(tmpZ < menorZ) {
+		if (tmpZ < menorZ) {
 			menorZ = tmpZ;
 		}
 	}
@@ -136,11 +137,11 @@ void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
 void setaCaixaColisao(caixaColisao *c, ponto posicao)
 {
 	/*
-	* a caixa de colisao e montada a partir do ponto <0,0,0>.. os meteoros tem uma posicao diferente
-	* dessa entao, para eles, deve-se calcular o valor padrao novamente
-	*/
+	 * A caixa de colisao e montada a partir do ponto <0,0,0>.. os meteoros tem uma posicao diferente
+	 * dessa entao, para eles, deve-se calcular o valor padrao novamente.
+	 */
 	int i;
-	for(i =0; i <8; i++) {
+	for (i = 0; i <8; i++) {
 		/* 'translada' a caixa */
 		c->pontos[i].x+= posicao.x;
 		c->pontos[i].y+= posicao.y;
@@ -153,38 +154,49 @@ void setaCaixaColisao(caixaColisao *c, ponto posicao)
 void atualizaCaixaColisao(itemDeJogo *item)
 {
 	int i =0;
-	for(i = 0; i < 8; i++) {
-		if(item->posicao.z > item->posicaoAnterior.z)
+	for (i = 0; i < 8; i++) {
+		if (item->posicao.z > item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+= item->aceleracao;
-		if(item->posicao.z < item->posicaoAnterior.z)
+		}
+		if (item->posicao.z < item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+=-item->aceleracao;
-		if(item->posicao.x > item->posicaoAnterior.x)
+		}
+		if (item->posicao.x > item->posicaoAnterior.x) {
 			item->colisao.pontos[i].x+= item->aceleracao;
-		if(item->posicao.x < item->posicaoAnterior.x)
+		}
+		if (item->posicao.x < item->posicaoAnterior.x) {
 			item->colisao.pontos[i].x+= -item->aceleracao;
-		if(item->posicao.y > item->posicaoAnterior.y)
+		}
+		if (item->posicao.y > item->posicaoAnterior.y) {
 			item->colisao.pontos[i].y+= item->aceleracao;
-		if(item->posicao.y < item->posicaoAnterior.y)
+		}
+		if (item->posicao.y < item->posicaoAnterior.y) {
 			item->colisao.pontos[i].y+= -item->aceleracao;
+		}
 	}
 }
 
 /* verifica colisao da nave com os asteroids */
 int verificaColisao(caixaColisao a, caixaColisao b)
 {
-	if( ((a.pontos[0].z >= b.pontos[0].z) && (a.pontos[0].z <= b.pontos[4].z)) ||
-		((a.pontos[4].z >= b.pontos[4].z) && (a.pontos[4].z <= b.pontos[0].z))   ) {
-	   if( ( (a.pontos[0].x >= b.pontos[0].x) &&(a.pontos[0].x <= b.pontos[1].x) ) ||
-		   ( (a.pontos[1].x >= b.pontos[0].x) &&(a.pontos[1].x <= b.pontos[1].x) ) ) {
-		   if( (a.pontos[0].y >= b.pontos[2].y) && (a.pontos[2].y <= b.pontos[0].y) ||
-			   (a.pontos[2].y >= b.pontos[2].y) && (a.pontos[2].y <= b.pontos[0].y)
-			 ) {
-					return TRUE;
-			 }
-	   }
+	if (((a.pontos[0].z >= b.pontos[0].z) && (a.pontos[0].z <= b.pontos[4].z) ||
+		((a.pontos[4].z >= b.pontos[4].z) && (a.pontos[4].z <= b.pontos[0].z)))
+	{
+		if (((a.pontos[0].x >= b.pontos[0].x) &&
+		     (a.pontos[0].x <= b.pontos[1].x)) ||
+		    ((a.pontos[1].x >= b.pontos[0].x) &&
+		     (a.pontos[1].x <= b.pontos[1].x)))
+		{
+			if ((a.pontos[0].y >= b.pontos[2].y) &&
+			    (a.pontos[2].y <= b.pontos[0].y) ||
+			    (a.pontos[2].y >= b.pontos[2].y) &&
+			    (a.pontos[2].y <= b.pontos[0].y))
+			{
+				return TRUE;
+			}
+		}
 	}
 	return FALSE;
 }
 
-
-#endif 
+#endif
