@@ -153,7 +153,7 @@ void setaCaixaColisao(caixaColisao *c, ponto posicao)
 /* atualiza o estado dos tiros e meteoros, suas posicoes e visibilidade */
 void atualizaCaixaColisao(itemDeJogo *item)
 {
-	int i =0;
+	int i = 0;
 	for (i = 0; i < 8; i++) {
 		if (item->posicao.z > item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+= item->aceleracao;
