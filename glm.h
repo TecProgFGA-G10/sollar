@@ -25,7 +25,7 @@
 
 /* GLMmaterial: Structure that defines a material in a model. */
 typedef struct _GLMmaterial {
-	char* name;           /* name of material    */
+	char *name;           /* name of material    */
 	GLfloat diffuse[4];   /* diffuse component   */
 	GLfloat ambient[4];   /* ambient component   */
 	GLfloat specular[4];  /* specular component  */
@@ -89,7 +89,7 @@ typedef struct _GLMmodel {
 * model - properly initialized GLMmodel structure
 */
 GLfloat
-glmUnitize(GLMmodel* model);
+glmUnitize(GLMmodel *model);
 
 /*
 * glmDimensions: Calculates the dimensions (width, height, depth) of
@@ -99,7 +99,7 @@ glmUnitize(GLMmodel* model);
 * dimensions - array of 3 GLfloats (GLfloat dimensions[3])
 */
 GLvoid
-glmDimensions(GLMmodel* model, GLfloat* dimensions);
+glmDimensions(GLMmodel *model, GLfloat* dimensions);
 
 /*
 * glmScale: Scales a model by a given amount.
@@ -118,7 +118,7 @@ glmScale(GLMmodel* model, GLfloat scale);
 * model - properly initialized GLMmodel structure
 */
 GLvoid
-glmReverseWinding(GLMmodel* model);
+glmReverseWinding(GLMmodel *model);
 
 /*
 * glmFacetNormals: Generates facet normals for a model (by taking the
@@ -128,7 +128,7 @@ glmReverseWinding(GLMmodel* model);
 * model - initialized GLMmodel structure
 */
 GLvoid
-glmFacetNormals(GLMmodel* model);
+glmFacetNormals(GLMmodel *model);
 
 /*
 * glmVertexNormals: Generates smooth vertex normals for a model.
@@ -149,7 +149,7 @@ glmFacetNormals(GLMmodel* model);
 * angle - maximum angle (in degrees) to smooth across
 */
 GLvoid
-glmVertexNormals(GLMmodel* model, GLfloat angle);
+glmVertexNormals(GLMmodel *model, GLfloat angle);
 
 /*
 * glmLinearTexture: Generates texture coordinates according to a
@@ -159,7 +159,7 @@ glmVertexNormals(GLMmodel* model, GLfloat angle);
 * model - pointer to initialized GLMmodel structure
 */
 GLvoid
-glmLinearTexture(GLMmodel* model);
+glmLinearTexture(GLMmodel *model);
 
 /*
 * glmSpheremapTexture: Generates texture coordinates according to a
@@ -182,7 +182,7 @@ glmSpheremapTexture(GLMmodel* model);
 * model - initialized GLMmodel structure
 */
 GLvoid
-glmDelete(GLMmodel* model);
+glmDelete(GLMmodel *model);
 
 /*
 * glmReadOBJ: Reads a model description from a Wavefront .OBJ file.
@@ -192,7 +192,7 @@ glmDelete(GLMmodel* model);
 * filename - name of the file containing the Wavefront .OBJ format data.
 */
 GLMmodel*
-glmReadOBJ(char* filename);
+glmReadOBJ(char *filename);
 
 /*
 * glmWriteOBJ: Writes a model description in Wavefront .OBJ format to
@@ -209,7 +209,7 @@ glmReadOBJ(char* filename);
 * GLM_FLAT and GLM_SMOOTH should not both be specified.
 */
 GLvoid
-glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode);
+glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode);
 
 /*
 * glmDraw: Renders the model to the current OpenGL context using the
@@ -225,7 +225,7 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode);
 * GLM_FLAT and GLM_SMOOTH should not both be specified.
 */
 GLvoid
-glmDraw(GLMmodel* model, GLuint mode);
+glmDraw(GLMmodel *model, GLuint mode);
 
 /*
 * glmList: Generates and returns a display list for the model using
@@ -241,7 +241,7 @@ glmDraw(GLMmodel* model, GLuint mode);
 * GLM_FLAT and GLM_SMOOTH should not both be specified.
 */
 GLuint
-glmList(GLMmodel* model, GLuint mode);
+glmList(GLMmodel *model, GLuint mode);
 
 /*
 * glmWeld: eliminate (weld) vectors that are within an epsilon of each other.
@@ -251,7 +251,7 @@ glmList(GLMmodel* model, GLuint mode);
 *          (0.00001 is a good start for a unitized model)
 */
 GLvoid
-glmWeld(GLMmodel* model, GLfloat epsilon);
+glmWeld(GLMmodel *model, GLfloat epsilon);
 
 /*
 * glmReadPPM: read a PPM raw (type P6) file.  The PPM file has a header
@@ -282,4 +282,4 @@ glmWeld(GLMmodel* model, GLfloat epsilon);
 * height   - will contain the height of the image on return.
 */
 GLubyte*
-glmReadPPM(char* filename, int* width, int* height);
+glmReadPPM(char *filename, int *width, int *height);
