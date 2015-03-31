@@ -179,15 +179,17 @@ void atualizaCaixaColisao(itemDeJogo *item)
 /* verifica colisao da nave com os asteroids */
 int verificaColisao(caixaColisao a, caixaColisao b)
 {
-	if (((a.pontos[0].z >= b.pontos[0].z) && (a.pontos[0].z <= b.pontos[4].z) ||
-		((a.pontos[4].z >= b.pontos[4].z) && (a.pontos[4].z <= b.pontos[0].z)))
+	if (((a.pontos[0].z >= b.pontos[0].z) &&
+	     (a.pontos[0].z <= b.pontos[4].z)) ||
+	    ((a.pontos[4].z >= b.pontos[4].z) &&
+	     (a.pontos[4].z <= b.pontos[0].z)))
 	{
 		if (((a.pontos[0].x >= b.pontos[0].x) &&
 		     (a.pontos[0].x <= b.pontos[1].x)) ||
 		    ((a.pontos[1].x >= b.pontos[0].x) &&
 		     (a.pontos[1].x <= b.pontos[1].x)))
 		{
-			if ((a.pontos[0].y >= b.pontos[2].y) &&
+			if( (a.pontos[0].y >= b.pontos[2].y) &&
 			    (a.pontos[2].y <= b.pontos[0].y) ||
 			    (a.pontos[2].y >= b.pontos[2].y) &&
 			    (a.pontos[2].y <= b.pontos[0].y))

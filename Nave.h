@@ -19,26 +19,22 @@ void carregaModeloNave(itemDeJogo *nave)
 	int scala = 0;
 
 	if (!nave->modelo) {
-			nave->modelo = glmReadOBJ("data/aviao/jato.obj");
-			if (!nave->modelo) exit(0); {
-			glmUnitize(nave->modelo);
-			criaCaixaColisao(nave->modelo, &nave->colisao);
-			glmFacetNormals(nave->modelo);
-			glmVertexNormals(nave->modelo, 90.0);
-			}
-			else {
-				/*Nothing to do.*/
-			}
-	}
-	else {
-		/* Nothing to do. */
-	}
-	 for(scala = 0; scala < 8; scala++) {
-		nave->colisao.pontos[scala].x*=ESCALA_AVIAO;
-		nave->colisao.pontos[scala].y*=ESCALA_AVIAO;
-		nave->colisao.pontos[scala].z*=ESCALA_AVIAO;
-	}
+		nave->modelo = glmReadOBJ("data/aviao/jato.obj");
+		if (!nave->modelo) {
+			exit(0);
+		}
 
+		glmUnitize(nave->modelo);
+		criaCaixaColisao(nave->modelo, &nave->colisao);
+		glmFacetNormals(nave->modelo);
+		glmVertexNormals(nave->modelo, 90.0);
+
+	 	for(scala = 0; scala < 8; scala++) {
+			nave->colisao.pontos[scala].x*=ESCALA_AVIAO;
+			nave->colisao.pontos[scala].y*=ESCALA_AVIAO;
+			nave->colisao.pontos[scala].z*=ESCALA_AVIAO;
+		}
+	}
 }
 
 void carregaTexturaNave(Texture *texturaNave, char* filePath)

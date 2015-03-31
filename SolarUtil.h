@@ -2,7 +2,7 @@
 #define SOLAR_UTIL_H
 #define NUM_MAX_TIROS 10 /* max numbers of shoots */
 #define NUM_MAX_METEOROS 20 /* max number of meteors that can appear */
-#define FALSE 0 
+#define FALSE 0
 #define TRUE 1
 #define MAXIMO_DESENHO_TIRO -30 /* max distance to treat a shoot, on the z axis */
 #define MAXIMO_DESENHO_METEORO 20 /* max distance the meteor moves on z axis, coming to the ship */
@@ -32,7 +32,7 @@
 #define CONTINUAR 777 /* continue button selected */
 
 /* rgba colors and depth test */
-#define MODO_GRAFICO  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH 
+#define MODO_GRAFICO  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
 #define LARGURA 800
 #define ALTURA 600
 #define NOME_JANELA "Sollar"
@@ -76,14 +76,14 @@ typedef struct {
 } TGAHeader;
 
 typedef struct {
-	GLubyte header[6];                                                              
-	GLuint bytesPerPixel;                                                  
-	GLuint imageSize;                                                              
-	GLuint temp;                                                                   
+	GLubyte header[6];
+	GLuint bytesPerPixel;
+	GLuint imageSize;
+	GLuint temp;
 	GLuint type;
-	GLuint Height;                                                                 
-	GLuint Width;                                                                  
-	GLuint Bpp;   
+	GLuint Height;
+	GLuint Width;
+	GLuint Bpp;
 } TGA;
 
 TGAHeader tgaheader;
@@ -118,18 +118,14 @@ int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 		if (fTGA != NULL) {
 			fclose(fTGA);
 		}
-		else {
-			/* nothing to do */
-		}
-			return FALSE;
-		}
+		return FALSE;
+	}
 	else {
 		/* nothing to do */
 	}
-	}
 
 	if (texture->bpp == 24) {
-		texture->type   = GL_RGB;
+		texture->type = GL_RGB;
 	}
 	else {
 		texture->type   = GL_RGBA;
@@ -137,7 +133,7 @@ int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 		tga.imageSize           = (tga.bytesPerPixel * tga.Width * tga.Height);
 		texture->imageData      = (GLubyte *)malloc(tga.imageSize);
 	}
-	
+
 	if (texture->imageData == NULL) {
 		fclose(fTGA);
 		return FALSE;
@@ -302,7 +298,7 @@ int LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 }
 
 int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
-{                                                                                                                                                       // 
+{                                                                                                                                                       //
 	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
 		if (fTGA != NULL) {
 			fclose(fTGA);
@@ -312,7 +308,7 @@ int LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 		}
 	return FALSE;
 	}
-	
+
 	texture->width  = tga.header[1] * 256 + tga.header[0];
 	texture->height = tga.header[3] * 256 + tga.header[2];
 	texture->bpp    = tga.header[4];
