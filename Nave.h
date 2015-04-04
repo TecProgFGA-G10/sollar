@@ -1,3 +1,7 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa carrega o modelo da nave e sua textura no jogo
+*/
+
 #ifndef NAVE_H
 #define NAVE_H
 #include <GL/glut.h>
