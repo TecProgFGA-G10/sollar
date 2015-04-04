@@ -1,3 +1,9 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa carrega os modelos, texturas
+*e realiza o desenho da caixa ou tela do jogo,
+*também configurando as texturas 
+*/
+
 #ifndef GAME_H
 #define GAME_H
 #include <GL/glut.h>
