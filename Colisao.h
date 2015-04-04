@@ -1,3 +1,7 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa verifica a colisão de objetos com a nave
+*/
+
 #ifndef COLISAO_H
 #define COLISAO_H
 #include <GL/glut.h>
