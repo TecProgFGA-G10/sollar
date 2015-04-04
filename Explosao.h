@@ -1,3 +1,10 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa realiza inspeções relacionado
+às explosões no jogo, criando local, configurando
+o tamanho das explosões, carrega o modelo e textura e 
+desenha a explosão no jogo
+*/
+
 #ifndef EXPLOSAO_H
 #define EXPLOSAO_H
 
