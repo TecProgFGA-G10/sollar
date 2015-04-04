@@ -1,3 +1,9 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa inicia o gráfico do jogo
+*colocando a visão da câmera, a iluminação,
+*a textura e o desenho de fundo
+*/
+
 #ifndef GERENCIADOR_GRAFICO_H
 #define GERENCIADOR_GRAFICO_H
 
