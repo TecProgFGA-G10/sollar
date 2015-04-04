@@ -1,3 +1,8 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa inicializa os sons e 
+*toca os sons do jogo
+*/
+
 #ifndef GERENCIADOR_AUDIO_H
 #define GERENCIADOR_AUDIO_H
 #include <SDL/SDL_audio.h>
