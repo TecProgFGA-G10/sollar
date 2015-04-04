@@ -1,3 +1,10 @@
+/*Solar 3D Técnicas de Programação
+*Esse programa carrega o meteoro, sua textura e
+*envia para a área do jogo, configurando a área ocupada e
+*desenhando o meteoro na área configurando também sua 
+*aceleração
+*/
+
 #ifndef METEORO_H
 #define METEORO_H
 #include <GL/glut.h>
