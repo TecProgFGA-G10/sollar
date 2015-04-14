@@ -1,7 +1,8 @@
-/*Solar 3D Técnicas de Programação
-*Esse programa carrega os modelos, texturas
-*e realiza o desenho da caixa ou tela do jogo,
-*também configurando as texturas 
+/*
+* Solar 3D Técnicas de Programação
+* Esse programa carrega os modelos, texturas
+* e realiza o desenho da caixa ou tela do jogo,
+* também configurando as texturas 
 */
 
 #ifndef GAME_H
@@ -13,6 +14,7 @@
 #include "Meteoro.h"
 #include "Tiros.h"
 
+/* loads the background texture */
 void carregaTexturaFundo(Texture *texturaFundo, char *filePath)
 {
     if (LoadTGA(texturaFundo, filePath)) {
@@ -36,6 +38,7 @@ void carregaTexturaFundo(Texture *texturaFundo, char *filePath)
     }
 }
 
+/* loads the game over texture */
 void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath)
 {
     if (LoadTGA(texturaGameOver, filePath)) {
@@ -59,7 +62,7 @@ void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath)
     }
 }
 
-
+/* loads the game texture */
 void carregaTexturaJogo(Texture *continuaJogo, char *filePath)
 {
     if (LoadTGA(continuaJogo, filePath)) {
@@ -83,6 +86,7 @@ void carregaTexturaJogo(Texture *continuaJogo, char *filePath)
     }
 }
 
+/* loads the game over texture */
 void carregaTexturaFimJogo(Texture *fimDeJogo, char *filePath)
 {
     if (LoadTGA(fimDeJogo, filePath)) {
@@ -106,6 +110,7 @@ void carregaTexturaFimJogo(Texture *fimDeJogo, char *filePath)
     }
 }
 
+/* configures textures */
 void configuraTexturas(Texture **texturas)
 {
     carregaTexturaNave(texturas[0], "data/aviao/textura_jato.tga");
@@ -120,84 +125,97 @@ void configuraTexturas(Texture **texturas)
     carregaTexturaFimJogo(texturas[9], "data/gameover/fimJogoVermelho.tga");
 }
 
-
+/* draws game over plan */
 void desenhaPlanoGameOver(Texture texturaGameOver)
 {
     glPushMatrix();
-        glTranslatef(0, 0, 0);
-        glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
-        glScalef(0.6, 0.6, 0.6);
-        glBegin(GL_QUADS);
-            glTexCoord2f(0.0, 1.0);
-            glVertex3i(MINIMO_X,MAXIMO_Y, 0);
-            glTexCoord2f(0.0, 0.0);
-            glVertex3i(MINIMO_X,MINIMO_Y, 0);
-            glTexCoord2f(1.0, 0.0);
-            glVertex3i(MAXIMO_X,MINIMO_Y, 0);
-            glTexCoord2f(1.0, 1.0);
-            glVertex3i(MAXIMO_X,MAXIMO_Y, 0);
-        glEnd();
+    glTranslatef(0, 0, 0);
+    glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
+    glScalef(0.6, 0.6, 0.6);
+    
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3i(MINIMO_X,MAXIMO_Y, 0);
+    
+    glTexCoord2f(0.0, 0.0);
+    glVertex3i(MINIMO_X,MINIMO_Y, 0);
+    
+    glTexCoord2f(1.0, 0.0);
+    glVertex3i(MAXIMO_X,MINIMO_Y, 0);
+    
+    glTexCoord2f(1.0, 1.0);
+    glVertex3i(MAXIMO_X,MAXIMO_Y, 0);
+    
+    glEnd();
     glPopMatrix();
     glTranslatef(0, 0, 1);
 }
 
+/* draws continue button */
 void desenhaBotaoContinuar(int gameOverSelecionado,
                            Texture continuaJogoVerde,
                            Texture continuaJogoVermelho)
 {
     glPushMatrix();
-        glTranslatef(-3, -2, 0);
-        if (gameOverSelecionado == CONTINUAR) {
-            glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
-        }
-        else {
-            glBindTexture(GL_TEXTURE_2D, continuaJogoVermelho.texID);
-        }
+    glTranslatef(-3, -2, 0);
+    
+    if (gameOverSelecionado == CONTINUAR) {
+        glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
+    }
+    else {
+        glBindTexture(GL_TEXTURE_2D, continuaJogoVermelho.texID);
+    }
 
-        glBegin(GL_QUADS);
-            glTexCoord2f(1.0, 1.0);
-            glVertex3f(1, 1, 1);
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(1, 1, 1);
 
-            glTexCoord2f(1.0, 0.0);
-            glVertex3f(1, -1, 1);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(1, -1, 1);
 
-            glTexCoord2f(0.0, 0.0);
-            glVertex3f(-1, -1, 1);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(-1, -1, 1);
 
-            glTexCoord2f(0.0, 1.0);
-            glVertex3f(-1, 1, 1);
-        glEnd();
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(-1, 1, 1);
+
+    glEnd();
 	glPopMatrix();
 }
 
+/* draws the leave button */
 void desenhaBotaoSair(int gameOverSelecionado,
                       Texture fimJogoVerde,
                       Texture fimJogoVermelho)
 {
     glPushMatrix();
-        glTranslatef(3,-2,0);
-        if (gameOverSelecionado == GAME_OVER) {
-            glBindTexture(GL_TEXTURE_2D, fimJogoVerde.texID);
-        }
-        else {
-            glBindTexture(GL_TEXTURE_2D, fimJogoVermelho.texID);
-        }
-        glBegin(GL_QUADS);
-            glTexCoord2f(1.0, 1.0);
-            glVertex3f(1, 1, 1);
+    glTranslatef(3,-2,0);
 
-            glTexCoord2f(1.0, 0.0);
-            glVertex3f(1, -1, 1);
+    if (gameOverSelecionado == GAME_OVER) {
+        glBindTexture(GL_TEXTURE_2D, fimJogoVerde.texID);
+    }
+    else {
+        glBindTexture(GL_TEXTURE_2D, fimJogoVermelho.texID);
+    }
 
-            glTexCoord2f(0.0, 0.0);
-            glVertex3f(-1, -1, 1);
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(1, 1, 1);
 
-            glTexCoord2f(0.0, 1.0);
-            glVertex3f(-1, 1, 1);
-        glEnd();
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(1, -1, 1);
+
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(-1, -1, 1);
+
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(-1, 1, 1);
+    
+    glEnd();
     glPopMatrix();
 }
 
+/* initializes objects */
 void inicializaObjetos(itemDeJogo *nave,
                        GLMmodel **meteoro,
                        GLMmodel **explosao,
