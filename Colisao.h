@@ -1,5 +1,6 @@
-/*Solar 3D Técnicas de Programação
-*Esse programa verifica a colisão de objetos com a nave
+/* 
+* Solar 3D Técnicas de Programação.
+* Esse programa verifica a colisão de objetos com a nave.
 */
 
 #ifndef COLISAO_H
@@ -7,6 +8,7 @@
 #include <GL/glut.h>
 #include "SolarUtil.h"
 
+/* draws the collision box */
 void desenhaCaixaColisao(caixaColisao *c)
 {
 	int i = 0;
@@ -18,12 +20,13 @@ void desenhaCaixaColisao(caixaColisao *c)
 	glEnd();
 }
 
+
+ /*
+ * Creates one collision box by the bigger
+ * and smaller points in wich axix.
+ */
 void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
 {
-    /*
-	 * Cria uma caixa de colisao atraves dos maiores
-	 * e menores pontos em cada eixo.
-	 */
 	if (!modelo) {
 		exit(1);
 	}
@@ -41,112 +44,153 @@ void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
 	float tmpX;
 	float tmpY;
 	float tmpZ;
+
 	for (i = 2; i < max; i++) {
 		tmpX = modelo->vertices[i*3];
 		tmpY = modelo->vertices[i*3+1];
 		tmpZ = modelo->vertices[i*3+2];
+		
 		if (tmpX > maiorX) {
 			maiorX = tmpX;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpX < menorX) {
 			menorX = tmpX;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpY > maiorY) {
 			maiorY = tmpY;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpY < menorY) {
 			menorY = tmpY;
 		}
-	   tmpZ = modelo->vertices[i * 3 + 2];
+		else {
+			/* nothing to do */
+		}
+	   	
+	   	tmpZ = modelo->vertices[i * 3 + 2];
+		
 		if (tmpX > maiorX) {
 			maiorX = tmpX;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpX < menorX) {
 			menorX = tmpX;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpY > maiorY) {
 			maiorY = tmpY;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpY < menorY) {
 			menorY = tmpY;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpZ > maiorZ) {
 			maiorZ = tmpZ;
 		}
+		else {
+			/* nothing to do */
+		}
+		
 		if (tmpZ < menorZ) {
 			menorZ = tmpZ;
 		}
+		else {
+			/* nothing to do */
+		}
 	}
 
-	/* canto esquerdo superior da frente */
+	/* front upper left side */
 	caixa->pontos[0].x = menorX;
 	caixa->pontos[0].y = maiorY;
 	caixa->pontos[0].z = menorZ;
 
-	/* canto direito superior da frente */
+	/* front upper right side */
 	caixa->pontos[1].x = maiorX;
 	caixa->pontos[1].y = maiorY;
 	caixa->pontos[1].z = menorZ;
 
-	/* canto esquerdo inferior da frente */
+	/* front lower left side */
 	caixa->pontos[2].x = menorX;
 	caixa->pontos[2].y = menorY;
 	caixa->pontos[2].z = menorZ;
 
-	/* canto direito inferior da frente */
+	/* front lower right side */
 	caixa->pontos[3].x = maiorX;
 	caixa->pontos[3].y = menorY;
 	caixa->pontos[3].z = menorZ;
 
-	/* agora os de traz */
-
-	/* canto esquerdo superior da frente */
+	/* back upper left side */
 	caixa->pontos[4].x = menorX;
 	caixa->pontos[1].y = maiorY;
 	caixa->pontos[1].z = menorZ;
 
-	/* canto esquerdo inferior da frente */
+	/* back lower left side */
 	caixa->pontos[2].x = menorX;
 	caixa->pontos[2].y = menorY;
 	caixa->pontos[2].z = menorZ;
 
-	/* canto direito inferior da frente */
+	/* back lower right side */
 	caixa->pontos[3].x = maiorX;
 	caixa->pontos[3].y = menorY;
 	caixa->pontos[3].z = menorZ;
 
-	/* agora os de traz */
-
-	/* canto esquerdo superior da frente */
+	/* back upper left side */
 	caixa->pontos[4].x = menorX;
 	caixa->pontos[4].y = maiorY;
 	caixa->pontos[4].z = maiorZ;
 
-	/* canto direito superior da frente */
+	/* back upper right side */
 	caixa->pontos[5].x = maiorX;
 	caixa->pontos[5].y = maiorY;
 	caixa->pontos[5].z = maiorZ;
 
-	/* canto esquerdo inferior da frente */
+	/* back lower left side */
 	caixa->pontos[6].x = menorX;
 	caixa->pontos[6].y = menorY;
 	caixa->pontos[6].z = maiorZ;
 
-	/* canto direito inferior da frente */
+	/* back lower right side */
 	caixa->pontos[7].x = maiorX;
 	caixa->pontos[7].y = menorY;
 	caixa->pontos[7].z = maiorZ;
 }
 
+
+ /*
+ * The collision box is mounted starting at <0,0,0>. 
+ * Meteors have other positions, then the default patter must be
+ * calculated again.
+ */
 void setaCaixaColisao(caixaColisao *c, ponto posicao)
 {
-	/*
-	 * A caixa de colisao e montada a partir do ponto <0,0,0>.. os meteoros tem uma posicao diferente
-	 * dessa entao, para eles, deve-se calcular o valor padrao novamente.
-	 */
 	int i;
+
+	/* transfer the box */
 	for (i = 0; i <8; i++) {
-		/* 'translada' a caixa */
 		c->pontos[i].x+= posicao.x;
 		c->pontos[i].y+= posicao.y;
 		c->pontos[i].z+= posicao.z;
@@ -154,7 +198,7 @@ void setaCaixaColisao(caixaColisao *c, ponto posicao)
 
 }
 
-/* atualiza o estado dos tiros e meteoros, suas posicoes e visibilidade */
+/* actualizes the shoots and meteors states,positions and visibility */
 void atualizaCaixaColisao(itemDeJogo *item)
 {
 	int i = 0;
@@ -162,25 +206,43 @@ void atualizaCaixaColisao(itemDeJogo *item)
 		if (item->posicao.z > item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+= item->aceleracao;
 		}
+		else {
+			/* nothing to do */
+		}
 		if (item->posicao.z < item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+=-item->aceleracao;
+		}
+		else {
+			/* nothing to do */
 		}
 		if (item->posicao.x > item->posicaoAnterior.x) {
 			item->colisao.pontos[i].x+= item->aceleracao;
 		}
+		else {
+			/* nothing to do */
+		}
 		if (item->posicao.x < item->posicaoAnterior.x) {
 			item->colisao.pontos[i].x+= -item->aceleracao;
+		}
+		else {
+			/* nothing to do */
 		}
 		if (item->posicao.y > item->posicaoAnterior.y) {
 			item->colisao.pontos[i].y+= item->aceleracao;
 		}
+		else {
+			/* nothing to do */
+		}
 		if (item->posicao.y < item->posicaoAnterior.y) {
 			item->colisao.pontos[i].y+= -item->aceleracao;
+		}
+		else {
+			/* nothing to do */
 		}
 	}
 }
 
-/* verifica colisao da nave com os asteroids */
+/* verifies the ship's collision with the asteroids */
 int verificaColisao(caixaColisao a, caixaColisao b)
 {
 	if (((a.pontos[0].z >= b.pontos[0].z) &&
@@ -200,8 +262,17 @@ int verificaColisao(caixaColisao a, caixaColisao b)
 			{
 				return TRUE;
 			}
+			else {
+			/* nothing to do */
+			}
+		}
+		else {
+			/* nothing to do */
 		}
 	}
+	else {
+			/* nothing to do */
+		}
 	return FALSE;
 }
 
