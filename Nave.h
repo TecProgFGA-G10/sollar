@@ -1,5 +1,6 @@
-/*Solar 3D Técnicas de Programação
-*Esse programa carrega o modelo da nave e sua textura no jogo
+/*
+* Solar 3D Técnicas de Programação
+* Esse programa carrega o modelo da nave e sua textura no jogo
 */
 
 #ifndef NAVE_H
@@ -7,6 +8,7 @@
 #include <GL/glut.h>
 #include "SolarUtil.h"
 
+/* loads the ship model */
 void carregaModeloNave(itemDeJogo *nave)
 {
 	nave->posicao.x = 0;
@@ -20,6 +22,7 @@ void carregaModeloNave(itemDeJogo *nave)
 	nave->posicaoAnterior.z = 0;
 	nave->aceleracao = 0.03;
 	nave->visivel = TRUE;
+	
 	int scala = 0;
 
 	if (!nave->modelo) {
@@ -27,29 +30,36 @@ void carregaModeloNave(itemDeJogo *nave)
 		if (!nave->modelo) {
 			exit(0);
 		}
+		else {
+			/* nothing to do */
+		}
 
 		glmUnitize(nave->modelo);
 		criaCaixaColisao(nave->modelo, &nave->colisao);
 		glmFacetNormals(nave->modelo);
 		glmVertexNormals(nave->modelo, 90.0);
 
-	 	for (scala = 0; scala < 8; scala++) {
+		for (scala = 0; scala < 8; scala++) {
 			nave->colisao.pontos[scala].x *= ESCALA_AVIAO;
 			nave->colisao.pontos[scala].y *= ESCALA_AVIAO;
 			nave->colisao.pontos[scala].z *= ESCALA_AVIAO;
 		}
 	}
+	else {
+		/* nothing to do */
+	}
 }
 
+/* loads shit texture */
 void carregaTexturaNave(Texture *texturaNave, char* filePath)
 {
 	if (LoadTGA(texturaNave,filePath)) {
 		glGenTextures(1, &texturaNave->texID);
 		glBindTexture(GL_TEXTURE_2D, texturaNave->texID);
 		glTexImage2D(GL_TEXTURE_2D,
-		             0,
-		             texturaNave->bpp / 8,
-		             texturaNave->width,
+					 0,
+					 texturaNave->bpp / 8,
+					 texturaNave->width,
 					 texturaNave->height,
 					 0,
 					 texturaNave->type,
@@ -64,4 +74,5 @@ void carregaTexturaNave(Texture *texturaNave, char* filePath)
 	}
 
 }
+
 #endif
