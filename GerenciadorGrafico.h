@@ -1,7 +1,8 @@
-/*Solar 3D Técnicas de Programação
-*Esse programa inicia o gráfico do jogo
-*colocando a visão da câmera, a iluminação,
-*a textura e o desenho de fundo
+/*
+* Solar 3D Técnicas de Programação
+* Esse programa inicia o gráfico do jogo
+* colocando a visão da câmera, a iluminação,
+* a textura e o desenho de fundo
 */
 
 #ifndef GERENCIADOR_GRAFICO_H
@@ -11,17 +12,19 @@
 #include <GL/glut.h>
 #include "SolarUtil.h"
 
+/* initialize the library Glut */
 void iniciaGlut(int argc,char **argv)
 {
 	glutInit(&argc, argv);
-	/* diz que o modo é com 2 buffer e RGBA (aceita alpha) */
+	/* 2 buffer mode and RGBA (accepts alpha) */
 	glutInitDisplayMode(MODO_GRAFICO);
-	glutInitWindowSize(LARGURA,ALTURA); /* tamanho inicial da janela */
-	glutInitWindowPosition(0,0); /* poisição inicial da janela */
-	glutCreateWindow(NOME_JANELA); /* nome da janela criada */
-	glClearColor(0,0,0,0); /* cor de limpeza, ou seja, do fundo */
+	glutInitWindowSize(LARGURA,ALTURA); /* initial size of the window */
+	glutInitWindowPosition(0,0); /* initial position of the window */
+	glutCreateWindow(NOME_JANELA); /* window's name created */
+	glClearColor(0,0,0,0); /* clean collor, background collor */
 }
 
+/* initializes camera */
 void iniciaCamera()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -33,14 +36,15 @@ void iniciaCamera()
 			  0,  0,  0,
 			  0,  1,  0);
 	glViewport(0, 0, LARGURA,ALTURA);
-	glEnable(GL_DEPTH_TEST); /* habilita o teste de profundidade */
+	glEnable(GL_DEPTH_TEST); /* loads the depth test */
 	glDepthFunc(GL_LESS);
 }
 
+/* configure the ilumination */
 void configuraIluminacao()
 {
-	float corAmbienteLuz[] = {1, 1, 1, 1}; /* uma luz branca. */
-	float posicaoLuz[] = {0, 0, 0, 0.2}; /* posicao da luz. */
+	float corAmbienteLuz[] = {1, 1, 1, 1}; /* white light */
+	float posicaoLuz[] = {0, 0, 0, 0.2}; /* light's position */
 	glLightfv(GL_LIGHT0, GL_AMBIENT, corAmbienteLuz);
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
 	float materialAmbiente[] = {0.2, 0.2, 0.2, 1};
@@ -56,6 +60,7 @@ void configuraIluminacao()
 	glEnable(GL_LIGHT0);
 }
 
+/* draws models */
 void desenhaModelo(int tipo, Texture textura, GLMmodel *modelo)
 {
 	glBindTexture(GL_TEXTURE_2D, textura.texID);
@@ -63,24 +68,30 @@ void desenhaModelo(int tipo, Texture textura, GLMmodel *modelo)
 	if (tipo == MODELO_NAVE) {
 		glScalef(ESCALA_AVIAO, ESCALA_AVIAO, ESCALA_AVIAO);
 	}
+	else {
+		/* nothing to do */
+	}
 	glmDraw(modelo, GLM_SMOOTH | GLM_TEXTURE);
 }
 
+/* draws the background */
 void desenhaFundo(Texture texturaFundo)
 {
 	glPushMatrix();
-		glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
-		glBegin(GL_QUADS);
-			glColor3ub(255, 255, 255);
-			glTexCoord2f(0.0, 0.0);
-			glVertex3i(MINIMO_X*5, MAXIMO_Y*5, -50);
-			glTexCoord2f(1.0, 0.0);
-			glVertex3i(MINIMO_X*5, MINIMO_Y*5, -50);
-			glTexCoord2f(1.0, 1.0);
-			glVertex3i(MAXIMO_X*5, MINIMO_Y*5, -50);
-			glTexCoord2f(0.0, 1.0);
-			glVertex3i(MAXIMO_X*5, MAXIMO_Y*5, -50);
-		glEnd();
+	glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
+	glBegin(GL_QUADS);
+		
+	glColor3ub(255, 255, 255);
+	glTexCoord2f(0.0, 0.0);
+	glVertex3i(MINIMO_X*5, MAXIMO_Y*5, -50);
+	glTexCoord2f(1.0, 0.0);
+	glVertex3i(MINIMO_X*5, MINIMO_Y*5, -50);
+	glTexCoord2f(1.0, 1.0);
+	glVertex3i(MAXIMO_X*5, MINIMO_Y*5, -50);
+	glTexCoord2f(0.0, 1.0);
+	glVertex3i(MAXIMO_X*5, MAXIMO_Y*5, -50);
+	
+	glEnd();
 	glPopMatrix();
 }
 
