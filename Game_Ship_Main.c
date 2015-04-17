@@ -16,7 +16,7 @@
 #include "GerenciadorAudio.h"
 #include "Colisao.h"
 #include "Meteoro.h"
-#include "Tiros.h"
+#include "Shots.h"
 #include "Explosao.h"
 #include "Game.h"
 #include "Ship.h"

@@ -12,7 +12,7 @@
 #include "Ship.h"
 #include "Explosao.h"
 #include "Meteoro.h"
-#include "Tiros.h"
+#include "Shots.h"
 
 /* loads the background texture */
 void carregaTexturaFundo(Texture *texturaFundo, char *filePath)
