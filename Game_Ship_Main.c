@@ -167,13 +167,10 @@ void atualizarEstados(void)
 						PlaySound(MODELO_EXPLOSAO,somExplosao);
 						meteoros[m].visivel = FALSE;
 						tiros[i].visivel = FALSE;
-<<<<<<< Updated upstream
-						int explos = posicaoVaziaExplosoes(explosions);
-						points += VALOR_PONTO;
-=======
+
 						int explos = posicaoVaziaExplosoes(explosoes);
 						pontuation += VALOR_PONTO;
->>>>>>> Stashed changes
+
 						if (explos >= 0) {
 							explosions[explos].position.x = meteoros[m].position.x;
 							explosions[explos].position.y = meteoros[m].position.y;
