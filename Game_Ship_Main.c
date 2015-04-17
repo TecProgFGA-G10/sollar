@@ -13,7 +13,7 @@
 #include <GL/glut.h>
 #include "glm.h"
 #include "Display_Manager.h"
-#include "GerenciadorAudio.h"
+#include "Audio_Manager.h"
 #include "Collision.h"
 #include "Meteor.h"
 #include "Shots.h"
@@ -40,7 +40,7 @@ void teclaGameOverNormal(unsigned char , int, int);
 extern void mixaudio(void *unused, Uint8 *stream, int len);
 
 SDL_AudioSpec fmt;
-itemDeJogo nave;
+game_item nave;
 
 /* the shot's and planes' models are loaded only 1 time */
 GLMmodel *meteoro = NULL;
@@ -48,10 +48,10 @@ GLMmodel *tiro = NULL;
 GLMmodel *explosao = NULL;
 
 /* vector with shots, meteors and explosions wich can be summoned */
-itemDeJogo meteoros[NUM_MAX_METEOROS];
-itemDeJogo tiros[NUM_MAX_TIROS];
+game_item meteoros[NUM_MAX_METEOROS];
+game_item tiros[NUM_MAX_TIROS];
 /* one explosion per meteor at maximum */
-itemDeJogo explosoes[NUM_MAX_METEOROS];
+game_item explosions[NUM_MAX_METEOROS];
 
 /* 
 * collision boxes to meteors and shots, when in position <0,0,0>
@@ -168,14 +168,14 @@ void atualizarEstados(void)
 						PlaySound(MODELO_EXPLOSAO,somExplosao);
 						meteoros[m].visivel = FALSE;
 						tiros[i].visivel = FALSE;
-						int explos = posicaoVaziaExplosoes(explosoes);
+						int explos = posicaoVaziaExplosoes(explosions);
 						pontos += VALOR_PONTO;
 						if (explos >= 0) {
-							explosoes[explos].posicao.x = meteoros[m].posicao.x;
-							explosoes[explos].posicao.y = meteoros[m].posicao.y;
-							explosoes[explos].posicao.z = meteoros[m].posicao.z;
-							explosoes[explos].tamanho = 1;
-							explosoes[explos].visivel = TRUE;
+							explosions[explos].posicao.x = meteoros[m].posicao.x;
+							explosions[explos].posicao.y = meteoros[m].posicao.y;
+							explosions[explos].posicao.z = meteoros[m].posicao.z;
+							explosions[explos].tamanho = 1;
+							explosions[explos].visivel = TRUE;
 						}
 						else {
 							/* nothing to do */
@@ -203,13 +203,13 @@ void atualizarEstados(void)
 				PlaySound(MODELO_EXPLOSAO,somExplosao);
 				meteoros[i].visivel = FALSE;
 				vida--;
-				int explos = posicaoVaziaExplosoes(explosoes);
+				int explos = posicaoVaziaExplosoes(explosions);
 				if (explos >= 0) {
-					explosoes[explos].posicao.x = meteoros[i].posicao.x;
-					explosoes[explos].posicao.y = meteoros[i].posicao.y;
-					explosoes[explos].posicao.z = meteoros[i].posicao.z;
-					explosoes[explos].tamanho = 1;
-					explosoes[explos].visivel = TRUE;
+					explosions[explos].posicao.x = meteoros[i].posicao.x;
+					explosions[explos].posicao.y = meteoros[i].posicao.y;
+					explosions[explos].posicao.z = meteoros[i].posicao.z;
+					explosions[explos].tamanho = 1;
+					explosions[explos].visivel = TRUE;
 				}
 				else {
 					/* nothing to do */
@@ -546,7 +546,7 @@ void desenha()
 			glPopMatrix();
 			desenhaTiros(tiros, texturaTiro, tiro);
 			desenhaMeteoros(meteoros, texturaMetoro, meteoro);
-			desenhaExplosoes(explosoes, texturaExplosao, explosao);
+			desenhaExplosoes(explosions, texturaExplosao, explosao);
 			desenhaHUD();
 		}
 		else {
@@ -585,10 +585,10 @@ void timerExplosao(int t)
 		if (!pausado) {
 			int i;
 			for (i = 0; i < NUM_MAX_METEOROS; i++) {
-				if (explosoes[i].visivel) {
-					explosoes[i].tamanho -= EXPLOSAO_DECRESCIMENTO;
-					if (explosoes[i].tamanho <= 0.3) {
-						explosoes[i].visivel = FALSE;
+				if (explosions[i].visivel) {
+					explosions[i].tamanho -= EXPLOSAO_DECRESCIMENTO;
+					if (explosions[i].tamanho <= 0.3) {
+						explosions[i].visivel = FALSE;
 					}
 					else {
 						/* nothing to do */
@@ -647,7 +647,7 @@ void configura(int argc, char **argv)
 					  &tiro,
 					  &colisaoMeteoroDefault,
 					  meteoros,
-					  explosoes,
+					  explosions,
 					  &colisaoTiroDefault,
 					  tiros);
 	iniciaGlut(argc, argv);
@@ -692,7 +692,7 @@ void reconfigura()
 					  &tiro,
 					  &colisaoMeteoroDefault,
 					  meteoros,
-					  explosoes,
+					  explosions,
 					  &colisaoTiroDefault,
 					  tiros);
 	criaCaixaColisao(nave.modelo, &nave.colisao);
@@ -705,7 +705,7 @@ void reconfigura()
 	glutTimerFunc(20000, aumentaDificuldade, 0);
 	int i;
 	for (i = 0; i < NUM_MAX_METEOROS; i++ ) {
-		explosoes[i].visivel = FALSE;
+		explosions[i].visivel = FALSE;
 		meteoros[i].visivel = FALSE;
 	}
 }

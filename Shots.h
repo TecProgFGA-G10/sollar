@@ -10,7 +10,7 @@
 #include "Solar_Utilities.h"
 
 /* creates an empty position to the shots */
-int posicaoVaziaTiros(itemDeJogo *tiros)
+int posicaoVaziaTiros(game_item *tiros)
 {
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
@@ -49,7 +49,7 @@ void carregaModeloTiro(GLMmodel **tiro) {
 }
 
 /* update shot's box collision */
-void atualizaCaixaColisaoTiro(itemDeJogo *item)
+void atualizaCaixaColisaoTiro(game_item *item)
 {
 	int i = 0;
 	/* total points collision box */
@@ -94,7 +94,7 @@ void carregaTexturaTiro(Texture *texturaTiro, char *filePath)
 }
 
 /* draws the shots */
-void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)
+void desenhaTiros(game_item *tiros, Texture texturaTiro, GLMmodel *tiro)
 {
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
@@ -124,7 +124,7 @@ void configuraCaixaColisaoTiro(collision_box *colisaoTiroDefault)
 }
 
 /* configures shot's acceleration */
-void configuraAceleracaoTiros(itemDeJogo *tiros)
+void configuraAceleracaoTiros(game_item *tiros)
 {
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {

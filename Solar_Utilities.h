@@ -66,7 +66,7 @@ typedef struct {
 	float rotX;
 	float rotY;
 	float rotZ;
-} itemDeJogo;
+} game_item;
 
 typedef struct {
 	GLubyte * imageData;

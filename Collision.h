@@ -199,7 +199,7 @@ void setaCaixaColisao(collision_box *c, ponto posicao)
 }
 
 /* actualizes the shoots and meteors states,positions and visibility */
-void atualizaCaixaColisao(itemDeJogo *item)
+void atualizaCaixaColisao(game_item *item)
 {
 	int i = 0;
 	for (i = 0; i < 8; i++) {

@@ -13,12 +13,12 @@
 #include "Solar_Utilities.h"
 
 /* Creates an empty space for the explosions */
-int posicaoVaziaExplosoes(itemDeJogo *explosoes)
+int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion*/
 {
 	int i = 0;
 
 	for (i = 0; i < NUM_MAX_METEOROS; i++) {
-		if(!explosoes[i].visivel) {
+		if(!explosions[i].visivel) {
 			return i;
 		}
 		else {
@@ -29,11 +29,11 @@ int posicaoVaziaExplosoes(itemDeJogo *explosoes)
 }
 
 /* Configure the explosions size */
-void configuraTamanhoExplosoes(itemDeJogo *explosoes){
+void configuraTamanhoExplosoes(game_item *explosions){
 	int i = 0;
 
 	for (i = 0; i < NUM_MAX_METEOROS; i++) {
-		explosoes[i].tamanho = 1;
+		explosions[i].tamanho = 1;
 	}
 }
 
@@ -83,22 +83,22 @@ void carregaTexturaExplosao(Texture *texturaExplosao, char* filePath){
 }
 
 /* draws the explosions */
-void desenhaExplosoes(itemDeJogo *explosoes,
+void desenhaExplosoes(game_item *explosions,
 					  Texture texturaExplosao,
 					  GLMmodel *explosao)
 {
 	int i = 0;
 
 	for (i = 0; i < NUM_MAX_METEOROS; i++) {
-		if (explosoes[i].visivel) {
+		if (explosions[i].visivel) {
 			glColor3ub(255,255,255);
 			glPushMatrix();
-			glTranslatef(explosoes[i].posicao.x,
-						 explosoes[i].posicao.y,
-						 explosoes[i].posicao.z);
-			glScalef(explosoes[i].tamanho,
-					 explosoes[i].tamanho,
-					 explosoes[i].tamanho);
+			glTranslatef(explosions[i].posicao.x,
+						 explosions[i].posicao.y,
+						 explosions[i].posicao.z);
+			glScalef(explosions[i].tamanho,
+					 explosions[i].tamanho,
+					 explosions[i].tamanho);
 			desenhaModelo(MODELO_EXPLOSAO, texturaExplosao, explosao);
 			glPopMatrix();
 		}

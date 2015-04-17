@@ -9,7 +9,7 @@
 #include "Solar_Utilities.h"
 
 /* loads the ship model */
-void carregaModeloNave(itemDeJogo *nave)
+void carregaModeloNave(game_item *nave)
 {
 	nave->posicao.x = 0;
 	nave->posicao.y = 0;

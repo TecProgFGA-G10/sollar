@@ -33,7 +33,7 @@ void carregaModeloMeteoro(GLMmodel **meteoro)
 }
 
 /* creates an empty meteor position */
-int posicaoVaziaMeteoros(itemDeJogo *meteoros)
+int posicaoVaziaMeteoros(game_item *meteoros)
 {
 	int i = 0;
 	for (i = 0; i < NUM_MAX_METEOROS; i++) {
@@ -48,7 +48,7 @@ int posicaoVaziaMeteoros(itemDeJogo *meteoros)
 }
 
 /* send meteor to the screen */
-void enviaMeteoro(itemDeJogo *meteoros,
+void enviaMeteoro(game_item *meteoros,
 				  int meteorosEnviar,
 				  collision_box colisaoMeteoroDefault)
 {
@@ -124,7 +124,7 @@ void configuraCaixaColisaoMeteoro(collision_box *colisaoMeteoroDefault)
 }
 
 /* configur the meteors' aceleration */
-void configuraAceleracaoMeteoros(itemDeJogo *meteoros)
+void configuraAceleracaoMeteoros(game_item *meteoros)
 {
 	int i = 0;
 
@@ -134,7 +134,7 @@ void configuraAceleracaoMeteoros(itemDeJogo *meteoros)
 }
 
 /* draws meteors */
-void desenhaMeteoros(itemDeJogo *meteoros,
+void desenhaMeteoros(game_item *meteoros,
 					 Texture texturaMetoro,
 					 GLMmodel *meteoro)
 {
