@@ -147,15 +147,15 @@ void atualizarEstados(void)
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
 		if (tiros[i].visivel) {
-			tiros[i].posicaoAnterior.z = tiros[i].posicao.z;
-			tiros[i].posicao.z += tiros[i].aceleracao;
+			tiros[i].posicaoAnterior.z = tiros[i].position.z;
+			tiros[i].position.z += tiros[i].aceleracao;
 			atualizaCaixaColisaoTiro(&tiros[i]);
 			/* 
 			* Shot will move at Z axis, goint to the
 			* negative value of it. When z value is less then the maximum, 
 			* the shot will dissapear.
 			*/
-			if (tiros[i].posicao.z < MAXIMO_DESENHO_TIRO) {
+			if (tiros[i].position.z < MAXIMO_DESENHO_TIRO) {
 				tiros[i].visivel = FALSE;
 			}
 			else {
@@ -171,11 +171,11 @@ void atualizarEstados(void)
 						int explos = posicaoVaziaExplosoes(explosions);
 						pontos += VALOR_PONTO;
 						if (explos >= 0) {
-							explosions[explos].posicao.x = meteoros[m].posicao.x;
-							explosions[explos].posicao.y = meteoros[m].posicao.y;
-							explosions[explos].posicao.z = meteoros[m].posicao.z;
-							explosions[explos].tamanho = 1;
-							explosions[explos].visivel = TRUE;
+							explosoes[explos].position.x = meteoros[m].position.x;
+							explosoes[explos].position.y = meteoros[m].position.y;
+							explosoes[explos].position.z = meteoros[m].position.z;
+							explosoes[explos].tamanho = 1;
+							explosoes[explos].visivel = TRUE;
 						}
 						else {
 							/* nothing to do */
@@ -196,8 +196,8 @@ void atualizarEstados(void)
 	}
 	for (i = 0; i < NUM_MAX_METEOROS; i++) {
 		if (meteoros[i].visivel) {
-			meteoros[i].posicaoAnterior.z = meteoros[i].posicao.z;
-			meteoros[i].posicao.z += meteoros[i].aceleracao;
+			meteoros[i].posicaoAnterior.z = meteoros[i].position.z;
+			meteoros[i].position.z += meteoros[i].aceleracao;
 			atualizaCaixaColisao(&meteoros[i]);
 			if (verificaColisao(meteoros[i].colisao, nave.colisao)) {
 				PlaySound(MODELO_EXPLOSAO,somExplosao);
@@ -205,11 +205,11 @@ void atualizarEstados(void)
 				vida--;
 				int explos = posicaoVaziaExplosoes(explosions);
 				if (explos >= 0) {
-					explosions[explos].posicao.x = meteoros[i].posicao.x;
-					explosions[explos].posicao.y = meteoros[i].posicao.y;
-					explosions[explos].posicao.z = meteoros[i].posicao.z;
-					explosions[explos].tamanho = 1;
-					explosions[explos].visivel = TRUE;
+					explosoes[explos].position.x = meteoros[i].position.x;
+					explosoes[explos].position.y = meteoros[i].position.y;
+					explosoes[explos].position.z = meteoros[i].position.z;
+					explosoes[explos].tamanho = 1;
+					explosoes[explos].visivel = TRUE;
 				}
 				else {
 					/* nothing to do */
@@ -224,7 +224,7 @@ void atualizarEstados(void)
 			else {
 				/* nothing to do */				
 			}
-			if (meteoros[i].posicao.z > MAXIMO_DESENHO_METEORO) {
+			if (meteoros[i].position.z > MAXIMO_DESENHO_METEORO) {
 				meteoros[i].visivel = FALSE;
 			}
 			else {
@@ -286,7 +286,7 @@ void teclaGameOverNormal(unsigned char tecla, int x, int y)
 void DesenhaTexto(char *string, int posx, int posy)
 {
 		glPushMatrix();
-			glRasterPos2f(nave.posicao.x-posx,nave.posicao.y-posy);
+			glRasterPos2f(nave.position.x-posx,nave.position.y-posy);
 
 			while (*string) {
 				 glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,*string++);
@@ -297,17 +297,17 @@ void DesenhaTexto(char *string, int posx, int posy)
 /* treats keys */
 void trataTeclas()
 {
-	nave.posicaoAnterior.x = nave.posicao.x;
-	nave.posicaoAnterior.y = nave.posicao.y;
-	if (nave.posicao.x > MINIMO_X) {
-		nave.posicao.x -= (nave.aceleracao * esquerdaPressionada);
+	nave.posicaoAnterior.x = nave.position.x;
+	nave.posicaoAnterior.y = nave.position.y;
+	if (nave.position.x > MINIMO_X) {
+		nave.position.x -= (nave.aceleracao * esquerdaPressionada);
 		glLoadIdentity();
-		gluLookAt(nave.posicao.x,
-				  nave.posicao.y+VAR_CAMERA,
+		gluLookAt(nave.position.x,
+				  nave.position.y+VAR_CAMERA,
 				  CAMERA_Z,
-				  nave.posicao.x,
-				  nave.posicao.y,
-				  nave.posicao.z,
+				  nave.position.x,
+				  nave.position.y,
+				  nave.position.z,
 				  0,
 				  1,
 				  0);
@@ -315,14 +315,14 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	if (nave.posicao.x < MAXIMO_X) {
-		nave.posicao.x += (nave.aceleracao * direitaPressionada);
+	if (nave.position.x < MAXIMO_X) {
+		nave.position.x += (nave.aceleracao * direitaPressionada);
 		glLoadIdentity();
-		gluLookAt(nave.posicao.x,
-				  nave.posicao.y+VAR_CAMERA,
+		gluLookAt(nave.position.x,
+				  nave.position.y+VAR_CAMERA,
 				  CAMERA_Z,
-				  nave.posicao.x,
-				  nave.posicao.y,
+				  nave.position.x,
+				  nave.position.y,
 				  0,
 				  0,
 				  1,
@@ -331,14 +331,14 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	if (nave.posicao.y < MAXIMO_Y) {
+	if (nave.position.y < MAXIMO_Y) {
 
-		nave.posicao.y += (nave.aceleracao * cimaPressionada);
+		nave.position.y += (nave.aceleracao * cimaPressionada);
 		glLoadIdentity();
-		gluLookAt(nave.posicao.x,
-				  nave.posicao.y + VAR_CAMERA,CAMERA_Z,
-				  nave.posicao.x,
-				  nave.posicao.y,
+		gluLookAt(nave.position.x,
+				  nave.position.y + VAR_CAMERA,CAMERA_Z,
+				  nave.position.x,
+				  nave.position.y,
 				  0,
 				  0,
 				  1,
@@ -347,16 +347,16 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	if (nave.posicao.y > MINIMO_Y) {
+	if (nave.position.y > MINIMO_Y) {
 
-		nave.posicao.y-= (nave.aceleracao * baixoPressionada);
+		nave.position.y-= (nave.aceleracao * baixoPressionada);
 		glLoadIdentity();
-		gluLookAt(nave.posicao.x,
-				  nave.posicao.y+VAR_CAMERA,
+		gluLookAt(nave.position.x,
+				  nave.position.y+VAR_CAMERA,
 				  CAMERA_Z,
-				  nave.posicao.x,
-				  nave.posicao.y,
-				  nave.posicao.z ,
+				  nave.position.x,
+				  nave.position.y,
+				  nave.position.z ,
 				  0,
 				  1,
 				  0);
@@ -372,14 +372,14 @@ void trataTeclas()
 		int tiro = posicaoVaziaTiros(tiros);
 
 		if (tiro >= 0) {
-			tiros[tiro].posicao.x = nave.posicao.x - 1;
-			tiros[tiro].posicao.y = nave.posicao.y + 0.9;
-			tiros[tiro].posicao.z = nave.posicao.z;
+			tiros[tiro].position.x = nave.position.x - 1;
+			tiros[tiro].position.y = nave.position.y + 0.9;
+			tiros[tiro].position.z = nave.position.z;
 			tiros[tiro].visivel = TRUE;
 
-			tiros[tiro].posicaoAnterior.x = nave.posicao.x - 1;
-			tiros[tiro].posicaoAnterior.y = nave.posicao.y + 0.9;
-			tiros[tiro].posicaoAnterior.z = nave.posicao.z;
+			tiros[tiro].posicaoAnterior.x = nave.position.x - 1;
+			tiros[tiro].posicaoAnterior.y = nave.position.y + 0.9;
+			tiros[tiro].posicaoAnterior.z = nave.position.z;
 
 			int c = 0;
 
@@ -388,7 +388,7 @@ void trataTeclas()
 				tiros[tiro].colisao.pontos[c].y = colisaoTiroDefault.pontos[c].y;
 				tiros[tiro].colisao.pontos[c].z = colisaoTiroDefault.pontos[c].z;
 			}
-			setaCaixaColisao(&tiros[tiro].colisao, tiros[tiro].posicao);
+			setaCaixaColisao(&tiros[tiro].colisao, tiros[tiro].position);
 		}
 		else {
 			/* nothing to do */
@@ -540,7 +540,7 @@ void desenha()
 		if (nave.visivel) {
 			desenhaFundo(texturaFundo);
 			glPushMatrix();
-				glTranslatef(nave.posicao.x, nave.posicao.y, nave.posicao.z);
+				glTranslatef(nave.position.x, nave.position.y, nave.position.z);
 				glRotatef(nave.rotacao, 0, 0, nave.rotZ);
 				desenhaModelo(MODELO_NAVE, texturaAviao, nave.modelo);
 			glPopMatrix();
@@ -571,7 +571,7 @@ void redimensiona(int larg, int alt)
 	/* resets the MODELVIEW alterations */
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(nave.posicao.x, nave.posicao.y + 20, 20,
+	gluLookAt(nave.position.x, nave.position.y + 20, 20,
 			  0, 0, 0,
 			  0, 1, 0);
 	glViewport(0, 0, larg,alt);

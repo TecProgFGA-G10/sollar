@@ -46,19 +46,19 @@ typedef struct {
 	float x;
 	float y;
 	float z;
-} ponto;
+} point; /* point with information of x,y and z axis */
 
-/* collision box with an array of 8 x,y,z points*/
+
 typedef struct {
-	ponto pontos[8];
-} collision_box;
+	point pontos[8];
+} collision_box; /* collision box with an array of 8 x,y,z points*/
 
 
 typedef struct {
 	GLMmodel *modelo;
-	ponto posicao;
+	point position; /* position of the x,y,z point */
 	collision_box colisao;
-	ponto posicaoAnterior;
+	point posicaoAnterior;
 	int visivel;
 	float aceleracao;
 	float tamanho;
@@ -409,8 +409,7 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	GLuint cswap;
 	for (cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
-		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=
-		texture->imageData[cswap] ^= texture->imageData[cswap+2];
+		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=	texture->imageData[cswap] ^= texture->imageData[cswap+2];
 	}
 	fclose(fTGA);
 	return TRUE;

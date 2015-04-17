@@ -59,18 +59,18 @@ void enviaMeteoro(game_item *meteoros,
 		
 		if (pos >= 0) {
 			meteoros[pos].visivel = TRUE;
-			meteoros[pos].posicao.z = (Z_INICIAL_METEORO-10) -
+			meteoros[pos].position.z = (Z_INICIAL_METEORO-10) -
 									   rand()%(Z_INICIAL_METEORO -
 									   -20);
-			meteoros[pos].posicao.x = MINIMO_X + rand() % (MAXIMO_X-MINIMO_X);
-			meteoros[pos].posicao.y = MINIMO_Y + rand() % (MAXIMO_Y-MINIMO_Y);
+			meteoros[pos].position.x = MINIMO_X + rand() % (MAXIMO_X-MINIMO_X);
+			meteoros[pos].position.y = MINIMO_Y + rand() % (MAXIMO_Y-MINIMO_Y);
 			/*
 			 * Keep the last position to calculate the collision box
 			 * to the meteor in a different position of <0, 0, 0>
 			 */
-			meteoros[pos].posicaoAnterior.z = meteoros[pos].posicao.z;
-			meteoros[pos].posicaoAnterior.x = meteoros[pos].posicao.x;
-			meteoros[pos].posicaoAnterior.y = meteoros[pos].posicao.y;
+			meteoros[pos].posicaoAnterior.z = meteoros[pos].position.z;
+			meteoros[pos].posicaoAnterior.x = meteoros[pos].position.x;
+			meteoros[pos].posicaoAnterior.y = meteoros[pos].position.y;
 
 			int c = 0;
 			/* fix me. I am out of the bounds*/
@@ -79,7 +79,7 @@ void enviaMeteoro(game_item *meteoros,
 				meteoros[pos].colisao.pontos[c].y = colisaoMeteoroDefault.pontos[c].y;
 				meteoros[pos].colisao.pontos[c].z = colisaoMeteoroDefault.pontos[c].z;
 			}
-			setaCaixaColisao(&meteoros[pos].colisao, meteoros[pos].posicao);
+			setaCaixaColisao(&meteoros[pos].colisao, meteoros[pos].position);
 		}
 		else {
 			/* nothing to do */
@@ -143,9 +143,9 @@ void desenhaMeteoros(game_item *meteoros,
 	for (i = 0; i < NUM_MAX_METEOROS; i++) {
 		if (meteoros[i].visivel) {
 			glPushMatrix();
-			glTranslatef(meteoros[i].posicao.x,
-						 meteoros[i].posicao.y,
-						 meteoros[i].posicao.z);
+			glTranslatef(meteoros[i].position.x,
+						 meteoros[i].position.y,
+						 meteoros[i].position.z);
 			desenhaModelo(MODELO_METEORO, texturaMetoro, meteoro);
 			glPopMatrix();
 		}
