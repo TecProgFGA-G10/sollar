@@ -61,7 +61,7 @@ typedef struct {
 	point posicaoAnterior;
 	int visible;
 	float aceleracao;
-	float tamanho;
+	float explosion_size;
 	float rotacao;
 	float rotX;
 	float rotY;

@@ -2,7 +2,7 @@
 * Solar 3D Técnicas de Programação
 * Esse programa realiza inspeções relacionado
 * às explosões no jogo, criando local, configurando
-* o tamanho das explosões, carrega o model e textura e 
+* o explosion_size das explosões, carrega o model e textura e 
 * desenha a explosão no jogo
 */
 
@@ -33,7 +33,7 @@ void configuraTamanhoExplosoes(game_item *explosions){
 	int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		explosions[i].tamanho = 1;
+		explosions[i].explosion_size = 1;
 	}
 }
 
@@ -96,9 +96,9 @@ void desenhaExplosoes(game_item *explosions,
 			glTranslatef(explosions[i].position.x,
 						 explosions[i].position.y,
 						 explosions[i].position.z);
-			glScalef(explosions[i].tamanho,
-					 explosions[i].tamanho,
-					 explosions[i].tamanho);
+			glScalef(explosions[i].explosion_size,
+					 explosions[i].explosion_size,
+					 explosions[i].explosion_size);
 			desenhaModelo(MODELO_EXPLOSAO, texturaExplosao, explosao);
 			glPopMatrix();
 		}

@@ -175,7 +175,7 @@ void atualizarEstados(void)
 							explosions[explos].position.x = meteoros[m].position.x;
 							explosions[explos].position.y = meteoros[m].position.y;
 							explosions[explos].position.z = meteoros[m].position.z;
-							explosions[explos].tamanho = 1;
+							explosions[explos].explosion_size = 1;
 							explosions[explos].visible = TRUE;
 						}
 						else {
@@ -209,7 +209,7 @@ void atualizarEstados(void)
 					explosions[explos].position.x = meteoros[i].position.x;
 					explosions[explos].position.y = meteoros[i].position.y;
 					explosions[explos].position.z = meteoros[i].position.z;
-					explosions[explos].tamanho = 1;
+					explosions[explos].explosion_size = 1;
 					explosions[explos].visible = TRUE;
 				}
 				else {
@@ -587,8 +587,8 @@ void timerExplosao(int t)
 			int i;
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				if (explosions[i].visible) {
-					explosions[i].tamanho -= EXPLOSAO_DECRESCIMENTO;
-					if (explosions[i].tamanho <= 0.3) {
+					explosions[i].explosion_size -= EXPLOSAO_DECRESCIMENTO;
+					if (explosions[i].explosion_size <= 0.3) {
 						explosions[i].visible = FALSE;
 					}
 					else {
