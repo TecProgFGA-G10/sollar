@@ -26,31 +26,31 @@ void desenhaCaixaColisao(collision_box *box)
  * Creates one collision box by the bigger
  * and smaller points in wich axix.
  */
-void criaCaixaColisao(GLMmodel *modelo, collision_box *box)
+void criaCaixaColisao(GLMmodel *model, collision_box *box)
 /* *box - pointer to collision box */
 {
-	if (!modelo) {
+	if (!model) {
 		exit(1);
 	}
 
 	int i = 0;
-	int max = modelo->numvertices;
+	int max = model->numvertices;
 
-	float maiorX = modelo->vertices[3];
-	float menorX = modelo->vertices[3];
-	float maiorY = modelo->vertices[4];
-	float menorY = modelo->vertices[4];
-	float maiorZ = modelo->vertices[5];
-	float menorZ = modelo->vertices[5];
+	float maiorX = model->vertices[3];
+	float menorX = model->vertices[3];
+	float maiorY = model->vertices[4];
+	float menorY = model->vertices[4];
+	float maiorZ = model->vertices[5];
+	float menorZ = model->vertices[5];
 
 	float tmpX;
 	float tmpY;
 	float tmpZ;
 
 	for (i = 2; i < max; i++) {
-		tmpX = modelo->vertices[i*3];
-		tmpY = modelo->vertices[i*3+1];
-		tmpZ = modelo->vertices[i*3+2];
+		tmpX = model->vertices[i*3];
+		tmpY = model->vertices[i*3+1];
+		tmpZ = model->vertices[i*3+2];
 		
 		if (tmpX > maiorX) {
 			maiorX = tmpX;
@@ -80,7 +80,7 @@ void criaCaixaColisao(GLMmodel *modelo, collision_box *box)
 			/* nothing to do */
 		}
 	   	
-	   	tmpZ = modelo->vertices[i * 3 + 2];
+	   	tmpZ = model->vertices[i * 3 + 2];
 		
 		if (tmpX > maiorX) {
 			maiorX = tmpX;

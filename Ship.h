@@ -1,6 +1,6 @@
 /*
 * Solar 3D Técnicas de Programação
-* Esse programa carrega o modelo da nave e sua textura no jogo
+* Esse programa carrega o model da nave e sua textura no jogo
 */
 
 #ifndef NAVE_H
@@ -25,19 +25,19 @@ void carregaModeloNave(game_item *nave)
 	
 	int scala = 0;
 
-	if (!nave->modelo) {
-		nave->modelo = glmReadOBJ("data/aviao/jato.obj");
-		if (!nave->modelo) {
+	if (!nave->model) {
+		nave->model = glmReadOBJ("data/aviao/jato.obj");
+		if (!nave->model) {
 			exit(0);
 		}
 		else {
 			/* nothing to do */
 		}
 
-		glmUnitize(nave->modelo);
-		criaCaixaColisao(nave->modelo, &nave->colisao);
-		glmFacetNormals(nave->modelo);
-		glmVertexNormals(nave->modelo, 90.0);
+		glmUnitize(nave->model);
+		criaCaixaColisao(nave->model, &nave->colisao);
+		glmFacetNormals(nave->model);
+		glmVertexNormals(nave->model, 90.0);
 
 		for (scala = 0; scala < 8; scala++) {
 			nave->colisao.points[scala].x *= ESCALA_AVIAO;

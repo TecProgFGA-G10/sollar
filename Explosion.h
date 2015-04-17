@@ -2,7 +2,7 @@
 * Solar 3D Técnicas de Programação
 * Esse programa realiza inspeções relacionado
 * às explosões no jogo, criando local, configurando
-* o tamanho das explosões, carrega o modelo e textura e 
+* o tamanho das explosões, carrega o model e textura e 
 * desenha a explosão no jogo
 */
 
@@ -55,7 +55,7 @@ void carregaModeloExplosao(GLMmodel **explosao){
 			glmVertexNormals(*explosao, 90.0);
 	} 
 	else {
-		printf("Modelo explosao nao carregou!");
+		printf("model explosao nao carregou!");
 	}
 }
 

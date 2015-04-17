@@ -543,7 +543,7 @@ void desenha()
 			glPushMatrix();
 				glTranslatef(nave.position.x, nave.position.y, nave.position.z);
 				glRotatef(nave.rotacao, 0, 0, nave.rotZ);
-				desenhaModelo(MODELO_NAVE, texturaAviao, nave.modelo);
+				desenhaModelo(MODELO_NAVE, texturaAviao, nave.model);
 			glPopMatrix();
 			desenhaTiros(tiros, texturaTiro, tiro);
 			desenhaMeteoros(meteoros, texturaMetoro, meteoro);
@@ -696,7 +696,7 @@ void reconfigura()
 					  explosions,
 					  &colisaoTiroDefault,
 					  tiros);
-	criaCaixaColisao(nave.modelo, &nave.colisao);
+	criaCaixaColisao(nave.model, &nave.colisao);
 	glClearColor(0, 0, 0, 0);
 	glutKeyboardFunc(controla);
 	glutSpecialFunc(teclaEspecial);

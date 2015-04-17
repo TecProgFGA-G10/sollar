@@ -1,6 +1,6 @@
 /*
 * Solar 3D Técnicas de Programação
-* Esse programa realiza a inspenção de tiros da nave, carregando modelo, 
+* Esse programa realiza a inspenção de tiros da nave, carregando model, 
 * definindo a posição, atualiza o local do tiro, desenha tiro, carrega a textura,
 * configura local da colisão do tiro e aceleração
 */
@@ -43,7 +43,7 @@ void carregaModeloTiro(GLMmodel **tiro) {
 		glmVertexNormals(*tiro, 90.0);
 	}
 	else {
-		printf("Modelo tiro nao carregado!\n");
+		printf("model tiro nao carregado!\n");
 	}
 
 }

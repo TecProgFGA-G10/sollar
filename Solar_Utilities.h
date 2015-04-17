@@ -50,12 +50,12 @@ typedef struct {
 
 
 typedef struct {
-	point points[8];
+	point points[8]; /* points of the collision box */
 } collision_box; /* collision box with an array of 8 x,y,z points*/
 
 
 typedef struct {
-	GLMmodel *modelo;
+	GLMmodel *model; /* draws the model with OpenGL */
 	point position; /* position of the x,y,z point */
 	collision_box colisao;
 	point posicaoAnterior;
