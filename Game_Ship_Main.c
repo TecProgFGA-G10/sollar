@@ -15,7 +15,7 @@
 #include "Display_Manager.h"
 #include "GerenciadorAudio.h"
 #include "Collision.h"
-#include "Meteoro.h"
+#include "Meteor.h"
 #include "Shots.h"
 #include "Explosion.h"
 #include "Game.h"

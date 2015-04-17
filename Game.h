@@ -11,7 +11,7 @@
 #include "Solar_Utilities.h"
 #include "Ship.h"
 #include "Explosion.h"
-#include "Meteoro.h"
+#include "Meteor.h"
 #include "Shots.h"
 
 /* loads the background texture */
