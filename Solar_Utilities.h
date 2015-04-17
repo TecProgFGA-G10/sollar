@@ -59,7 +59,7 @@ typedef struct {
 	point position; /* position of the x,y,z point */
 	collision_box colisao;
 	point posicaoAnterior;
-	int visivel;
+	int visible;
 	float aceleracao;
 	float tamanho;
 	float rotacao;

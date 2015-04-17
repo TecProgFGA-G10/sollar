@@ -18,7 +18,7 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 	int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		if(!explosions[i].visivel) {
+		if(!explosions[i].visible) {
 			return i;
 		}
 		else {
@@ -90,7 +90,7 @@ void desenhaExplosoes(game_item *explosions,
 	int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		if (explosions[i].visivel) {
+		if (explosions[i].visible) {
 			glColor3ub(255,255,255);
 			glPushMatrix();
 			glTranslatef(explosions[i].position.x,

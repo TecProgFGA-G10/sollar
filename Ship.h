@@ -21,7 +21,7 @@ void carregaModeloNave(game_item *nave)
 	nave->posicaoAnterior.y = 0;
 	nave->posicaoAnterior.z = 0;
 	nave->aceleracao = 0.03;
-	nave->visivel = TRUE;
+	nave->visible = TRUE;
 	
 	int scala = 0;
 

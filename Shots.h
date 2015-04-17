@@ -15,7 +15,7 @@ int posicaoVaziaTiros(game_item *tiros)
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
 		/* finds the first empty shot and returns it */
-		if (!tiros[i].visivel) {
+		if (!tiros[i].visible) {
 			return i;
 		}
 		else {
@@ -98,7 +98,7 @@ void desenhaTiros(game_item *tiros, Texture texturaTiro, GLMmodel *tiro)
 {
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
-		if (tiros[i].visivel) {
+		if (tiros[i].visible) {
 			glPushMatrix();
 				glTranslatef(tiros[i].position.x,
 							 tiros[i].position.y,

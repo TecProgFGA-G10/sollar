@@ -145,7 +145,7 @@ void atualizarEstados(void)
 {
 	int i = 0;
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
-		if (tiros[i].visivel) {
+		if (tiros[i].visible) {
 			tiros[i].posicaoAnterior.z = tiros[i].position.z;
 			tiros[i].position.z += tiros[i].aceleracao;
 			atualizaCaixaColisaoTiro(&tiros[i]);
@@ -155,18 +155,18 @@ void atualizarEstados(void)
 			* the shot will dissapear.
 			*/
 			if (tiros[i].position.z < MAXIMO_DESENHO_TIRO) {
-				tiros[i].visivel = FALSE;
+				tiros[i].visible = FALSE;
 			}
 			else {
 				/* nothing to do */
 			}
 			int m;
 			for (m = 0; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
-				if (meteoros[m].visivel) {
+				if (meteoros[m].visible) {
 					if (verificaColisao(tiros[i].colisao, meteoros[m].colisao)) {
 						PlaySound(MODELO_EXPLOSAO,somExplosao);
-						meteoros[m].visivel = FALSE;
-						tiros[i].visivel = FALSE;
+						meteoros[m].visible = FALSE;
+						tiros[i].visible = FALSE;
 
 						int explos = posicaoVaziaExplosoes(explosoes);
 						pontuation += VALOR_PONTO;
@@ -176,7 +176,7 @@ void atualizarEstados(void)
 							explosions[explos].position.y = meteoros[m].position.y;
 							explosions[explos].position.z = meteoros[m].position.z;
 							explosions[explos].tamanho = 1;
-							explosions[explos].visivel = TRUE;
+							explosions[explos].visible = TRUE;
 						}
 						else {
 							/* nothing to do */
@@ -196,13 +196,13 @@ void atualizarEstados(void)
 		}
 	}
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		if (meteoros[i].visivel) {
+		if (meteoros[i].visible) {
 			meteoros[i].posicaoAnterior.z = meteoros[i].position.z;
 			meteoros[i].position.z += meteoros[i].aceleracao;
 			atualizaCaixaColisao(&meteoros[i]);
 			if (verificaColisao(meteoros[i].colisao, nave.colisao)) {
 				PlaySound(MODELO_EXPLOSAO,somExplosao);
-				meteoros[i].visivel = FALSE;
+				meteoros[i].visible = FALSE;
 				vida--;
 				int explos = posicaoVaziaExplosoes(explosions);
 				if (explos >= 0) {
@@ -210,13 +210,13 @@ void atualizarEstados(void)
 					explosions[explos].position.y = meteoros[i].position.y;
 					explosions[explos].position.z = meteoros[i].position.z;
 					explosions[explos].tamanho = 1;
-					explosions[explos].visivel = TRUE;
+					explosions[explos].visible = TRUE;
 				}
 				else {
 					/* nothing to do */
 				}
 				if (vida < 0) {
-					nave.visivel = FALSE;
+					nave.visible = FALSE;
 				}
 				else {
 					/* nothing to do */
@@ -226,7 +226,7 @@ void atualizarEstados(void)
 				/* nothing to do */				
 			}
 			if (meteoros[i].position.z > MAXIMO_DESENHO_METEORO) {
-				meteoros[i].visivel = FALSE;
+				meteoros[i].visible = FALSE;
 			}
 			else {
 				/* nothing to do */
@@ -376,7 +376,7 @@ void trataTeclas()
 			tiros[tiro].position.x = nave.position.x - 1;
 			tiros[tiro].position.y = nave.position.y + 0.9;
 			tiros[tiro].position.z = nave.position.z;
-			tiros[tiro].visivel = TRUE;
+			tiros[tiro].visible = TRUE;
 
 			tiros[tiro].posicaoAnterior.x = nave.position.x - 1;
 			tiros[tiro].posicaoAnterior.y = nave.position.y + 0.9;
@@ -456,7 +456,7 @@ void teclaEspecialSolta(int tecla, int x, int y)
 /* raises the difficult */
 void aumentaDificuldade(int t)
 {
-	if (nave.visivel) {
+	if (nave.visible) {
 		if (!pausado) {
 			int i = 0;
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
@@ -490,7 +490,7 @@ void controla(unsigned char tecla, int x, int y)
 			exit(0) ;
 			break;
 		case ' ':
-			if ((!pausado) && (nave.visivel)) {
+			if ((!pausado) && (nave.visible)) {
 				atirar = TRUE;
 			}
 			else {
@@ -538,7 +538,7 @@ void desenha()
 	/* cleans the color and depth buffers */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!pausado) {
-		if (nave.visivel) {
+		if (nave.visible) {
 			desenhaFundo(texturaFundo);
 			glPushMatrix();
 				glTranslatef(nave.position.x, nave.position.y, nave.position.z);
@@ -582,14 +582,14 @@ void redimensiona(int larg, int alt)
 /* explosion timer */
 void timerExplosao(int t)
 {
-	if (nave.visivel) {
+	if (nave.visible) {
 		if (!pausado) {
 			int i;
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-				if (explosions[i].visivel) {
+				if (explosions[i].visible) {
 					explosions[i].tamanho -= EXPLOSAO_DECRESCIMENTO;
 					if (explosions[i].tamanho <= 0.3) {
-						explosions[i].visivel = FALSE;
+						explosions[i].visible = FALSE;
 					}
 					else {
 						/* nothing to do */
@@ -613,7 +613,7 @@ void timerExplosao(int t)
 /* timer to new meteor */
 void timer(int t)
 {
-	if (nave.visivel) {
+	if (nave.visible) {
 		if (!pausado) {
 			printf("novo meteoro");
 			if (t == NOVO_METEORO) {
@@ -706,7 +706,7 @@ void reconfigura()
 	glutTimerFunc(20000, aumentaDificuldade, 0);
 	int i;
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++ ) {
-		explosions[i].visivel = FALSE;
-		meteoros[i].visivel = FALSE;
+		explosions[i].visible = FALSE;
+		meteoros[i].visible = FALSE;
 	}
 }

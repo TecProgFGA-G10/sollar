@@ -37,7 +37,7 @@ int posicaoVaziaMeteoros(game_item *meteoros)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		if (!meteoros[i].visivel) {
+		if (!meteoros[i].visible) {
 			return i;
 		}
 		else {
@@ -58,7 +58,7 @@ void enviaMeteoro(game_item *meteoros,
 		int pos = posicaoVaziaMeteoros(meteoros);
 		
 		if (pos >= 0) {
-			meteoros[pos].visivel = TRUE;
+			meteoros[pos].visible = TRUE;
 			meteoros[pos].position.z = (Z_INICIAL_METEORO-10) -
 									   rand()%(Z_INICIAL_METEORO -
 									   -20);
@@ -141,7 +141,7 @@ void desenhaMeteoros(game_item *meteoros,
 	int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		if (meteoros[i].visivel) {
+		if (meteoros[i].visible) {
 			glPushMatrix();
 			glTranslatef(meteoros[i].position.x,
 						 meteoros[i].position.y,
