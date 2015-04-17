@@ -93,12 +93,12 @@ void desenhaExplosoes(game_item *explosions,
 		if (explosions[i].visivel) {
 			glColor3ub(255,255,255);
 			glPushMatrix();
-			glTranslatef(explosoes[i].position.x,
-						 explosoes[i].position.y,
-						 explosoes[i].position.z);
-			glScalef(explosoes[i].tamanho,
-					 explosoes[i].tamanho,
-					 explosoes[i].tamanho);
+			glTranslatef(explosions[i].position.x,
+						 explosions[i].position.y,
+						 explosions[i].position.z);
+			glScalef(explosions[i].tamanho,
+					 explosions[i].tamanho,
+					 explosions[i].tamanho);
 			desenhaModelo(MODELO_EXPLOSAO, texturaExplosao, explosao);
 			glPopMatrix();
 		}

@@ -171,11 +171,11 @@ void atualizarEstados(void)
 						int explos = posicaoVaziaExplosoes(explosions);
 						pontos += VALOR_PONTO;
 						if (explos >= 0) {
-							explosoes[explos].position.x = meteoros[m].position.x;
-							explosoes[explos].position.y = meteoros[m].position.y;
-							explosoes[explos].position.z = meteoros[m].position.z;
-							explosoes[explos].tamanho = 1;
-							explosoes[explos].visivel = TRUE;
+							explosions[explos].position.x = meteoros[m].position.x;
+							explosions[explos].position.y = meteoros[m].position.y;
+							explosions[explos].position.z = meteoros[m].position.z;
+							explosions[explos].tamanho = 1;
+							explosions[explos].visivel = TRUE;
 						}
 						else {
 							/* nothing to do */
@@ -205,11 +205,11 @@ void atualizarEstados(void)
 				vida--;
 				int explos = posicaoVaziaExplosoes(explosions);
 				if (explos >= 0) {
-					explosoes[explos].position.x = meteoros[i].position.x;
-					explosoes[explos].position.y = meteoros[i].position.y;
-					explosoes[explos].position.z = meteoros[i].position.z;
-					explosoes[explos].tamanho = 1;
-					explosoes[explos].visivel = TRUE;
+					explosions[explos].position.x = meteoros[i].position.x;
+					explosions[explos].position.y = meteoros[i].position.y;
+					explosions[explos].position.z = meteoros[i].position.z;
+					explosions[explos].tamanho = 1;
+					explosions[explos].visivel = TRUE;
 				}
 				else {
 					/* nothing to do */
