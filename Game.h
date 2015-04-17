@@ -10,7 +10,7 @@
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
 #include "Ship.h"
-#include "Explosao.h"
+#include "Explosion.h"
 #include "Meteoro.h"
 #include "Shots.h"
 

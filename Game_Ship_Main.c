@@ -17,7 +17,7 @@
 #include "Collision.h"
 #include "Meteoro.h"
 #include "Shots.h"
-#include "Explosao.h"
+#include "Explosion.h"
 #include "Game.h"
 #include "Ship.h"
 
