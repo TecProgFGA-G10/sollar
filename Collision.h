@@ -9,13 +9,14 @@
 #include "Solar_Utilities.h"
 
 /* draws the collision box */
-void desenhaCaixaColisao(collision_box *c)
+void desenhaCaixaColisao(collision_box *caixa)
+/* *caixa - pointer to collision box */
 {
 	int i = 0;
 	glBegin(GL_LINES);
 	for (i = 0; i < 8; i++) {
 		glColor3ub(i * 10, i * 10, i * 10);
-		glVertex3f(c->points[i].x, c->points[i].y, c->points[i].z);
+		glVertex3f(caixa->points[i].x, caixa->points[i].y, caixa->points[i].z);
 	}
 	glEnd();
 }
@@ -26,6 +27,7 @@ void desenhaCaixaColisao(collision_box *c)
  * and smaller points in wich axix.
  */
 void criaCaixaColisao(GLMmodel *modelo, collision_box *caixa)
+/* *caixa - pointer to collision box */
 {
 	if (!modelo) {
 		exit(1);
