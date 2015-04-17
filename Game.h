@@ -9,7 +9,7 @@
 #define GAME_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
-#include "Nave.h"
+#include "Ship.h"
 #include "Explosao.h"
 #include "Meteoro.h"
 #include "Tiros.h"

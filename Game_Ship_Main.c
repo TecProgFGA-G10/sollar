@@ -19,7 +19,7 @@
 #include "Tiros.h"
 #include "Explosao.h"
 #include "Game.h"
-#include "Nave.h"
+#include "Ship.h"
 
 void desenhaGameOver(void);
 void atualizarEstados(void);
