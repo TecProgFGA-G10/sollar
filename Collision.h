@@ -9,14 +9,14 @@
 #include "Solar_Utilities.h"
 
 /* draws the collision box */
-void desenhaCaixaColisao(collision_box *caixa)
-/* *caixa - pointer to collision box */
+void desenhaCaixaColisao(collision_box *box)
+/* *box - pointer to collision box */
 {
 	int i = 0;
 	glBegin(GL_LINES);
 	for (i = 0; i < 8; i++) {
 		glColor3ub(i * 10, i * 10, i * 10);
-		glVertex3f(caixa->points[i].x, caixa->points[i].y, caixa->points[i].z);
+		glVertex3f(box->points[i].x, box->points[i].y, box->points[i].z);
 	}
 	glEnd();
 }
@@ -26,8 +26,8 @@ void desenhaCaixaColisao(collision_box *caixa)
  * Creates one collision box by the bigger
  * and smaller points in wich axix.
  */
-void criaCaixaColisao(GLMmodel *modelo, collision_box *caixa)
-/* *caixa - pointer to collision box */
+void criaCaixaColisao(GLMmodel *modelo, collision_box *box)
+/* *box - pointer to collision box */
 {
 	if (!modelo) {
 		exit(1);
@@ -126,59 +126,59 @@ void criaCaixaColisao(GLMmodel *modelo, collision_box *caixa)
 	}
 
 	/* front upper left side */
-	caixa->points[0].x = menorX;
-	caixa->points[0].y = maiorY;
-	caixa->points[0].z = menorZ;
+	box->points[0].x = menorX;
+	box->points[0].y = maiorY;
+	box->points[0].z = menorZ;
 
 	/* front upper right side */
-	caixa->points[1].x = maiorX;
-	caixa->points[1].y = maiorY;
-	caixa->points[1].z = menorZ;
+	box->points[1].x = maiorX;
+	box->points[1].y = maiorY;
+	box->points[1].z = menorZ;
 
 	/* front lower left side */
-	caixa->points[2].x = menorX;
-	caixa->points[2].y = menorY;
-	caixa->points[2].z = menorZ;
+	box->points[2].x = menorX;
+	box->points[2].y = menorY;
+	box->points[2].z = menorZ;
 
 	/* front lower right side */
-	caixa->points[3].x = maiorX;
-	caixa->points[3].y = menorY;
-	caixa->points[3].z = menorZ;
+	box->points[3].x = maiorX;
+	box->points[3].y = menorY;
+	box->points[3].z = menorZ;
 
 	/* back upper left side */
-	caixa->points[4].x = menorX;
-	caixa->points[1].y = maiorY;
-	caixa->points[1].z = menorZ;
+	box->points[4].x = menorX;
+	box->points[1].y = maiorY;
+	box->points[1].z = menorZ;
 
 	/* back lower left side */
-	caixa->points[2].x = menorX;
-	caixa->points[2].y = menorY;
-	caixa->points[2].z = menorZ;
+	box->points[2].x = menorX;
+	box->points[2].y = menorY;
+	box->points[2].z = menorZ;
 
 	/* back lower right side */
-	caixa->points[3].x = maiorX;
-	caixa->points[3].y = menorY;
-	caixa->points[3].z = menorZ;
+	box->points[3].x = maiorX;
+	box->points[3].y = menorY;
+	box->points[3].z = menorZ;
 
 	/* back upper left side */
-	caixa->points[4].x = menorX;
-	caixa->points[4].y = maiorY;
-	caixa->points[4].z = maiorZ;
+	box->points[4].x = menorX;
+	box->points[4].y = maiorY;
+	box->points[4].z = maiorZ;
 
 	/* back upper right side */
-	caixa->points[5].x = maiorX;
-	caixa->points[5].y = maiorY;
-	caixa->points[5].z = maiorZ;
+	box->points[5].x = maiorX;
+	box->points[5].y = maiorY;
+	box->points[5].z = maiorZ;
 
 	/* back lower left side */
-	caixa->points[6].x = menorX;
-	caixa->points[6].y = menorY;
-	caixa->points[6].z = maiorZ;
+	box->points[6].x = menorX;
+	box->points[6].y = menorY;
+	box->points[6].z = maiorZ;
 
 	/* back lower right side */
-	caixa->points[7].x = maiorX;
-	caixa->points[7].y = menorY;
-	caixa->points[7].z = maiorZ;
+	box->points[7].x = maiorX;
+	box->points[7].y = menorY;
+	box->points[7].z = maiorZ;
 }
 
 
