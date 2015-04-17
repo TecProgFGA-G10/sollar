@@ -75,9 +75,9 @@ void enviaMeteoro(game_item *meteoros,
 			int c = 0;
 			/* fix me. I am out of the bounds*/
 			for (c = 0; c < 8; c++){
-				meteoros[pos].colisao.pontos[c].x = colisaoMeteoroDefault.pontos[c].x;
-				meteoros[pos].colisao.pontos[c].y = colisaoMeteoroDefault.pontos[c].y;
-				meteoros[pos].colisao.pontos[c].z = colisaoMeteoroDefault.pontos[c].z;
+				meteoros[pos].colisao.points[c].x = colisaoMeteoroDefault.points[c].x;
+				meteoros[pos].colisao.points[c].y = colisaoMeteoroDefault.points[c].y;
+				meteoros[pos].colisao.points[c].z = colisaoMeteoroDefault.points[c].z;
 			}
 			setaCaixaColisao(&meteoros[pos].colisao, meteoros[pos].position);
 		}
@@ -117,9 +117,9 @@ void configuraCaixaColisaoMeteoro(collision_box *colisaoMeteoroDefault)
 	int c;
 
 	for (c = 0; c < 8; c++){
-		colisaoMeteoroDefault->pontos[c].x*=ESCALA_METEORO;
-		colisaoMeteoroDefault->pontos[c].y*=ESCALA_METEORO;
-		colisaoMeteoroDefault->pontos[c].z*=ESCALA_METEORO;
+		colisaoMeteoroDefault->points[c].x*=ESCALA_METEORO;
+		colisaoMeteoroDefault->points[c].y*=ESCALA_METEORO;
+		colisaoMeteoroDefault->points[c].z*=ESCALA_METEORO;
 	}
 }
 

@@ -15,7 +15,7 @@ void desenhaCaixaColisao(collision_box *c)
 	glBegin(GL_LINES);
 	for (i = 0; i < 8; i++) {
 		glColor3ub(i * 10, i * 10, i * 10);
-		glVertex3f(c->pontos[i].x, c->pontos[i].y, c->pontos[i].z);
+		glVertex3f(c->points[i].x, c->points[i].y, c->points[i].z);
 	}
 	glEnd();
 }
@@ -124,59 +124,59 @@ void criaCaixaColisao(GLMmodel *modelo, collision_box *caixa)
 	}
 
 	/* front upper left side */
-	caixa->pontos[0].x = menorX;
-	caixa->pontos[0].y = maiorY;
-	caixa->pontos[0].z = menorZ;
+	caixa->points[0].x = menorX;
+	caixa->points[0].y = maiorY;
+	caixa->points[0].z = menorZ;
 
 	/* front upper right side */
-	caixa->pontos[1].x = maiorX;
-	caixa->pontos[1].y = maiorY;
-	caixa->pontos[1].z = menorZ;
+	caixa->points[1].x = maiorX;
+	caixa->points[1].y = maiorY;
+	caixa->points[1].z = menorZ;
 
 	/* front lower left side */
-	caixa->pontos[2].x = menorX;
-	caixa->pontos[2].y = menorY;
-	caixa->pontos[2].z = menorZ;
+	caixa->points[2].x = menorX;
+	caixa->points[2].y = menorY;
+	caixa->points[2].z = menorZ;
 
 	/* front lower right side */
-	caixa->pontos[3].x = maiorX;
-	caixa->pontos[3].y = menorY;
-	caixa->pontos[3].z = menorZ;
+	caixa->points[3].x = maiorX;
+	caixa->points[3].y = menorY;
+	caixa->points[3].z = menorZ;
 
 	/* back upper left side */
-	caixa->pontos[4].x = menorX;
-	caixa->pontos[1].y = maiorY;
-	caixa->pontos[1].z = menorZ;
+	caixa->points[4].x = menorX;
+	caixa->points[1].y = maiorY;
+	caixa->points[1].z = menorZ;
 
 	/* back lower left side */
-	caixa->pontos[2].x = menorX;
-	caixa->pontos[2].y = menorY;
-	caixa->pontos[2].z = menorZ;
+	caixa->points[2].x = menorX;
+	caixa->points[2].y = menorY;
+	caixa->points[2].z = menorZ;
 
 	/* back lower right side */
-	caixa->pontos[3].x = maiorX;
-	caixa->pontos[3].y = menorY;
-	caixa->pontos[3].z = menorZ;
+	caixa->points[3].x = maiorX;
+	caixa->points[3].y = menorY;
+	caixa->points[3].z = menorZ;
 
 	/* back upper left side */
-	caixa->pontos[4].x = menorX;
-	caixa->pontos[4].y = maiorY;
-	caixa->pontos[4].z = maiorZ;
+	caixa->points[4].x = menorX;
+	caixa->points[4].y = maiorY;
+	caixa->points[4].z = maiorZ;
 
 	/* back upper right side */
-	caixa->pontos[5].x = maiorX;
-	caixa->pontos[5].y = maiorY;
-	caixa->pontos[5].z = maiorZ;
+	caixa->points[5].x = maiorX;
+	caixa->points[5].y = maiorY;
+	caixa->points[5].z = maiorZ;
 
 	/* back lower left side */
-	caixa->pontos[6].x = menorX;
-	caixa->pontos[6].y = menorY;
-	caixa->pontos[6].z = maiorZ;
+	caixa->points[6].x = menorX;
+	caixa->points[6].y = menorY;
+	caixa->points[6].z = maiorZ;
 
 	/* back lower right side */
-	caixa->pontos[7].x = maiorX;
-	caixa->pontos[7].y = menorY;
-	caixa->pontos[7].z = maiorZ;
+	caixa->points[7].x = maiorX;
+	caixa->points[7].y = menorY;
+	caixa->points[7].z = maiorZ;
 }
 
 
@@ -191,9 +191,9 @@ void setaCaixaColisao(collision_box *c, point position)
 
 	/* transfer the box */
 	for (i = 0; i <8; i++) {
-		c->pontos[i].x+= position.x;
-		c->pontos[i].y+= position.y;
-		c->pontos[i].z+= position.z;
+		c->points[i].x+= position.x;
+		c->points[i].y+= position.y;
+		c->points[i].z+= position.z;
 	}
 
 }
@@ -204,37 +204,37 @@ void atualizaCaixaColisao(game_item *item)
 	int i = 0;
 	for (i = 0; i < 8; i++) {
 		if (item->position.z > item->posicaoAnterior.z) {
-			item->colisao.pontos[i].z+= item->aceleracao;
+			item->colisao.points[i].z+= item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.z < item->posicaoAnterior.z) {
-			item->colisao.pontos[i].z+=-item->aceleracao;
+			item->colisao.points[i].z+=-item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.x > item->posicaoAnterior.x) {
-			item->colisao.pontos[i].x+= item->aceleracao;
+			item->colisao.points[i].x+= item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.x < item->posicaoAnterior.x) {
-			item->colisao.pontos[i].x+= -item->aceleracao;
+			item->colisao.points[i].x+= -item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.y > item->posicaoAnterior.y) {
-			item->colisao.pontos[i].y+= item->aceleracao;
+			item->colisao.points[i].y+= item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.y < item->posicaoAnterior.y) {
-			item->colisao.pontos[i].y+= -item->aceleracao;
+			item->colisao.points[i].y+= -item->aceleracao;
 		}
 		else {
 			/* nothing to do */
@@ -245,20 +245,20 @@ void atualizaCaixaColisao(game_item *item)
 /* verifies the ship's collision with the asteroids */
 int verificaColisao(collision_box a, collision_box b)
 {
-	if (((a.pontos[0].z >= b.pontos[0].z) &&
-	     (a.pontos[0].z <= b.pontos[4].z)) ||
-	    ((a.pontos[4].z >= b.pontos[4].z) &&
-	     (a.pontos[4].z <= b.pontos[0].z)))
+	if (((a.points[0].z >= b.points[0].z) &&
+	     (a.points[0].z <= b.points[4].z)) ||
+	    ((a.points[4].z >= b.points[4].z) &&
+	     (a.points[4].z <= b.points[0].z)))
 	{
-		if (((a.pontos[0].x >= b.pontos[0].x) &&
-		     (a.pontos[0].x <= b.pontos[1].x)) ||
-		    ((a.pontos[1].x >= b.pontos[0].x) &&
-		     (a.pontos[1].x <= b.pontos[1].x)))
+		if (((a.points[0].x >= b.points[0].x) &&
+		     (a.points[0].x <= b.points[1].x)) ||
+		    ((a.points[1].x >= b.points[0].x) &&
+		     (a.points[1].x <= b.points[1].x)))
 		{
-			if( (a.pontos[0].y >= b.pontos[2].y) &&
-			    (a.pontos[2].y <= b.pontos[0].y) ||
-			    (a.pontos[2].y >= b.pontos[2].y) &&
-			    (a.pontos[2].y <= b.pontos[0].y))
+			if( (a.points[0].y >= b.points[2].y) &&
+			    (a.points[2].y <= b.points[0].y) ||
+			    (a.points[2].y >= b.points[2].y) &&
+			    (a.points[2].y <= b.points[0].y))
 			{
 				return TRUE;
 			}

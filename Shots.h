@@ -55,13 +55,13 @@ void atualizaCaixaColisaoTiro(game_item *item)
 	/* total points collision box */
 	for (i = 0; i < 8; i++) {
 		if (item->position.z > item->posicaoAnterior.z) {
-			item->colisao.pontos[i].z += -item->aceleracao;
+			item->colisao.points[i].z += -item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.z < item->posicaoAnterior.z) {
-			item->colisao.pontos[i].z += item->aceleracao;
+			item->colisao.points[i].z += item->aceleracao;
 		}
 		else {
 			/* nothing to do */
@@ -117,9 +117,9 @@ void configuraCaixaColisaoTiro(collision_box *colisaoTiroDefault)
 {
 	int c;
 	for (c = 0; c < 8; c++) {
-		colisaoTiroDefault->pontos[c].x *= ESCALA_TIRO;
-		colisaoTiroDefault->pontos[c].y *= ESCALA_TIRO;
-		colisaoTiroDefault->pontos[c].z *= ESCALA_TIRO;
+		colisaoTiroDefault->points[c].x *= ESCALA_TIRO;
+		colisaoTiroDefault->points[c].y *= ESCALA_TIRO;
+		colisaoTiroDefault->points[c].z *= ESCALA_TIRO;
 	}
 }
 

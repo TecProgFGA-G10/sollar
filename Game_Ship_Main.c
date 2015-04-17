@@ -169,7 +169,7 @@ void atualizarEstados(void)
 						tiros[i].visivel = FALSE;
 <<<<<<< Updated upstream
 						int explos = posicaoVaziaExplosoes(explosions);
-						pontos += VALOR_PONTO;
+						points += VALOR_PONTO;
 =======
 						int explos = posicaoVaziaExplosoes(explosoes);
 						pontuation += VALOR_PONTO;
@@ -388,9 +388,9 @@ void trataTeclas()
 			int c = 0;
 
 			for (c = 0; c < 8; c++) {
-				tiros[tiro].colisao.pontos[c].x = colisaoTiroDefault.pontos[c].x;
-				tiros[tiro].colisao.pontos[c].y = colisaoTiroDefault.pontos[c].y;
-				tiros[tiro].colisao.pontos[c].z = colisaoTiroDefault.pontos[c].z;
+				tiros[tiro].colisao.points[c].x = colisaoTiroDefault.points[c].x;
+				tiros[tiro].colisao.points[c].y = colisaoTiroDefault.points[c].y;
+				tiros[tiro].colisao.points[c].z = colisaoTiroDefault.points[c].z;
 			}
 			setaCaixaColisao(&tiros[tiro].colisao, tiros[tiro].position);
 		}

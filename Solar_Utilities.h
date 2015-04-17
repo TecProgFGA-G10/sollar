@@ -50,7 +50,7 @@ typedef struct {
 
 
 typedef struct {
-	point pontos[8];
+	point points[8];
 } collision_box; /* collision box with an array of 8 x,y,z points*/
 
 

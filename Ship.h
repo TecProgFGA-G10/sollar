@@ -40,9 +40,9 @@ void carregaModeloNave(game_item *nave)
 		glmVertexNormals(nave->modelo, 90.0);
 
 		for (scala = 0; scala < 8; scala++) {
-			nave->colisao.pontos[scala].x *= ESCALA_AVIAO;
-			nave->colisao.pontos[scala].y *= ESCALA_AVIAO;
-			nave->colisao.pontos[scala].z *= ESCALA_AVIAO;
+			nave->colisao.points[scala].x *= ESCALA_AVIAO;
+			nave->colisao.points[scala].y *= ESCALA_AVIAO;
+			nave->colisao.points[scala].z *= ESCALA_AVIAO;
 		}
 	}
 	else {
