@@ -113,7 +113,7 @@ void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)
 }
 
 /* configures shot's collision box */
-void configuraCaixaColisaoTiro(caixaColisao *colisaoTiroDefault)
+void configuraCaixaColisaoTiro(collision_box *colisaoTiroDefault)
 {
 	int c;
 	for (c = 0; c < 8; c++) {

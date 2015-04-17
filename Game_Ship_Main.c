@@ -57,8 +57,8 @@ itemDeJogo explosoes[NUM_MAX_METEOROS];
 * collision boxes to meteors and shots, when in position <0,0,0>
 * used to recalculate the new position and send a new object
 */
-caixaColisao colisaoMeteoroDefault;
-caixaColisao colisaoTiroDefault;
+collision_box colisaoMeteoroDefault;
+collision_box colisaoTiroDefault;
 
 /* textures */
 Texture texturaAviao;

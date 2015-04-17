@@ -50,7 +50,7 @@ int posicaoVaziaMeteoros(itemDeJogo *meteoros)
 /* send meteor to the screen */
 void enviaMeteoro(itemDeJogo *meteoros,
 				  int meteorosEnviar,
-				  caixaColisao colisaoMeteoroDefault)
+				  collision_box colisaoMeteoroDefault)
 {
 	int i = 0;
 	
@@ -112,7 +112,7 @@ void carregaTexturaMeteoro(Texture *texturaMetoro, char *filePath)
 }
 
 /* configur the meteor collision box */
-void configuraCaixaColisaoMeteoro(caixaColisao *colisaoMeteoroDefault)
+void configuraCaixaColisaoMeteoro(collision_box *colisaoMeteoroDefault)
 {
 	int c;
 

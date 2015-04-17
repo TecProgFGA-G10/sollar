@@ -9,7 +9,7 @@
 #include "Solar_Utilities.h"
 
 /* draws the collision box */
-void desenhaCaixaColisao(caixaColisao *c)
+void desenhaCaixaColisao(collision_box *c)
 {
 	int i = 0;
 	glBegin(GL_LINES);
@@ -25,7 +25,7 @@ void desenhaCaixaColisao(caixaColisao *c)
  * Creates one collision box by the bigger
  * and smaller points in wich axix.
  */
-void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
+void criaCaixaColisao(GLMmodel *modelo, collision_box *caixa)
 {
 	if (!modelo) {
 		exit(1);
@@ -185,7 +185,7 @@ void criaCaixaColisao(GLMmodel *modelo, caixaColisao *caixa)
  * Meteors have other positions, then the default patter must be
  * calculated again.
  */
-void setaCaixaColisao(caixaColisao *c, ponto posicao)
+void setaCaixaColisao(collision_box *c, ponto posicao)
 {
 	int i;
 
@@ -243,7 +243,7 @@ void atualizaCaixaColisao(itemDeJogo *item)
 }
 
 /* verifies the ship's collision with the asteroids */
-int verificaColisao(caixaColisao a, caixaColisao b)
+int verificaColisao(collision_box a, collision_box b)
 {
 	if (((a.pontos[0].z >= b.pontos[0].z) &&
 	     (a.pontos[0].z <= b.pontos[4].z)) ||

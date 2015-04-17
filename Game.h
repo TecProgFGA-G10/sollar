@@ -220,10 +220,10 @@ void inicializaObjetos(itemDeJogo *nave,
 					   GLMmodel **meteoro,
 					   GLMmodel **explosao,
 					   GLMmodel **tiro,
-					   caixaColisao *colisaoMeteoroDefault,
+					   collision_box *colisaoMeteoroDefault,
 					   itemDeJogo *meteoros,
 					   itemDeJogo *explosoes,
-					   caixaColisao *colisaoTiroDefault,
+					   collision_box *colisaoTiroDefault,
 					   itemDeJogo *tiros)
 {
 	carregaModeloNave(nave);
