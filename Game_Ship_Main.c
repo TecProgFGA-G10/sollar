@@ -1,8 +1,8 @@
 /*
-* Solar 3D Técnicas de Programação
-* Esse programa é a raiz principal do jogo,
-* que realiza todas as chamadas das funções dos outros arquivos
-* para que o jogo funcione, assim como também desenha objetos 
+* Solar 3D TÃ©cnicas de ProgramaÃ§Ã£o
+* Esse programa Ã© a raiz principal do jogo,
+* que realiza todas as chamadas das funÃ§Ãµes dos outros arquivos
+* para que o jogo funcione, assim como tambÃ©m desenha objetos 
 * e menus do jogo, configura e reconfigura objetos, calcula tempo 
 * e atualiza os estados
 */
