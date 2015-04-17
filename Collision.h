@@ -185,15 +185,15 @@ void criaCaixaColisao(GLMmodel *modelo, collision_box *caixa)
  * Meteors have other positions, then the default patter must be
  * calculated again.
  */
-void setaCaixaColisao(collision_box *c, point posicao)
+void setaCaixaColisao(collision_box *c, point position)
 {
 	int i;
 
 	/* transfer the box */
 	for (i = 0; i <8; i++) {
-		c->pontos[i].x+= posicao.x;
-		c->pontos[i].y+= posicao.y;
-		c->pontos[i].z+= posicao.z;
+		c->pontos[i].x+= position.x;
+		c->pontos[i].y+= position.y;
+		c->pontos[i].z+= position.z;
 	}
 
 }
@@ -203,37 +203,37 @@ void atualizaCaixaColisao(itemDeJogo *item)
 {
 	int i = 0;
 	for (i = 0; i < 8; i++) {
-		if (item->posicao.z > item->posicaoAnterior.z) {
+		if (item->position.z > item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+= item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->posicao.z < item->posicaoAnterior.z) {
+		if (item->position.z < item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z+=-item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->posicao.x > item->posicaoAnterior.x) {
+		if (item->position.x > item->posicaoAnterior.x) {
 			item->colisao.pontos[i].x+= item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->posicao.x < item->posicaoAnterior.x) {
+		if (item->position.x < item->posicaoAnterior.x) {
 			item->colisao.pontos[i].x+= -item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->posicao.y > item->posicaoAnterior.y) {
+		if (item->position.y > item->posicaoAnterior.y) {
 			item->colisao.pontos[i].y+= item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->posicao.y < item->posicaoAnterior.y) {
+		if (item->position.y < item->posicaoAnterior.y) {
 			item->colisao.pontos[i].y+= -item->aceleracao;
 		}
 		else {

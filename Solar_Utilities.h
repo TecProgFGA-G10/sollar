@@ -41,22 +41,22 @@
 #define ALTURA 600
 #define NOME_JANELA "Sollar"
 
-/* point with information of x,y and z axis */
+
 typedef struct {
 	float x;
 	float y;
 	float z;
-} point;
+} point; /* point with information of x,y and z axis */
 
-/* collision box with an array of 8 x,y,z points*/
+
 typedef struct {
 	point pontos[8];
-} collision_box;
+} collision_box; /* collision box with an array of 8 x,y,z points*/
 
 
 typedef struct {
 	GLMmodel *modelo;
-	point posicao;
+	point position; /* position of the x,y,z point */
 	collision_box colisao;
 	point posicaoAnterior;
 	int visivel;
@@ -409,8 +409,7 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	GLuint cswap;
 	for (cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
-		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=
-		texture->imageData[cswap] ^= texture->imageData[cswap+2];
+		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=	texture->imageData[cswap] ^= texture->imageData[cswap+2];
 	}
 	fclose(fTGA);
 	return TRUE;

@@ -54,13 +54,13 @@ void atualizaCaixaColisaoTiro(itemDeJogo *item)
 	int i = 0;
 	/* total points collision box */
 	for (i = 0; i < 8; i++) {
-		if (item->posicao.z > item->posicaoAnterior.z) {
+		if (item->position.z > item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z += -item->aceleracao;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->posicao.z < item->posicaoAnterior.z) {
+		if (item->position.z < item->posicaoAnterior.z) {
 			item->colisao.pontos[i].z += item->aceleracao;
 		}
 		else {
@@ -100,9 +100,9 @@ void desenhaTiros(itemDeJogo *tiros, Texture texturaTiro, GLMmodel *tiro)
 	for (i = 0; i < NUM_MAX_TIROS; i++) {
 		if (tiros[i].visivel) {
 			glPushMatrix();
-				glTranslatef(tiros[i].posicao.x,
-							 tiros[i].posicao.y,
-							 tiros[i].posicao.z);
+				glTranslatef(tiros[i].position.x,
+							 tiros[i].position.y,
+							 tiros[i].position.z);
 				desenhaModelo(MODELO_TIRO, texturaTiro, tiro);
 			glPopMatrix();
 		}

@@ -11,9 +11,9 @@
 /* loads the ship model */
 void carregaModeloNave(itemDeJogo *nave)
 {
-	nave->posicao.x = 0;
-	nave->posicao.y = 0;
-	nave->posicao.z = 0;
+	nave->position.x = 0;
+	nave->position.y = 0;
+	nave->position.z = 0;
 	nave->rotX = 0;
 	nave->rotY = 0;
 	nave->rotZ = 0;

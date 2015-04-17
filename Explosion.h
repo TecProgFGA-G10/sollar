@@ -93,9 +93,9 @@ void desenhaExplosoes(itemDeJogo *explosoes,
 		if (explosoes[i].visivel) {
 			glColor3ub(255,255,255);
 			glPushMatrix();
-			glTranslatef(explosoes[i].posicao.x,
-						 explosoes[i].posicao.y,
-						 explosoes[i].posicao.z);
+			glTranslatef(explosoes[i].position.x,
+						 explosoes[i].position.y,
+						 explosoes[i].position.z);
 			glScalef(explosoes[i].tamanho,
 					 explosoes[i].tamanho,
 					 explosoes[i].tamanho);
