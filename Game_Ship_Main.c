@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include "glm.h"
-#include "GerenciadorGrafico.h"
+#include "Display_Manager.h"
 #include "GerenciadorAudio.h"
 #include "Colisao.h"
 #include "Meteoro.h"

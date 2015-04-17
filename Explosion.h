@@ -9,7 +9,7 @@
 #ifndef EXPLOSAO_H
 #define EXPLOSAO_H
 
-#include "GerenciadorGrafico.h"
+#include "Display_Manager.h"
 #include "Solar_Utilities.h"
 
 /* Creates an empty space for the explosions */
