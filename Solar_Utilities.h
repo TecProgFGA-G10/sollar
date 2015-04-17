@@ -41,24 +41,24 @@
 #define ALTURA 600
 #define NOME_JANELA "Sollar"
 
-
+/* point with information of x,y and z axis */
 typedef struct {
 	float x;
 	float y;
 	float z;
-} ponto;
+} point;
 
 /* collision box with an array of 8 x,y,z points*/
 typedef struct {
-	ponto pontos[8];
+	point pontos[8];
 } collision_box;
 
 
 typedef struct {
 	GLMmodel *modelo;
-	ponto posicao;
+	point posicao;
 	collision_box colisao;
-	ponto posicaoAnterior;
+	point posicaoAnterior;
 	int visivel;
 	float aceleracao;
 	float tamanho;
