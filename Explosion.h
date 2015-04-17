@@ -10,7 +10,7 @@
 #define EXPLOSAO_H
 
 #include "GerenciadorGrafico.h"
-#include "SolarUtil.h"
+#include "Solar_Utilities.h"
 
 /* Creates an empty space for the explosions */
 int posicaoVaziaExplosoes(itemDeJogo *explosoes)

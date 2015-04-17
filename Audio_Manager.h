@@ -8,7 +8,7 @@
 #define GERENCIADOR_AUDIO_H
 #include <SDL/SDL_audio.h>
 #include <SDL/SDL_mixer.h>
-#include "SolarUtil.h"
+#include "Solar_Utilities.h"
 
 /* initializes the sound */
 void iniciaAudio(int audio_rate,

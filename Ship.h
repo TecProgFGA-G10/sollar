@@ -6,7 +6,7 @@
 #ifndef NAVE_H
 #define NAVE_H
 #include <GL/glut.h>
-#include "SolarUtil.h"
+#include "Solar_Utilities.h"
 
 /* loads the ship model */
 void carregaModeloNave(itemDeJogo *nave)

@@ -8,7 +8,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include <GL/glut.h>
-#include "SolarUtil.h"
+#include "Solar_Utilities.h"
 #include "Nave.h"
 #include "Explosao.h"
 #include "Meteoro.h"

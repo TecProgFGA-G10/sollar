@@ -7,7 +7,7 @@
 
 #ifndef TIROS_H
 #define TIROS_H
-#include "SolarUtil.h"
+#include "Solar_Utilities.h"
 
 /* creates an empty position to the shots */
 int posicaoVaziaTiros(itemDeJogo *tiros)
