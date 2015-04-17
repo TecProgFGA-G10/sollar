@@ -17,7 +17,7 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 {
 	int i = 0;
 
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if(!explosions[i].visivel) {
 			return i;
 		}
@@ -32,7 +32,7 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 void configuraTamanhoExplosoes(game_item *explosions){
 	int i = 0;
 
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		explosions[i].tamanho = 1;
 	}
 }
@@ -89,7 +89,7 @@ void desenhaExplosoes(game_item *explosions,
 {
 	int i = 0;
 
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (explosions[i].visivel) {
 			glColor3ub(255,255,255);
 			glPushMatrix();
