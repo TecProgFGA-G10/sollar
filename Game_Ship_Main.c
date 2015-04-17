@@ -87,8 +87,7 @@ int pausado = FALSE;
 int tempoMeteoro;
 /* meteors numbers to hit the ship */
 int vida;
-/* pontuation */
-unsigned int pontos;
+unsigned int pontuation; /* player’s pontuation */
 /* selected continue or game over, after lost the lives */
 int gameOverSelecionado;
 
@@ -168,8 +167,13 @@ void atualizarEstados(void)
 						PlaySound(MODELO_EXPLOSAO,somExplosao);
 						meteoros[m].visivel = FALSE;
 						tiros[i].visivel = FALSE;
+<<<<<<< Updated upstream
 						int explos = posicaoVaziaExplosoes(explosions);
 						pontos += VALOR_PONTO;
+=======
+						int explos = posicaoVaziaExplosoes(explosoes);
+						pontuation += VALOR_PONTO;
+>>>>>>> Stashed changes
 						if (explos >= 0) {
 							explosions[explos].position.x = meteoros[m].position.x;
 							explosions[explos].position.y = meteoros[m].position.y;
@@ -527,7 +531,7 @@ void desenhaHUD()
 	sprintf(texto, "Vida: %d", vida);
 	DesenhaTexto(texto, 5, 5);
 	char texto2[20];
-	sprintf(texto2, "Pontuacao: %d", pontos);
+	sprintf(texto2, "Pontuacao: %d", pontuation);
 	DesenhaTexto(texto2, 6, 6);
 }
 
@@ -637,7 +641,7 @@ void configura(int argc, char **argv)
 {
 	meteorosEnviar = 10;
 	tempoMeteoro = 2000;
-	pontos = 0;
+	pontuation = 0;
 	vida = 3;
 	gameOverSelecionado = CONTINUAR;
 
