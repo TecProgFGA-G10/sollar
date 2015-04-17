@@ -9,7 +9,7 @@
 #ifndef METEORO_H
 #define METEORO_H
 #include <GL/glut.h>
-#include "Colisao.h"
+#include "Collision.h"
 
 /* loads the meteor model */
 void carregaModeloMeteoro(GLMmodel **meteoro)
