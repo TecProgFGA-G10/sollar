@@ -36,7 +36,7 @@ void carregaModeloMeteoro(GLMmodel **meteoro)
 int posicaoVaziaMeteoros(game_item *meteoros)
 {
 	int i = 0;
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (!meteoros[i].visivel) {
 			return i;
 		}
@@ -128,7 +128,7 @@ void configuraAceleracaoMeteoros(game_item *meteoros)
 {
 	int i = 0;
 
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		meteoros[i].aceleracao = 0.02;
 	}
 }
@@ -140,7 +140,7 @@ void desenhaMeteoros(game_item *meteoros,
 {
 	int i = 0;
 
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (meteoros[i].visivel) {
 			glPushMatrix();
 			glTranslatef(meteoros[i].position.x,

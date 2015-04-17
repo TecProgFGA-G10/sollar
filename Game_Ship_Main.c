@@ -48,10 +48,10 @@ GLMmodel *tiro = NULL;
 GLMmodel *explosao = NULL;
 
 /* vector with shots, meteors and explosions wich can be summoned */
-game_item meteoros[NUM_MAX_METEOROS];
+game_item meteoros[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
 game_item tiros[NUM_MAX_TIROS];
 /* one explosion per meteor at maximum */
-game_item explosions[NUM_MAX_METEOROS];
+game_item explosions[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
 
 /* 
 * collision boxes to meteors and shots, when in position <0,0,0>
@@ -161,7 +161,7 @@ void atualizarEstados(void)
 				/* nothing to do */
 			}
 			int m;
-			for (m = 0; m < NUM_MAX_METEOROS; m++) {
+			for (m = 0; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
 				if (meteoros[m].visivel) {
 					if (verificaColisao(tiros[i].colisao, meteoros[m].colisao)) {
 						PlaySound(MODELO_EXPLOSAO,somExplosao);
@@ -198,7 +198,7 @@ void atualizarEstados(void)
 			/* nothing to do */
 		}
 	}
-	for (i = 0; i < NUM_MAX_METEOROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (meteoros[i].visivel) {
 			meteoros[i].posicaoAnterior.z = meteoros[i].position.z;
 			meteoros[i].position.z += meteoros[i].aceleracao;
@@ -462,10 +462,10 @@ void aumentaDificuldade(int t)
 	if (nave.visivel) {
 		if (!pausado) {
 			int i = 0;
-			for (i = 0; i < NUM_MAX_METEOROS; i++) {
+			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				meteoros[i].aceleracao += AUMENTO_VELOCIDADE_METEORO;
 			}
-			if (meteorosEnviar < NUM_MAX_METEOROS) {
+			if (meteorosEnviar < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
 				meteorosEnviar++;
 			}
 			else {
@@ -588,7 +588,7 @@ void timerExplosao(int t)
 	if (nave.visivel) {
 		if (!pausado) {
 			int i;
-			for (i = 0; i < NUM_MAX_METEOROS; i++) {
+			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				if (explosions[i].visivel) {
 					explosions[i].tamanho -= EXPLOSAO_DECRESCIMENTO;
 					if (explosions[i].tamanho <= 0.3) {
@@ -708,7 +708,7 @@ void reconfigura()
 	glutTimerFunc(500, timerExplosao, 0);
 	glutTimerFunc(20000, aumentaDificuldade, 0);
 	int i;
-	for (i = 0; i < NUM_MAX_METEOROS; i++ ) {
+	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++ ) {
 		explosions[i].visivel = FALSE;
 		meteoros[i].visivel = FALSE;
 	}
