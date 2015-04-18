@@ -13,7 +13,7 @@
 int posicaoVaziaTiros(game_item *tiros)
 {
 	int i = 0;
-	for (i = 0; i < NUM_MAX_TIROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		/* finds the first empty shot and returns it */
 		if (!tiros[i].visible) {
 			return i;
@@ -97,7 +97,7 @@ void carregaTexturaTiro(Texture *texturaTiro, char *filePath)
 void desenhaTiros(game_item *tiros, Texture texturaTiro, GLMmodel *tiro)
 {
 	int i = 0;
-	for (i = 0; i < NUM_MAX_TIROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (tiros[i].visible) {
 			glPushMatrix();
 				glTranslatef(tiros[i].position.x,
@@ -127,7 +127,7 @@ void configuraCaixaColisaoTiro(collision_box *colisaoTiroDefault)
 void configuraAceleracaoTiros(game_item *tiros)
 {
 	int i = 0;
-	for (i = 0; i < NUM_MAX_TIROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		tiros[i].aceleracao = -0.1;
 	}
 }

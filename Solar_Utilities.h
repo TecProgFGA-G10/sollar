@@ -1,6 +1,6 @@
 #ifndef SOLAR_UTIL_H
 #define SOLAR_UTIL_H
-#define NUM_MAX_TIROS 10 /* max numbers of shoots */
+#define MAX_NUMBER_OF_SHOTS 10 /* max numbers of shoots */
 #define MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR 20 /* max number of meteors that can appear */
 #define FALSE 0
 #define TRUE 1

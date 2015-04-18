@@ -49,7 +49,7 @@ GLMmodel *explosao = NULL;
 
 /* vector with shots, meteors and explosions wich can be summoned */
 game_item meteoros[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
-game_item tiros[NUM_MAX_TIROS];
+game_item tiros[MAX_NUMBER_OF_SHOTS];
 /* one explosion per meteor at maximum */
 game_item explosions[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
 
@@ -144,7 +144,7 @@ void desenhaGameOver()
 void atualizarEstados(void)
 {
 	int i = 0;
-	for (i = 0; i < NUM_MAX_TIROS; i++) {
+	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (tiros[i].visible) {
 			tiros[i].posicaoAnterior.z = tiros[i].position.z;
 			tiros[i].position.z += tiros[i].aceleracao;
