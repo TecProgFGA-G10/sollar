@@ -154,7 +154,7 @@ void atualizarEstados(void)
 			* negative value of it. When z value is less then the maximum, 
 			* the shot will dissapear.
 			*/
-			if (tiros[i].position.z < MAXIMO_DESENHO_TIRO) {
+			if (tiros[i].position.z < MAX_DISTANCE_FOR_SHOOT_TREATMENT) {
 				tiros[i].visible = FALSE;
 			}
 			else {

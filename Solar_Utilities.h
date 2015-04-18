@@ -6,7 +6,7 @@
 #define TRUE 1
 
 /* max distance to treat a shoot, on the z axis */
-#define MAXIMO_DESENHO_TIRO -30
+#define MAX_DISTANCE_FOR_SHOOT_TREATMENT -30
 
 /* max distance the meteor moves on z axis, coming to the ship */
 #define MAXIMO_DESENHO_METEORO 20
