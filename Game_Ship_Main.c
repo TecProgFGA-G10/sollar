@@ -460,7 +460,7 @@ void aumentaDificuldade(int t)
 		if (!pausado) {
 			int i = 0;
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-				meteoros[i].aceleracao += AUMENTO_VELOCIDADE_METEORO;
+				meteoros[i].aceleracao += METEOR_SPEED_VARIATION;
 			}
 			if (meteorosEnviar < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
 				meteorosEnviar++;

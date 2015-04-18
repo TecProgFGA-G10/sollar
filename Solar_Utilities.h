@@ -19,7 +19,7 @@
 #define MAXIMO_X 14
 #define MINIMO_Y -14
 #define MAXIMO_Y 14
-#define AUMENTO_VELOCIDADE_METEORO 0.05 /* meteor's speed variation */
+#define METEOR_SPEED_VARIATION 0.05 /* meteor's speed variation */
 #define ESCALA_AVIAO 2
 #define ESCALA_METEORO 1
 #define ESCALA_TIRO 1
