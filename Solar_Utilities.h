@@ -12,7 +12,7 @@
 #define MAX_DISTANCE_OF_METEOR 20
 #define INICIAL_POSITION_OF_METEOR_IN_THE_AXIS_Z -28 /* initial position of meteors */
 #define DISTANCE_CAMERA_IN_THE_AXIS_Z 8 /* camera distance on z axis */
-#define VAR_CAMERA 4 /* camera inclination */
+#define CAMERA_INCLINATION 4 /* camera inclination */
 
 /* to define the field of the game, representing each corner */
 #define MINIMO_X -14
