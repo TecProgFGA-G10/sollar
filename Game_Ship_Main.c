@@ -305,7 +305,7 @@ void trataTeclas()
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y+VAR_CAMERA,
-				  CAMERA_Z,
+				  DISTANCE_CAMERA_IN_THE_AXIS_Z,
 				  nave.position.x,
 				  nave.position.y,
 				  nave.position.z,
@@ -321,7 +321,7 @@ void trataTeclas()
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y+VAR_CAMERA,
-				  CAMERA_Z,
+				  DISTANCE_CAMERA_IN_THE_AXIS_Z,
 				  nave.position.x,
 				  nave.position.y,
 				  0,
@@ -337,7 +337,7 @@ void trataTeclas()
 		nave.position.y += (nave.aceleracao * cimaPressionada);
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
-				  nave.position.y + VAR_CAMERA,CAMERA_Z,
+				  nave.position.y + VAR_CAMERA,DISTANCE_CAMERA_IN_THE_AXIS_Z,
 				  nave.position.x,
 				  nave.position.y,
 				  0,
@@ -354,7 +354,7 @@ void trataTeclas()
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y+VAR_CAMERA,
-				  CAMERA_Z,
+				  DISTANCE_CAMERA_IN_THE_AXIS_Z,
 				  nave.position.x,
 				  nave.position.y,
 				  nave.position.z ,
