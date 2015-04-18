@@ -59,8 +59,8 @@ void enviaMeteoro(game_item *meteoros,
 		
 		if (pos >= 0) {
 			meteoros[pos].visible = TRUE;
-			meteoros[pos].position.z = (Z_INICIAL_METEORO-10) -
-									   rand()%(Z_INICIAL_METEORO -
+			meteoros[pos].position.z = (INICIAL_POSITION_OF_METEOR_IN_THE_AXIS_Z-10) -
+									   rand()%(INICIAL_POSITION_OF_METEOR_IN_THE_AXIS_Z -
 									   -20);
 			meteoros[pos].position.x = MINIMO_X + rand() % (MAXIMO_X-MINIMO_X);
 			meteoros[pos].position.y = MINIMO_Y + rand() % (MAXIMO_Y-MINIMO_Y);

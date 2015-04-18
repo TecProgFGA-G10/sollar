@@ -10,7 +10,7 @@
 
 /* max distance the meteor moves on z axis, coming to the ship */
 #define MAX_DISTANCE_OF_METEOR 20
-#define Z_INICIAL_METEORO -28 /* initial position of meteors */
+#define INICIAL_POSITION_OF_METEOR_IN_THE_AXIS_Z -28 /* initial position of meteors */
 #define CAMERA_Z 8 /* camera distance on z axis */
 #define VAR_CAMERA 4 /* camera inclination */
 
