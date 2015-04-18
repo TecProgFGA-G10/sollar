@@ -225,7 +225,7 @@ void atualizarEstados(void)
 			else {
 				/* nothing to do */				
 			}
-			if (meteoros[i].position.z > MAXIMO_DESENHO_METEORO) {
+			if (meteoros[i].position.z > MAX_DISTANCE_OF_METEOR) {
 				meteoros[i].visible = FALSE;
 			}
 			else {
