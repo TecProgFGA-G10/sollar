@@ -168,7 +168,7 @@ void atualizarEstados(void)
 						meteoros[m].visible = FALSE;
 						tiros[i].visible = FALSE;
 
-						int explos = posicaoVaziaExplosoes(explosoes);
+						int explos = posicaoVaziaExplosoes(explosions);
 						pontuation += VALOR_PONTO;
 
 						if (explos >= 0) {
