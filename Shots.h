@@ -1,6 +1,6 @@
 /*
 * Solar 3D Técnicas de Programação
-* Esse programa realiza a inspenção de tiros da nave, carregando model, 
+* Esse programa realiza a inspenção de tiros da nave, carregando model,
 * definindo a posição, atualiza o local do tiro, desenha tiro, carrega a textura,
 * configura local da colisão do tiro e aceleração
 */
@@ -54,14 +54,14 @@ void atualizaCaixaColisaoTiro(game_item *item)
 	int i = 0;
 	/* total points collision box */
 	for (i = 0; i < 8; i++) {
-		if (item->position.z > item->posicaoAnterior.z) {
-			item->colisao.points[i].z += -item->aceleracao;
+		if (item->position.z > item->last_position.z) {
+			item->collision.points[i].z += -item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->position.z < item->posicaoAnterior.z) {
-			item->colisao.points[i].z += item->aceleracao;
+		if (item->position.z < item->last_position.z) {
+			item->collision.points[i].z += item->acceleration;
 		}
 		else {
 			/* nothing to do */
@@ -103,7 +103,7 @@ void desenhaTiros(game_item *tiros, Texture texturaTiro, GLMmodel *tiro)
 				glTranslatef(tiros[i].position.x,
 							 tiros[i].position.y,
 							 tiros[i].position.z);
-				desenhaModelo(MODELO_TIRO, texturaTiro, tiro);
+				desenhaModelo(SHOT_MODEL, texturaTiro, tiro);
 			glPopMatrix();
 		}
 		else {
@@ -117,9 +117,9 @@ void configuraCaixaColisaoTiro(collision_box *colisaoTiroDefault)
 {
 	int c;
 	for (c = 0; c < 8; c++) {
-		colisaoTiroDefault->points[c].x *= ESCALA_TIRO;
-		colisaoTiroDefault->points[c].y *= ESCALA_TIRO;
-		colisaoTiroDefault->points[c].z *= ESCALA_TIRO;
+		colisaoTiroDefault->points[c].x *= SHOT_SCALE;
+		colisaoTiroDefault->points[c].y *= SHOT_SCALE;
+		colisaoTiroDefault->points[c].z *= SHOT_SCALE;
 	}
 }
 
@@ -128,7 +128,7 @@ void configuraAceleracaoTiros(game_item *tiros)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
-		tiros[i].aceleracao = -0.1;
+		tiros[i].acceleration = -0.1;
 	}
 }
 

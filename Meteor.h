@@ -2,7 +2,7 @@
 * Solar 3D Técnicas de Programação
 * Esse programa carrega o meteoro, sua textura e
 * envia para a área do jogo, configurando a área ocupada e
-* desenhando o meteoro na área configurando também sua 
+* desenhando o meteoro na área configurando também sua
 * aceleração
 */
 
@@ -53,33 +53,33 @@ void enviaMeteoro(game_item *meteoros,
 				  collision_box colisaoMeteoroDefault)
 {
 	int i = 0;
-	
+
 	for (i = 0; i < meteorosEnviar; i++) {
 		int pos = posicaoVaziaMeteoros(meteoros);
-		
+
 		if (pos >= 0) {
 			meteoros[pos].visible = TRUE;
 			meteoros[pos].position.z = (INICIAL_POSITION_OF_METEOR_IN_THE_AXIS_Z-10) -
 									   rand()%(INICIAL_POSITION_OF_METEOR_IN_THE_AXIS_Z -
 									   -20);
-			meteoros[pos].position.x = MINIMO_X + rand() % (MAXIMO_X-MINIMO_X);
-			meteoros[pos].position.y = MINIMO_Y + rand() % (MAXIMO_Y-MINIMO_Y);
+			meteoros[pos].position.x = MINIMUN_X + rand() % (MAXIMUM_X-MINIMUN_X);
+			meteoros[pos].position.y = MINIMUM_Y + rand() % (MAXIMUM_Y-MINIMUM_Y);
 			/*
 			 * Keep the last position to calculate the collision box
 			 * to the meteor in a different position of <0, 0, 0>
 			 */
-			meteoros[pos].posicaoAnterior.z = meteoros[pos].position.z;
-			meteoros[pos].posicaoAnterior.x = meteoros[pos].position.x;
-			meteoros[pos].posicaoAnterior.y = meteoros[pos].position.y;
+			meteoros[pos].last_position.z = meteoros[pos].position.z;
+			meteoros[pos].last_position.x = meteoros[pos].position.x;
+			meteoros[pos].last_position.y = meteoros[pos].position.y;
 
 			int c = 0;
 			/* fix me. I am out of the bounds*/
 			for (c = 0; c < 8; c++){
-				meteoros[pos].colisao.points[c].x = colisaoMeteoroDefault.points[c].x;
-				meteoros[pos].colisao.points[c].y = colisaoMeteoroDefault.points[c].y;
-				meteoros[pos].colisao.points[c].z = colisaoMeteoroDefault.points[c].z;
+				meteoros[pos].collision.points[c].x = colisaoMeteoroDefault.points[c].x;
+				meteoros[pos].collision.points[c].y = colisaoMeteoroDefault.points[c].y;
+				meteoros[pos].collision.points[c].z = colisaoMeteoroDefault.points[c].z;
 			}
-			setaCaixaColisao(&meteoros[pos].colisao, meteoros[pos].position);
+			setaCaixaColisao(&meteoros[pos].collision, meteoros[pos].position);
 		}
 		else {
 			/* nothing to do */
@@ -117,9 +117,9 @@ void configuraCaixaColisaoMeteoro(collision_box *colisaoMeteoroDefault)
 	int c;
 
 	for (c = 0; c < 8; c++){
-		colisaoMeteoroDefault->points[c].x*=ESCALA_METEORO;
-		colisaoMeteoroDefault->points[c].y*=ESCALA_METEORO;
-		colisaoMeteoroDefault->points[c].z*=ESCALA_METEORO;
+		colisaoMeteoroDefault->points[c].x*=METEOR_SCALE;
+		colisaoMeteoroDefault->points[c].y*=METEOR_SCALE;
+		colisaoMeteoroDefault->points[c].z*=METEOR_SCALE;
 	}
 }
 
@@ -129,7 +129,7 @@ void configuraAceleracaoMeteoros(game_item *meteoros)
 	int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		meteoros[i].aceleracao = 0.02;
+		meteoros[i].acceleration = 0.02;
 	}
 }
 
@@ -146,7 +146,7 @@ void desenhaMeteoros(game_item *meteoros,
 			glTranslatef(meteoros[i].position.x,
 						 meteoros[i].position.y,
 						 meteoros[i].position.z);
-			desenhaModelo(MODELO_METEORO, texturaMetoro, meteoro);
+			desenhaModelo(METEOR_MODEL, texturaMetoro, meteoro);
 			glPopMatrix();
 		}
 		else {

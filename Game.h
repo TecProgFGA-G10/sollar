@@ -2,7 +2,7 @@
 * Solar 3D Técnicas de Programação
 * Esse programa carrega os modelos, texturas
 * e realiza o desenho da caixa ou tela do jogo,
-* também configurando as texturas 
+* também configurando as texturas
 */
 
 #ifndef GAME_H
@@ -132,20 +132,20 @@ void desenhaPlanoGameOver(Texture texturaGameOver)
 	glTranslatef(0, 0, 0);
 	glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
 	glScalef(0.6, 0.6, 0.6);
-	
+
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 1.0);
-	glVertex3i(MINIMO_X,MAXIMO_Y, 0);
-	
+	glVertex3i(MINIMUN_X,MAXIMUM_Y, 0);
+
 	glTexCoord2f(0.0, 0.0);
-	glVertex3i(MINIMO_X,MINIMO_Y, 0);
-	
+	glVertex3i(MINIMUN_X,MINIMUM_Y, 0);
+
 	glTexCoord2f(1.0, 0.0);
-	glVertex3i(MAXIMO_X,MINIMO_Y, 0);
-	
+	glVertex3i(MAXIMUM_X,MINIMUM_Y, 0);
+
 	glTexCoord2f(1.0, 1.0);
-	glVertex3i(MAXIMO_X,MAXIMO_Y, 0);
-	
+	glVertex3i(MAXIMUM_X,MAXIMUM_Y, 0);
+
 	glEnd();
 	glPopMatrix();
 	glTranslatef(0, 0, 1);
@@ -158,8 +158,8 @@ void desenhaBotaoContinuar(int gameOverSelecionado,
 {
 	glPushMatrix();
 	glTranslatef(-3, -2, 0);
-	
-	if (gameOverSelecionado == CONTINUAR) {
+
+	if (gameOverSelecionado == CONTINUE) {
 		glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
 	}
 	else {
@@ -210,7 +210,7 @@ void desenhaBotaoSair(int gameOverSelecionado,
 
 	glTexCoord2f(0.0, 1.0);
 	glVertex3f(-1, 1, 1);
-	
+
 	glEnd();
 	glPopMatrix();
 }

@@ -1,4 +1,4 @@
-/* 
+/*
 * Solar 3D Técnicas de Programação.
 * Esse programa verifica a colisão de objetos com a nave.
 */
@@ -51,72 +51,72 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 		tmpX = model->vertices[i*3];
 		tmpY = model->vertices[i*3+1];
 		tmpZ = model->vertices[i*3+2];
-		
+
 		if (tmpX > maiorX) {
 			maiorX = tmpX;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpX < menorX) {
 			menorX = tmpX;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpY > maiorY) {
 			maiorY = tmpY;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpY < menorY) {
 			menorY = tmpY;
 		}
 		else {
 			/* nothing to do */
 		}
-	   	
+
 	   	tmpZ = model->vertices[i * 3 + 2];
-		
+
 		if (tmpX > maiorX) {
 			maiorX = tmpX;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpX < menorX) {
 			menorX = tmpX;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpY > maiorY) {
 			maiorY = tmpY;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpY < menorY) {
 			menorY = tmpY;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpZ > maiorZ) {
 			maiorZ = tmpZ;
 		}
 		else {
 			/* nothing to do */
 		}
-		
+
 		if (tmpZ < menorZ) {
 			menorZ = tmpZ;
 		}
@@ -183,7 +183,7 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 
 
  /*
- * The collision box is mounted starting at <0,0,0>. 
+ * The collision box is mounted starting at <0,0,0>.
  * Meteors have other positions, then the default patter must be
  * calculated again.
  */
@@ -205,38 +205,38 @@ void atualizaCaixaColisao(game_item *item)
 {
 	int i = 0;
 	for (i = 0; i < 8; i++) {
-		if (item->position.z > item->posicaoAnterior.z) {
-			item->colisao.points[i].z+= item->aceleracao;
+		if (item->position.z > item->last_position.z) {
+			item->collision.points[i].z+= item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->position.z < item->posicaoAnterior.z) {
-			item->colisao.points[i].z+=-item->aceleracao;
+		if (item->position.z < item->last_position.z) {
+			item->collision.points[i].z+=-item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->position.x > item->posicaoAnterior.x) {
-			item->colisao.points[i].x+= item->aceleracao;
+		if (item->position.x > item->last_position.x) {
+			item->collision.points[i].x+= item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->position.x < item->posicaoAnterior.x) {
-			item->colisao.points[i].x+= -item->aceleracao;
+		if (item->position.x < item->last_position.x) {
+			item->collision.points[i].x+= -item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->position.y > item->posicaoAnterior.y) {
-			item->colisao.points[i].y+= item->aceleracao;
+		if (item->position.y > item->last_position.y) {
+			item->collision.points[i].y+= item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
-		if (item->position.y < item->posicaoAnterior.y) {
-			item->colisao.points[i].y+= -item->aceleracao;
+		if (item->position.y < item->last_position.y) {
+			item->collision.points[i].y+= -item->acceleration;
 		}
 		else {
 			/* nothing to do */

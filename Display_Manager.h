@@ -17,10 +17,10 @@ void iniciaGlut(int argc,char **argv)
 {
 	glutInit(&argc, argv);
 	/* 2 buffer mode and RGBA (accepts alpha) */
-	glutInitDisplayMode(MODO_GRAFICO);
-	glutInitWindowSize(LARGURA,ALTURA); /* initial size of the window */
+	glutInitDisplayMode(GRAPHIC_MODEL);
+	glutInitWindowSize(WIDTH,HEIGHT); /* initial size of the window */
 	glutInitWindowPosition(0,0); /* initial position of the window */
-	glutCreateWindow(NOME_JANELA); /* window's name created */
+	glutCreateWindow(WINDOW_NAME); /* window's name created */
 	glClearColor(0,0,0,0); /* clean collor, background collor */
 }
 
@@ -35,7 +35,7 @@ void iniciaCamera()
 	gluLookAt(0, 10, 20,
 			  0,  0,  0,
 			  0,  1,  0);
-	glViewport(0, 0, LARGURA,ALTURA);
+	glViewport(0, 0, WIDTH,HEIGHT);
 	glEnable(GL_DEPTH_TEST); /* loads the depth test */
 	glDepthFunc(GL_LESS);
 }
@@ -65,8 +65,8 @@ void desenhaModelo(int tipo, Texture textura, GLMmodel *model)
 {
 	glBindTexture(GL_TEXTURE_2D, textura.texID);
 
-	if (tipo == MODELO_NAVE) {
-		glScalef(ESCALA_AVIAO, ESCALA_AVIAO, ESCALA_AVIAO);
+	if (tipo == AIRCRAFT_MODEL) {
+		glScalef(AIRCRAFT_SCALE, AIRCRAFT_SCALE, AIRCRAFT_SCALE);
 	}
 	else {
 		/* nothing to do */
@@ -80,17 +80,17 @@ void desenhaFundo(Texture texturaFundo)
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
 	glBegin(GL_QUADS);
-		
+
 	glColor3ub(255, 255, 255);
 	glTexCoord2f(0.0, 0.0);
-	glVertex3i(MINIMO_X*5, MAXIMO_Y*5, -50);
+	glVertex3i(MINIMUN_X*5, MAXIMUM_Y*5, -50);
 	glTexCoord2f(1.0, 0.0);
-	glVertex3i(MINIMO_X*5, MINIMO_Y*5, -50);
+	glVertex3i(MINIMUN_X*5, MINIMUM_Y*5, -50);
 	glTexCoord2f(1.0, 1.0);
-	glVertex3i(MAXIMO_X*5, MINIMO_Y*5, -50);
+	glVertex3i(MAXIMUM_X*5, MINIMUM_Y*5, -50);
 	glTexCoord2f(0.0, 1.0);
-	glVertex3i(MAXIMO_X*5, MAXIMO_Y*5, -50);
-	
+	glVertex3i(MAXIMUM_X*5, MAXIMUM_Y*5, -50);
+
 	glEnd();
 	glPopMatrix();
 }

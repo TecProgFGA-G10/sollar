@@ -1,11 +1,11 @@
 /*
 * Solar 3D Técnicas de Programação
-* Esse programa inicializa os sons e 
+* Esse programa inicializa os sons e
 * toca os sons do jogo
 */
 
-#ifndef GERENCIADOR_AUDIO_H
-#define GERENCIADOR_AUDIO_H
+#ifndef AUDIO_MANAGER_H
+#define AUDIO_MANAGER_H
 #include <SDL/SDL_audio.h>
 #include <SDL/SDL_mixer.h>
 #include "Solar_Utilities.h"
@@ -27,16 +27,16 @@ void iniciaAudio(int audio_rate,
 }
 
 /* plays the music */
-int tocaMusica(Mix_Music *musica)
+int tocaMusica(Mix_Music *music)
 {
-	if (musica == NULL) {
+	if (music == NULL) {
 		printf("Unable to load Ogg file: %s\n", Mix_GetError());
 		return 1;
 	}
 	else {
 		/* nothing to do */
 	}
-	if (Mix_PlayMusic(musica, -1) == -1) {
+	if (Mix_PlayMusic(music, -1) == -1) {
 		printf("Unable to play Ogg file: %s\n", Mix_GetError());
 	}
 	else {
@@ -46,23 +46,23 @@ int tocaMusica(Mix_Music *musica)
 }
 
 /* plays effects sound */
-void PlaySound(int som,Mix_Chunk *somEfeito)
+void PlaySound(int sound, Mix_Chunk *somEfeito)
 {
-	if (som == MODELO_TIRO) {
+	if (sound == SHOT_MODEL) {
 		Mix_PlayChannel(2,somEfeito,0);
 	}
-	else if (som == MODELO_EXPLOSAO) {
+	else if (sound == EXPLOSION_MODEL) {
 		Mix_PlayChannel(3, somEfeito, 0);
 	}
 
 }
 
 /* clear audio */
-void limpa(Mix_Music *musica)
+void limpa(Mix_Music *music)
 {
 	Mix_HaltMusic();
-	Mix_FreeMusic(musica);
-	musica = NULL;
+	Mix_FreeMusic(music);
+	music = NULL;
 	Mix_HaltChannel(2);
 	Mix_HaltChannel(3);
 }

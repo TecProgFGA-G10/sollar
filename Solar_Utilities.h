@@ -15,31 +15,31 @@
 #define CAMERA_INCLINATION 4 /* camera inclination */
 
 /* to define the field of the game, representing each corner */
-#define MINIMO_X -14
-#define MAXIMO_X 14
-#define MINIMO_Y -14
-#define MAXIMO_Y 14
+#define MINIMUN_X -14
+#define MAXIMUM_X 14
+#define MINIMUM_Y -14
+#define MAXIMUM_Y 14
 #define METEOR_SPEED_VARIATION 0.05 /* meteor's speed variation */
-#define ESCALA_AVIAO 2
-#define ESCALA_METEORO 1
-#define ESCALA_TIRO 1
-#define NOVO_METEORO 88 /* send the event to new meteor */
-#define DIMINUI_EXPLOSAO 99 /* stop the timer, make the explosion smaller */
-#define VALOR_PONTO 10 /* pontuation to be added */
-#define MODELO_NAVE 1 /* draw the ship model */
-#define MODELO_METEORO 2 /* draw the meteor model */
-#define MODELO_TIRO 3 /* draw the shoot model */
-#define MODELO_EXPLOSAO 4 /* draw the explosion model */
-#define EXPLOSAO_DECRESCIMENTO 0.1 /* will loose 0.1 each time count */
+#define AIRCRAFT_SCALE 2
+#define METEOR_SCALE 1
+#define SHOT_SCALE 1
+#define NEW_METEOR 88 /* send the event to new meteor */
+#define EXPLOSION_DECREASE_RATE 99 /* stop the timer, make the explosion smaller */
+#define SCORE_VALUE 10 /* pontuation to be added */
+#define AIRCRAFT_MODEL 1 /* draw the ship model */
+#define METEOR_MODEL 2 /* draw the meteor model */
+#define SHOT_MODEL 3 /* draw the shoot model */
+#define EXPLOSION_MODEL 4 /* draw the explosion model */
+#define EXPLOSION_INCREASE_RATE 0.1 /* will loose 0.1 each time count */
 
 #define GAME_OVER 666 /* game over button selected */
-#define CONTINUAR 777 /* continue button selected */
+#define CONTINUE 777 /* continue button selected */
 
 /* rgba colors and depth test */
-#define MODO_GRAFICO  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
-#define LARGURA 800
-#define ALTURA 600
-#define NOME_JANELA "Sollar"
+#define GRAPHIC_MODEL  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
+#define WIDTH 800
+#define HEIGHT 600
+#define WINDOW_NAME "Sollar"
 
 
 typedef struct {
@@ -57,12 +57,12 @@ typedef struct {
 typedef struct {
 	GLMmodel *model; /* draws the model with OpenGL */
 	point position; /* position of the x,y,z point */
-	collision_box colisao;
-	point posicaoAnterior;
+	collision_box collision;
+	point last_position;
 	int visible;
-	float aceleracao;
+	float acceleration;
 	float explosion_size;
-	float rotacao;
+	float rotation;
 	float rotX;
 	float rotY;
 	float rotZ;

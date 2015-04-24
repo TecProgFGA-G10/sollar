@@ -17,12 +17,12 @@ void carregaModeloNave(game_item *nave)
 	nave->rotX = 0;
 	nave->rotY = 0;
 	nave->rotZ = 0;
-	nave->posicaoAnterior.x = 0;
-	nave->posicaoAnterior.y = 0;
-	nave->posicaoAnterior.z = 0;
-	nave->aceleracao = 0.03;
+	nave->last_position.x = 0;
+	nave->last_position.y = 0;
+	nave->last_position.z = 0;
+	nave->acceleration = 0.03;
 	nave->visible = TRUE;
-	
+
 	int scala = 0;
 
 	if (!nave->model) {
@@ -35,14 +35,14 @@ void carregaModeloNave(game_item *nave)
 		}
 
 		glmUnitize(nave->model);
-		criaCaixaColisao(nave->model, &nave->colisao);
+		criaCaixaColisao(nave->model, &nave->collision);
 		glmFacetNormals(nave->model);
 		glmVertexNormals(nave->model, 90.0);
 
 		for (scala = 0; scala < 8; scala++) {
-			nave->colisao.points[scala].x *= ESCALA_AVIAO;
-			nave->colisao.points[scala].y *= ESCALA_AVIAO;
-			nave->colisao.points[scala].z *= ESCALA_AVIAO;
+			nave->collision.points[scala].x *= AIRCRAFT_SCALE;
+			nave->collision.points[scala].y *= AIRCRAFT_SCALE;
+			nave->collision.points[scala].z *= AIRCRAFT_SCALE;
 		}
 	}
 	else {

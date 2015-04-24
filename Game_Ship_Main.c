@@ -2,8 +2,8 @@
 * Solar 3D Técnicas de Programação
 * Esse programa é a raiz principal do jogo,
 * que realiza todas as chamadas das funções dos outros arquivos
-* para que o jogo funcione, assim como também desenha objetos 
-* e menus do jogo, configura e reconfigura objetos, calcula tempo 
+* para que o jogo funcione, assim como também desenha objetos
+* e menus do jogo, configura e reconfigura objetos, calcula tempo
 * e atualiza os estados
 */
 
@@ -53,7 +53,7 @@ game_item tiros[MAX_NUMBER_OF_SHOTS];
 /* one explosion per meteor at maximum */
 game_item explosions[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
 
-/* 
+/*
 * collision boxes to meteors and shots, when in position <0,0,0>
 * used to recalculate the new position and send a new object
 */
@@ -146,12 +146,12 @@ void atualizarEstados(void)
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (tiros[i].visible) {
-			tiros[i].posicaoAnterior.z = tiros[i].position.z;
-			tiros[i].position.z += tiros[i].aceleracao;
+			tiros[i].last_position.z = tiros[i].position.z;
+			tiros[i].position.z += tiros[i].acceleration;
 			atualizaCaixaColisaoTiro(&tiros[i]);
-			/* 
+			/*
 			* Shot will move at Z axis, goint to the
-			* negative value of it. When z value is less then the maximum, 
+			* negative value of it. When z value is less then the maximum,
 			* the shot will dissapear.
 			*/
 			if (tiros[i].position.z < MAX_DISTANCE_FOR_SHOOT_TREATMENT) {
@@ -163,13 +163,13 @@ void atualizarEstados(void)
 			int m;
 			for (m = 0; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
 				if (meteoros[m].visible) {
-					if (verificaColisao(tiros[i].colisao, meteoros[m].colisao)) {
-						PlaySound(MODELO_EXPLOSAO,somExplosao);
+					if (verificaColisao(tiros[i].collision, meteoros[m].collision)) {
+						PlaySound(EXPLOSION_MODEL,somExplosao);
 						meteoros[m].visible = FALSE;
 						tiros[i].visible = FALSE;
 
 						int explos = posicaoVaziaExplosoes(explosions);
-						pontuation += VALOR_PONTO;
+						pontuation += SCORE_VALUE;
 
 						if (explos >= 0) {
 							explosions[explos].position.x = meteoros[m].position.x;
@@ -197,11 +197,11 @@ void atualizarEstados(void)
 	}
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (meteoros[i].visible) {
-			meteoros[i].posicaoAnterior.z = meteoros[i].position.z;
-			meteoros[i].position.z += meteoros[i].aceleracao;
+			meteoros[i].last_position.z = meteoros[i].position.z;
+			meteoros[i].position.z += meteoros[i].acceleration;
 			atualizaCaixaColisao(&meteoros[i]);
-			if (verificaColisao(meteoros[i].colisao, nave.colisao)) {
-				PlaySound(MODELO_EXPLOSAO,somExplosao);
+			if (verificaColisao(meteoros[i].collision, nave.collision)) {
+				PlaySound(EXPLOSION_MODEL,somExplosao);
 				meteoros[i].visible = FALSE;
 				vida--;
 				int explos = posicaoVaziaExplosoes(explosions);
@@ -223,7 +223,7 @@ void atualizarEstados(void)
 				}
 			}
 			else {
-				/* nothing to do */				
+				/* nothing to do */
 			}
 			if (meteoros[i].position.z > MAX_DISTANCE_OF_METEOR) {
 				meteoros[i].visible = FALSE;
@@ -248,11 +248,11 @@ void teclaGameOverEspecial(int tecla, int x, int y)
 		case GLUT_KEY_LEFT:
 		case GLUT_KEY_RIGHT:
 		{
-			if(gameOverSelecionado == CONTINUAR) {
+			if(gameOverSelecionado == CONTINUE) {
 				gameOverSelecionado = GAME_OVER;
 			}
 			else {
-				gameOverSelecionado = CONTINUAR;
+				gameOverSelecionado = CONTINUE;
 			}
 			glutPostRedisplay();
 			break;
@@ -298,10 +298,10 @@ void DesenhaTexto(char *string, int posx, int posy)
 /* treats keys */
 void trataTeclas()
 {
-	nave.posicaoAnterior.x = nave.position.x;
-	nave.posicaoAnterior.y = nave.position.y;
-	if (nave.position.x > MINIMO_X) {
-		nave.position.x -= (nave.aceleracao * esquerdaPressionada);
+	nave.last_position.x = nave.position.x;
+	nave.last_position.y = nave.position.y;
+	if (nave.position.x > MINIMUN_X) {
+		nave.position.x -= (nave.acceleration * esquerdaPressionada);
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y+CAMERA_INCLINATION,
@@ -316,8 +316,8 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	if (nave.position.x < MAXIMO_X) {
-		nave.position.x += (nave.aceleracao * direitaPressionada);
+	if (nave.position.x < MAXIMUM_X) {
+		nave.position.x += (nave.acceleration * direitaPressionada);
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y+CAMERA_INCLINATION,
@@ -332,9 +332,9 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	if (nave.position.y < MAXIMO_Y) {
+	if (nave.position.y < MAXIMUM_Y) {
 
-		nave.position.y += (nave.aceleracao * cimaPressionada);
+		nave.position.y += (nave.acceleration * cimaPressionada);
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y + CAMERA_INCLINATION,DISTANCE_CAMERA_IN_THE_AXIS_Z,
@@ -348,9 +348,9 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	if (nave.position.y > MINIMO_Y) {
+	if (nave.position.y > MINIMUM_Y) {
 
-		nave.position.y-= (nave.aceleracao * baixoPressionada);
+		nave.position.y-= (nave.acceleration * baixoPressionada);
 		glLoadIdentity();
 		gluLookAt(nave.position.x,
 				  nave.position.y+CAMERA_INCLINATION,
@@ -368,7 +368,7 @@ void trataTeclas()
 	atualizaCaixaColisao(&nave);
 
 	if (atirar) {
-		PlaySound(MODELO_TIRO, somTiro);
+		PlaySound(SHOT_MODEL, somTiro);
 		atirar = FALSE;
 		int tiro = posicaoVaziaTiros(tiros);
 
@@ -378,18 +378,18 @@ void trataTeclas()
 			tiros[tiro].position.z = nave.position.z;
 			tiros[tiro].visible = TRUE;
 
-			tiros[tiro].posicaoAnterior.x = nave.position.x - 1;
-			tiros[tiro].posicaoAnterior.y = nave.position.y + 0.9;
-			tiros[tiro].posicaoAnterior.z = nave.position.z;
+			tiros[tiro].last_position.x = nave.position.x - 1;
+			tiros[tiro].last_position.y = nave.position.y + 0.9;
+			tiros[tiro].last_position.z = nave.position.z;
 
 			int c = 0;
 
 			for (c = 0; c < 8; c++) {
-				tiros[tiro].colisao.points[c].x = colisaoTiroDefault.points[c].x;
-				tiros[tiro].colisao.points[c].y = colisaoTiroDefault.points[c].y;
-				tiros[tiro].colisao.points[c].z = colisaoTiroDefault.points[c].z;
+				tiros[tiro].collision.points[c].x = colisaoTiroDefault.points[c].x;
+				tiros[tiro].collision.points[c].y = colisaoTiroDefault.points[c].y;
+				tiros[tiro].collision.points[c].z = colisaoTiroDefault.points[c].z;
 			}
-			setaCaixaColisao(&tiros[tiro].colisao, tiros[tiro].position);
+			setaCaixaColisao(&tiros[tiro].collision, tiros[tiro].position);
 		}
 		else {
 			/* nothing to do */
@@ -403,22 +403,22 @@ void trataTeclas()
 	glutPostRedisplay();
 }
 
-/* 
-* When pressing a key keep it state to below. 
+/*
+* When pressing a key keep it state to below.
 * This way the ship moves while the key is pressed
-* a tecla estiver pressionada 
+* a tecla estiver pressionada
 */
 void teclaEspecial(int tecla, int x, int y)
 {
 	switch (tecla) {
 		case GLUT_KEY_LEFT:
 			esquerdaPressionada = TRUE;
-			nave.rotacao = 30;
+			nave.rotation = 30;
 			nave.rotZ = 1;
 			break;
 		case GLUT_KEY_RIGHT:
 			direitaPressionada = TRUE;
-			nave.rotacao = -30;
+			nave.rotation = -30;
 			nave.rotZ = 1;
 			break;
 		case GLUT_KEY_UP:
@@ -436,12 +436,12 @@ void teclaEspecialSolta(int tecla, int x, int y)
 	switch (tecla) {
 		case GLUT_KEY_LEFT:
 			esquerdaPressionada = FALSE;
-			nave.rotacao = 0;
+			nave.rotation = 0;
 			nave.rotZ = 0;
 			break;
 		case GLUT_KEY_RIGHT:
 			direitaPressionada = FALSE;
-			nave.rotacao = 0;
+			nave.rotation = 0;
 			nave.rotZ = 0;
 			break;
 		case GLUT_KEY_UP:
@@ -460,7 +460,7 @@ void aumentaDificuldade(int t)
 		if (!pausado) {
 			int i = 0;
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-				meteoros[i].aceleracao += METEOR_SPEED_VARIATION;
+				meteoros[i].acceleration += METEOR_SPEED_VARIATION;
 			}
 			if (meteorosEnviar < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
 				meteorosEnviar++;
@@ -504,7 +504,7 @@ void controla(unsigned char tecla, int x, int y)
 				glutSpecialUpFunc(teclaEspecialSolta);
 				glutReshapeFunc(redimensiona);
 				glutPostRedisplay();
-				glutTimerFunc(tempoMeteoro, timer, NOVO_METEORO);
+				glutTimerFunc(tempoMeteoro, timer, NEW_METEOR);
 				glutTimerFunc(200, timerExplosao, 0);
 				glutTimerFunc(10000, aumentaDificuldade, 0);
 			}
@@ -542,8 +542,8 @@ void desenha()
 			desenhaFundo(texturaFundo);
 			glPushMatrix();
 				glTranslatef(nave.position.x, nave.position.y, nave.position.z);
-				glRotatef(nave.rotacao, 0, 0, nave.rotZ);
-				desenhaModelo(MODELO_NAVE, texturaAviao, nave.model);
+				glRotatef(nave.rotation, 0, 0, nave.rotZ);
+				desenhaModelo(AIRCRAFT_MODEL, texturaAviao, nave.model);
 			glPopMatrix();
 			desenhaTiros(tiros, texturaTiro, tiro);
 			desenhaMeteoros(meteoros, texturaMetoro, meteoro);
@@ -587,7 +587,7 @@ void timerExplosao(int t)
 			int i;
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				if (explosions[i].visible) {
-					explosions[i].explosion_size -= EXPLOSAO_DECRESCIMENTO;
+					explosions[i].explosion_size -= EXPLOSION_INCREASE_RATE;
 					if (explosions[i].explosion_size <= 0.3) {
 						explosions[i].visible = FALSE;
 					}
@@ -616,9 +616,9 @@ void timer(int t)
 	if (nave.visible) {
 		if (!pausado) {
 			printf("novo meteoro");
-			if (t == NOVO_METEORO) {
+			if (t == NEW_METEOR) {
 				enviaMeteoro(meteoros, meteorosEnviar, colisaoMeteoroDefault);
-				glutTimerFunc(tempoMeteoro, timer, NOVO_METEORO);
+				glutTimerFunc(tempoMeteoro, timer, NEW_METEOR);
 			}
 			else {
 				/* nothing to do */
@@ -640,7 +640,7 @@ void configura(int argc, char **argv)
 	tempoMeteoro = 2000;
 	pontuation = 0;
 	vida = 3;
-	gameOverSelecionado = CONTINUAR;
+	gameOverSelecionado = CONTINUE;
 
 	inicializaObjetos(&nave,
 					  &meteoro,
@@ -672,7 +672,7 @@ void configura(int argc, char **argv)
 						   &fimJogoVerde,
 						   &fimJogoVermelho};
 	configuraTexturas(texturas);
-	glutTimerFunc(1000, timer, NOVO_METEORO);
+	glutTimerFunc(1000, timer, NEW_METEOR);
 	glutTimerFunc(500, timerExplosao, 0);
 	glutTimerFunc(20000, aumentaDificuldade, 0);
 
@@ -696,12 +696,12 @@ void reconfigura()
 					  explosions,
 					  &colisaoTiroDefault,
 					  tiros);
-	criaCaixaColisao(nave.model, &nave.colisao);
+	criaCaixaColisao(nave.model, &nave.collision);
 	glClearColor(0, 0, 0, 0);
 	glutKeyboardFunc(controla);
 	glutSpecialFunc(teclaEspecial);
 	glutSpecialUpFunc(teclaEspecialSolta);
-	glutTimerFunc(1000, timer, NOVO_METEORO);
+	glutTimerFunc(1000, timer, NEW_METEOR);
 	glutTimerFunc(500, timerExplosao, 0);
 	glutTimerFunc(20000, aumentaDificuldade, 0);
 	int i;
