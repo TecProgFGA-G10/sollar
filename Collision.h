@@ -7,6 +7,7 @@
 #define COLISAO_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
+#define CUBE_EDGES 8
 
 /* draws the collision box */
 void desenhaCaixaColisao(collision_box *box)
@@ -14,7 +15,7 @@ void desenhaCaixaColisao(collision_box *box)
 {
 	int i = 0;
 	glBegin(GL_LINES);
-	for (i = 0; i < 8; i++) {
+	for (i = 0; i < CUBE_EDGES; i++) {
 		glColor3ub(i * 10, i * 10, i * 10);
 		glVertex3f(box->points[i].x, box->points[i].y, box->points[i].z);
 	}
@@ -31,6 +32,9 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 {
 	if (!model) {
 		exit(1);
+	}
+	else{
+		/* nothing to do */
 	}
 
 	int i = 0;
@@ -192,7 +196,7 @@ void setaCaixaColisao(collision_box *c, point position)
 	int i;
 
 	/* transfer the box */
-	for (i = 0; i <8; i++) {
+	for (i = 0; i < CUBE_EDGES; i++) {
 		c->points[i].x+= position.x;
 		c->points[i].y+= position.y;
 		c->points[i].z+= position.z;
@@ -204,7 +208,7 @@ void setaCaixaColisao(collision_box *c, point position)
 void atualizaCaixaColisao(game_item *item)
 {
 	int i = 0;
-	for (i = 0; i < 8; i++) {
+	for (i = 0; i < CUBE_EDGES; i++) {
 		if (item->position.z > item->last_position.z) {
 			item->collision.points[i].z+= item->acceleration;
 		}
