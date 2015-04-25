@@ -55,7 +55,7 @@ typedef struct _GLMmodel {
 	char *pathname;   /* path to this model           */
 	char *mtllibname; /* name of the material library */
 
-	GLuint numvertices; /* number of vertices in model */
+	GLuint vertices_numbers; /* number of vertices in model */
 	GLfloat *vertices;  /* array of vertices           */
 
 	GLuint numnormals; /* number of normals in model */

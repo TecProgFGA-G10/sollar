@@ -1,8 +1,8 @@
 /*
-* Solar 3D Técnicas de Programação
-* Esse programa inicializa os sons e
-* toca os sons do jogo
-*/
+ * Solar 3D Técnicas de Programação
+ * Esse programa inicializa os sons e
+ * toca os sons do jogo
+ */
 
 #ifndef AUDIO_MANAGER_H
 #define AUDIO_MANAGER_H
@@ -46,13 +46,13 @@ int tocaMusica(Mix_Music *music)
 }
 
 /* plays effects sound */
-void PlaySound(int sound, Mix_Chunk *somEfeito)
+void PlaySound(int sound, Mix_Chunk *sound_effect)
 {
 	if (sound == SHOT_MODEL) {
-		Mix_PlayChannel(2,somEfeito,0);
+		Mix_PlayChannel(2, sound_effect, 0);
 	}
 	else if (sound == EXPLOSION_MODEL) {
-		Mix_PlayChannel(3, somEfeito, 0);
+		Mix_PlayChannel(3, sound_effect, 0);
 	}
 
 }

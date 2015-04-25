@@ -470,7 +470,7 @@ glmWriteMTL(GLMmodel *model, char *modelpath, char *mtllibname)
 static GLvoid
 glmFirstPass(GLMmodel *model, FILE *file)
 {
-	GLuint numvertices;  /* number of vertices in model  */
+	GLuint vertices_numbers;  /* number of vertices in model  */
 	GLuint numnormals;   /* number of normals in model   */
 	GLuint numtexcoords; /* number of texcoords in model */
 	GLuint numtriangles; /* number of triangles in model */
@@ -481,7 +481,7 @@ glmFirstPass(GLMmodel *model, FILE *file)
 	/* make a default group */
 	group = glmAddGroup(model, "default");
 
-	numvertices = numnormals = numtexcoords = numtriangles = 0;
+	vertices_numbers = numnormals = numtexcoords = numtriangles = 0;
 	while (fscanf(file, "%s", buf) != EOF) {
 		switch (buf[0]) {
 			case '#': /* comment */
@@ -493,7 +493,7 @@ glmFirstPass(GLMmodel *model, FILE *file)
 				case '\0': /* vertex */
 					/* eat up rest of line */
 					fgets(buf, sizeof(buf), file);
-					numvertices++;
+					vertices_numbers++;
 					break;
 				case 'n': /* normal */
 					/* eat up rest of line */
@@ -590,7 +590,7 @@ glmFirstPass(GLMmodel *model, FILE *file)
 	}
 
 	/* set the stats in the model structure */
-	model->numvertices = numvertices;
+	model->vertices_numbers = vertices_numbers;
 	model->numnormals = numnormals;
 	model->numtexcoords = numtexcoords;
 	model->numtriangles = numtriangles;
@@ -614,7 +614,7 @@ glmFirstPass(GLMmodel *model, FILE *file)
 static GLvoid
 glmSecondPass(GLMmodel *model, FILE *file)
 {
-	GLuint numvertices;  /* number of vertices in model  */
+	GLuint vertices_numbers;  /* number of vertices in model  */
 	GLuint numnormals;   /* number of normals in model   */
 	GLuint numtexcoords; /* number of texcoords in model */
 	GLuint numtriangles; /* number of triangles in model */
@@ -636,7 +636,7 @@ glmSecondPass(GLMmodel *model, FILE *file)
 	 * On the second pass through the file,
 	 * read all the data into the allocated arrays
 	 */
-	numvertices = numnormals = numtexcoords = 1;
+	vertices_numbers = numnormals = numtexcoords = 1;
 	numtriangles = 0;
 	material = 0;
 	while (fscanf(file, "%s", buf) != EOF) {
@@ -649,10 +649,10 @@ glmSecondPass(GLMmodel *model, FILE *file)
 				switch(buf[1]) {
 					case '\0': /* vertex */
 						fscanf(file, "%f %f %f",
-						       &vertices[3 * numvertices + 0],
-						       &vertices[3 * numvertices + 1],
-						       &vertices[3 * numvertices + 2]);
-						numvertices++;
+						       &vertices[3 * vertices_numbers + 0],
+						       &vertices[3 * vertices_numbers + 1],
+						       &vertices[3 * vertices_numbers + 2]);
+						vertices_numbers++;
 						break;
 					case 'n': /* normal */
 						fscanf(file, "%f %f %f",
@@ -794,7 +794,7 @@ glmSecondPass(GLMmodel *model, FILE *file)
 	#if 0
 	/* announce the memory requirements */
 	printf(" Memory: %d bytes\n",
-	       numvertices  * 3*sizeof(GLfloat) +
+	       vertices_numbers  * 3*sizeof(GLfloat) +
            numnormals   * 3*sizeof(GLfloat) * (numnormals ? 1 : 0) +
            numtexcoords * 3*sizeof(GLfloat) * (numtexcoords ? 1 : 0) +
            numtriangles * sizeof(GLMtriangle));
@@ -825,7 +825,7 @@ glmUnitize(GLMmodel *model)
 	maxx = minx = model->vertices[3 + 0];
 	maxy = miny = model->vertices[3 + 1];
 	maxz = minz = model->vertices[3 + 2];
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		if (maxx < model->vertices[3 * i + 0]) {
 			maxx = model->vertices[3 * i + 0];
 		}
@@ -883,7 +883,7 @@ glmUnitize(GLMmodel *model)
 	scale = 2.0 / glmMax(glmMax(w, h), d);
 
 	/* translate around center then scale */
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		model->vertices[3 * i + 0] -= cx;
 		model->vertices[3 * i + 1] -= cy;
 		model->vertices[3 * i + 2] -= cz;
@@ -916,7 +916,7 @@ glmDimensions(GLMmodel *model, GLfloat *dimensions)
 	maxx = minx = model->vertices[3 + 0];
 	maxy = miny = model->vertices[3 + 1];
 	maxz = minz = model->vertices[3 + 2];
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		if (maxx < model->vertices[3 * i + 0]) {
 			maxx = model->vertices[3 * i + 0];
 		}
@@ -977,7 +977,7 @@ glmScale(GLMmodel *model, GLfloat scale)
 {
 	GLuint i;
 
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		model->vertices[3 * i + 0] *= scale;
 		model->vertices[3 * i + 1] *= scale;
 		model->vertices[3 * i + 2] *= scale;
@@ -1142,8 +1142,8 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	 * Allocate a structure that will hold a linked list of triangle
 	 * indices for each vertex
 	 */
-	members = (GLMnode**)malloc(sizeof(GLMnode *) * (model->numvertices + 1));
-	for (i = 1; i <= model->numvertices; i++) {
+	members = (GLMnode**)malloc(sizeof(GLMnode *) * (model->vertices_numbers + 1));
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		members[i] = NULL;
 	}
 
@@ -1167,7 +1167,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 
 	/* calculate the average normal for each vertex */
 	numnormals = 1;
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 	/*
 	 * Calculate an average normal for this vertex
 	 * by averaging the facet normal of every triangle this vertex is in.
@@ -1266,7 +1266,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	model->numnormals = numnormals - 1;
 
 	/* free the member information */
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		node = members[i];
 		while (node) {
 			tail = node;
@@ -1316,7 +1316,7 @@ glmLinearTexture(GLMmodel *model)
 	else {
 		/* nothing to do */
 	}
-	model->numtexcoords = model->numvertices;
+	model->numtexcoords = model->vertices_numbers;
 	model->texcoords=(GLfloat *)malloc(sizeof(GLfloat) *
 	                  2 * (model->numtexcoords + 1));
 
@@ -1325,7 +1325,7 @@ glmLinearTexture(GLMmodel *model)
 		glmAbs(glmMax(glmMax(dimensions[0], dimensions[1]), dimensions[2]));
 
 	/* do the calculations */
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		x = model->vertices[3 * i + 0] * scalefactor;
 		y = model->vertices[3 * i + 2] * scalefactor;
 		model->texcoords[2 * i + 0] = (x + 1.0) / 2.0;
@@ -1534,7 +1534,7 @@ glmReadOBJ(char *filename)
 	model = (GLMmodel *)malloc(sizeof(GLMmodel));
 	model->pathname = strdup(filename);
 	model->mtllibname = NULL;
-	model->numvertices = 0;
+	model->vertices_numbers = 0;
 	model->vertices = NULL;
 	model->numnormals = 0;
 	model->normals = NULL;
@@ -1560,7 +1560,7 @@ glmReadOBJ(char *filename)
 
 	/* allocate memory */
 	model->vertices = (GLfloat *)malloc(sizeof(GLfloat) *
-		              3 * (model->numvertices + 1));
+		              3 * (model->vertices_numbers + 1));
 	model->triangles = (GLMtriangle *)malloc(sizeof(GLMtriangle) *
 		               model->numtriangles);
 	if (model->numnormals) {
@@ -1712,8 +1712,8 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 
 	/* spit out the vertices */
 	fprintf(file, "\n");
-	fprintf(file, "# %d vertices\n", model->numvertices);
-	for (i = 1; i <= model->numvertices; i++) {
+	fprintf(file, "# %d vertices\n", model->vertices_numbers);
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		fprintf(file, "v %f %f %f\n",
 			model->vertices[3 * i + 0],
 			model->vertices[3 * i + 1],
@@ -2076,13 +2076,13 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
 	GLuint i;
 
 	/* vertices */
-	numvectors = model->numvertices;
+	numvectors = model->vertices_numbers;
 	vectors  = model->vertices;
 	copies = glmWeldVectors(vectors, &numvectors, epsilon);
 
 	#if 0
 	printf("glmWeld(): %d redundant vertices.\n",
-		model->numvertices - numvectors - 1);
+		model->vertices_numbers - numvectors - 1);
 	#endif
 
 	for (i = 0; i < model->numtriangles; i++) {
@@ -2095,12 +2095,12 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
 	free(vectors);
 
 	/* allocate space for the new vertices */
-	model->numvertices = numvectors;
+	model->vertices_numbers = numvectors;
 	model->vertices = (GLfloat*)malloc(sizeof(GLfloat) *
-	                  3 * (model->numvertices + 1));
+	                  3 * (model->vertices_numbers + 1));
 
 	/* copy the optimized vertices into the actual vertex list */
-	for (i = 1; i <= model->numvertices; i++) {
+	for (i = 1; i <= model->vertices_numbers; i++) {
 		model->vertices[3 * i + 0] = copies[3 * i + 0];
 		model->vertices[3 * i + 1] = copies[3 * i + 1];
 		model->vertices[3 * i + 2] = copies[3 * i + 2];
@@ -2279,7 +2279,7 @@ else {
 /* look for unused vertices  */
 /* look for unused normals   */
 /* look for unused texcoords */
-for (i = 1; i <= model->numvertices; i++) {
+for (i = 1; i <= model->vertices_numbers; i++) {
 	for (j = 0; j < model->numtriangles; i++) {
 		if (T(j).vindices[0] == i ||
 			T(j).vindices[1] == i ||

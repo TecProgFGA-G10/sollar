@@ -1,10 +1,10 @@
 /*
-* Solar 3D Técnicas de Programação.
-* Esse programa verifica a colisão de objetos com a nave.
-*/
+ * Solar 3D Técnicas de Programação.
+ * Esse programa verifica a colisão de objetos com a nave.
+ */
 
-#ifndef COLISAO_H
-#define COLISAO_H
+#ifndef COLLISION.H
+#define COLLISION.H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
 #define CUBE_EDGES 8
@@ -38,91 +38,91 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 	}
 
 	int i = 0;
-	int max = model->numvertices;
+	int max_vertices_numbers = model->vertices_numbers;
 
-	float maiorX = model->vertices[3];
-	float menorX = model->vertices[3];
-	float maiorY = model->vertices[4];
-	float menorY = model->vertices[4];
-	float maiorZ = model->vertices[5];
-	float menorZ = model->vertices[5];
+	float greater_x = model->vertices[3];
+	float lesser_x = model->vertices[3];
+	float greater_y = model->vertices[4];
+	float lesser_y = model->vertices[4];
+	float greater_z = model->vertices[5];
+	float lesser_z = model->vertices[5];
 
-	float tmpX;
-	float tmpY;
-	float tmpZ;
+	float tmp_x;
+	float tmp_y;
+	float tmp_z;
 
-	for (i = 2; i < max; i++) {
-		tmpX = model->vertices[i*3];
-		tmpY = model->vertices[i*3+1];
-		tmpZ = model->vertices[i*3+2];
+	for (i = 2; i < max_vertices_numbers; i++) {
+		tmp_x = model->vertices[i * 3];
+		tmp_y = model->vertices[i * 3 + 1];
+		tmp_z = model->vertices[i * 3 + 2];
 
-		if (tmpX > maiorX) {
-			maiorX = tmpX;
+		if (tmp_x > greater_x) {
+			greater_x = tmp_x;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpX < menorX) {
-			menorX = tmpX;
+		if (tmp_x < lesser_x) {
+			lesser_x = tmp_x;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpY > maiorY) {
-			maiorY = tmpY;
+		if (tmp_y > greater_y) {
+			greater_y = tmp_y;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpY < menorY) {
-			menorY = tmpY;
+		if (tmp_y < lesser_y) {
+			lesser_y = tmp_y;
 		}
 		else {
 			/* nothing to do */
 		}
 
-	   	tmpZ = model->vertices[i * 3 + 2];
+		tmp_z = model->vertices[i * 3 + 2];
 
-		if (tmpX > maiorX) {
-			maiorX = tmpX;
+		if (tmp_x > greater_x) {
+			greater_x = tmp_x;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpX < menorX) {
-			menorX = tmpX;
+		if (tmp_x < lesser_x) {
+			lesser_x = tmp_x;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpY > maiorY) {
-			maiorY = tmpY;
+		if (tmp_y > greater_y) {
+			greater_y = tmp_y;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpY < menorY) {
-			menorY = tmpY;
+		if (tmp_y < lesser_y) {
+			lesser_y = tmp_y;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpZ > maiorZ) {
-			maiorZ = tmpZ;
+		if (tmp_z > greater_z) {
+			greater_z = tmp_z;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (tmpZ < menorZ) {
-			menorZ = tmpZ;
+		if (tmp_z < lesser_z) {
+			lesser_z = tmp_z;
 		}
 		else {
 			/* nothing to do */
@@ -130,76 +130,76 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 	}
 
 	/* front upper left side */
-	box->points[0].x = menorX;
-	box->points[0].y = maiorY;
-	box->points[0].z = menorZ;
+	box->points[0].x = lesser_x;
+	box->points[0].y = greater_y;
+	box->points[0].z = lesser_z;
 
 	/* front upper right side */
-	box->points[1].x = maiorX;
-	box->points[1].y = maiorY;
-	box->points[1].z = menorZ;
+	box->points[1].x = greater_x;
+	box->points[1].y = greater_y;
+	box->points[1].z = lesser_z;
 
 	/* front lower left side */
-	box->points[2].x = menorX;
-	box->points[2].y = menorY;
-	box->points[2].z = menorZ;
+	box->points[2].x = lesser_x;
+	box->points[2].y = lesser_y;
+	box->points[2].z = lesser_z;
 
 	/* front lower right side */
-	box->points[3].x = maiorX;
-	box->points[3].y = menorY;
-	box->points[3].z = menorZ;
+	box->points[3].x = greater_x;
+	box->points[3].y = lesser_y;
+	box->points[3].z = lesser_z;
 
 	/* back upper left side */
-	box->points[4].x = menorX;
-	box->points[1].y = maiorY;
-	box->points[1].z = menorZ;
+	box->points[4].x = lesser_x;
+	box->points[1].y = greater_y;
+	box->points[1].z = lesser_z;
 
 	/* back lower left side */
-	box->points[2].x = menorX;
-	box->points[2].y = menorY;
-	box->points[2].z = menorZ;
+	box->points[2].x = lesser_x;
+	box->points[2].y = lesser_y;
+	box->points[2].z = lesser_z;
 
 	/* back lower right side */
-	box->points[3].x = maiorX;
-	box->points[3].y = menorY;
-	box->points[3].z = menorZ;
+	box->points[3].x = greater_x;
+	box->points[3].y = lesser_y;
+	box->points[3].z = lesser_z;
 
 	/* back upper left side */
-	box->points[4].x = menorX;
-	box->points[4].y = maiorY;
-	box->points[4].z = maiorZ;
+	box->points[4].x = lesser_x;
+	box->points[4].y = greater_y;
+	box->points[4].z = greater_z;
 
 	/* back upper right side */
-	box->points[5].x = maiorX;
-	box->points[5].y = maiorY;
-	box->points[5].z = maiorZ;
+	box->points[5].x = greater_x;
+	box->points[5].y = greater_y;
+	box->points[5].z = greater_z;
 
 	/* back lower left side */
-	box->points[6].x = menorX;
-	box->points[6].y = menorY;
-	box->points[6].z = maiorZ;
+	box->points[6].x = lesser_x;
+	box->points[6].y = lesser_y;
+	box->points[6].z = greater_z;
 
 	/* back lower right side */
-	box->points[7].x = maiorX;
-	box->points[7].y = menorY;
-	box->points[7].z = maiorZ;
+	box->points[7].x = greater_x;
+	box->points[7].y = lesser_y;
+	box->points[7].z = greater_z;
 }
 
 
  /*
- * The collision box is mounted starting at <0,0,0>.
- * Meteors have other positions, then the default patter must be
- * calculated again.
- */
+  * The collision box is mounted starting at <0,0,0>.
+  * Meteors have other positions, then the default patter must be
+  * calculated again.
+  */
 void setaCaixaColisao(collision_box *c, point position)
 {
 	int i;
 
 	/* transfer the box */
 	for (i = 0; i < CUBE_EDGES; i++) {
-		c->points[i].x+= position.x;
-		c->points[i].y+= position.y;
-		c->points[i].z+= position.z;
+		c->points[i].x += position.x;
+		c->points[i].y += position.y;
+		c->points[i].z += position.z;
 	}
 
 }
@@ -210,37 +210,37 @@ void atualizaCaixaColisao(game_item *item)
 	int i = 0;
 	for (i = 0; i < CUBE_EDGES; i++) {
 		if (item->position.z > item->last_position.z) {
-			item->collision.points[i].z+= item->acceleration;
+			item->collision.points[i].z += item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.z < item->last_position.z) {
-			item->collision.points[i].z+=-item->acceleration;
+			item->collision.points[i].z +=-item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.x > item->last_position.x) {
-			item->collision.points[i].x+= item->acceleration;
+			item->collision.points[i].x += item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.x < item->last_position.x) {
-			item->collision.points[i].x+= -item->acceleration;
+			item->collision.points[i].x += -item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.y > item->last_position.y) {
-			item->collision.points[i].y+= item->acceleration;
+			item->collision.points[i].y += item->acceleration;
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.y < item->last_position.y) {
-			item->collision.points[i].y+= -item->acceleration;
+			item->collision.points[i].y += -item->acceleration;
 		}
 		else {
 			/* nothing to do */
