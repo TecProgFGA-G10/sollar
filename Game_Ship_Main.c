@@ -45,7 +45,7 @@ game_item nave;
 /* the shot's and planes' models are loaded only 1 time */
 GLMmodel *meteoro = NULL;
 GLMmodel *tiro = NULL;
-GLMmodel *explosao = NULL;
+GLMmodel *explosion = NULL;
 
 /* vector with shots, meteors and explosions wich can be summoned */
 game_item meteoros[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
@@ -65,7 +65,7 @@ Texture texturaAviao;
 Texture texturaMetoro;
 Texture texturaTiro;
 Texture background_texture;
-Texture texturaExplosao;
+Texture explosion_texture;
 Texture texturaGameOver;
 Texture continuaJogoVerde;
 Texture continuaJogoVermelho;
@@ -547,7 +547,7 @@ void desenha()
 			glPopMatrix();
 			desenhaTiros(tiros, texturaTiro, tiro);
 			desenhaMeteoros(meteoros, texturaMetoro, meteoro);
-			desenhaExplosoes(explosions, texturaExplosao, explosao);
+			desenhaExplosoes(explosions, explosion_texture, explosion);
 			desenhaHUD();
 		}
 		else {
@@ -644,7 +644,7 @@ void configura(int argc, char **argv)
 
 	inicializaObjetos(&nave,
 					  &meteoro,
-					  &explosao,
+					  &explosion,
 					  &tiro,
 					  &colisaoMeteoroDefault,
 					  meteoros,
@@ -665,7 +665,7 @@ void configura(int argc, char **argv)
 						   &texturaMetoro,
 						   &texturaTiro,
 						   &background_texture,
-						   &texturaExplosao,
+						   &explosion_texture,
 						   &texturaGameOver,
 						   &continuaJogoVerde,
 						   &continuaJogoVermelho,
@@ -679,7 +679,7 @@ void configura(int argc, char **argv)
 	iniciaAudio(audio_rate, audio_format, audio_channels, audio_buffers);
 	musica = Mix_LoadMUS("data/musica/musica.ogg");
 	somTiro = Mix_LoadWAV("data/audio/tiro.wav");
-	somExplosao = Mix_LoadWAV("data/audio/explosao.wav");
+	somExplosao = Mix_LoadWAV("data/audio/explosion.wav");
 
 	tocaMusica(musica);
 }
@@ -689,7 +689,7 @@ void reconfigura()
 {
 	inicializaObjetos(&nave,
 					  &meteoro,
-					  &explosao,
+					  &explosion,
 					  &tiro,
 					  &colisaoMeteoroDefault,
 					  meteoros,

@@ -117,7 +117,7 @@ void configuraTexturas(Texture **texturas)
 	carregaTexturaMeteoro(texturas[1], "data/meteoro/meteoro_Sphere.tga");
 	carregaTexturaTiro(texturas[2], "data/tiro/tiro_Cube.tga");
 	carregaTexturaFundo(texturas[3], "data/fundo/fundo.tga");
-	carregaTexturaExplosao(texturas[4], "data/explosao/explosao.tga");
+	carregaexplosion_texture(texturas[4], "data/explosion/explosion.tga");
 	carregaTexturaGameOver(texturas[5], "data/gameover/gameover.tga");
 	carregaTexturaJogo(texturas[6], "data/gameover/continuarVerde.tga");
 	carregaTexturaJogo(texturas[7], "data/gameover/continuarVermelho.tga");
@@ -218,7 +218,7 @@ void desenhaBotaoSair(int gameOverSelecionado,
 /* initializes objects */
 void inicializaObjetos(game_item *nave,
 					   GLMmodel **meteoro,
-					   GLMmodel **explosao,
+					   GLMmodel **explosion,
 					   GLMmodel **tiro,
 					   collision_box *colisaoMeteoroDefault,
 					   game_item *meteoros,
@@ -228,7 +228,7 @@ void inicializaObjetos(game_item *nave,
 {
 	carregaModeloNave(nave);
 	carregaModeloMeteoro(meteoro);
-	carregaModeloExplosao(explosao);
+	carregaModeloExplosao(explosion);
 	carregaModeloTiro(tiro);
 	criaCaixaColisao(meteoro[0], colisaoMeteoroDefault);
 	configuraCaixaColisaoMeteoro(colisaoMeteoroDefault);

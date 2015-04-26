@@ -1,13 +1,13 @@
 /*
-* Solar 3D Técnicas de Programação
-* Esse programa realiza inspeções relacionado
-* às explosões no jogo, criando local, configurando
-* o explosion_size das explosões, carrega o model e textura e
-* desenha a explosão no jogo
-*/
+ * Solar 3D Técnicas de Programação
+ * Esse programa realiza inspeções relacionado
+ * às explosões no jogo, criando local, configurando
+ * o explosion_size das explosões, carrega o model e textura e
+ * desenha a explosão no jogo
+ */
 
-#ifndef EXPLOSAO_H
-#define EXPLOSAO_H
+#ifndef EXPLOSION_H
+#define EXPLOSION_H
 
 #include "Display_Manager.h"
 #include "Solar_Utilities.h"
@@ -38,54 +38,54 @@ void configuraTamanhoExplosoes(game_item *explosions){
 }
 
 /* loads the explosion's model */
-void carregaModeloExplosao(GLMmodel **explosao){
-	if (*explosao == NULL) {
-			*explosao = glmReadOBJ("data/explosao/explosao.obj");
+void carregaModeloExplosao(GLMmodel **explosion){
+	if (*explosion == NULL) {
+			*explosion = glmReadOBJ("data/explosao/explosao.obj");
 
-			if (*explosao == NULL) {
-				printf("\n\nErro carregando explosao.obj");
+			if (*explosion == NULL) {
+				printf("\n\nErro carregando explosion.obj");
 				exit(0);
 			}
 			else {
 				/* nothing to do */
 			}
 			/* redimension to unity matrix */
-			glmUnitize(*explosao);
-			glmFacetNormals(*explosao);
-			glmVertexNormals(*explosao, 90.0);
+			glmUnitize(*explosion);
+			glmFacetNormals(*explosion);
+			glmVertexNormals(*explosion, 90.0);
 	}
 	else {
-		printf("model explosao nao carregou!");
+		printf("model explosion nao carregou!");
 	}
 }
 
 /* loads explosion's texture */
-void carregaTexturaExplosao(Texture *texturaExplosao, char* filePath){
-	if (LoadTGA(texturaExplosao, filePath)) {
-		glGenTextures(1, &texturaExplosao->texID);
-		glBindTexture(GL_TEXTURE_2D, texturaExplosao->texID);
+void carregaexplosion_texture(Texture *explosion_texture, char* filePath){
+	if (LoadTGA(explosion_texture, filePath)) {
+		glGenTextures(1, &explosion_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, explosion_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D, 0,
 					 GL_RGBA,
-					 texturaExplosao->width,
-					 texturaExplosao->height,
+					 explosion_texture->width,
+					 explosion_texture->height,
 					 0,
-					 texturaExplosao->type,
+					 explosion_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 texturaExplosao->imageData);
+					 explosion_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura da explosao");
+		printf("\nErro carregando a textura da explosion");
 	}
 
 }
 
 /* draws the explosions */
 void desenhaExplosoes(game_item *explosions,
-					  Texture texturaExplosao,
-					  GLMmodel *explosao)
+					  Texture explosion_texture,
+					  GLMmodel *explosion)
 {
 	int i = 0;
 
@@ -99,7 +99,7 @@ void desenhaExplosoes(game_item *explosions,
 			glScalef(explosions[i].explosion_size,
 					 explosions[i].explosion_size,
 					 explosions[i].explosion_size);
-			desenhaModelo(EXPLOSION_MODEL, texturaExplosao, explosao);
+			desenhaModelo(EXPLOSION_MODEL, explosion_texture, explosion);
 			glPopMatrix();
 		}
 		else {
