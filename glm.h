@@ -6,7 +6,7 @@
 * Wavefront OBJ model file format reader/writer/manipulator.
 *
 * Includes routines for generating smooth normals with
-* preservation of edges, welding redundant vertices & texture
+* preservation of edges, welding redundant vertex & texture
 * coordinate generation (spheremap and planar projections) + more.
 */
 
@@ -16,7 +16,7 @@
 #define M_PI 3.14159265f
 #endif
 
-#define GLM_NONE (0)          /* render with only vertices  */
+#define GLM_NONE (0)          /* render with only vertex  */
 #define GLM_FLAT (1 << 0)     /* render with facet normals  */
 #define GLM_SMOOTH (1 << 1)   /* render with vertex normals */
 #define GLM_TEXTURE (1 << 2)  /* render with texture coords */
@@ -35,9 +35,9 @@ typedef struct _GLMmaterial {
 
 /* GLMtriangle: Structure that defines a triangle in a model. */
 typedef struct _GLMtriangle {
-	GLuint vindices[3]; /* array of triangle vertex indices   */
+	GLuint v_indexex[3]; /* array of triangle vertex indices   */
 	GLuint nindices[3]; /* array of triangle normal indices   */
-	GLuint tindices[3]; /* array of triangle texcoord indices */
+	GLuint t_indexes[3]; /* array of triangle texcoord indices */
 	GLuint findex;      /* index of triangle facet normal     */
 } GLMtriangle;
 
@@ -55,8 +55,8 @@ typedef struct _GLMmodel {
 	char *pathname;   /* path to this model           */
 	char *mtllibname; /* name of the material library */
 
-	GLuint vertices_numbers; /* number of vertices in model */
-	GLfloat *vertices;  /* array of vertices           */
+	GLuint vertices_numbers; /* number of vertex in model */
+	GLfloat *vertex;  /* array of vertex           */
 
 	GLuint numnormals; /* number of normals in model */
 	GLfloat *normals;  /* array of normals           */
@@ -154,7 +154,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle);
 /*
 * glmLinearTexture: Generates texture coordinates according to a
 * linear projection of the texture map.  It generates these by
-* linearly mapping the vertices onto a square.
+* linearly mapping the vertex onto a square.
 *
 * model - pointer to initialized GLMmodel structure
 */
@@ -202,7 +202,7 @@ glmReadOBJ(char *filename);
 * filename - name of the file to write the Wavefront .OBJ format data to
 * mode     - a bitwise or of values describing what is written to the file
 *
-* GLM_NONE     - write only vertices
+* GLM_NONE     - write only vertex
 * GLM_FLAT     - write facet normals
 * GLM_SMOOTH   - write vertex normals
 * GLM_TEXTURE  - write texture coords
@@ -218,7 +218,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode);
 * model - initialized GLMmodel structure
 * mode  - a bitwise OR of values describing what is to be rendered.
 *
-* GLM_NONE     - render with only vertices
+* GLM_NONE     - render with only vertex
 * GLM_FLAT     - render with facet normals
 * GLM_SMOOTH   - render with vertex normals
 * GLM_TEXTURE  - render with texture coords
@@ -234,7 +234,7 @@ glmDraw(GLMmodel *model, GLuint mode);
 * model - initialized GLMmodel structure
 * mode  - a bitwise OR of values describing what is to be rendered.
 *
-* GLM_NONE     - render with only vertices
+* GLM_NONE     - render with only vertex
 * GLM_FLAT     - render with facet normals
 * GLM_SMOOTH   - render with vertex normals
 * GLM_TEXTURE  - render with texture coords
@@ -247,7 +247,7 @@ glmList(GLMmodel *model, GLuint mode);
 * glmWeld: eliminate (weld) vectors that are within an epsilon of each other.
 *
 * model   - initialized GLMmodel structure
-* epsilon - maximum difference between vertices
+* epsilon - maximum difference between vertex
 *          (0.00001 is a good start for a unitized model)
 */
 GLvoid

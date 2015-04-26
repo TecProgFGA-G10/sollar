@@ -14,8 +14,8 @@ void carregaModeloship(game_item *ship)
 	ship->position.x = 0;
 	ship->position.y = 0;
 	ship->position.z = 0;
-	ship->rotX = 0;
-	ship->rotY = 0;
+	ship->rotation_in_x = 0;
+	ship->rotation_in_y = 0;
 	ship->rotation_in_z = 0;
 	ship->last_position.x = 0;
 	ship->last_position.y = 0;
@@ -54,8 +54,8 @@ void carregaModeloship(game_item *ship)
 void load_ship_texture(Texture *ship_texture, char* filePath)
 {
 	if (LoadTGA(ship_texture,filePath)) {
-		glGenTextures(1, &ship_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, ship_texture->texID);
+		glGenTextures(1, &ship_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, ship_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 ship_texture->bpp / 8,

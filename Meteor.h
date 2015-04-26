@@ -91,8 +91,8 @@ void enviameteor(game_item *meteors,
 void load_meteor_texture(Texture *meteor_texture, char *filePath)
 {
 	if (LoadTGA(meteor_texture, filePath)) {
-		glGenTextures(1, &meteor_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, meteor_texture->texID);
+		glGenTextures(1, &meteor_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, meteor_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 meteor_texture->bpp / 8,

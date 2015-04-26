@@ -62,7 +62,7 @@ void configuraIluminacao()
 /* draws models */
 void desenhaModelo(int tipo, Texture textura, GLMmodel *model)
 {
-	glBindTexture(GL_TEXTURE_2D, textura.texID);
+	glBindTexture(GL_TEXTURE_2D, textura.texture_id);
 
 	if (tipo == SHIP_MODEL) {
 		glScalef(SHIP_SCALE, SHIP_SCALE, SHIP_SCALE);
@@ -77,7 +77,7 @@ void desenhaModelo(int tipo, Texture textura, GLMmodel *model)
 void desenhaFundo(Texture background_texture)
 {
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, background_texture.texID);
+	glBindTexture(GL_TEXTURE_2D, background_texture.texture_id);
 	glBegin(GL_QUADS);
 
 	glColor3ub(255, 255, 255);

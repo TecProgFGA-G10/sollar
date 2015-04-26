@@ -18,8 +18,8 @@
 void load_background_texture(Texture *background_texture, char *filePath)
 {
 	if (LoadTGA(background_texture, filePath)) {
-		glGenTextures(1, &background_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, background_texture->texID);
+		glGenTextures(1, &background_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, background_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 background_texture->bpp / 8,
@@ -42,8 +42,8 @@ void load_background_texture(Texture *background_texture, char *filePath)
 void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 {
 	if (LoadTGA(game_over_texture, filePath)) {
-		glGenTextures(1, &game_over_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, game_over_texture->texID);
+		glGenTextures(1, &game_over_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, game_over_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
@@ -66,8 +66,8 @@ void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 void load_game_texture(Texture *game_continue_texture, char *filePath)
 {
 	if (LoadTGA(game_continue_texture, filePath)) {
-		glGenTextures(1, &game_continue_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, game_continue_texture->texID);
+		glGenTextures(1, &game_continue_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, game_continue_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
@@ -90,8 +90,8 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 {
 	if (LoadTGA(end_game_texture, filePath)) {
-		glGenTextures(1, &end_game_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, end_game_texture->texID);
+		glGenTextures(1, &end_game_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, end_game_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
@@ -130,7 +130,7 @@ void desenhaPlanoGameOver(Texture game_over_texture)
 {
 	glPushMatrix();
 	glTranslatef(0, 0, 0);
-	glBindTexture(GL_TEXTURE_2D, game_over_texture.texID);
+	glBindTexture(GL_TEXTURE_2D, game_over_texture.texture_id);
 	glScalef(0.6, 0.6, 0.6);
 
 	glBegin(GL_QUADS);
@@ -160,10 +160,10 @@ void desenhaBotaoContinuar(int game_over_selected,
 	glTranslatef(-3, -2, 0);
 
 	if (game_over_selected == CONTINUE) {
-		glBindTexture(GL_TEXTURE_2D, game_continue_green_texture.texID);
+		glBindTexture(GL_TEXTURE_2D, game_continue_green_texture.texture_id);
 	}
 	else {
-		glBindTexture(GL_TEXTURE_2D, game_continue_red_texture.texID);
+		glBindTexture(GL_TEXTURE_2D, game_continue_red_texture.texture_id);
 	}
 
 	glBegin(GL_QUADS);
@@ -192,10 +192,10 @@ void desenhaBotaoSair(int game_over_selected,
 	glTranslatef(3,-2,0);
 
 	if (game_over_selected == GAME_OVER) {
-		glBindTexture(GL_TEXTURE_2D, game_over_green_texture.texID);
+		glBindTexture(GL_TEXTURE_2D, game_over_green_texture.texture_id);
 	}
 	else {
-		glBindTexture(GL_TEXTURE_2D, game_over_red_texture.texID);
+		glBindTexture(GL_TEXTURE_2D, game_over_red_texture.texture_id);
 	}
 
 	glBegin(GL_QUADS);

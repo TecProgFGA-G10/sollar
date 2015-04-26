@@ -63,8 +63,8 @@ typedef struct {
 	float acceleration;
 	float explosion_size;
 	float rotation;
-	float rotX;
-	float rotY;
+	float rotation_in_x;
+	float rotation_in_y;
 	float rotation_in_z;
 } game_item;
 
@@ -73,7 +73,7 @@ typedef struct {
 	GLuint  bpp;
 	GLuint  width;
 	GLuint  height;
-	GLuint  texID;
+	GLuint  texture_id;
 	GLuint  type;
 } Texture;
 

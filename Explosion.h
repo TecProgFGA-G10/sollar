@@ -62,8 +62,8 @@ void carregaModeloExplosao(GLMmodel **explosion){
 /* loads explosion's texture */
 void load_explosion_texture(Texture *explosion_texture, char* filePath){
 	if (LoadTGA(explosion_texture, filePath)) {
-		glGenTextures(1, &explosion_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, explosion_texture->texID);
+		glGenTextures(1, &explosion_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, explosion_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D, 0,
 					 GL_RGBA,
 					 explosion_texture->width,

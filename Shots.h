@@ -5,8 +5,8 @@
  * configura local da colisão do tiro e aceleração
  */
 
-#ifndef TIROS_H
-#define TIROS_H
+#ifndef SHOTS_H
+#define SHOTS_H
 #include "Solar_Utilities.h"
 
 /* creates an empty position to the shots */
@@ -73,8 +73,8 @@ void atualizaCaixaColisaoTiro(game_item *item)
 void load_shot_texture(Texture *shot_texture, char *filePath)
 {
    if (LoadTGA(shot_texture,filePath)) {
-		glGenTextures(1, &shot_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, shot_texture->texID);
+		glGenTextures(1, &shot_texture->texture_id);
+		glBindTexture(GL_TEXTURE_2D, shot_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 shot_texture->bpp / 8,
