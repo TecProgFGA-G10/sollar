@@ -32,9 +32,10 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 /* Configure the explosions size */
 void configuraTamanhoExplosoes(game_item *explosions){
 	unsigned int i = 0;
+	unsigned int size_value = 1;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		explosions[i].explosion_size = 1;
+		explosions[i].explosion_size = size_value;
 	}
 }
 
@@ -91,10 +92,13 @@ void desenhaExplosoes(game_item *explosions,
 					  GLMmodel *explosion)
 {
 	unsigned int i = 0;
+	unsigned int first_color_scale = 255;
+	unsigned int second_color_scale = 255;
+	unsigned int third_color_scale = 255;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (explosions[i].visible) {
-			glColor3ub(255,255,255);
+			glColor3ub(first_color_scale, second_color_scale, third_color_scale);
 			glPushMatrix();
 			glTranslatef(explosions[i].position.x,
 						 explosions[i].position.y,
