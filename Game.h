@@ -15,20 +15,20 @@
 #include "Shots.h"
 
 /* loads the background texture */
-void carregaTexturaFundo(Texture *texturaFundo, char *filePath)
+void carregaTexturaFundo(Texture *background_texture, char *filePath)
 {
-	if (LoadTGA(texturaFundo, filePath)) {
-		glGenTextures(1, &texturaFundo->texID);
-		glBindTexture(GL_TEXTURE_2D, texturaFundo->texID);
+	if (LoadTGA(background_texture, filePath)) {
+		glGenTextures(1, &background_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, background_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
-					 texturaFundo->bpp / 8,
-					 texturaFundo->width,
-					 texturaFundo->height,
+					 background_texture->bpp / 8,
+					 background_texture->width,
+					 background_texture->height,
 					 0,
-					 texturaFundo->type,
+					 background_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 texturaFundo->imageData);
+					 background_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);

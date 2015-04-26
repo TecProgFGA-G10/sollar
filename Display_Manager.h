@@ -5,23 +5,23 @@
 * a textura e o desenho de fundo
 */
 
-#ifndef GERENCIADOR_GRAFICO_H
-#define GERENCIADOR_GRAFICO_H
+#ifndef DISPLAY_MANAGER.H
+#define DISPLAY_MANAGER.H
 
 #include <stdio.h>
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
 
 /* initialize the library Glut */
-void iniciaGlut(int argc,char **argv)
+void iniciaGlut(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	/* 2 buffer mode and RGBA (accepts alpha) */
 	glutInitDisplayMode(GRAPHIC_MODEL);
-	glutInitWindowSize(WIDTH,HEIGHT); /* initial size of the window */
-	glutInitWindowPosition(0,0); /* initial position of the window */
+	glutInitWindowSize(WIDTH, HEIGHT); /* initial size of the window */
+	glutInitWindowPosition(0, 0); /* initial position of the window */
 	glutCreateWindow(WINDOW_NAME); /* window's name created */
-	glClearColor(0,0,0,0); /* clean collor, background collor */
+	glClearColor(0, 0, 0, 0); /* clean collor, background collor */
 }
 
 /* initializes camera */
@@ -43,18 +43,18 @@ void iniciaCamera()
 /* configure the ilumination */
 void configuraIluminacao()
 {
-	float corAmbienteLuz[] = {1, 1, 1, 1}; /* white light */
-	float posicaoLuz[] = {0, 0, 0, 0.2}; /* light's position */
-	glLightfv(GL_LIGHT0, GL_AMBIENT, corAmbienteLuz);
-	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-	float materialAmbiente[] = {0.2, 0.2, 0.2, 1};
-	float materialDifusa[] = {1, 1, 1, 1};
-	float materialSpecular[] = {1, 1, 1, 1};
-	float brilho = 70;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbiente);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDifusa);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular);
-	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, brilho);
+	float environment_color_light[] = {1, 1, 1, 1}; /* white light */
+	float light_position[] = {0, 0, 0, 0.2}; /* light's position */
+	glLightfv(GL_LIGHT0, GL_AMBIENT, environment_color_light);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	float material_environment[] = {0.2, 0.2, 0.2, 1};
+	float diffuse_material[] = {1, 1, 1, 1};
+	float specular_material[] = {1, 1, 1, 1};
+	float brightness = 70;
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_environment);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_material);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular_material);
+	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, brightness);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -75,21 +75,21 @@ void desenhaModelo(int tipo, Texture textura, GLMmodel *model)
 }
 
 /* draws the background */
-void desenhaFundo(Texture texturaFundo)
+void desenhaFundo(Texture background_texture)
 {
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texturaFundo.texID);
+	glBindTexture(GL_TEXTURE_2D, background_texture.texID);
 	glBegin(GL_QUADS);
 
 	glColor3ub(255, 255, 255);
 	glTexCoord2f(0.0, 0.0);
-	glVertex3i(MINIMUN_X*5, MAXIMUM_Y*5, -50);
+	glVertex3i(MINIMUN_X * 5, MAXIMUM_Y * 5, -50);
 	glTexCoord2f(1.0, 0.0);
-	glVertex3i(MINIMUN_X*5, MINIMUM_Y*5, -50);
+	glVertex3i(MINIMUN_X * 5, MINIMUM_Y * 5, -50);
 	glTexCoord2f(1.0, 1.0);
-	glVertex3i(MAXIMUM_X*5, MINIMUM_Y*5, -50);
+	glVertex3i(MAXIMUM_X * 5, MINIMUM_Y * 5, -50);
 	glTexCoord2f(0.0, 1.0);
-	glVertex3i(MAXIMUM_X*5, MAXIMUM_Y*5, -50);
+	glVertex3i(MAXIMUM_X * 5, MAXIMUM_Y * 5, -50);
 
 	glEnd();
 	glPopMatrix();

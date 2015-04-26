@@ -64,7 +64,7 @@ collision_box colisaoTiroDefault;
 Texture texturaAviao;
 Texture texturaMetoro;
 Texture texturaTiro;
-Texture texturaFundo;
+Texture background_texture;
 Texture texturaExplosao;
 Texture texturaGameOver;
 Texture continuaJogoVerde;
@@ -539,7 +539,7 @@ void desenha()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!pausado) {
 		if (nave.visible) {
-			desenhaFundo(texturaFundo);
+			desenhaFundo(background_texture);
 			glPushMatrix();
 				glTranslatef(nave.position.x, nave.position.y, nave.position.z);
 				glRotatef(nave.rotation, 0, 0, nave.rotZ);
@@ -664,7 +664,7 @@ void configura(int argc, char **argv)
 	Texture *texturas[] = {&texturaAviao,
 						   &texturaMetoro,
 						   &texturaTiro,
-						   &texturaFundo,
+						   &background_texture,
 						   &texturaExplosao,
 						   &texturaGameOver,
 						   &continuaJogoVerde,
