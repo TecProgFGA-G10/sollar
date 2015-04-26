@@ -62,7 +62,7 @@ collision_box dafault_collision_shot;
 
 /* textures */
 Texture texturaAviao;
-Texture texturaMetoro;
+Texture meteor_texture;
 Texture texturaTiro;
 Texture background_texture;
 Texture explosion_texture;
@@ -80,7 +80,7 @@ int baixoPressionada = FALSE;
 int atirar = FALSE;
 
 /* meteors numbers to send each wave */
-int meteorsEnviar;
+int meteors_to_send;
 /* if its on pause or not */
 int pausado = FALSE;
 /* meteors will be created in this time lapse */
@@ -462,8 +462,8 @@ void aumentaDificuldade(int t)
 			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				meteors[i].acceleration += METEOR_SPEED_VARIATION;
 			}
-			if (meteorsEnviar < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
-				meteorsEnviar++;
+			if (meteors_to_send < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
+				meteors_to_send++;
 			}
 			else {
 				/* nothing to do */
@@ -546,7 +546,7 @@ void desenha()
 				desenhaModelo(AIRCRAFT_MODEL, texturaAviao, aircraft.model);
 			glPopMatrix();
 			desenhaTiros(shots, texturaTiro, shot);
-			desenhameteors(meteors, texturaMetoro, meteor);
+			desenhameteors(meteors, meteor_texture, meteor);
 			desenhaExplosoes(explosions, explosion_texture, explosion);
 			desenhaHUD();
 		}
@@ -617,7 +617,7 @@ void timer(int t)
 		if (!pausado) {
 			printf("novo meteor");
 			if (t == NEW_METEOR) {
-				enviameteor(meteors, meteorsEnviar, dafault_meteor_collision);
+				enviameteor(meteors, meteors_to_send, dafault_meteor_collision);
 				glutTimerFunc(tempometeor, timer, NEW_METEOR);
 			}
 			else {
@@ -636,7 +636,7 @@ void timer(int t)
 /* configurs meteors */
 void configura(int argc, char **argv)
 {
-	meteorsEnviar = 10;
+	meteors_to_send = 10;
 	tempometeor = 2000;
 	pontuation = 0;
 	vida = 3;
@@ -662,7 +662,7 @@ void configura(int argc, char **argv)
 	iniciaCamera();
 
 	Texture *textures[] = {&texturaAviao,
-						   &texturaMetoro,
+						   &meteor_texture,
 						   &texturaTiro,
 						   &background_texture,
 						   &explosion_texture,

@@ -28,7 +28,7 @@ void carregaModelometeor(GLMmodel **meteor)
 		glmVertexNormals(*meteor, 90.0);
 	}
 	else {
-		printf("meteor nao carregado! \n");
+		printf("meteoro nao carregado! \n");
 	}
 }
 
@@ -49,12 +49,12 @@ int posicaoVaziameteors(game_item *meteors)
 
 /* send meteor to the screen */
 void enviameteor(game_item *meteors,
-				  int meteorsEnviar,
+				  int meteors_to_send,
 				  collision_box dafault_meteor_collision)
 {
 	int i = 0;
 
-	for (i = 0; i < meteorsEnviar; i++) {
+	for (i = 0; i < meteors_to_send; i++) {
 		int pos = posicaoVaziameteors(meteors);
 
 		if (pos >= 0) {
@@ -88,26 +88,26 @@ void enviameteor(game_item *meteors,
 }
 
 /* loads the meteor texture */
-void carregaTexturameteor(Texture *texturaMetoro, char *filePath)
+void carregaTexturameteor(Texture *meteor_texture, char *filePath)
 {
-	if (LoadTGA(texturaMetoro, filePath)) {
-		glGenTextures(1, &texturaMetoro->texID);
-		glBindTexture(GL_TEXTURE_2D, texturaMetoro->texID);
+	if (LoadTGA(meteor_texture, filePath)) {
+		glGenTextures(1, &meteor_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, meteor_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
-					 texturaMetoro->bpp / 8,
-					 texturaMetoro->width,
-					 texturaMetoro->height,
+					 meteor_texture->bpp / 8,
+					 meteor_texture->width,
+					 meteor_texture->height,
 					 0,
-					 texturaMetoro->type,
+					 meteor_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 texturaMetoro->imageData);
+					 meteor_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do meteor");
+		printf("\nErro carregando a textura do meteoro");
 	}
 }
 
@@ -135,7 +135,7 @@ void configuraAceleracaometeors(game_item *meteors)
 
 /* draws meteors */
 void desenhameteors(game_item *meteors,
-					 Texture texturaMetoro,
+					 Texture meteor_texture,
 					 GLMmodel *meteor)
 {
 	int i = 0;
@@ -146,7 +146,7 @@ void desenhameteors(game_item *meteors,
 			glTranslatef(meteors[i].position.x,
 						 meteors[i].position.y,
 						 meteors[i].position.z);
-			desenhaModelo(METEOR_MODEL, texturaMetoro, meteor);
+			desenhaModelo(METEOR_MODEL, meteor_texture, meteor);
 			glPopMatrix();
 		}
 		else {
