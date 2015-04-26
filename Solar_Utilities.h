@@ -40,7 +40,7 @@
 #define WIDTH 800
 #define HEIGHT 600
 #define WINDOW_NAME "Sollar"
-
+#include <string.h>
 
 typedef struct {
 	float x;
@@ -409,7 +409,9 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	GLuint cswap;
 	for (cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
-		texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=	texture->imageData[cswap] ^= texture->imageData[cswap+2];
+		texture->imageData[cswap] ^= texture->imageData[cswap+2];
+		texture->imageData[cswap+2] ^=	texture->imageData[cswap];
+		texture->imageData[cswap] ^= texture->imageData[cswap+2];
 	}
 	fclose(fTGA);
 	return TRUE;

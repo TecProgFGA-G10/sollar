@@ -3,8 +3,8 @@
  * Esse programa verifica a colisão de objetos com a nave.
  */
 
-#ifndef COLLISION.H
-#define COLLISION.H
+#ifndef COLLISION_H
+#define COLLISION_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
 #define CUBE_EDGES 8
@@ -261,10 +261,10 @@ int verificaColisao(collision_box a, collision_box b)
 		    ((a.points[1].x >= b.points[0].x) &&
 		     (a.points[1].x <= b.points[1].x)))
 		{
-			if( (a.points[0].y >= b.points[2].y) &&
-			    (a.points[2].y <= b.points[0].y) ||
-			    (a.points[2].y >= b.points[2].y) &&
-			    (a.points[2].y <= b.points[0].y))
+			if(((a.points[0].y >= b.points[2].y) &&
+			    (a.points[2].y <= b.points[0].y)) ||
+			   ((a.points[2].y >= b.points[2].y) &&
+			    (a.points[2].y <= b.points[0].y)))
 			{
 				return TRUE;
 			}

@@ -5,9 +5,8 @@
  * a textura e o desenho de fundo
  */
 
-#ifndef DISPLAY_MANAGER.H
-#define DISPLAY_MANAGER.H
-
+#ifndef DISPLAY_MANAGER_H
+#define DISPLAY_MANAGER_H
 #include <stdio.h>
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
