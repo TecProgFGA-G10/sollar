@@ -15,22 +15,23 @@
 /* Creates an empty space for the explosions */
 int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion*/
 {
-	int i = 0;
+	unsigned int i = 0;
+	int result_iteration = -1;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if(!explosions[i].visible) {
-			return i;
+			result_iteration = i;
 		}
 		else {
 		  /* nothing to do */
 		}
 	}
-	return -1;
+	return result_iteration;
 }
 
 /* Configure the explosions size */
 void configuraTamanhoExplosoes(game_item *explosions){
-	int i = 0;
+	unsigned int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		explosions[i].explosion_size = 1;
@@ -39,12 +40,14 @@ void configuraTamanhoExplosoes(game_item *explosions){
 
 /* loads the explosion's model */
 void carregaModeloExplosao(GLMmodel **explosion){
+	double explosion_angle = 90.0;
+	const unsigned int NEUTRAL_VALUE = 0;
 	if (*explosion == NULL) {
 			*explosion = glmReadOBJ("data/explosao/explosao.obj");
 
 			if (*explosion == NULL) {
 				printf("\n\nErro carregando explosion.obj");
-				exit(0);
+				exit(NEUTRAL_VALUE);
 			}
 			else {
 				/* nothing to do */
@@ -52,7 +55,7 @@ void carregaModeloExplosao(GLMmodel **explosion){
 			/* redimension to unity matrix */
 			glmUnitize(*explosion);
 			glmFacetNormals(*explosion);
-			glmVertexNormals(*explosion, 90.0);
+			glmVertexNormals(*explosion, explosion_angle);
 	}
 	else {
 		printf("model explosion nao carregou!");
@@ -87,7 +90,7 @@ void desenhaExplosoes(game_item *explosions,
 					  Texture explosion_texture,
 					  GLMmodel *explosion)
 {
-	int i = 0;
+	unsigned int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (explosions[i].visible) {
