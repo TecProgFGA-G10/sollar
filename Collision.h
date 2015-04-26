@@ -251,8 +251,7 @@ float evaluates_collision(float position,
 	else {
 		 /* nothing to do */
 	}
-
-	return collision_points;
+ 	return collision_points;
 }
 
 /* actualizes the shoots and meteors states,positions and visibility */

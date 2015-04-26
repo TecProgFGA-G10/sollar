@@ -159,10 +159,10 @@ void draw_meteor(game_item *meteors,
 						 meteors[i].position.z);
 			draw_model(METEOR_MODEL, meteor_texture, meteor);
 			glPopMatrix();
-			print_verbose_log("Meteor is drwaned");
+			print_verbose_log("Meteor is drawed");
 		}
 		else {
-			print_error_log("Error, metor not drawned");
+			print_error_log("Error, metor not drawed");
 		}
 	}
 }
