@@ -2,7 +2,7 @@
  * Solar 3D Técnicas de Programação
  * Esse programa realiza inspeções relacionado
  * às explosões no jogo, criando local, configurando
- * o explosion_size das explosões, carrega o model e textura e
+ * o explosion_size das explosões, carrega o modelo e textura e
  * desenha a explosão no jogo
  */
 

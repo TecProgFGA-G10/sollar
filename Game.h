@@ -1,9 +1,9 @@
 /*
-* Solar 3D Técnicas de Programação
-* Esse programa carrega os modelos, texturas
-* e realiza o desenho da caixa ou tela do jogo,
-* também configurando as texturas
-*/
+ * Solar 3D Técnicas de Programação
+ * Esse programa carrega os modelos, texturas
+ * e realiza o desenho da caixa ou tela do jogo,
+ * também configurando as textures
+ */
 
 #ifndef GAME_H
 #define GAME_H
@@ -39,20 +39,20 @@ void carregaTexturaFundo(Texture *background_texture, char *filePath)
 }
 
 /* loads the game over texture */
-void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath)
+void carregagame_over_texture(Texture *game_over_texture, char* filePath)
 {
-	if (LoadTGA(texturaGameOver, filePath)) {
-		glGenTextures(1, &texturaGameOver->texID);
-		glBindTexture(GL_TEXTURE_2D, texturaGameOver->texID);
+	if (LoadTGA(game_over_texture, filePath)) {
+		glGenTextures(1, &game_over_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, game_over_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
-					 texturaGameOver->width,
-					 texturaGameOver->height,
+					 game_over_texture->width,
+					 game_over_texture->height,
 					 0,
-					 texturaGameOver->type,
+					 game_over_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 texturaGameOver->imageData);
+					 game_over_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
@@ -63,20 +63,20 @@ void carregaTexturaGameOver(Texture *texturaGameOver, char* filePath)
 }
 
 /* loads the game texture */
-void carregaTexturaJogo(Texture *continuaJogo, char *filePath)
+void carregaTexturaJogo(Texture *game_continue_texture, char *filePath)
 {
-	if (LoadTGA(continuaJogo, filePath)) {
-		glGenTextures(1, &continuaJogo->texID);
-		glBindTexture(GL_TEXTURE_2D, continuaJogo->texID);
+	if (LoadTGA(game_continue_texture, filePath)) {
+		glGenTextures(1, &game_continue_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, game_continue_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
-					 continuaJogo->width,
-					 continuaJogo->height,
+					 game_continue_texture->width,
+					 game_continue_texture->height,
 					 0,
-					 continuaJogo->type,
+					 game_continue_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 continuaJogo->imageData);
+					 game_continue_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
@@ -87,50 +87,50 @@ void carregaTexturaJogo(Texture *continuaJogo, char *filePath)
 }
 
 /* loads the game over texture */
-void carregaTexturaFimJogo(Texture *fimDeJogo, char *filePath)
+void carregaTexturaFimJogo(Texture *game_over_texture, char *filePath)
 {
-	if (LoadTGA(fimDeJogo, filePath)) {
-		glGenTextures(1, &fimDeJogo->texID);
-		glBindTexture(GL_TEXTURE_2D, fimDeJogo->texID);
+	if (LoadTGA(game_over_texture, filePath)) {
+		glGenTextures(1, &game_over_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, game_over_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
-					 fimDeJogo->width,
-					 fimDeJogo->height,
+					 game_over_texture->width,
+					 game_over_texture->height,
 					 0,
-					 fimDeJogo->type,
+					 game_over_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 fimDeJogo->imageData);
+					 game_over_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do fimDeJogo");
+		printf("\nErro carregando a textura do game_over_texture");
 	}
 }
 
 /* configures textures */
-void configuraTexturas(Texture **texturas)
+void configuratextures(Texture **textures)
 {
-	carregaTexturaNave(texturas[0], "data/aviao/textura_jato.tga");
-	carregaTexturaMeteoro(texturas[1], "data/meteoro/meteoro_Sphere.tga");
-	carregaTexturaTiro(texturas[2], "data/tiro/tiro_Cube.tga");
-	carregaTexturaFundo(texturas[3], "data/fundo/fundo.tga");
-	carregaexplosion_texture(texturas[4], "data/explosion/explosion.tga");
-	carregaTexturaGameOver(texturas[5], "data/gameover/gameover.tga");
-	carregaTexturaJogo(texturas[6], "data/gameover/continuarVerde.tga");
-	carregaTexturaJogo(texturas[7], "data/gameover/continuarVermelho.tga");
-	carregaTexturaFimJogo(texturas[8], "data/gameover/fimJogoVerde.tga");
-	carregaTexturaFimJogo(texturas[9], "data/gameover/fimJogoVermelho.tga");
+	carregaTexturaaircraft(textures[0], "data/aviao/textura_jato.tga");
+	carregaTexturameteor(textures[1], "data/meteoro/meteoro_Sphere.tga");
+	carregaTexturaTiro(textures[2], "data/tiro/tiro_Cube.tga");
+	carregaTexturaFundo(textures[3], "data/fundo/fundo.tga");
+	carregaexplosion_texture(textures[4], "data/explosao/explosao.tga");
+	carregagame_over_texture(textures[5], "data/gameover/gameover.tga");
+	carregaTexturaJogo(textures[6], "data/gameover/continuarVerde.tga");
+	carregaTexturaJogo(textures[7], "data/gameover/continuarVermelho.tga");
+	carregaTexturaFimJogo(textures[8], "data/gameover/fimJogoVerde.tga");
+	carregaTexturaFimJogo(textures[9], "data/gameover/fimJogoVermelho.tga");
 }
 
 /* draws game over plan */
-void desenhaPlanoGameOver(Texture texturaGameOver)
+void desenhaPlanoGameOver(Texture game_over_texture)
 {
 	glPushMatrix();
 	glTranslatef(0, 0, 0);
-	glBindTexture(GL_TEXTURE_2D, texturaGameOver.texID);
+	glBindTexture(GL_TEXTURE_2D, game_over_texture.texID);
 	glScalef(0.6, 0.6, 0.6);
 
 	glBegin(GL_QUADS);
@@ -152,18 +152,18 @@ void desenhaPlanoGameOver(Texture texturaGameOver)
 }
 
 /* draws continue button */
-void desenhaBotaoContinuar(int gameOverSelecionado,
-						   Texture continuaJogoVerde,
-						   Texture continuaJogoVermelho)
+void desenhaBotaoContinuar(int game_over_selected,
+						   Texture game_continue_green_texture,
+						   Texture game_continue_red_texture)
 {
 	glPushMatrix();
 	glTranslatef(-3, -2, 0);
 
-	if (gameOverSelecionado == CONTINUE) {
-		glBindTexture(GL_TEXTURE_2D, continuaJogoVerde.texID);
+	if (game_over_selected == CONTINUE) {
+		glBindTexture(GL_TEXTURE_2D, game_continue_green_texture.texID);
 	}
 	else {
-		glBindTexture(GL_TEXTURE_2D, continuaJogoVermelho.texID);
+		glBindTexture(GL_TEXTURE_2D, game_continue_red_texture.texID);
 	}
 
 	glBegin(GL_QUADS);
@@ -184,18 +184,18 @@ void desenhaBotaoContinuar(int gameOverSelecionado,
 }
 
 /* draws the leave button */
-void desenhaBotaoSair(int gameOverSelecionado,
-					  Texture fimJogoVerde,
-					  Texture fimJogoVermelho)
+void desenhaBotaoSair(int game_over_selected,
+					  Texture game_over_green_texture,
+					  Texture game_over_red_texture)
 {
 	glPushMatrix();
 	glTranslatef(3,-2,0);
 
-	if (gameOverSelecionado == GAME_OVER) {
-		glBindTexture(GL_TEXTURE_2D, fimJogoVerde.texID);
+	if (game_over_selected == GAME_OVER) {
+		glBindTexture(GL_TEXTURE_2D, game_over_green_texture.texID);
 	}
 	else {
-		glBindTexture(GL_TEXTURE_2D, fimJogoVermelho.texID);
+		glBindTexture(GL_TEXTURE_2D, game_over_red_texture.texID);
 	}
 
 	glBegin(GL_QUADS);
@@ -216,27 +216,27 @@ void desenhaBotaoSair(int gameOverSelecionado,
 }
 
 /* initializes objects */
-void inicializaObjetos(game_item *nave,
-					   GLMmodel **meteoro,
+void inicializaObjetos(game_item *aircraft,
+					   GLMmodel **meteor,
 					   GLMmodel **explosion,
-					   GLMmodel **tiro,
-					   collision_box *colisaoMeteoroDefault,
-					   game_item *meteoros,
+					   GLMmodel **shot,
+					   collision_box *dafault_meteor_collision,
+					   game_item *meteors,
 					   game_item *explosions,
-					   collision_box *colisaoTiroDefault,
-					   game_item *tiros)
+					   collision_box *dafault_collision_shot,
+					   game_item *shots)
 {
-	carregaModeloNave(nave);
-	carregaModeloMeteoro(meteoro);
+	carregaModeloaircraft(aircraft);
+	carregaModelometeor(meteor);
 	carregaModeloExplosao(explosion);
-	carregaModeloTiro(tiro);
-	criaCaixaColisao(meteoro[0], colisaoMeteoroDefault);
-	configuraCaixaColisaoMeteoro(colisaoMeteoroDefault);
-	configuraAceleracaoMeteoros(meteoros);
+	carregaModeloTiro(shot);
+	criaCaixaColisao(meteor[0], dafault_meteor_collision);
+	configuraCaixaColisaometeor(dafault_meteor_collision);
+	configuraAceleracaometeors(meteors);
 	configuraTamanhoExplosoes(explosions);
-	criaCaixaColisao(tiro[0], colisaoTiroDefault);
-	configuraCaixaColisaoTiro(colisaoTiroDefault);
-	configuraAceleracaoTiros(tiros);
+	criaCaixaColisao(shot[0], dafault_collision_shot);
+	configuraCaixaColisaoTiro(dafault_collision_shot);
+	configuraAceleracaoTiros(shots);
 }
 
 #endif

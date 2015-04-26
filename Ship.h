@@ -3,46 +3,46 @@
 * Esse programa carrega o model da nave e sua textura no jogo
 */
 
-#ifndef NAVE_H
-#define NAVE_H
+#ifndef aircraft_H
+#define aircraft_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
 
 /* loads the ship model */
-void carregaModeloNave(game_item *nave)
+void carregaModeloaircraft(game_item *aircraft)
 {
-	nave->position.x = 0;
-	nave->position.y = 0;
-	nave->position.z = 0;
-	nave->rotX = 0;
-	nave->rotY = 0;
-	nave->rotZ = 0;
-	nave->last_position.x = 0;
-	nave->last_position.y = 0;
-	nave->last_position.z = 0;
-	nave->acceleration = 0.03;
-	nave->visible = TRUE;
+	aircraft->position.x = 0;
+	aircraft->position.y = 0;
+	aircraft->position.z = 0;
+	aircraft->rotX = 0;
+	aircraft->rotY = 0;
+	aircraft->rotZ = 0;
+	aircraft->last_position.x = 0;
+	aircraft->last_position.y = 0;
+	aircraft->last_position.z = 0;
+	aircraft->acceleration = 0.03;
+	aircraft->visible = TRUE;
 
 	int scala = 0;
 
-	if (!nave->model) {
-		nave->model = glmReadOBJ("data/aviao/jato.obj");
-		if (!nave->model) {
+	if (!aircraft->model) {
+		aircraft->model = glmReadOBJ("data/aviao/jato.obj");
+		if (!aircraft->model) {
 			exit(0);
 		}
 		else {
 			/* nothing to do */
 		}
 
-		glmUnitize(nave->model);
-		criaCaixaColisao(nave->model, &nave->collision);
-		glmFacetNormals(nave->model);
-		glmVertexNormals(nave->model, 90.0);
+		glmUnitize(aircraft->model);
+		criaCaixaColisao(aircraft->model, &aircraft->collision);
+		glmFacetNormals(aircraft->model);
+		glmVertexNormals(aircraft->model, 90.0);
 
 		for (scala = 0; scala < 8; scala++) {
-			nave->collision.points[scala].x *= AIRCRAFT_SCALE;
-			nave->collision.points[scala].y *= AIRCRAFT_SCALE;
-			nave->collision.points[scala].z *= AIRCRAFT_SCALE;
+			aircraft->collision.points[scala].x *= AIRCRAFT_SCALE;
+			aircraft->collision.points[scala].y *= AIRCRAFT_SCALE;
+			aircraft->collision.points[scala].z *= AIRCRAFT_SCALE;
 		}
 	}
 	else {
@@ -51,20 +51,20 @@ void carregaModeloNave(game_item *nave)
 }
 
 /* loads shit texture */
-void carregaTexturaNave(Texture *texturaNave, char* filePath)
+void carregaTexturaaircraft(Texture *texturaaircraft, char* filePath)
 {
-	if (LoadTGA(texturaNave,filePath)) {
-		glGenTextures(1, &texturaNave->texID);
-		glBindTexture(GL_TEXTURE_2D, texturaNave->texID);
+	if (LoadTGA(texturaaircraft,filePath)) {
+		glGenTextures(1, &texturaaircraft->texID);
+		glBindTexture(GL_TEXTURE_2D, texturaaircraft->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
-					 texturaNave->bpp / 8,
-					 texturaNave->width,
-					 texturaNave->height,
+					 texturaaircraft->bpp / 8,
+					 texturaaircraft->width,
+					 texturaaircraft->height,
 					 0,
-					 texturaNave->type,
+					 texturaaircraft->type,
 					 GL_UNSIGNED_BYTE,
-					 texturaNave->imageData);
+					 texturaaircraft->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);

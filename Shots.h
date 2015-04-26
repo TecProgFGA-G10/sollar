@@ -1,21 +1,21 @@
 /*
-* Solar 3D Técnicas de Programação
-* Esse programa realiza a inspenção de tiros da nave, carregando model,
-* definindo a posição, atualiza o local do tiro, desenha tiro, carrega a textura,
-* configura local da colisão do tiro e aceleração
-*/
+ * Solar 3D Técnicas de Programação
+ * Esse programa realiza a inspenção de shots da nave, carregando model,
+ * definindo a posição, atualiza o local do shot, desenha shot, carrega a textura,
+ * configura local da colisão do tiro e aceleração
+ */
 
 #ifndef TIROS_H
 #define TIROS_H
 #include "Solar_Utilities.h"
 
 /* creates an empty position to the shots */
-int posicaoVaziaTiros(game_item *tiros)
+int posicaoVaziaTiros(game_item *shots)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		/* finds the first empty shot and returns it */
-		if (!tiros[i].visible) {
+		if (!shots[i].visible) {
 			return i;
 		}
 		else {
@@ -26,11 +26,11 @@ int posicaoVaziaTiros(game_item *tiros)
 }
 
 /* loads shot model */
-void carregaModeloTiro(GLMmodel **tiro) {
-	if (*tiro == NULL) {
-		*tiro = glmReadOBJ("data/tiro/tiro.obj");
+void carregaModeloTiro(GLMmodel **shot) {
+	if (*shot == NULL) {
+		*shot = glmReadOBJ("data/tiro/tiro.obj");
 
-		if (*tiro == NULL) {
+		if (*shot == NULL) {
 			printf("\n\nErro carregando tiro.obj");
 			exit(0);
 		}
@@ -38,12 +38,12 @@ void carregaModeloTiro(GLMmodel **tiro) {
 			/* nothing to do */
 		}
 		/* calculate the normal ones */
-		glmUnitize(*tiro);
-		glmFacetNormals(*tiro);
-		glmVertexNormals(*tiro, 90.0);
+		glmUnitize(*shot);
+		glmFacetNormals(*shot);
+		glmVertexNormals(*shot, 90.0);
 	}
 	else {
-		printf("model tiro nao carregado!\n");
+		printf("model shot nao carregado!\n");
 	}
 
 }
@@ -89,21 +89,21 @@ void carregaTexturaTiro(Texture *texturaTiro, char *filePath)
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do tiro");
+		printf("\nErro carregando a textura do shot");
 	}
 }
 
 /* draws the shots */
-void desenhaTiros(game_item *tiros, Texture texturaTiro, GLMmodel *tiro)
+void desenhaTiros(game_item *shots, Texture texturaTiro, GLMmodel *shot)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
-		if (tiros[i].visible) {
+		if (shots[i].visible) {
 			glPushMatrix();
-				glTranslatef(tiros[i].position.x,
-							 tiros[i].position.y,
-							 tiros[i].position.z);
-				desenhaModelo(SHOT_MODEL, texturaTiro, tiro);
+				glTranslatef(shots[i].position.x,
+							 shots[i].position.y,
+							 shots[i].position.z);
+				desenhaModelo(SHOT_MODEL, texturaTiro, shot);
 			glPopMatrix();
 		}
 		else {
@@ -113,22 +113,22 @@ void desenhaTiros(game_item *tiros, Texture texturaTiro, GLMmodel *tiro)
 }
 
 /* configures shot's collision box */
-void configuraCaixaColisaoTiro(collision_box *colisaoTiroDefault)
+void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 {
 	int c;
 	for (c = 0; c < 8; c++) {
-		colisaoTiroDefault->points[c].x *= SHOT_SCALE;
-		colisaoTiroDefault->points[c].y *= SHOT_SCALE;
-		colisaoTiroDefault->points[c].z *= SHOT_SCALE;
+		dafault_collision_shot->points[c].x *= SHOT_SCALE;
+		dafault_collision_shot->points[c].y *= SHOT_SCALE;
+		dafault_collision_shot->points[c].z *= SHOT_SCALE;
 	}
 }
 
 /* configures shot's acceleration */
-void configuraAceleracaoTiros(game_item *tiros)
+void configuraAceleracaoTiros(game_item *shots)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
-		tiros[i].acceleration = -0.1;
+		shots[i].acceleration = -0.1;
 	}
 }
 
