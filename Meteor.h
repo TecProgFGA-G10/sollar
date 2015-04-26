@@ -88,7 +88,7 @@ void enviameteor(game_item *meteors,
 }
 
 /* loads the meteor texture */
-void carregaTexturameteor(Texture *meteor_texture, char *filePath)
+void load_meteor_texture(Texture *meteor_texture, char *filePath)
 {
 	if (LoadTGA(meteor_texture, filePath)) {
 		glGenTextures(1, &meteor_texture->texID);

@@ -20,13 +20,13 @@
 #define MINIMUM_Y -14
 #define MAXIMUM_Y 14
 #define METEOR_SPEED_VARIATION 0.05 /* meteor's speed variation */
-#define AIRCRAFT_SCALE 2
+#define SHIP_SCALE 2
 #define METEOR_SCALE 1
 #define SHOT_SCALE 1
 #define NEW_METEOR 88 /* send the event to new meteor */
 #define EXPLOSION_DECREASE_RATE 99 /* stop the timer, make the explosion smaller */
-#define SCORE_VALUE 10 /* pontuation to be added */
-#define AIRCRAFT_MODEL 1 /* draw the ship model */
+#define SCORE_VALUE 10 /* score to be added */
+#define SHIP_MODEL 1 /* draw the ship model */
 #define METEOR_MODEL 2 /* draw the meteor model */
 #define SHOT_MODEL 3 /* draw the shoot model */
 #define EXPLOSION_MODEL 4 /* draw the explosion model */
@@ -65,7 +65,7 @@ typedef struct {
 	float rotation;
 	float rotX;
 	float rotY;
-	float rotZ;
+	float rotation_in_z;
 } game_item;
 
 typedef struct {

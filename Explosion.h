@@ -3,7 +3,7 @@
  * Esse programa realiza inspeções relacionado
  * às explosões no jogo, criando local, configurando
  * o explosion_size das explosões, carrega o modelo e textura e
- * desenha a explosão no jogo
+ * draw a explosão no jogo
  */
 
 #ifndef EXPLOSION_H
@@ -60,7 +60,7 @@ void carregaModeloExplosao(GLMmodel **explosion){
 }
 
 /* loads explosion's texture */
-void carregaexplosion_texture(Texture *explosion_texture, char* filePath){
+void load_explosion_texture(Texture *explosion_texture, char* filePath){
 	if (LoadTGA(explosion_texture, filePath)) {
 		glGenTextures(1, &explosion_texture->texID);
 		glBindTexture(GL_TEXTURE_2D, explosion_texture->texID);

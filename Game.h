@@ -15,7 +15,7 @@
 #include "Shots.h"
 
 /* loads the background texture */
-void carregaTexturaFundo(Texture *background_texture, char *filePath)
+void load_background_texture(Texture *background_texture, char *filePath)
 {
 	if (LoadTGA(background_texture, filePath)) {
 		glGenTextures(1, &background_texture->texID);
@@ -39,7 +39,7 @@ void carregaTexturaFundo(Texture *background_texture, char *filePath)
 }
 
 /* loads the game over texture */
-void carregagame_over_texture(Texture *game_over_texture, char* filePath)
+void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 {
 	if (LoadTGA(game_over_texture, filePath)) {
 		glGenTextures(1, &game_over_texture->texID);
@@ -63,7 +63,7 @@ void carregagame_over_texture(Texture *game_over_texture, char* filePath)
 }
 
 /* loads the game texture */
-void carregaTexturaJogo(Texture *game_continue_texture, char *filePath)
+void load_game_texture(Texture *game_continue_texture, char *filePath)
 {
 	if (LoadTGA(game_continue_texture, filePath)) {
 		glGenTextures(1, &game_continue_texture->texID);
@@ -87,20 +87,20 @@ void carregaTexturaJogo(Texture *game_continue_texture, char *filePath)
 }
 
 /* loads the game over texture */
-void carregaTexturaFimJogo(Texture *game_over_texture, char *filePath)
+void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 {
-	if (LoadTGA(game_over_texture, filePath)) {
-		glGenTextures(1, &game_over_texture->texID);
-		glBindTexture(GL_TEXTURE_2D, game_over_texture->texID);
+	if (LoadTGA(end_game_texture, filePath)) {
+		glGenTextures(1, &end_game_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, end_game_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
 					 GL_RGBA,
-					 game_over_texture->width,
-					 game_over_texture->height,
+					 end_game_texture->width,
+					 end_game_texture->height,
 					 0,
-					 game_over_texture->type,
+					 end_game_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 game_over_texture->imageData);
+					 end_game_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
@@ -113,16 +113,16 @@ void carregaTexturaFimJogo(Texture *game_over_texture, char *filePath)
 /* configures textures */
 void configuratextures(Texture **textures)
 {
-	carregaTexturaaircraft(textures[0], "data/aviao/textura_jato.tga");
-	carregaTexturameteor(textures[1], "data/meteoro/meteoro_Sphere.tga");
-	carregaTexturaTiro(textures[2], "data/tiro/tiro_Cube.tga");
-	carregaTexturaFundo(textures[3], "data/fundo/fundo.tga");
-	carregaexplosion_texture(textures[4], "data/explosao/explosao.tga");
-	carregagame_over_texture(textures[5], "data/gameover/gameover.tga");
-	carregaTexturaJogo(textures[6], "data/gameover/continuarVerde.tga");
-	carregaTexturaJogo(textures[7], "data/gameover/continuarVermelho.tga");
-	carregaTexturaFimJogo(textures[8], "data/gameover/fimJogoVerde.tga");
-	carregaTexturaFimJogo(textures[9], "data/gameover/fimJogoVermelho.tga");
+	load_ship_texture(textures[0], "data/aviao/textura_jato.tga");
+	load_meteor_texture(textures[1], "data/meteoro/meteoro_Sphere.tga");
+	load_shot_texture(textures[2], "data/tiro/tiro_Cube.tga");
+	load_background_texture(textures[3], "data/fundo/fundo.tga");
+	load_explosion_texture(textures[4], "data/explosao/explosao.tga");
+	carrega_game_over_texture(textures[5], "data/gameover/gameover.tga");
+	load_game_texture(textures[6], "data/gameover/continuarVerde.tga");
+	load_game_texture(textures[7], "data/gameover/continuarVermelho.tga");
+	carrega_game_over_texture(textures[8], "data/gameover/fimJogoVerde.tga");
+	carrega_game_over_texture(textures[9], "data/gameover/fimJogoVermelho.tga");
 }
 
 /* draws game over plan */
@@ -216,7 +216,7 @@ void desenhaBotaoSair(int game_over_selected,
 }
 
 /* initializes objects */
-void inicializaObjetos(game_item *aircraft,
+void inicializaObjetos(game_item *ship,
 					   GLMmodel **meteor,
 					   GLMmodel **explosion,
 					   GLMmodel **shot,
@@ -226,7 +226,7 @@ void inicializaObjetos(game_item *aircraft,
 					   collision_box *dafault_collision_shot,
 					   game_item *shots)
 {
-	carregaModeloaircraft(aircraft);
+	carregaModeloship(ship);
 	carregaModelometeor(meteor);
 	carregaModeloExplosao(explosion);
 	carregaModeloTiro(shot);

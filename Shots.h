@@ -1,7 +1,7 @@
 /*
  * Solar 3D Técnicas de Programação
  * Esse programa realiza a inspenção de shots da nave, carregando model,
- * definindo a posição, atualiza o local do shot, desenha shot, carrega a textura,
+ * definindo a posição, atualiza o local do shot, draw shot, carrega a textura,
  * configura local da colisão do tiro e aceleração
  */
 
@@ -70,20 +70,20 @@ void atualizaCaixaColisaoTiro(game_item *item)
 }
 
 /* loads shot's texture */
-void carregaTexturaTiro(Texture *texturaTiro, char *filePath)
+void load_shot_texture(Texture *shot_texture, char *filePath)
 {
-   if (LoadTGA(texturaTiro,filePath)) {
-		glGenTextures(1, &texturaTiro->texID);
-		glBindTexture(GL_TEXTURE_2D, texturaTiro->texID);
+   if (LoadTGA(shot_texture,filePath)) {
+		glGenTextures(1, &shot_texture->texID);
+		glBindTexture(GL_TEXTURE_2D, shot_texture->texID);
 		glTexImage2D(GL_TEXTURE_2D,
 					 0,
-					 texturaTiro->bpp / 8,
-					 texturaTiro->width,
-					 texturaTiro->height,
+					 shot_texture->bpp / 8,
+					 shot_texture->width,
+					 shot_texture->height,
 					 0,
-					 texturaTiro->type,
+					 shot_texture->type,
 					 GL_UNSIGNED_BYTE,
-					 texturaTiro->imageData);
+					 shot_texture->imageData);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
@@ -94,7 +94,7 @@ void carregaTexturaTiro(Texture *texturaTiro, char *filePath)
 }
 
 /* draws the shots */
-void desenhaTiros(game_item *shots, Texture texturaTiro, GLMmodel *shot)
+void desenhaTiros(game_item *shots, Texture shot_texture, GLMmodel *shot)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
@@ -103,7 +103,7 @@ void desenhaTiros(game_item *shots, Texture texturaTiro, GLMmodel *shot)
 				glTranslatef(shots[i].position.x,
 							 shots[i].position.y,
 							 shots[i].position.z);
-				desenhaModelo(SHOT_MODEL, texturaTiro, shot);
+				desenhaModelo(SHOT_MODEL, shot_texture, shot);
 			glPopMatrix();
 		}
 		else {

@@ -64,8 +64,8 @@ void desenhaModelo(int tipo, Texture textura, GLMmodel *model)
 {
 	glBindTexture(GL_TEXTURE_2D, textura.texID);
 
-	if (tipo == AIRCRAFT_MODEL) {
-		glScalef(AIRCRAFT_SCALE, AIRCRAFT_SCALE, AIRCRAFT_SCALE);
+	if (tipo == SHIP_MODEL) {
+		glScalef(SHIP_SCALE, SHIP_SCALE, SHIP_SCALE);
 	}
 	else {
 		/* nothing to do */
