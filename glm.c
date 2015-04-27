@@ -126,22 +126,22 @@ glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
  * epsilon of each other.
  *
  * vectors     - array of GLfloat[3]'s to be welded
- * numvectors  - number of GLfloat[3]'s in vectors
+ * number_of_vectors  - number of GLfloat[3]'s in vectors
  * epsilon     - maximum difference between vectors
  *
  */
 GLfloat*
-glmWeldVectors(GLfloat *vectors, GLuint *numvectors, GLfloat epsilon)
+glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
 {
 	GLfloat *copies;
 	GLuint copied;
 	GLuint i, j;
 
-	copies = (GLfloat*)malloc(sizeof(GLfloat) * 3 * (*numvectors + 1));
-	memcpy(copies, vectors, (sizeof(GLfloat) * 3 * (*numvectors + 1)));
+	copies = (GLfloat*)malloc(sizeof(GLfloat) * 3 * (*number_of_vectors + 1));
+	memcpy(copies, vectors, (sizeof(GLfloat) * 3 * (*number_of_vectors + 1)));
 
 	copied = 1;
-	for (i = 1; i <= *numvectors; i++) {
+	for (i = 1; i <= *number_of_vectors; i++) {
 		for (j = 1; j <= copied; j++) {
 			if (glmEqual(&vectors[3 * i], &copies[3 * j], epsilon)) {
 				goto duplicate;
@@ -166,7 +166,7 @@ duplicate:
 		vectors[3 * i + 0] = (GLfloat)j;
 	}
 
-	*numvectors = copied-1;
+	*number_of_vectors = copied-1;
 	return copies;
 }
 
@@ -202,11 +202,11 @@ glmAddGroup(GLMmodel *model, char *name)
 		group = (GLMgroup*)malloc(sizeof(GLMgroup));
 		group->name = strdup(name);
 		group->material = 0;
-		group->numtriangles = 0;
+		group->number_of_triangles = 0;
 		group->triangles = NULL;
 		group->next = model->groups;
 		model->groups = group;
-		model->numgroups++;
+		model->number_of_groups++;
 	}
 	else {
 		/* nothing to do */
@@ -225,7 +225,7 @@ glmFindMaterial(GLMmodel *model, char *name)
 	 * XXX doing a linear search on a string key'd list is pretty lame,
 	 * but it works and is fast enough for now.
 	 */
-	for (i = 0; i < model->nummaterials; i++) {
+	for (i = 0; i < model->number_of_materials; i++) {
 		if (!strcmp(model->materials[i].name, name)) {
 			goto found;
 		}
@@ -283,10 +283,10 @@ glmReadMTL(GLMmodel *model, char *name)
 	FILE *file;
 	char *dir;
 	char *filename;
-	char buf[128];
-	GLuint nummaterials, i;
+	char buffer[128];
+	GLuint number_of_materials;
 
-	dir = glmDirName(model->pathname);
+	dir = glmDirName(model->path_name);
 	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(name) + 1));
 	strcpy(filename, dir);
 	strcat(filename, name);
@@ -305,32 +305,33 @@ glmReadMTL(GLMmodel *model, char *name)
 	free(filename);
 
 	/* count the number of materials in the file */
-	nummaterials = 1;
-	while (fscanf(file, "%s", buf) != EOF) {
-		switch (buf[0]) {
+	number_of_materials = 1;
+	while (fscanf(file, "%s", buffer) != EOF) {
+		switch (buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 			case 'n': /* newmtl */
-				fgets(buf, sizeof(buf), file);
-				nummaterials++;
-				sscanf(buf, "%s %s", buf, buf);
+				fgets(buffer, sizeof(buffer), file);
+				number_of_materials++;
+				sscanf(buffer, "%s %s", buffer, buffer);
 				break;
 			default:
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 		}
 	}
 
 	rewind(file);
 
-	model->materials = (GLMmaterial*)malloc(sizeof(GLMmaterial) * nummaterials);
-	model->nummaterials = nummaterials;
+	model->materials = (GLMmaterial*)malloc(sizeof(GLMmaterial) * number_of_materials);
+	model->number_of_materials = number_of_materials;
 
 	/* set the default material */
-	for (i = 0; i < nummaterials; i++) {
+	GLuint i;
+	for (i = 0; i < number_of_materials; i++) {
 		model->materials[i].name = NULL;
 		model->materials[i].shininess = 65.0;
 		model->materials[i].diffuse[0] = 0.8;
@@ -349,54 +350,54 @@ glmReadMTL(GLMmodel *model, char *name)
 	model->materials[0].name = strdup("default");
 
 	/* now, read in the data */
-	nummaterials = 0;
-	while (fscanf(file, "%s", buf) != EOF) {
-		switch (buf[0]) {
+	number_of_materials = 0;
+	while (fscanf(file, "%s", buffer) != EOF) {
+		switch (buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 			case 'n': /* newmtl */
-				fgets(buf, sizeof(buf), file);
-				sscanf(buf, "%s %s", buf, buf);
-				nummaterials++;
-				model->materials[nummaterials].name = strdup(buf);
+				fgets(buffer, sizeof(buffer), file);
+				sscanf(buffer, "%s %s", buffer, buffer);
+				number_of_materials++;
+				model->materials[number_of_materials].name = strdup(buffer);
 				break;
 			case 'N':
-				fscanf(file, "%f", &model->materials[nummaterials].shininess);
+				fscanf(file, "%f", &model->materials[number_of_materials].shininess);
 				/* wavefront shininess is from [0, 1000], so scale for OpenGL */
-				model->materials[nummaterials].shininess /= 1000.0;
-				model->materials[nummaterials].shininess *= 128.0;
+				model->materials[number_of_materials].shininess /= 1000.0;
+				model->materials[number_of_materials].shininess *= 128.0;
 				break;
 			case 'K':
-				switch (buf[1]) {
+				switch (buffer[1]) {
 					case 'd':
 						fscanf(file, "%f %f %f",
-							&model->materials[nummaterials].diffuse[0],
-							&model->materials[nummaterials].diffuse[1],
-							&model->materials[nummaterials].diffuse[2]);
+							&model->materials[number_of_materials].diffuse[0],
+							&model->materials[number_of_materials].diffuse[1],
+							&model->materials[number_of_materials].diffuse[2]);
 						break;
 					case 's':
 						fscanf(file, "%f %f %f",
-							&model->materials[nummaterials].specular[0],
-							&model->materials[nummaterials].specular[1],
-							&model->materials[nummaterials].specular[2]);
+							&model->materials[number_of_materials].specular[0],
+							&model->materials[number_of_materials].specular[1],
+							&model->materials[number_of_materials].specular[2]);
 						break;
 					case 'a':
 						fscanf(file, "%f %f %f",
-							&model->materials[nummaterials].ambient[0],
-							&model->materials[nummaterials].ambient[1],
-							&model->materials[nummaterials].ambient[2]);
+							&model->materials[number_of_materials].ambient[0],
+							&model->materials[number_of_materials].ambient[1],
+							&model->materials[number_of_materials].ambient[2]);
 						break;
 					default:
 						/* eat up rest of line */
-						fgets(buf, sizeof(buf), file);
+						fgets(buffer, sizeof(buffer), file);
 						break;
 				}
 				break;
 				default:
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
+					fgets(buffer, sizeof(buffer), file);
 					break;
 		}
 	}
@@ -406,11 +407,11 @@ glmReadMTL(GLMmodel *model, char *name)
  * glmWriteMTL: write a wavefront material library file
  *
  * model   - properly initialized GLMmodel structure
- * modelpath  - pathname of the model being written
- * mtllibname - name of the material library to be written
+ * model_path  - path_name of the model being written
+ * mtl_lib_name - name of the material library to be written
  */
 static GLvoid
-glmWriteMTL(GLMmodel *model, char *modelpath, char *mtllibname)
+glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 {
 	FILE *file;
 	char *dir;
@@ -418,10 +419,10 @@ glmWriteMTL(GLMmodel *model, char *modelpath, char *mtllibname)
 	GLMmaterial *material;
 	GLuint i;
 
-	dir = glmDirName(modelpath);
-	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(mtllibname)));
+	dir = glmDirName(model_path);
+	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(mtl_lib_name)));
 	strcpy(filename, dir);
-	strcat(filename, mtllibname);
+	strcat(filename, mtl_lib_name);
 	free(dir);
 
 	/* open the file */
@@ -446,7 +447,7 @@ glmWriteMTL(GLMmodel *model, char *modelpath, char *mtllibname)
 	fprintf(file, "#  http://www.pobox.com/~ndr\n");
 	fprintf(file, "#  \n\n");
 
-	for (i = 0; i < model->nummaterials; i++) {
+	for (i = 0; i < model->number_of_materials; i++) {
 		material = &model->materials[i];
 		fprintf(file, "newmtl %s\n", material->name);
 		fprintf(file, "Ka %f %f %f\n",
@@ -471,135 +472,135 @@ static GLvoid
 glmFirstPass(GLMmodel *model, FILE *file)
 {
 	GLuint vertices_numbers;  /* number of vertex in model  */
-	GLuint numnormals;   /* number of normals in model   */
-	GLuint numtexcoords; /* number of texcoords in model */
-	GLuint numtriangles; /* number of triangles in model */
+	GLuint number_of_normals_in_model;   /* number of normals in model   */
+	GLuint texture_cordinates_number; /* number of texture_cordinates in model */
+	GLuint number_of_triangles; /* number of triangles in model */
 	GLMgroup *group;     /* current group                */
 	unsigned v, n, t;
-	char buf[128];
+	char buffer[128];
 
 	/* make a default group */
 	group = glmAddGroup(model, "default");
 
-	vertices_numbers = numnormals = numtexcoords = numtriangles = 0;
-	while (fscanf(file, "%s", buf) != EOF) {
-		switch (buf[0]) {
+	vertices_numbers = number_of_normals_in_model = texture_cordinates_number = number_of_triangles = 0;
+	while (fscanf(file, "%s", buffer) != EOF) {
+		switch (buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 			case 'v': /* v, vn, vt */
-				switch(buf[1]) {
+				switch(buffer[1]) {
 				case '\0': /* vertex */
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
+					fgets(buffer, sizeof(buffer), file);
 					vertices_numbers++;
 					break;
 				case 'n': /* normal */
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
-					numnormals++;
+					fgets(buffer, sizeof(buffer), file);
+					number_of_normals_in_model++;
 					break;
 				case 't': /* texcoord */
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
-					numtexcoords++;
+					fgets(buffer, sizeof(buffer), file);
+					texture_cordinates_number++;
 					break;
 				default:
-					printf("glmFirstPass(): Unknown token \"%s\".\n", buf);
+					printf("glmFirstPass(): Unknown token \"%s\".\n", buffer);
 					exit(1);
 					break;
 				}
 				break;
 				case 'm':
-					fgets(buf, sizeof(buf), file);
-					sscanf(buf, "%s %s", buf, buf);
-					model->mtllibname = strdup(buf);
-					glmReadMTL(model, buf);
+					fgets(buffer, sizeof(buffer), file);
+					sscanf(buffer, "%s %s", buffer, buffer);
+					model->mtl_lib_name = strdup(buffer);
+					glmReadMTL(model, buffer);
 					break;
 				case 'u':
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
+					fgets(buffer, sizeof(buffer), file);
 					break;
 				case 'g': /* group */
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
+					fgets(buffer, sizeof(buffer), file);
 				#if SINGLE_STRING_GROUP_NAMES
-				sscanf(buf, "%s", buf);
+				sscanf(buffer, "%s", buffer);
 				#else
-				buf[strlen(buf)-1] = '\0'; /* nuke '\n' */
+				buffer[strlen(buffer)-1] = '\0'; /* nuke '\n' */
 				#endif
-				group = glmAddGroup(model, buf);
+				group = glmAddGroup(model, buffer);
 				break;
 			case 'f': /* face */
 				v = n = t = 0;
-				fscanf(file, "%s", buf);
+				fscanf(file, "%s", buffer);
 				/* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
-				if (strstr(buf, "//")) {
+				if (strstr(buffer, "//")) {
 					/* v//n */
-					sscanf(buf, "%d//%d", &v, &n);
+					sscanf(buffer, "%d//%d", &v, &n);
 					fscanf(file, "%d//%d", &v, &n);
 					fscanf(file, "%d//%d", &v, &n);
-					numtriangles++;
-					group->numtriangles++;
+					number_of_triangles++;
+					group->number_of_triangles++;
 					while (fscanf(file, "%d//%d", &v, &n) > 0) {
-						numtriangles++;
-						group->numtriangles++;
+						number_of_triangles++;
+						group->number_of_triangles++;
 					}
 				}
-				else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
+				else if (sscanf(buffer, "%d/%d/%d", &v, &t, &n) == 3) {
 					/* v/t/n */
 					fscanf(file, "%d/%d/%d", &v, &t, &n);
 					fscanf(file, "%d/%d/%d", &v, &t, &n);
-					numtriangles++;
-					group->numtriangles++;
+					number_of_triangles++;
+					group->number_of_triangles++;
 					while (fscanf(file, "%d/%d/%d", &v, &t, &n) > 0) {
-						numtriangles++;
-						group->numtriangles++;
+						number_of_triangles++;
+						group->number_of_triangles++;
 					}
 				}
-				else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
+				else if (sscanf(buffer, "%d/%d", &v, &t) == 2) {
 					/* v/t */
 					fscanf(file, "%d/%d", &v, &t);
 					fscanf(file, "%d/%d", &v, &t);
-					numtriangles++;
-					group->numtriangles++;
+					number_of_triangles++;
+					group->number_of_triangles++;
 					while (fscanf(file, "%d/%d", &v, &t) > 0) {
-						numtriangles++;
-						group->numtriangles++;
+						number_of_triangles++;
+						group->number_of_triangles++;
 					}
 				}
 				else {
 					/* v */
 					fscanf(file, "%d", &v);
 					fscanf(file, "%d", &v);
-					numtriangles++;
-					group->numtriangles++;
+					number_of_triangles++;
+					group->number_of_triangles++;
 					while (fscanf(file, "%d", &v) > 0) {
-						numtriangles++;
-						group->numtriangles++;
+						number_of_triangles++;
+						group->number_of_triangles++;
 					}
 				}
 				break;
 
 			default:
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 		}
 	}
 
 	/* set the stats in the model structure */
 	model->vertices_numbers = vertices_numbers;
-	model->numnormals = numnormals;
-	model->numtexcoords = numtexcoords;
-	model->numtriangles = numtriangles;
+	model->number_of_normals_in_model = number_of_normals_in_model;
+	model->texture_cordinates_number = texture_cordinates_number;
+	model->number_of_triangles = number_of_triangles;
 
 	/* allocate memory for the triangles in each group */
 	group = model->groups;
 	while (group) {
-	  group->triangles = (GLuint *)malloc(sizeof(GLuint) * group->numtriangles);
-	  group->numtriangles = 0;
+	  group->triangles = (GLuint *)malloc(sizeof(GLuint) * group->number_of_triangles);
+	  group->number_of_triangles = 0;
 	  group = group->next;
 	}
 }
@@ -615,38 +616,38 @@ static GLvoid
 glmSecondPass(GLMmodel *model, FILE *file)
 {
 	GLuint vertices_numbers;  /* number of vertex in model  */
-	GLuint numnormals;   /* number of normals in model   */
-	GLuint numtexcoords; /* number of texcoords in model */
-	GLuint numtriangles; /* number of triangles in model */
+	GLuint number_of_normals_in_model;   /* number of normals in model   */
+	GLuint texture_cordinates_number; /* number of texture_cordinates in model */
+	GLuint number_of_triangles; /* number of triangles in model */
 	GLfloat *vertex;   /* array of vertex            */
 	GLfloat *normals;    /* array of normals             */
-	GLfloat *texcoords;  /* array of texture coordinates */
+	GLfloat *texture_cordinates;  /* array of texture coordinates */
 	GLMgroup *group;     /* current group pointer        */
 	GLuint material;     /* current material             */
 	GLuint v, n, t;
-	char buf[128];
+	char buffer[128];
 
 	/* set the pointer shortcuts */
 	vertex = model->vertex;
 	normals = model->normals;
-	texcoords = model->texcoords;
+	texture_cordinates = model->texture_cordinates;
 	group = model->groups;
 
 	/*
 	 * On the second pass through the file,
 	 * read all the data into the allocated arrays
 	 */
-	vertices_numbers = numnormals = numtexcoords = 1;
-	numtriangles = 0;
+	vertices_numbers = number_of_normals_in_model = texture_cordinates_number = 1;
+	number_of_triangles = 0;
 	material = 0;
-	while (fscanf(file, "%s", buf) != EOF) {
-		switch(buf[0]) {
+	while (fscanf(file, "%s", buffer) != EOF) {
+		switch(buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 			case 'v': /* v, vn, vt */
-				switch(buf[1]) {
+				switch(buffer[1]) {
 					case '\0': /* vertex */
 						fscanf(file, "%f %f %f",
 						       &vertex[3 * vertices_numbers + 0],
@@ -656,138 +657,138 @@ glmSecondPass(GLMmodel *model, FILE *file)
 						break;
 					case 'n': /* normal */
 						fscanf(file, "%f %f %f",
-						       &normals[3 * numnormals + 0],
-						       &normals[3 * numnormals + 1],
-						       &normals[3 * numnormals + 2]);
-						numnormals++;
+						       &normals[3 * number_of_normals_in_model + 0],
+						       &normals[3 * number_of_normals_in_model + 1],
+						       &normals[3 * number_of_normals_in_model + 2]);
+						number_of_normals_in_model++;
 						break;
 					case 't': /* texcoord */
 						fscanf(file, "%f %f",
-						       &texcoords[2 * numtexcoords + 0],
-							   &texcoords[2 * numtexcoords + 1]);
-						numtexcoords++;
+						       &texture_cordinates[2 * texture_cordinates_number + 0],
+							   &texture_cordinates[2 * texture_cordinates_number + 1]);
+						texture_cordinates_number++;
 						break;
 				}
 				break;
 				case 'u':
-					fgets(buf, sizeof(buf), file);
-					sscanf(buf, "%s %s", buf, buf);
-					group->material = material = glmFindMaterial(model, buf);
+					fgets(buffer, sizeof(buffer), file);
+					sscanf(buffer, "%s %s", buffer, buffer);
+					group->material = material = glmFindMaterial(model, buffer);
 					break;
 				case 'g': /* group */
 					/* eat up rest of line */
-					fgets(buf, sizeof(buf), file);
+					fgets(buffer, sizeof(buffer), file);
 				#if SINGLE_STRING_GROUP_NAMES
-				sscanf(buf, "%s", buf);
+				sscanf(buffer, "%s", buffer);
 				#else
-				buf[strlen(buf)-1] = '\0'; /* nuke '\n' */
+				buffer[strlen(buffer)-1] = '\0'; /* nuke '\n' */
 				#endif
-				group = glmFindGroup(model, buf);
+				group = glmFindGroup(model, buffer);
 				group->material = material;
 				break;
 			case 'f': /* face */
 				v = n = t = 0;
-				fscanf(file, "%s", buf);
+				fscanf(file, "%s", buffer);
 				/* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
-				if (strstr(buf, "//")) {
+				if (strstr(buffer, "//")) {
 					/* v//n */
-					sscanf(buf, "%d//%d", &v, &n);
-					T(numtriangles).v_indexex[0] = v;
-					T(numtriangles).nindices[0] = n;
+					sscanf(buffer, "%d//%d", &v, &n);
+					T(number_of_triangles).vertex_indexes[0] = v;
+					T(number_of_triangles).normal_indexes[0] = n;
 					fscanf(file, "%d//%d", &v, &n);
-					T(numtriangles).v_indexex[1] = v;
-					T(numtriangles).nindices[1] = n;
+					T(number_of_triangles).vertex_indexes[1] = v;
+					T(number_of_triangles).normal_indexes[1] = n;
 					fscanf(file, "%d//%d", &v, &n);
-					T(numtriangles).v_indexex[2] = v;
-					T(numtriangles).nindices[2] = n;
-					group->triangles[group->numtriangles++] = numtriangles;
-					numtriangles++;
+					T(number_of_triangles).vertex_indexes[2] = v;
+					T(number_of_triangles).normal_indexes[2] = n;
+					group->triangles[group->number_of_triangles++] = number_of_triangles;
+					number_of_triangles++;
 					while (fscanf(file, "%d//%d", &v, &n) > 0) {
-						T(numtriangles).v_indexex[0] = T(numtriangles-1).v_indexex[0];
-						T(numtriangles).nindices[0] = T(numtriangles-1).nindices[0];
-						T(numtriangles).v_indexex[1] = T(numtriangles-1).v_indexex[2];
-						T(numtriangles).nindices[1] = T(numtriangles-1).nindices[2];
-						T(numtriangles).v_indexex[2] = v;
-						T(numtriangles).nindices[2] = n;
-						group->triangles[group->numtriangles++] = numtriangles;
-						numtriangles++;
+						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
+						T(number_of_triangles).normal_indexes[0] = T(number_of_triangles-1).normal_indexes[0];
+						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
+						T(number_of_triangles).normal_indexes[1] = T(number_of_triangles-1).normal_indexes[2];
+						T(number_of_triangles).vertex_indexes[2] = v;
+						T(number_of_triangles).normal_indexes[2] = n;
+						group->triangles[group->number_of_triangles++] = number_of_triangles;
+						number_of_triangles++;
 					}
 				}
-				else if (sscanf(buf, "%d/%d/%d", &v, &t, &n) == 3) {
+				else if (sscanf(buffer, "%d/%d/%d", &v, &t, &n) == 3) {
 					/* v/t/n */
-					T(numtriangles).v_indexex[0] = v;
-					T(numtriangles).t_indexes[0] = t;
-					T(numtriangles).nindices[0] = n;
+					T(number_of_triangles).vertex_indexes[0] = v;
+					T(number_of_triangles).triangle_indexes[0] = t;
+					T(number_of_triangles).normal_indexes[0] = n;
 					fscanf(file, "%d/%d/%d", &v, &t, &n);
-					T(numtriangles).v_indexex[1] = v;
-					T(numtriangles).t_indexes[1] = t;
-					T(numtriangles).nindices[1] = n;
+					T(number_of_triangles).vertex_indexes[1] = v;
+					T(number_of_triangles).triangle_indexes[1] = t;
+					T(number_of_triangles).normal_indexes[1] = n;
 					fscanf(file, "%d/%d/%d", &v, &t, &n);
-					T(numtriangles).v_indexex[2] = v;
-					T(numtriangles).t_indexes[2] = t;
-					T(numtriangles).nindices[2] = n;
-					group->triangles[group->numtriangles++] = numtriangles;
-					numtriangles++;
+					T(number_of_triangles).vertex_indexes[2] = v;
+					T(number_of_triangles).triangle_indexes[2] = t;
+					T(number_of_triangles).normal_indexes[2] = n;
+					group->triangles[group->number_of_triangles++] = number_of_triangles;
+					number_of_triangles++;
 					while (fscanf(file, "%d/%d/%d", &v, &t, &n) > 0) {
-						T(numtriangles).v_indexex[0] = T(numtriangles-1).v_indexex[0];
-						T(numtriangles).t_indexes[0] = T(numtriangles-1).t_indexes[0];
-						T(numtriangles).nindices[0] = T(numtriangles-1).nindices[0];
-						T(numtriangles).v_indexex[1] = T(numtriangles-1).v_indexex[2];
-						T(numtriangles).t_indexes[1] = T(numtriangles-1).t_indexes[2];
-						T(numtriangles).nindices[1] = T(numtriangles-1).nindices[2];
-						T(numtriangles).v_indexex[2] = v;
-						T(numtriangles).t_indexes[2] = t;
-						T(numtriangles).nindices[2] = n;
-						group->triangles[group->numtriangles++] = numtriangles;
-						numtriangles++;
+						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
+						T(number_of_triangles).triangle_indexes[0] = T(number_of_triangles-1).triangle_indexes[0];
+						T(number_of_triangles).normal_indexes[0] = T(number_of_triangles-1).normal_indexes[0];
+						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
+						T(number_of_triangles).triangle_indexes[1] = T(number_of_triangles-1).triangle_indexes[2];
+						T(number_of_triangles).normal_indexes[1] = T(number_of_triangles-1).normal_indexes[2];
+						T(number_of_triangles).vertex_indexes[2] = v;
+						T(number_of_triangles).triangle_indexes[2] = t;
+						T(number_of_triangles).normal_indexes[2] = n;
+						group->triangles[group->number_of_triangles++] = number_of_triangles;
+						number_of_triangles++;
 					}
 				}
-				else if (sscanf(buf, "%d/%d", &v, &t) == 2) {
+				else if (sscanf(buffer, "%d/%d", &v, &t) == 2) {
 					/* v/t */
-					T(numtriangles).v_indexex[0] = v;
-					T(numtriangles).t_indexes[0] = t;
+					T(number_of_triangles).vertex_indexes[0] = v;
+					T(number_of_triangles).triangle_indexes[0] = t;
 					fscanf(file, "%d/%d", &v, &t);
-					T(numtriangles).v_indexex[1] = v;
-					T(numtriangles).t_indexes[1] = t;
+					T(number_of_triangles).vertex_indexes[1] = v;
+					T(number_of_triangles).triangle_indexes[1] = t;
 					fscanf(file, "%d/%d", &v, &t);
-					T(numtriangles).v_indexex[2] = v;
-					T(numtriangles).t_indexes[2] = t;
-					group->triangles[group->numtriangles++] = numtriangles;
-					numtriangles++;
+					T(number_of_triangles).vertex_indexes[2] = v;
+					T(number_of_triangles).triangle_indexes[2] = t;
+					group->triangles[group->number_of_triangles++] = number_of_triangles;
+					number_of_triangles++;
 					while (fscanf(file, "%d/%d", &v, &t) > 0) {
-						T(numtriangles).v_indexex[0] = T(numtriangles-1).v_indexex[0];
-						T(numtriangles).t_indexes[0] = T(numtriangles-1).t_indexes[0];
-						T(numtriangles).v_indexex[1] = T(numtriangles-1).v_indexex[2];
-						T(numtriangles).t_indexes[1] = T(numtriangles-1).t_indexes[2];
-						T(numtriangles).v_indexex[2] = v;
-						T(numtriangles).t_indexes[2] = t;
-						group->triangles[group->numtriangles++] = numtriangles;
-						numtriangles++;
+						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
+						T(number_of_triangles).triangle_indexes[0] = T(number_of_triangles-1).triangle_indexes[0];
+						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
+						T(number_of_triangles).triangle_indexes[1] = T(number_of_triangles-1).triangle_indexes[2];
+						T(number_of_triangles).vertex_indexes[2] = v;
+						T(number_of_triangles).triangle_indexes[2] = t;
+						group->triangles[group->number_of_triangles++] = number_of_triangles;
+						number_of_triangles++;
 					}
 				}
 				else {
 					/* v */
-					sscanf(buf, "%d", &v);
-					T(numtriangles).v_indexex[0] = v;
+					sscanf(buffer, "%d", &v);
+					T(number_of_triangles).vertex_indexes[0] = v;
 					fscanf(file, "%d", &v);
-					T(numtriangles).v_indexex[1] = v;
+					T(number_of_triangles).vertex_indexes[1] = v;
 					fscanf(file, "%d", &v);
-					T(numtriangles).v_indexex[2] = v;
-					group->triangles[group->numtriangles++] = numtriangles;
-					numtriangles++;
+					T(number_of_triangles).vertex_indexes[2] = v;
+					group->triangles[group->number_of_triangles++] = number_of_triangles;
+					number_of_triangles++;
 					while (fscanf(file, "%d", &v) > 0) {
-						T(numtriangles).v_indexex[0] = T(numtriangles-1).v_indexex[0];
-						T(numtriangles).v_indexex[1] = T(numtriangles-1).v_indexex[2];
-						T(numtriangles).v_indexex[2] = v;
-						group->triangles[group->numtriangles++] = numtriangles;
-						numtriangles++;
+						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
+						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
+						T(number_of_triangles).vertex_indexes[2] = v;
+						group->triangles[group->number_of_triangles++] = number_of_triangles;
+						number_of_triangles++;
 					}
 				}
 				break;
 
 			default:
 				/* eat up rest of line */
-				fgets(buf, sizeof(buf), file);
+				fgets(buffer, sizeof(buffer), file);
 				break;
 		}
 	}
@@ -795,9 +796,9 @@ glmSecondPass(GLMmodel *model, FILE *file)
 	/* announce the memory requirements */
 	printf(" Memory: %d bytes\n",
 	       vertices_numbers  * 3*sizeof(GLfloat) +
-           numnormals   * 3*sizeof(GLfloat) * (numnormals ? 1 : 0) +
-           numtexcoords * 3*sizeof(GLfloat) * (numtexcoords ? 1 : 0) +
-           numtriangles * sizeof(GLMtriangle));
+           number_of_normals_in_model   * 3*sizeof(GLfloat) * (number_of_normals_in_model ? 1 : 0) +
+           texture_cordinates_number * 3*sizeof(GLfloat) * (texture_cordinates_number ? 1 : 0) +
+           number_of_triangles * sizeof(GLMtriangle));
 	#endif
 }
 
@@ -814,7 +815,7 @@ GLfloat
 glmUnitize(GLMmodel *model)
 {
 	GLuint  i;
-	GLfloat maxx, minx, maxy, miny, maxz, minz;
+	GLfloat maximum_x, minimum_x, maximum_y, minimum_y, maximum_z, minimum_z;
 	GLfloat cx, cy, cz, w, h, d;
 	GLfloat scale;
 
@@ -822,47 +823,47 @@ glmUnitize(GLMmodel *model)
 	assert(model->vertex);
 
 	/* get the max/mins */
-	maxx = minx = model->vertex[3 + 0];
-	maxy = miny = model->vertex[3 + 1];
-	maxz = minz = model->vertex[3 + 2];
+	maximum_x = minimum_x = model->vertex[3 + 0];
+	maximum_y = minimum_y = model->vertex[3 + 1];
+	maximum_z = minimum_z = model->vertex[3 + 2];
 	for (i = 1; i <= model->vertices_numbers; i++) {
-		if (maxx < model->vertex[3 * i + 0]) {
-			maxx = model->vertex[3 * i + 0];
+		if (maximum_x < model->vertex[3 * i + 0]) {
+			maximum_x = model->vertex[3 * i + 0];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (minx > model->vertex[3 * i + 0]) {
-			minx = model->vertex[3 * i + 0];
+		if (minimum_x > model->vertex[3 * i + 0]) {
+			minimum_x = model->vertex[3 * i + 0];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (maxy < model->vertex[3 * i + 1]) {
-			maxy = model->vertex[3 * i + 1];
+		if (maximum_y < model->vertex[3 * i + 1]) {
+			maximum_y = model->vertex[3 * i + 1];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (miny > model->vertex[3 * i + 1]) {
-			miny = model->vertex[3 * i + 1];
+		if (minimum_y > model->vertex[3 * i + 1]) {
+			minimum_y = model->vertex[3 * i + 1];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (maxz < model->vertex[3 * i + 2]) {
-			maxz = model->vertex[3 * i + 2];
+		if (maximum_z < model->vertex[3 * i + 2]) {
+			maximum_z = model->vertex[3 * i + 2];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (minz > model->vertex[3 * i + 2]) {
-			minz = model->vertex[3 * i + 2];
+		if (minimum_z > model->vertex[3 * i + 2]) {
+			minimum_z = model->vertex[3 * i + 2];
 		}
 		else {
 			/* nothing to do */
@@ -870,14 +871,14 @@ glmUnitize(GLMmodel *model)
 	}
 
 	/* calculate model width, height, and depth */
-	w = glmAbs(maxx) + glmAbs(minx);
-	h = glmAbs(maxy) + glmAbs(miny);
-	d = glmAbs(maxz) + glmAbs(minz);
+	w = glmAbs(maximum_x) + glmAbs(minimum_x);
+	h = glmAbs(maximum_y) + glmAbs(minimum_y);
+	d = glmAbs(maximum_z) + glmAbs(minimum_z);
 
 	/* calculate center of the model */
-	cx = (maxx + minx) / 2.0;
-	cy = (maxy + miny) / 2.0;
-	cz = (maxz + minz) / 2.0;
+	cx = (maximum_x + minimum_x) / 2.0;
+	cy = (maximum_y + minimum_y) / 2.0;
+	cz = (maximum_z + minimum_z) / 2.0;
 
 	/* calculate unitizing scale factor */
 	scale = 2.0 / glmMax(glmMax(w, h), d);
@@ -906,54 +907,54 @@ GLvoid
 glmDimensions(GLMmodel *model, GLfloat *dimensions)
 {
 	GLuint i;
-	GLfloat maxx, minx, maxy, miny, maxz, minz;
+	GLfloat maximum_x, minimum_x, maximum_y, minimum_y, maximum_z, minimum_z;
 
 	assert(model);
 	assert(model->vertex);
 	assert(dimensions);
 
 	/* get the max/mins */
-	maxx = minx = model->vertex[3 + 0];
-	maxy = miny = model->vertex[3 + 1];
-	maxz = minz = model->vertex[3 + 2];
+	maximum_x = minimum_x = model->vertex[3 + 0];
+	maximum_y = minimum_y = model->vertex[3 + 1];
+	maximum_z = minimum_z = model->vertex[3 + 2];
 	for (i = 1; i <= model->vertices_numbers; i++) {
-		if (maxx < model->vertex[3 * i + 0]) {
-			maxx = model->vertex[3 * i + 0];
+		if (maximum_x < model->vertex[3 * i + 0]) {
+			maximum_x = model->vertex[3 * i + 0];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (minx > model->vertex[3 * i + 0]) {
-			minx = model->vertex[3 * i + 0];
+		if (minimum_x > model->vertex[3 * i + 0]) {
+			minimum_x = model->vertex[3 * i + 0];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (maxy < model->vertex[3 * i + 1]) {
-			maxy = model->vertex[3 * i + 1];
+		if (maximum_y < model->vertex[3 * i + 1]) {
+			maximum_y = model->vertex[3 * i + 1];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (miny > model->vertex[3 * i + 1]) {
-			miny = model->vertex[3 * i + 1];
+		if (minimum_y > model->vertex[3 * i + 1]) {
+			minimum_y = model->vertex[3 * i + 1];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (maxz < model->vertex[3 * i + 2]) {
-			maxz = model->vertex[3 * i + 2];
+		if (maximum_z < model->vertex[3 * i + 2]) {
+			maximum_z = model->vertex[3 * i + 2];
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (minz > model->vertex[3 * i + 2]) {
-			minz = model->vertex[3 * i + 2];
+		if (minimum_z > model->vertex[3 * i + 2]) {
+			minimum_z = model->vertex[3 * i + 2];
 		}
 		else {
 			/* nothing to do */
@@ -961,9 +962,9 @@ glmDimensions(GLMmodel *model, GLfloat *dimensions)
 	}
 
 	/* calculate model width, height, and depth */
-	dimensions[0] = glmAbs(maxx) + glmAbs(minx);
-	dimensions[1] = glmAbs(maxy) + glmAbs(miny);
-	dimensions[2] = glmAbs(maxz) + glmAbs(minz);
+	dimensions[0] = glmAbs(maximum_x) + glmAbs(minimum_x);
+	dimensions[1] = glmAbs(maximum_y) + glmAbs(minimum_y);
+	dimensions[2] = glmAbs(maximum_z) + glmAbs(minimum_z);
 }
 
 /*
@@ -998,24 +999,24 @@ glmReverseWinding(GLMmodel *model)
 
 	assert(model);
 
-	for (i = 0; i < model->numtriangles; i++) {
-		swap = T(i).v_indexex[0];
-		T(i).v_indexex[0] = T(i).v_indexex[2];
-		T(i).v_indexex[2] = swap;
+	for (i = 0; i < model->number_of_triangles; i++) {
+		swap = T(i).vertex_indexes[0];
+		T(i).vertex_indexes[0] = T(i).vertex_indexes[2];
+		T(i).vertex_indexes[2] = swap;
 
-		if (model->numnormals) {
-			swap = T(i).nindices[0];
-			T(i).nindices[0] = T(i).nindices[2];
-			T(i).nindices[2] = swap;
+		if (model->number_of_normals_in_model) {
+			swap = T(i).normal_indexes[0];
+			T(i).normal_indexes[0] = T(i).normal_indexes[2];
+			T(i).normal_indexes[2] = swap;
 		}
 		else {
 			/* nothing to do */
 		}
 
-		if (model->numtexcoords) {
-			swap = T(i).t_indexes[0];
-			T(i).t_indexes[0] = T(i).t_indexes[2];
-			T(i).t_indexes[2] = swap;
+		if (model->texture_cordinates_number) {
+			swap = T(i).triangle_indexes[0];
+			T(i).triangle_indexes[0] = T(i).triangle_indexes[2];
+			T(i).triangle_indexes[2] = swap;
 		}
 		else {
 			/* nothing to do */
@@ -1023,14 +1024,14 @@ glmReverseWinding(GLMmodel *model)
 	}
 
 	/* reverse facet normals */
-	for (i = 1; i <= model->numfacetnorms; i++) {
-		model->facetnorms[3 * i + 0] = -model->facetnorms[3 * i + 0];
-		model->facetnorms[3 * i + 1] = -model->facetnorms[3 * i + 1];
-		model->facetnorms[3 * i + 2] = -model->facetnorms[3 * i + 2];
+	for (i = 1; i <= model->number_of_facet_normals; i++) {
+		model->facet_normals[3 * i + 0] = -model->facet_normals[3 * i + 0];
+		model->facet_normals[3 * i + 1] = -model->facet_normals[3 * i + 1];
+		model->facet_normals[3 * i + 2] = -model->facet_normals[3 * i + 2];
 	}
 
 	/* reverse vertex normals */
-	for (i = 1; i <= model->numnormals; i++) {
+	for (i = 1; i <= model->number_of_normals_in_model; i++) {
 		model->normals[3 * i + 0] = -model->normals[3 * i + 0];
 		model->normals[3 * i + 1] = -model->normals[3 * i + 1];
 		model->normals[3 * i + 2] = -model->normals[3 * i + 2];
@@ -1055,37 +1056,37 @@ glmFacetNormals(GLMmodel *model)
 	assert(model->vertex);
 
 	/* clobber any old facetnormals */
-	if (model->facetnorms){
-		free(model->facetnorms);
+	if (model->facet_normals){
+		free(model->facet_normals);
 	}
 	else {
 		/* nothing to do */
 	}
 
 	/* allocate memory for the new facet normals */
-	model->numfacetnorms = model->numtriangles;
-	model->facetnorms = (GLfloat*)malloc(sizeof(GLfloat) *
-	                     3 * (model->numfacetnorms + 1));
+	model->number_of_facet_normals = model->number_of_triangles;
+	model->facet_normals = (GLfloat*)malloc(sizeof(GLfloat) *
+	                     3 * (model->number_of_facet_normals + 1));
 
-	for (i = 0; i < model->numtriangles; i++) {
+	for (i = 0; i < model->number_of_triangles; i++) {
 		model->triangles[i].findex = i+1;
 
-		u[0] = model->vertex[3 * T(i).v_indexex[1] + 0] -
-			   model->vertex[3 * T(i).v_indexex[0] + 0];
-		u[1] = model->vertex[3 * T(i).v_indexex[1] + 1] -
-			   model->vertex[3 * T(i).v_indexex[0] + 1];
-		u[2] = model->vertex[3 * T(i).v_indexex[1] + 2] -
-			   model->vertex[3 * T(i).v_indexex[0] + 2];
+		u[0] = model->vertex[3 * T(i).vertex_indexes[1] + 0] -
+			   model->vertex[3 * T(i).vertex_indexes[0] + 0];
+		u[1] = model->vertex[3 * T(i).vertex_indexes[1] + 1] -
+			   model->vertex[3 * T(i).vertex_indexes[0] + 1];
+		u[2] = model->vertex[3 * T(i).vertex_indexes[1] + 2] -
+			   model->vertex[3 * T(i).vertex_indexes[0] + 2];
 
-		v[0] = model->vertex[3 * T(i).v_indexex[2] + 0] -
-			   model->vertex[3 * T(i).v_indexex[0] + 0];
-		v[1] = model->vertex[3 * T(i).v_indexex[2] + 1] -
-			   model->vertex[3 * T(i).v_indexex[0] + 1];
-		v[2] = model->vertex[3 * T(i).v_indexex[2] + 2] -
-			   model->vertex[3 * T(i).v_indexex[0] + 2];
+		v[0] = model->vertex[3 * T(i).vertex_indexes[2] + 0] -
+			   model->vertex[3 * T(i).vertex_indexes[0] + 0];
+		v[1] = model->vertex[3 * T(i).vertex_indexes[2] + 1] -
+			   model->vertex[3 * T(i).vertex_indexes[0] + 1];
+		v[2] = model->vertex[3 * T(i).vertex_indexes[2] + 2] -
+			   model->vertex[3 * T(i).vertex_indexes[0] + 2];
 
-		glmCross(u, v, &model->facetnorms[3 * (i+1)]);
-		glmNormalize(&model->facetnorms[3 * (i+1)]);
+		glmCross(u, v, &model->facet_normals[3 * (i+1)]);
+		glmNormalize(&model->facet_normals[3 * (i+1)]);
 	}
 }
 
@@ -1114,16 +1115,17 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	GLMnode *tail;
 	GLMnode **members;
 	GLfloat *normals;
-	GLuint  numnormals;
+	GLuint  number_of_normals_in_model;
 	GLfloat average[3];
-	GLfloat dot, cos_angle;
-	GLuint  i, avg;
+	GLfloat dot;
+	GLfloat angle_in_cosine;
+	GLuint  average_aux;
 
 	assert(model);
-	assert(model->facetnorms);
+	assert(model->facet_normals);
 
 	/* calculate the cosine of the angle (in degrees) */
-	cos_angle = cos(angle * M_PI / 180.0);
+	angle_in_cosine = cos(angle * M_PI / 180.0);
 
 	/* nuke any previous normals */
 	if (model->normals) {
@@ -1134,39 +1136,40 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	}
 
 	/* allocate space for new normals */
-	model->numnormals = model->numtriangles * 3; /* 3 normals per triangle */
+	model->number_of_normals_in_model = model->number_of_triangles * 3; /* 3 normals per triangle */
 	model->normals = (GLfloat *)malloc(sizeof(GLfloat) *
-	                  3 * (model->numnormals + 1));
+	                  3 * (model->number_of_normals_in_model + 1));
 
 	/*
 	 * Allocate a structure that will hold a linked list of triangle
 	 * indices for each vertex
 	 */
 	members = (GLMnode**)malloc(sizeof(GLMnode *) * (model->vertices_numbers + 1));
+	GLuint  i;
 	for (i = 1; i <= model->vertices_numbers; i++) {
 		members[i] = NULL;
 	}
 
 	/* for every triangle, create a node for each vertex in it */
-	for (i = 0; i < model->numtriangles; i++) {
+	for (i = 0; i < model->number_of_triangles; i++) {
 		node = (GLMnode *)malloc(sizeof(GLMnode));
 		node->index = i;
-		node->next  = members[T(i).v_indexex[0]];
-		members[T(i).v_indexex[0]] = node;
+		node->next  = members[T(i).vertex_indexes[0]];
+		members[T(i).vertex_indexes[0]] = node;
 
 		node = (GLMnode *)malloc(sizeof(GLMnode));
 		node->index = i;
-		node->next  = members[T(i).v_indexex[1]];
-		members[T(i).v_indexex[1]] = node;
+		node->next  = members[T(i).vertex_indexes[1]];
+		members[T(i).vertex_indexes[1]] = node;
 
 		node = (GLMnode *)malloc(sizeof(GLMnode));
 		node->index = i;
-		node->next  = members[T(i).v_indexex[2]];
-		members[T(i).v_indexex[2]] = node;
+		node->next  = members[T(i).vertex_indexes[2]];
+		members[T(i).vertex_indexes[2]] = node;
 	}
 
 	/* calculate the average normal for each vertex */
-	numnormals = 1;
+	number_of_normals_in_model = 1;
 	for (i = 1; i <= model->vertices_numbers; i++) {
 	/*
 	 * Calculate an average normal for this vertex
@@ -1181,7 +1184,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 		}
 
 		average[0] = 0.0; average[1] = 0.0; average[2] = 0.0;
-		avg = 0;
+		average_aux = 0;
 		while (node) {
 		/*
 		 * Only average if the dot product of the angle between the two
@@ -1189,14 +1192,14 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 		 * angle -- or, said another way, the angle between the two
 		 * facet normals is less than (or equal to) the threshold angle
 		 */
-			dot = glmDot(&model->facetnorms[3 * T(node->index).findex],
-				&model->facetnorms[3 * T(members[i]->index).findex]);
-			if (dot > cos_angle) {
+			dot = glmDot(&model->facet_normals[3 * T(node->index).findex],
+				&model->facet_normals[3 * T(members[i]->index).findex]);
+			if (dot > angle_in_cosine) {
 				node->averaged = GL_TRUE;
-				average[0] += model->facetnorms[3 * T(node->index).findex + 0];
-				average[1] += model->facetnorms[3 * T(node->index).findex + 1];
-				average[2] += model->facetnorms[3 * T(node->index).findex + 2];
-				avg = 1;            /* we averaged at least one normal! */
+				average[0] += model->facet_normals[3 * T(node->index).findex + 0];
+				average[1] += model->facet_normals[3 * T(node->index).findex + 1];
+				average[2] += model->facet_normals[3 * T(node->index).findex + 2];
+				average_aux = 1;            /* we averaged at least one normal! */
 			}
 			else {
 				node->averaged = GL_FALSE;
@@ -1204,16 +1207,16 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 			node = node->next;
 		}
 
-		if (avg) {
+		if (average_aux) {
 			/* normalize the averaged normal */
 			glmNormalize(average);
 
 			/* add the normal to the vertex normals list */
-			model->normals[3 * numnormals + 0] = average[0];
-			model->normals[3 * numnormals + 1] = average[1];
-			model->normals[3 * numnormals + 2] = average[2];
-			avg = numnormals;
-			numnormals++;
+			model->normals[3 * number_of_normals_in_model + 0] = average[0];
+			model->normals[3 * number_of_normals_in_model + 1] = average[1];
+			model->normals[3 * number_of_normals_in_model + 2] = average[2];
+			average_aux = number_of_normals_in_model;
+			number_of_normals_in_model++;
 		}
 		else {
 			/* nothing to do */
@@ -1224,14 +1227,14 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 		while (node) {
 			if (node->averaged) {
 				/* if this node was averaged, use the average normal */
-				if (T(node->index).v_indexex[0] == i) {
-					T(node->index).nindices[0] = avg;
+				if (T(node->index).vertex_indexes[0] == i) {
+					T(node->index).normal_indexes[0] = average_aux;
 				}
-				else if (T(node->index).v_indexex[1] == i) {
-					T(node->index).nindices[1] = avg;
+				else if (T(node->index).vertex_indexes[1] == i) {
+					T(node->index).normal_indexes[1] = average_aux;
 				}
-				else if (T(node->index).v_indexex[2] == i) {
-					T(node->index).nindices[2] = avg;
+				else if (T(node->index).vertex_indexes[2] == i) {
+					T(node->index).normal_indexes[2] = average_aux;
 				}
 				else {
 					/* nothing to do */
@@ -1239,31 +1242,31 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 			}
 			else {
 				/* if this node wasn't averaged, use the facet normal */
-				model->normals[3 * numnormals + 0] =
-					model->facetnorms[3 * T(node->index).findex + 0];
-				model->normals[3 * numnormals + 1] =
-					model->facetnorms[3 * T(node->index).findex + 1];
-				model->normals[3 * numnormals + 2] =
-					model->facetnorms[3 * T(node->index).findex + 2];
-				if (T(node->index).v_indexex[0] == i) {
-					T(node->index).nindices[0] = numnormals;
+				model->normals[3 * number_of_normals_in_model + 0] =
+					model->facet_normals[3 * T(node->index).findex + 0];
+				model->normals[3 * number_of_normals_in_model + 1] =
+					model->facet_normals[3 * T(node->index).findex + 1];
+				model->normals[3 * number_of_normals_in_model + 2] =
+					model->facet_normals[3 * T(node->index).findex + 2];
+				if (T(node->index).vertex_indexes[0] == i) {
+					T(node->index).normal_indexes[0] = number_of_normals_in_model;
 				}
-				else if (T(node->index).v_indexex[1] == i) {
-					T(node->index).nindices[1] = numnormals;
+				else if (T(node->index).vertex_indexes[1] == i) {
+					T(node->index).normal_indexes[1] = number_of_normals_in_model;
 				}
-				else if (T(node->index).v_indexex[2] == i) {
-					T(node->index).nindices[2] = numnormals;
+				else if (T(node->index).vertex_indexes[2] == i) {
+					T(node->index).normal_indexes[2] = number_of_normals_in_model;
 				}
 				else {
 					/* nothing to do */
 				}
-				numnormals++;
+				number_of_normals_in_model++;
 			}
 			node = node->next;
 		}
 	}
 
-	model->numnormals = numnormals - 1;
+	model->number_of_normals_in_model = number_of_normals_in_model - 1;
 
 	/* free the member information */
 	for (i = 1; i <= model->vertices_numbers; i++) {
@@ -1278,14 +1281,14 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 
 	/*
 	 * Pack the normals array (we previously allocated the maximum
-	 * number of normals that could possibly be created (numtriangles * 3),
+	 * number of normals that could possibly be created (number_of_triangles * 3),
 	 * so get rid of some of them (usually alot unless none of the
 	 * facet normals were averaged)).
 	 */
 	normals = model->normals;
 	model->normals = (GLfloat *)malloc(sizeof(GLfloat) *
-	                  3 * (model->numnormals+1));
-	for (i = 1; i <= model->numnormals; i++) {
+	                  3 * (model->number_of_normals_in_model+1));
+	for (i = 1; i <= model->number_of_normals_in_model; i++) {
 		model->normals[3 * i + 0] = normals[3 * i + 0];
 		model->normals[3 * i + 1] = normals[3 * i + 1];
 		model->normals[3 * i + 2] = normals[3 * i + 2];
@@ -1305,20 +1308,22 @@ glmLinearTexture(GLMmodel *model)
 {
 	GLMgroup *group;
 	GLfloat dimensions[3];
-	GLfloat x, y, scalefactor;
+	GLfloat x;
+	GLfloat y;
+	GLfloat scalefactor;
 	GLuint i;
 
 	assert(model);
 
-	if (model->texcoords) {
-		free(model->texcoords);
+	if (model->texture_cordinates) {
+		free(model->texture_cordinates);
 	}
 	else {
 		/* nothing to do */
 	}
-	model->numtexcoords = model->vertices_numbers;
-	model->texcoords=(GLfloat *)malloc(sizeof(GLfloat) *
-	                  2 * (model->numtexcoords + 1));
+	model->texture_cordinates_number = model->vertices_numbers;
+	model->texture_cordinates=(GLfloat *)malloc(sizeof(GLfloat) *
+	                  2 * (model->texture_cordinates_number + 1));
 
 	glmDimensions(model, dimensions);
 	scalefactor = 2.0 /
@@ -1328,27 +1333,27 @@ glmLinearTexture(GLMmodel *model)
 	for (i = 1; i <= model->vertices_numbers; i++) {
 		x = model->vertex[3 * i + 0] * scalefactor;
 		y = model->vertex[3 * i + 2] * scalefactor;
-		model->texcoords[2 * i + 0] = (x + 1.0) / 2.0;
-		model->texcoords[2 * i + 1] = (y + 1.0) / 2.0;
+		model->texture_cordinates[2 * i + 0] = (x + 1.0) / 2.0;
+		model->texture_cordinates[2 * i + 1] = (y + 1.0) / 2.0;
 	}
 
 	/* go through and put texture coordinate indices in all the triangles */
 	group = model->groups;
 	while (group) {
-		for (i = 0; i < group->numtriangles; i++) {
-			T(group->triangles[i]).t_indexes[0] =
-			    T(group->triangles[i]).v_indexex[0];
-			T(group->triangles[i]).t_indexes[1] =
-				T(group->triangles[i]).v_indexex[1];
-			T(group->triangles[i]).t_indexes[2] =
-				T(group->triangles[i]).v_indexex[2];
+		for (i = 0; i < group->number_of_triangles; i++) {
+			T(group->triangles[i]).triangle_indexes[0] =
+			    T(group->triangles[i]).vertex_indexes[0];
+			T(group->triangles[i]).triangle_indexes[1] =
+				T(group->triangles[i]).vertex_indexes[1];
+			T(group->triangles[i]).triangle_indexes[2] =
+				T(group->triangles[i]).vertex_indexes[2];
 		}
 		group = group->next;
 	}
 
 	#if 0
 	printf("glmLinearTexture(): generated %d linear texture coordinates\n",
-		model->numtexcoords);
+		model->texture_cordinates_number);
 	#endif
 }
 
@@ -1374,17 +1379,17 @@ glmSpheremapTexture(GLMmodel *model)
 	assert(model);
 	assert(model->normals);
 
-	if (model->texcoords) {
-		free(model->texcoords);
+	if (model->texture_cordinates) {
+		free(model->texture_cordinates);
 	}
 	else {
 		/* nothing to do */
 	}
-	model->numtexcoords = model->numnormals;
-	model->texcoords=(GLfloat*)malloc(sizeof(GLfloat) *
-	                  2 * (model->numtexcoords + 1));
+	model->texture_cordinates_number = model->number_of_normals_in_model;
+	model->texture_cordinates=(GLfloat*)malloc(sizeof(GLfloat) *
+	                  2 * (model->texture_cordinates_number + 1));
 
-	for (i = 1; i <= model->numnormals; i++) {
+	for (i = 1; i <= model->number_of_normals_in_model; i++) {
 		z = model->normals[3 * i + 0];  /* re-arrange for pole distortion */
 		y = model->normals[3 * i + 1];
 		x = model->normals[3 * i + 2];
@@ -1410,17 +1415,17 @@ glmSpheremapTexture(GLMmodel *model)
 			}
 		}
 
-		model->texcoords[2 * i + 0] = theta / 3.14159265;
-		model->texcoords[2 * i + 1] = phi / 3.14159265;
+		model->texture_cordinates[2 * i + 0] = theta / 3.14159265;
+		model->texture_cordinates[2 * i + 1] = phi / 3.14159265;
 	}
 
 	/* go through and put texcoord indices in all the triangles */
 	group = model->groups;
 	while (group) {
-		for (i = 0; i < group->numtriangles; i++) {
-			T(group->triangles[i]).t_indexes[0] = T(group->triangles[i]).nindices[0];
-			T(group->triangles[i]).t_indexes[1] = T(group->triangles[i]).nindices[1];
-			T(group->triangles[i]).t_indexes[2] = T(group->triangles[i]).nindices[2];
+		for (i = 0; i < group->number_of_triangles; i++) {
+			T(group->triangles[i]).triangle_indexes[0] = T(group->triangles[i]).normal_indexes[0];
+			T(group->triangles[i]).triangle_indexes[1] = T(group->triangles[i]).normal_indexes[1];
+			T(group->triangles[i]).triangle_indexes[2] = T(group->triangles[i]).normal_indexes[2];
 		}
 		group = group->next;
 	}
@@ -1439,15 +1444,15 @@ glmDelete(GLMmodel *model)
 
 	assert(model);
 
-	if (model->pathname) {
-		free(model->pathname);
+	if (model->path_name) {
+		free(model->path_name);
 	}
 	else {
 		/* nothing to do */
 	}
 
-	if (model->mtllibname) {
-		free(model->mtllibname);
+	if (model->mtl_lib_name) {
+		free(model->mtl_lib_name);
 	}
 	else {
 		/* nothing to do */
@@ -1467,15 +1472,15 @@ glmDelete(GLMmodel *model)
 		/* nothing to do */
 	}
 
-	if (model->texcoords) {
-		free(model->texcoords);
+	if (model->texture_cordinates) {
+		free(model->texture_cordinates);
 	}
 	else {
 		/* nothing to do */
 	}
 
-	if (model->facetnorms) {
-		free(model->facetnorms);
+	if (model->facet_normals) {
+		free(model->facet_normals);
 	}
 	else {
 		/* nothing to do */
@@ -1489,7 +1494,7 @@ glmDelete(GLMmodel *model)
 	}
 
 	if (model->materials) {
-		for (i = 0; i < model->nummaterials; i++) {
+		for (i = 0; i < model->number_of_materials; i++) {
 			free(model->materials[i].name);
 		}
 	}
@@ -1532,21 +1537,21 @@ glmReadOBJ(char *filename)
 
 	/* allocate a new model */
 	model = (GLMmodel *)malloc(sizeof(GLMmodel));
-	model->pathname = strdup(filename);
-	model->mtllibname = NULL;
+	model->path_name = strdup(filename);
+	model->mtl_lib_name = NULL;
 	model->vertices_numbers = 0;
 	model->vertex = NULL;
-	model->numnormals = 0;
+	model->number_of_normals_in_model = 0;
 	model->normals = NULL;
-	model->numtexcoords = 0;
-	model->texcoords = NULL;
-	model->numfacetnorms = 0;
-	model->facetnorms = NULL;
-	model->numtriangles = 0;
+	model->texture_cordinates_number = 0;
+	model->texture_cordinates = NULL;
+	model->number_of_facet_normals = 0;
+	model->facet_normals = NULL;
+	model->number_of_triangles = 0;
 	model->triangles = NULL;
-	model->nummaterials = 0;
+	model->number_of_materials = 0;
 	model->materials = NULL;
-	model->numgroups = 0;
+	model->number_of_groups = 0;
 	model->groups = NULL;
 	model->position[0] = 0.0;
 	model->position[1] = 0.0;
@@ -1554,7 +1559,7 @@ glmReadOBJ(char *filename)
 
 	/*
 	 * Make a first pass through the file to get a count of the number
-	 * of vertex, normals, texcoords & triangles
+	 * of vertex, normals, texture_cordinates & triangles
 	 */
 	glmFirstPass(model, file);
 
@@ -1562,18 +1567,18 @@ glmReadOBJ(char *filename)
 	model->vertex = (GLfloat *)malloc(sizeof(GLfloat) *
 		              3 * (model->vertices_numbers + 1));
 	model->triangles = (GLMtriangle *)malloc(sizeof(GLMtriangle) *
-		               model->numtriangles);
-	if (model->numnormals) {
+		               model->number_of_triangles);
+	if (model->number_of_normals_in_model) {
 		model->normals = (GLfloat*)malloc(sizeof(GLfloat) *
-			             3 * (model->numnormals + 1));
+			             3 * (model->number_of_normals_in_model + 1));
 	}
 	else {
 		/* nothing to do */
 	}
 
-	if (model->numtexcoords) {
-		model->texcoords = (GLfloat *)malloc(sizeof(GLfloat) *
-			               2 * (model->numtexcoords + 1));
+	if (model->texture_cordinates_number) {
+		model->texture_cordinates = (GLfloat *)malloc(sizeof(GLfloat) *
+			               2 * (model->texture_cordinates_number + 1));
 	}
 	else {
 		/* nothing to do */
@@ -1617,7 +1622,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	assert(model);
 
 	/* do a bit of warning */
-	if (mode & GLM_FLAT && !model->facetnorms) {
+	if (mode & GLM_FLAT && !model->facet_normals) {
 		printf("glmWriteOBJ() warning: flat normal output requested "
 			   "with no facet normals defined.\n");
 		mode &= ~GLM_FLAT;
@@ -1635,7 +1640,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 		/* nothing to do */
 	}
 
-	if (mode & GLM_TEXTURE && !model->texcoords) {
+	if (mode & GLM_TEXTURE && !model->texture_cordinates) {
 		printf("glmWriteOBJ() warning: texture coordinate output requested "
 			   "with no texture coordinates defined.\n");
 		mode &= ~GLM_TEXTURE;
@@ -1702,9 +1707,9 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	fprintf(file, "#  http://www.pobox.com/~ndr\n");
 	fprintf(file, "#  \n");
 
-	if (mode & GLM_MATERIAL && model->mtllibname) {
-		fprintf(file, "\nmtllib %s\n\n", model->mtllibname);
-		glmWriteMTL(model, filename, model->mtllibname);
+	if (mode & GLM_MATERIAL && model->mtl_lib_name) {
+		fprintf(file, "\nmtllib %s\n\n", model->mtl_lib_name);
+		glmWriteMTL(model, filename, model->mtl_lib_name);
 	}
 	else {
 		/* nothing to do */
@@ -1723,8 +1728,8 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	/* spit out the smooth/flat normals */
 	if (mode & GLM_SMOOTH) {
 		fprintf(file, "\n");
-		fprintf(file, "# %d normals\n", model->numnormals);
-		for (i = 1; i <= model->numnormals; i++) {
+		fprintf(file, "# %d normals\n", model->number_of_normals_in_model);
+		for (i = 1; i <= model->number_of_normals_in_model; i++) {
 			fprintf(file, "vn %f %f %f\n",
 				model->normals[3 * i + 0],
 				model->normals[3 * i + 1],
@@ -1733,12 +1738,12 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	}
 	else if (mode & GLM_FLAT) {
 		fprintf(file, "\n");
-		fprintf(file, "# %d normals\n", model->numfacetnorms);
-		for (i = 1; i <= model->numnormals; i++) {
+		fprintf(file, "# %d normals\n", model->number_of_facet_normals);
+		for (i = 1; i <= model->number_of_normals_in_model; i++) {
 			fprintf(file, "vn %f %f %f\n",
-			        model->facetnorms[3 * i + 0],
-			        model->facetnorms[3 * i + 1],
-			        model->facetnorms[3 * i + 2]);
+			        model->facet_normals[3 * i + 0],
+			        model->facet_normals[3 * i + 1],
+			        model->facet_normals[3 * i + 2]);
 		}
 	}
 	else {
@@ -1748,11 +1753,11 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	/* spit out the texture coordinates */
 	if (mode & GLM_TEXTURE) {
 		fprintf(file, "\n");
-		fprintf(file, "# %f texcoords\n", *model->texcoords);
-		for (i = 1; i <= model->numtexcoords; i++) {
+		fprintf(file, "# %f texture_cordinates\n", *model->texture_cordinates);
+		for (i = 1; i <= model->texture_cordinates_number; i++) {
 			fprintf(file, "vt %f %f\n",
-			        model->texcoords[2 * i + 0],
-			        model->texcoords[2 * i + 1]);
+			        model->texture_cordinates[2 * i + 0],
+			        model->texture_cordinates[2 * i + 1]);
 		}
 	}
 	else {
@@ -1760,8 +1765,8 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	}
 
 	fprintf(file, "\n");
-	fprintf(file, "# %d groups\n", model->numgroups);
-	fprintf(file, "# %d faces (triangles)\n", model->numtriangles);
+	fprintf(file, "# %d groups\n", model->number_of_groups);
+	fprintf(file, "# %d faces (triangles)\n", model->number_of_triangles);
 	fprintf(file, "\n");
 
 	group = model->groups;
@@ -1775,60 +1780,60 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 			/* nothing to do */
 		}
 
-		for (i = 0; i < group->numtriangles; i++) {
+		for (i = 0; i < group->number_of_triangles; i++) {
 			if (mode & GLM_SMOOTH && mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d/%d %d/%d/%d %d/%d/%d\n",
-					T(group->triangles[i]).v_indexex[0],
-					T(group->triangles[i]).nindices[0],
-					T(group->triangles[i]).t_indexes[0],
-					T(group->triangles[i]).v_indexex[1],
-					T(group->triangles[i]).nindices[1],
-					T(group->triangles[i]).t_indexes[1],
-					T(group->triangles[i]).v_indexex[2],
-					T(group->triangles[i]).nindices[2],
-					T(group->triangles[i]).t_indexes[2]);
+					T(group->triangles[i]).vertex_indexes[0],
+					T(group->triangles[i]).normal_indexes[0],
+					T(group->triangles[i]).triangle_indexes[0],
+					T(group->triangles[i]).vertex_indexes[1],
+					T(group->triangles[i]).normal_indexes[1],
+					T(group->triangles[i]).triangle_indexes[1],
+					T(group->triangles[i]).vertex_indexes[2],
+					T(group->triangles[i]).normal_indexes[2],
+					T(group->triangles[i]).triangle_indexes[2]);
 			}
 			else if (mode & GLM_FLAT && mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d %d/%d %d/%d\n",
-					T(group->triangles[i]).v_indexex[0],
+					T(group->triangles[i]).vertex_indexes[0],
 					T(group->triangles[i]).findex,
-					T(group->triangles[i]).v_indexex[1],
+					T(group->triangles[i]).vertex_indexes[1],
 					T(group->triangles[i]).findex,
-					T(group->triangles[i]).v_indexex[2],
+					T(group->triangles[i]).vertex_indexes[2],
 					T(group->triangles[i]).findex);
 			}
 			else if (mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d %d/%d %d/%d\n",
-					T(group->triangles[i]).v_indexex[0],
-					T(group->triangles[i]).t_indexes[0],
-					T(group->triangles[i]).v_indexex[1],
-					T(group->triangles[i]).t_indexes[1],
-					T(group->triangles[i]).v_indexex[2],
-					T(group->triangles[i]).t_indexes[2]);
+					T(group->triangles[i]).vertex_indexes[0],
+					T(group->triangles[i]).triangle_indexes[0],
+					T(group->triangles[i]).vertex_indexes[1],
+					T(group->triangles[i]).triangle_indexes[1],
+					T(group->triangles[i]).vertex_indexes[2],
+					T(group->triangles[i]).triangle_indexes[2]);
 			}
 			else if (mode & GLM_SMOOTH) {
 				fprintf(file, "f %d//%d %d//%d %d//%d\n",
-					T(group->triangles[i]).v_indexex[0],
-					T(group->triangles[i]).nindices[0],
-					T(group->triangles[i]).v_indexex[1],
-					T(group->triangles[i]).nindices[1],
-					T(group->triangles[i]).v_indexex[2],
-					T(group->triangles[i]).nindices[2]);
+					T(group->triangles[i]).vertex_indexes[0],
+					T(group->triangles[i]).normal_indexes[0],
+					T(group->triangles[i]).vertex_indexes[1],
+					T(group->triangles[i]).normal_indexes[1],
+					T(group->triangles[i]).vertex_indexes[2],
+					T(group->triangles[i]).normal_indexes[2]);
 			}
 			else if (mode & GLM_FLAT) {
 				fprintf(file, "f %d//%d %d//%d %d//%d\n",
-					T(group->triangles[i]).v_indexex[0],
+					T(group->triangles[i]).vertex_indexes[0],
 					T(group->triangles[i]).findex,
-					T(group->triangles[i]).v_indexex[1],
+					T(group->triangles[i]).vertex_indexes[1],
 					T(group->triangles[i]).findex,
-					T(group->triangles[i]).v_indexex[2],
+					T(group->triangles[i]).vertex_indexes[2],
 					T(group->triangles[i]).findex);
 			}
 			else {
 				fprintf(file, "f %d %d %d\n",
-					T(group->triangles[i]).v_indexex[0],
-					T(group->triangles[i]).v_indexex[1],
-					T(group->triangles[i]).v_indexex[2]);
+					T(group->triangles[i]).vertex_indexes[0],
+					T(group->triangles[i]).vertex_indexes[1],
+					T(group->triangles[i]).vertex_indexes[2]);
 			}
 		}
 		fprintf(file, "\n");
@@ -1866,7 +1871,7 @@ glmDraw(GLMmodel *model, GLuint mode)
 	assert(model->vertex);
 
 	/* do a bit of warning */
-	if (mode & GLM_FLAT && !model->facetnorms) {
+	if (mode & GLM_FLAT && !model->facet_normals) {
 		printf("glmDraw() warning: flat render mode requested "
 		       "with no facet normals defined.\n");
 		mode &= ~GLM_FLAT;
@@ -1884,7 +1889,7 @@ glmDraw(GLMmodel *model, GLuint mode)
 		/* nothing to do */
 	}
 
-	if (mode & GLM_TEXTURE && !model->texcoords) {
+	if (mode & GLM_TEXTURE && !model->texture_cordinates) {
 		printf("glmDraw() warning: texture render mode requested "
 		       "with no texture coordinates defined.\n");
 		mode &= ~GLM_TEXTURE;
@@ -1964,63 +1969,63 @@ glmDraw(GLMmodel *model, GLuint mode)
 		}
 
 		glBegin(GL_TRIANGLES);
-		for (i = 0; i < group->numtriangles; i++) {
+		for (i = 0; i < group->number_of_triangles; i++) {
 			triangle = &T(group->triangles[i]);
 
 			if (mode & GLM_FLAT) {
-				glNormal3fv(&model->facetnorms[3 * triangle->findex]);
+				glNormal3fv(&model->facet_normals[3 * triangle->findex]);
 			}
 			else {
 				/* nothing to do */
 			}
 
 			if (mode & GLM_SMOOTH) {
-				glNormal3fv(&model->normals[3 * triangle->nindices[0]]);
+				glNormal3fv(&model->normals[3 * triangle->normal_indexes[0]]);
 			}
 			else {
 				/* nothing to do */
 			}
 
 			if (mode & GLM_TEXTURE) {
-				glTexCoord2fv(&model->texcoords[2 * triangle->t_indexes[0]]);
+				glTexCoord2fv(&model->texture_cordinates[2 * triangle->triangle_indexes[0]]);
 			}
 			else {
 				/* nothing to do */
 			}
 
-			glVertex3fv(&model->vertex[3 * triangle->v_indexex[0]]);
+			glVertex3fv(&model->vertex[3 * triangle->vertex_indexes[0]]);
 
 			if (mode & GLM_SMOOTH) {
-				glNormal3fv(&model->normals[3 * triangle->nindices[1]]);
+				glNormal3fv(&model->normals[3 * triangle->normal_indexes[1]]);
 			}
 			else {
 				/* nothing to do */
 			}
 
 			if (mode & GLM_TEXTURE) {
-				glTexCoord2fv(&model->texcoords[2 * triangle->t_indexes[1]]);
+				glTexCoord2fv(&model->texture_cordinates[2 * triangle->triangle_indexes[1]]);
 			}
 			else {
 				/* nothing to do */
 			}
 
-			glVertex3fv(&model->vertex[3 * triangle->v_indexex[1]]);
+			glVertex3fv(&model->vertex[3 * triangle->vertex_indexes[1]]);
 
 			if (mode & GLM_SMOOTH) {
-				glNormal3fv(&model->normals[3 * triangle->nindices[2]]);
+				glNormal3fv(&model->normals[3 * triangle->normal_indexes[2]]);
 			}
 			else {
 				/* nothing to do */
 			}
 
 			if (mode & GLM_TEXTURE) {
-				glTexCoord2fv(&model->texcoords[2 * triangle->t_indexes[2]]);
+				glTexCoord2fv(&model->texture_cordinates[2 * triangle->triangle_indexes[2]]);
 			}
 			else {
 				/* nothing to do */
 			}
 
-			glVertex3fv(&model->vertex[3 * triangle->v_indexex[2]]);
+			glVertex3fv(&model->vertex[3 * triangle->vertex_indexes[2]]);
 
 		}
 		glEnd();
@@ -2072,30 +2077,30 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
 {
 	GLfloat *vectors;
 	GLfloat *copies;
-	GLuint numvectors;
+	GLuint number_of_vectors;
 	GLuint i;
 
 	/* vertex */
-	numvectors = model->vertices_numbers;
+	number_of_vectors = model->vertices_numbers;
 	vectors  = model->vertex;
-	copies = glmWeldVectors(vectors, &numvectors, epsilon);
+	copies = glmWeldVectors(vectors, &number_of_vectors, epsilon);
 
 	#if 0
 	printf("glmWeld(): %d redundant vertex.\n",
-		model->vertices_numbers - numvectors - 1);
+		model->vertices_numbers - number_of_vectors - 1);
 	#endif
 
-	for (i = 0; i < model->numtriangles; i++) {
-		T(i).v_indexex[0] = (GLuint)vectors[3 * T(i).v_indexex[0] + 0];
-		T(i).v_indexex[1] = (GLuint)vectors[3 * T(i).v_indexex[1] + 0];
-		T(i).v_indexex[2] = (GLuint)vectors[3 * T(i).v_indexex[2] + 0];
+	for (i = 0; i < model->number_of_triangles; i++) {
+		T(i).vertex_indexes[0] = (GLuint)vectors[3 * T(i).vertex_indexes[0] + 0];
+		T(i).vertex_indexes[1] = (GLuint)vectors[3 * T(i).vertex_indexes[1] + 0];
+		T(i).vertex_indexes[2] = (GLuint)vectors[3 * T(i).vertex_indexes[2] + 0];
 	}
 
 	/* free space for old vertex */
 	free(vectors);
 
 	/* allocate space for the new vertex */
-	model->vertices_numbers = numvectors;
+	model->vertices_numbers = number_of_vectors;
 	model->vertex = (GLfloat*)malloc(sizeof(GLfloat) *
 	                  3 * (model->vertices_numbers + 1));
 
@@ -2204,30 +2209,30 @@ glmReadPPM(char *filename, int *width, int *height)
 
 #if 0
 /* normals */
-if (model->numnormals) {
-	numvectors = model->numnormals;
+if (model->number_of_normals_in_model) {
+	number_of_vectors = model->number_of_normals_in_model;
 	vectors  = model->normals;
-	copies = glmOptimizeVectors(vectors, &numvectors);
+	copies = glmOptimizeVectors(vectors, &number_of_vectors);
 
 	printf("glmOptimize(): %d redundant normals.\n",
-		   model->numnormals - numvectors);
+		   model->number_of_normals_in_model - number_of_vectors);
 
-	for (i = 0; i < model->numtriangles; i++) {
-		T(i).nindices[0] = (GLuint)vectors[3 * T(i).nindices[0] + 0];
-		T(i).nindices[1] = (GLuint)vectors[3 * T(i).nindices[1] + 0];
-		T(i).nindices[2] = (GLuint)vectors[3 * T(i).nindices[2] + 0];
+	for (i = 0; i < model->number_of_triangles; i++) {
+		T(i).normal_indexes[0] = (GLuint)vectors[3 * T(i).normal_indexes[0] + 0];
+		T(i).normal_indexes[1] = (GLuint)vectors[3 * T(i).normal_indexes[1] + 0];
+		T(i).normal_indexes[2] = (GLuint)vectors[3 * T(i).normal_indexes[2] + 0];
 	}
 
 	/* free space for old normals */
 	free(vectors);
 
 	/* allocate space for the new normals */
-	model->numnormals = numvectors;
+	model->number_of_normals_in_model = number_of_vectors;
 	model->normals = (GLfloat*)malloc(sizeof(GLfloat) *
-		             3 * (model->numnormals + 1));
+		             3 * (model->number_of_normals_in_model + 1));
 
 	/* copy the optimized vertex into the actual vertex list */
-	for (i = 1; i <= model->numnormals; i++) {
+	for (i = 1; i <= model->number_of_normals_in_model; i++) {
 		model->normals[3 * i + 0] = copies[3 * i + 0];
 		model->normals[3 * i + 1] = copies[3 * i + 1];
 		model->normals[3 * i + 2] = copies[3 * i + 2];
@@ -2239,33 +2244,33 @@ else {
 	/* nothing to do */
 }
 
-/* texcoords */
-if (model->numtexcoords) {
-	numvectors = model->numtexcoords;
-	vectors  = model->texcoords;
-	copies = glmOptimizeVectors(vectors, &numvectors);
+/* texture_cordinates */
+if (model->texture_cordinates_number) {
+	number_of_vectors = model->texture_cordinates_number;
+	vectors  = model->texture_cordinates;
+	copies = glmOptimizeVectors(vectors, &number_of_vectors);
 
-	printf("glmOptimize(): %d redundant texcoords.\n",
-	       model->numtexcoords - numvectors);
+	printf("glmOptimize(): %d redundant texture_cordinates.\n",
+	       model->texture_cordinates_number - number_of_vectors);
 
-	for (i = 0; i < model->numtriangles; i++) {
+	for (i = 0; i < model->number_of_triangles; i++) {
 		for (j = 0; j < 3; j++) {
-			T(i).t_indexes[j] = (GLuint)vectors[3 * T(i).t_indexes[j] + 0];
+			T(i).triangle_indexes[j] = (GLuint)vectors[3 * T(i).triangle_indexes[j] + 0];
 		}
 	}
 
-	/* free space for old texcoords */
+	/* free space for old texture_cordinates */
 	free(vectors);
 
-	/* allocate space for the new texcoords */
-	model->numtexcoords = numvectors;
-	model->texcoords = (GLfloat*)malloc(sizeof(GLfloat) *
-		               2 * (model->numtexcoords + 1));
+	/* allocate space for the new texture_cordinates */
+	model->texture_cordinates_number = number_of_vectors;
+	model->texture_cordinates = (GLfloat*)malloc(sizeof(GLfloat) *
+		               2 * (model->texture_cordinates_number + 1));
 
 	/* copy the optimized vertex into the actual vertex list */
-	for (i = 1; i <= model->numtexcoords; i++) {
-		model->texcoords[2 * i + 0] = copies[2 * i + 0];
-		model->texcoords[2 * i + 1] = copies[2 * i + 1];
+	for (i = 1; i <= model->texture_cordinates_number; i++) {
+		model->texture_cordinates[2 * i + 0] = copies[2 * i + 0];
+		model->texture_cordinates[2 * i + 1] = copies[2 * i + 1];
 	}
 
 	free(copies);
@@ -2278,12 +2283,12 @@ else {
 #if 0
 /* look for unused vertex  */
 /* look for unused normals   */
-/* look for unused texcoords */
+/* look for unused texture_cordinates */
 for (i = 1; i <= model->vertices_numbers; i++) {
-	for (j = 0; j < model->numtriangles; i++) {
-		if (T(j).v_indexex[0] == i ||
-			T(j).v_indexex[1] == i ||
-			T(j).v_indexex[1] == i)
+	for (j = 0; j < model->number_of_triangles; i++) {
+		if (T(j).vertex_indexes[0] == i ||
+			T(j).vertex_indexes[1] == i ||
+			T(j).vertex_indexes[1] == i)
 		{
 			break;
 		}

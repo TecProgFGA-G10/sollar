@@ -35,16 +35,16 @@ typedef struct _GLMmaterial {
 
 /* GLMtriangle: Structure that defines a triangle in a model. */
 typedef struct _GLMtriangle {
-	GLuint v_indexex[3]; /* array of triangle vertex indices   */
-	GLuint nindices[3]; /* array of triangle normal indices   */
-	GLuint t_indexes[3]; /* array of triangle texcoord indices */
+	GLuint vertex_indexes[3]; /* array of triangle vertex indices   */
+	GLuint normal_indexes[3]; /* array of triangle normal indices   */
+	GLuint triangle_indexes[3]; /* array of triangle texcoord indices */
 	GLuint findex;      /* index of triangle facet normal     */
 } GLMtriangle;
 
 /* GLMgroup: Structure that defines a group in a model. */
 typedef struct _GLMgroup {
 	char *name;              /* name of this group                */
-	GLuint numtriangles;     /* number of triangles in this group */
+	GLuint number_of_triangles;     /* number of triangles in this group */
 	GLuint *triangles;       /* array of triangle indices         */
 	GLuint material;         /* index to material for group       */
 	struct _GLMgroup* next;  /* pointer to next group in model    */
@@ -52,28 +52,28 @@ typedef struct _GLMgroup {
 
 /* GLMmodel: Structure that defines a model. */
 typedef struct _GLMmodel {
-	char *pathname;   /* path to this model           */
-	char *mtllibname; /* name of the material library */
+	char *path_name;   /* path to this model           */
+	char *mtl_lib_name; /* name of the material library */
 
 	GLuint vertices_numbers; /* number of vertex in model */
 	GLfloat *vertex;  /* array of vertex           */
 
-	GLuint numnormals; /* number of normals in model */
+	GLuint number_of_normals_in_model; /* number of normals in model */
 	GLfloat *normals;  /* array of normals           */
 
-	GLuint numtexcoords; /* number of texcoords in model */
-	GLfloat *texcoords;  /* array of texture coordinates */
+	GLuint texture_cordinates_number; /* number of texture_cordinates in model */
+	GLfloat *texture_cordinates;  /* array of texture coordinates */
 
-	GLuint numfacetnorms; /* number of facetnorms in model */
-	GLfloat *facetnorms;  /* array of facetnorms           */
+	GLuint number_of_facet_normals; /* number of facet_normals in model */
+	GLfloat *facet_normals;  /* array of facet_normals           */
 
-	GLuint numtriangles;    /* number of triangles in model */
+	GLuint number_of_triangles;    /* number of triangles in model */
 	GLMtriangle *triangles; /* array of triangles           */
 
-	GLuint nummaterials;    /* number of materials in model */
+	GLuint number_of_materials;    /* number of materials in model */
 	GLMmaterial *materials; /* array of materials           */
 
-	GLuint numgroups; /* number of groups in model */
+	GLuint number_of_groups; /* number of groups in model */
 	GLMgroup *groups; /* linked list of groups     */
 
 	GLfloat position[3]; /* position of the model */
