@@ -62,7 +62,7 @@ void load_ship_texture(Texture *ship_texture, char* filePath)
 		glBindTexture(GL_TEXTURE_2D, ship_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 level_of_detail,
-					 ship_texture->bpp / 8,
+					 ship_texture->bpp / 8, /* divides the bpp (byte per pixel) for each byte */
 					 ship_texture->width,
 					 ship_texture->height,
 					 border,

@@ -100,7 +100,7 @@ void load_meteor_texture(Texture *meteor_texture, char *filePath)
 		glBindTexture(GL_TEXTURE_2D, meteor_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
 					 level_of_detail,
-					 meteor_texture->bpp / 8,
+					 meteor_texture->bpp / 8, /* divides the bpp (byte per pixel) for each byte */
 					 meteor_texture->width,
 					 meteor_texture->height,
 					 border,
