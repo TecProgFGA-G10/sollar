@@ -26,7 +26,9 @@ int posicaoVaziaTiros(game_item *shots)
 }
 
 /* loads shot model */
-void carregaModeloTiro(GLMmodel **shot) {
+void carregaModeloTiro(GLMmodel **shot) 
+{
+	double shot_angle = 90.0;
 	if (*shot == NULL) {
 		*shot = glmReadOBJ("data/tiro/tiro.obj");
 
@@ -40,7 +42,7 @@ void carregaModeloTiro(GLMmodel **shot) {
 		/* calculate the normal ones */
 		glmUnitize(*shot);
 		glmFacetNormals(*shot);
-		glmVertexNormals(*shot, 90.0);
+		glmVertexNormals(*shot, shot_angle);
 	}
 	else {
 		printf("model shot nao carregado!\n");
@@ -72,15 +74,18 @@ void atualizaCaixaColisaoTiro(game_item *item)
 /* loads shot's texture */
 void load_shot_texture(Texture *shot_texture, char *filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
    if (LoadTGA(shot_texture,filePath)) {
-		glGenTextures(1, &shot_texture->texture_id);
+		glGenTextures(amount_of_textures, &shot_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, shot_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
-					 shot_texture->bpp / 8,
+					 level_of_detail,
+					 shot_texture->bpp / 8, /* divides the bpp (byte per pixel) for each byte */
 					 shot_texture->width,
 					 shot_texture->height,
-					 0,
+					 border,
 					 shot_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 shot_texture->imageData);
@@ -128,7 +133,7 @@ void configuraAceleracaoTiros(game_item *shots)
 {
 	int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
-		shots[i].acceleration = -0.1;
+		shots[i].acceleration = -0.9;
 	}
 }
 
