@@ -13,16 +13,17 @@
 int posicaoVaziaTiros(game_item *shots)
 {
 	int i = 0;
+	unsigned int result_iterator = -1;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		/* finds the first empty shot and returns it */
 		if (!shots[i].visible) {
-			return i;
+			result_iterator = i;
 		}
 		else {
 			/* nothing to do */
 		}
 	}
-	return -1;
+	return result_iterator;
 }
 
 /* loads shot model */
