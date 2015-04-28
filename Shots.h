@@ -12,7 +12,7 @@
 /* creates an empty position to the shots */
 int posicaoVaziaTiros(game_item *shots)
 {
-	int i = 0;
+	unsigned int i = 0;
 	unsigned int result_iterator = -1;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		/* finds the first empty shot and returns it */
@@ -54,7 +54,7 @@ void carregaModeloTiro(GLMmodel **shot)
 /* update shot's box collision */
 void atualizaCaixaColisaoTiro(game_item *item)
 {
-	int i = 0;
+	unsigned int i = 0;
 	/* total points collision box */
 	for (i = 0; i < 8; i++) {
 		if (item->position.z > item->last_position.z) {
@@ -102,7 +102,7 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 /* draws the shots */
 void desenhaTiros(game_item *shots, Texture shot_texture, GLMmodel *shot)
 {
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
 			glPushMatrix();
@@ -121,7 +121,7 @@ void desenhaTiros(game_item *shots, Texture shot_texture, GLMmodel *shot)
 /* configures shot's collision box */
 void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 {
-	int c;
+	unsigned int c;
 	for (c = 0; c < 8; c++) {
 		dafault_collision_shot->points[c].x *= SHOT_SCALE;
 		dafault_collision_shot->points[c].y *= SHOT_SCALE;
@@ -132,7 +132,7 @@ void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 /* configures shot's acceleration */
 void configuraAceleracaoTiros(game_item *shots)
 {
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		shots[i].acceleration = -0.9;
 	}
