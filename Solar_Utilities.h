@@ -70,7 +70,7 @@ typedef struct {
 
 typedef struct {
 	GLubyte * imageData;
-	GLuint  bpp;
+	GLuint  bpp; /* byte pr pixel */
 	GLuint  width;
 	GLuint  height;
 	GLuint  texture_id;

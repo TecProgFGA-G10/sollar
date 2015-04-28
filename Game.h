@@ -17,15 +17,18 @@
 /* loads the background texture */
 void load_background_texture(Texture *background_texture, char *filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
 	if (LoadTGA(background_texture, filePath)) {
-		glGenTextures(1, &background_texture->texture_id);
+		glGenTextures(amount_of_textures, &background_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, background_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
-					 background_texture->bpp / 8,
+					 level_of_detail,
+					 background_texture->bpp / 8, /* divides the bpp (byte per pixel) for each byte */
 					 background_texture->width,
 					 background_texture->height,
-					 0,
+					 border,
 					 background_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 background_texture->imageData);
@@ -41,15 +44,18 @@ void load_background_texture(Texture *background_texture, char *filePath)
 /* loads the game over texture */
 void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
 	if (LoadTGA(game_over_texture, filePath)) {
-		glGenTextures(1, &game_over_texture->texture_id);
+		glGenTextures(amount_of_textures, &game_over_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, game_over_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
+					 level_of_detail,
 					 GL_RGBA,
 					 game_over_texture->width,
 					 game_over_texture->height,
-					 0,
+					 border,
 					 game_over_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 game_over_texture->imageData);
@@ -65,15 +71,18 @@ void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 /* loads the game texture */
 void load_game_texture(Texture *game_continue_texture, char *filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
 	if (LoadTGA(game_continue_texture, filePath)) {
-		glGenTextures(1, &game_continue_texture->texture_id);
+		glGenTextures(amount_of_textures, &game_continue_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, game_continue_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
+					 level_of_detail,
 					 GL_RGBA,
 					 game_continue_texture->width,
 					 game_continue_texture->height,
-					 0,
+					 border,
 					 game_continue_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 game_continue_texture->imageData);
@@ -89,15 +98,18 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 /* loads the game over texture */
 void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
 	if (LoadTGA(end_game_texture, filePath)) {
-		glGenTextures(1, &end_game_texture->texture_id);
+		glGenTextures(amount_of_textures, &end_game_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, end_game_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
+					 level_of_detail,
 					 GL_RGBA,
 					 end_game_texture->width,
 					 end_game_texture->height,
-					 0,
+					 border,
 					 end_game_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 end_game_texture->imageData);
@@ -129,26 +141,26 @@ void configuratextures(Texture **textures)
 void desenhaPlanoGameOver(Texture game_over_texture)
 {
 	glPushMatrix();
-	glTranslatef(0, 0, 0);
+	glTranslatef(0, 0, 0); /* coordinates x, y, z */
 	glBindTexture(GL_TEXTURE_2D, game_over_texture.texture_id);
-	glScalef(0.6, 0.6, 0.6);
+	glScalef(0.6, 0.6, 0.6); /* coordinates x, y, z */
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 1.0);
-	glVertex3i(MINIMUN_X,MAXIMUM_Y, 0);
+	glTexCoord2f(0.0, 1.0); /* texture coordinates */
+	glVertex3i(MINIMUN_X, MAXIMUM_Y, 0); /* coordinates x, y, z */
 
-	glTexCoord2f(0.0, 0.0);
-	glVertex3i(MINIMUN_X,MINIMUM_Y, 0);
+	glTexCoord2f(0.0, 0.0); /* texture coordinates */
+	glVertex3i(MINIMUN_X, MINIMUM_Y, 0); /* coordinates x, y, z */
 
-	glTexCoord2f(1.0, 0.0);
-	glVertex3i(MAXIMUM_X,MINIMUM_Y, 0);
+	glTexCoord2f(1.0, 0.0); /* texture coordinates */
+	glVertex3i(MAXIMUM_X, MINIMUM_Y, 0); /* coordinates x, y, z */
 
-	glTexCoord2f(1.0, 1.0);
-	glVertex3i(MAXIMUM_X,MAXIMUM_Y, 0);
+	glTexCoord2f(1.0, 1.0); /* texture coordinates */
+	glVertex3i(MAXIMUM_X, MAXIMUM_Y, 0); /* coordinates x, y, z */
 
 	glEnd();
 	glPopMatrix();
-	glTranslatef(0, 0, 1);
+	glTranslatef(0, 0, 1); /* coordinates x, y, z */
 }
 
 /* draws continue button */
@@ -157,7 +169,7 @@ void desenhaBotaoContinuar(int game_over_selected,
 						   Texture game_continue_red_texture)
 {
 	glPushMatrix();
-	glTranslatef(-3, -2, 0);
+	glTranslatef(-3, -2, 0); /* coordinates x, y, z */
 
 	if (game_over_selected == CONTINUE) {
 		glBindTexture(GL_TEXTURE_2D, game_continue_green_texture.texture_id);
@@ -167,17 +179,17 @@ void desenhaBotaoContinuar(int game_over_selected,
 	}
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(1.0, 1.0);
-	glVertex3f(1, 1, 1);
+	glTexCoord2f(1.0, 1.0); /* texture coordinates */
+	glVertex3f(1, 1, 1); /* coordinates x, y, z */
 
-	glTexCoord2f(1.0, 0.0);
-	glVertex3f(1, -1, 1);
+	glTexCoord2f(1.0, 0.0); /* texture coordinates */
+	glVertex3f(1, -1, 1); /* coordinates x, y, z */
 
-	glTexCoord2f(0.0, 0.0);
-	glVertex3f(-1, -1, 1);
+	glTexCoord2f(0.0, 0.0); /* texture coordinates */
+	glVertex3f(-1, -1, 1); /* coordinates x, y, z */
 
-	glTexCoord2f(0.0, 1.0);
-	glVertex3f(-1, 1, 1);
+	glTexCoord2f(0.0, 1.0); /* texture coordinates */
+	glVertex3f(-1, 1, 1); /* coordinates x, y, z */
 
 	glEnd();
 	glPopMatrix();
@@ -189,7 +201,7 @@ void desenhaBotaoSair(int game_over_selected,
 					  Texture game_over_red_texture)
 {
 	glPushMatrix();
-	glTranslatef(3,-2,0);
+	glTranslatef(3,-2,0); /* coordinates x, y, z */
 
 	if (game_over_selected == GAME_OVER) {
 		glBindTexture(GL_TEXTURE_2D, game_over_green_texture.texture_id);
@@ -199,17 +211,17 @@ void desenhaBotaoSair(int game_over_selected,
 	}
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(1.0, 1.0);
-	glVertex3f(1, 1, 1);
+	glTexCoord2f(1.0, 1.0); /* texture coordinates */
+	glVertex3f(1, 1, 1); /* coordinates x, y, z */
 
-	glTexCoord2f(1.0, 0.0);
-	glVertex3f(1, -1, 1);
+	glTexCoord2f(1.0, 0.0); /* texture coordinates */
+	glVertex3f(1, -1, 1); /* coordinates x, y, z */
 
-	glTexCoord2f(0.0, 0.0);
-	glVertex3f(-1, -1, 1);
+	glTexCoord2f(0.0, 0.0); /* texture coordinates */
+	glVertex3f(-1, -1, 1); /* coordinates x, y, z */
 
-	glTexCoord2f(0.0, 1.0);
-	glVertex3f(-1, 1, 1);
+	glTexCoord2f(0.0, 1.0); /* texture coordinates */
+	glVertex3f(-1, 1, 1); /* coordinates x, y, z */
 
 	glEnd();
 	glPopMatrix();
