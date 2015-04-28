@@ -23,7 +23,8 @@ void carregaModeloship(game_item *ship)
 	ship->acceleration = 0.03;
 	ship->visible = TRUE;
 
-	int scala = 0;
+	int scale = 0;
+	double model_angle = 90.0;
 
 	if (!ship->model) {
 		ship->model = glmReadOBJ("data/aviao/jato.obj");
@@ -37,12 +38,12 @@ void carregaModeloship(game_item *ship)
 		glmUnitize(ship->model);
 		criaCaixaColisao(ship->model, &ship->collision);
 		glmFacetNormals(ship->model);
-		glmVertexNormals(ship->model, 90.0);
+		glmVertexNormals(ship->model, model_angle);
 
-		for (scala = 0; scala < 8; scala++) {
-			ship->collision.points[scala].x *= SHIP_SCALE;
-			ship->collision.points[scala].y *= SHIP_SCALE;
-			ship->collision.points[scala].z *= SHIP_SCALE;
+		for (scale = 0; scale < 8; scale++) {
+			ship->collision.points[scale].x *= SHIP_SCALE;
+			ship->collision.points[scale].y *= SHIP_SCALE;
+			ship->collision.points[scale].z *= SHIP_SCALE;
 		}
 	}
 	else {
@@ -53,15 +54,18 @@ void carregaModeloship(game_item *ship)
 /* loads shit texture */
 void load_ship_texture(Texture *ship_texture, char* filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
 	if (LoadTGA(ship_texture,filePath)) {
-		glGenTextures(1, &ship_texture->texture_id);
+		glGenTextures(amount_of_textures, &ship_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, ship_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
+					 level_of_detail,
 					 ship_texture->bpp / 8,
 					 ship_texture->width,
 					 ship_texture->height,
-					 0,
+					 border,
 					 ship_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 ship_texture->imageData);
