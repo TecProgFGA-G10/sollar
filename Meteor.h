@@ -37,15 +37,16 @@ void carregaModelometeor(GLMmodel **meteor)
 int posicaoVaziameteors(game_item *meteors)
 {
 	int i = 0;
+	unsigned int result_iteration = -1;
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (!meteors[i].visible) {
-			return i;
+			result_iteration = i;
 		}
 		else {
 			/* nothing to do */
 		}
 	}
-	return -1;
+	return result_iteration;
 }
 
 /* send meteor to the screen */
