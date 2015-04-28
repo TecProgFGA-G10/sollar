@@ -14,6 +14,7 @@
 /* loads the meteor model */
 void carregaModelometeor(GLMmodel **meteor)
 {
+	double explosion_angle = 90.0;
 	if (*meteor == NULL) {
 		*meteor = glmReadOBJ("data/meteoro/meteoro.obj");
 		if (*meteor == NULL){
@@ -25,7 +26,7 @@ void carregaModelometeor(GLMmodel **meteor)
 		}
 		glmUnitize(*meteor); /* redimensions to unity matrix */
 		glmFacetNormals(*meteor);
-		glmVertexNormals(*meteor, 90.0);
+		glmVertexNormals(*meteor, explosion_angle);
 	}
 	else {
 		printf("meteoro nao carregado! \n");
@@ -90,15 +91,18 @@ void enviameteor(game_item *meteors,
 /* loads the meteor texture */
 void load_meteor_texture(Texture *meteor_texture, char *filePath)
 {
+	unsigned int amount_of_textures = 1;
+	unsigned int level_of_detail = 0;
+	unsigned int border = 0;
 	if (LoadTGA(meteor_texture, filePath)) {
-		glGenTextures(1, &meteor_texture->texture_id);
+		glGenTextures(amount_of_textures, &meteor_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, meteor_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
-					 0,
+					 level_of_detail,
 					 meteor_texture->bpp / 8,
 					 meteor_texture->width,
 					 meteor_texture->height,
-					 0,
+					 border,
 					 meteor_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 meteor_texture->imageData);
@@ -129,7 +133,7 @@ void configuraAceleracaometeors(game_item *meteors)
 	int i = 0;
 
 	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		meteors[i].acceleration = 0.02;
+		meteors[i].acceleration = 5.00;
 	}
 }
 
