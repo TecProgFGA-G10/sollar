@@ -107,7 +107,7 @@ Uint16 audio_format = AUDIO_S16;
 int audio_channels = 2;
 int audio_buffers = 4096;
 
-
+/* Main function */
 int main(int argc, char **argv)
 {
 	configura(argc,argv);
@@ -115,6 +115,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+/* produces the game over screen */
 void desenhaGameOver()
 {
 	glutSpecialFunc(NULL);
