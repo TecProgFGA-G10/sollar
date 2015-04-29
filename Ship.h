@@ -1,7 +1,7 @@
 /*
-* Solar 3D Técnicas de Programação
-* Esse programa carrega o model da nave e sua textura no jogo
-*/
+ * Solar 3D Técnicas de Programação
+ * Esse programa carrega o model da nave e sua textura no jogo
+ */
 
 #ifndef SHIP_H
 #define SHIP_H
