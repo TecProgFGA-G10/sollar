@@ -54,9 +54,9 @@ game_item shots[MAX_NUMBER_OF_SHOTS];
 game_item explosions[MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR];
 
 /*
-* collision boxes to meteors and shots, when in position <0,0,0>
-* used to recalculate the new position and send a new object
-*/
+ * collision boxes to meteors and shots, when in position <0,0,0>
+ * used to recalculate the new position and send a new object
+ */
 collision_box dafault_meteor_collision;
 collision_box dafault_collision_shot;
 
@@ -150,10 +150,10 @@ void atualizarEstados(void)
 			shots[i].position.z += shots[i].acceleration;
 			atualizaCaixaColisaoTiro(&shots[i]);
 			/*
-			* Shot will move at Z axis, goint to the
-			* negative value of it. When z value is less then the maximum,
-			* the shot will dissapear.
-			*/
+			 * Shot will move at Z axis, goint to the
+			 * negative value of it. When z value is less then the maximum,
+			 * the shot will dissapear.
+			 */
 			if (shots[i].position.z < MAX_DISTANCE_FOR_SHOOT_TREATMENT) {
 				shots[i].visible = FALSE;
 			}
@@ -404,10 +404,10 @@ void trataTeclas()
 }
 
 /*
-* When pressing a key keep it state to below.
-* This way the ship moves while the key is pressed
-* a pressed_key estiver pressionada
-*/
+ * When pressing a key keep it state to below.
+ * This way the ship moves while the key is pressed
+ * a pressed_key estiver pressionada
+ */
 void special_key(int pressed_key, int x, int y)
 {
 	switch (pressed_key) {

@@ -24,9 +24,9 @@ void desenhaCaixaColisao(collision_box *box)
 
 
  /*
- * Creates one collision box by the bigger
- * and smaller points in wich axix.
- */
+  * Creates one collision box by the bigger
+  * and smaller points in wich axix.
+  */
 void criaCaixaColisao(GLMmodel *model, collision_box *box)
 /* *box - pointer to collision box */
 {
