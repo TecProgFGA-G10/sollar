@@ -251,6 +251,7 @@ void atualizaCaixaColisao(game_item *item)
 /* verifies the ship's collision with the asteroids */
 int verificaColisao(collision_box a, collision_box b)
 {
+	int boolean_value = FALSE;
 	if (((a.points[0].z >= b.points[0].z) &&
 	     (a.points[0].z <= b.points[4].z)) ||
 	    ((a.points[4].z >= b.points[4].z) &&
@@ -266,7 +267,7 @@ int verificaColisao(collision_box a, collision_box b)
 			   ((a.points[2].y >= b.points[2].y) &&
 			    (a.points[2].y <= b.points[0].y)))
 			{
-				return TRUE;
+				boolean_value = TRUE;
 			}
 			else {
 			/* nothing to do */
@@ -279,7 +280,7 @@ int verificaColisao(collision_box a, collision_box b)
 	else {
 			/* nothing to do */
 		}
-	return FALSE;
+	return boolean_value;	
 }
 
 #endif
