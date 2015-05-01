@@ -86,34 +86,6 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 
 		tmp_z = model->vertex[i * 3 + 2];
 
-		if (tmp_x > greater_x) {
-			greater_x = tmp_x;
-		}
-		else {
-			/* nothing to do */
-		}
-
-		if (tmp_x < lesser_x) {
-			lesser_x = tmp_x;
-		}
-		else {
-			/* nothing to do */
-		}
-
-		if (tmp_y > greater_y) {
-			greater_y = tmp_y;
-		}
-		else {
-			/* nothing to do */
-		}
-
-		if (tmp_y < lesser_y) {
-			lesser_y = tmp_y;
-		}
-		else {
-			/* nothing to do */
-		}
-
 		if (tmp_z > greater_z) {
 			greater_z = tmp_z;
 		}
@@ -280,7 +252,7 @@ int verificaColisao(collision_box a, collision_box b)
 	else {
 			/* nothing to do */
 		}
-	return boolean_value;	
+	return boolean_value;
 }
 
 #endif
