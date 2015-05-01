@@ -22,6 +22,13 @@ void desenhaCaixaColisao(collision_box *box)
 	glEnd();
 }
 
+float greater_value(float value_a, float value_b) {
+	if (value_a > value_b) {
+		return value_a;
+	} else {
+		return value_b;
+	}
+}
 
  /*
   * Creates one collision box by the bigger
