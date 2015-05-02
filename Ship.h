@@ -23,7 +23,6 @@ void carregaModeloship(game_item *ship)
 	ship->acceleration = 0.03;
 	ship->visible = TRUE;
 
-	int scale = 0;
 	double model_angle = 90.0;
 
 	if (!ship->model) {
@@ -40,7 +39,7 @@ void carregaModeloship(game_item *ship)
 		glmFacetNormals(ship->model);
 		glmVertexNormals(ship->model, model_angle);
 
-		for (scale = 0; scale < 8; scale++) {
+		for (unsigned int scale = 0; scale < 8; scale++) {
 			ship->collision.points[scale].x *= SHIP_SCALE;
 			ship->collision.points[scale].y *= SHIP_SCALE;
 			ship->collision.points[scale].z *= SHIP_SCALE;

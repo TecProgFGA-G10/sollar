@@ -136,14 +136,13 @@ glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
 {
 	GLfloat *copies;
 	GLuint copied;
-	GLuint i, j;
 
 	copies = (GLfloat*)malloc(sizeof(GLfloat) * 3 * (*number_of_vectors + 1));
 	memcpy(copies, vectors, (sizeof(GLfloat) * 3 * (*number_of_vectors + 1)));
 
 	copied = 1;
-	for (i = 1; i <= *number_of_vectors; i++) {
-		for (j = 1; j <= copied; j++) {
+	for (GLuint i = 1; i <= *number_of_vectors; i++) {
+		for (GLuint j = 1; j <= copied; j++) {
 			if (glmEqual(&vectors[3 * i], &copies[3 * j], epsilon)) {
 				goto duplicate;
 			}
@@ -156,7 +155,7 @@ glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
 		copies[3 * copied + 0] = vectors[3 * i + 0];
 		copies[3 * copied + 1] = vectors[3 * i + 1];
 		copies[3 * copied + 2] = vectors[3 * i + 2];
-		j = copied; /* pass this along for below */
+		GLuint j = copied; /* pass this along for below */
 		copied++;
 
 duplicate:
@@ -220,13 +219,11 @@ glmAddGroup(GLMmodel *model, char *name)
 GLuint
 glmFindMaterial(GLMmodel *model, char *name)
 {
-	GLuint i;
-
 	/*
 	 * XXX doing a linear search on a string key'd list is pretty lame,
 	 * but it works and is fast enough for now.
 	 */
-	for (i = 0; i < model->number_of_materials; i++) {
+	for (GLuint i = 0; i < model->number_of_materials; i++) {
 		if (!strcmp(model->materials[i].name, name)) {
 			goto found;
 		}
@@ -240,7 +237,7 @@ glmFindMaterial(GLMmodel *model, char *name)
 	 * so print a warning and return the default material (0).
 	 */
 	printf("glmFindMaterial():  can't find material \"%s\".\n", name);
-	i = 0;
+	GLuint i = 0;
 
 found:
 	return i;
@@ -331,8 +328,7 @@ glmReadMTL(GLMmodel *model, char *name)
 	model->number_of_materials = number_of_materials;
 
 	/* set the default material */
-	GLuint i;
-	for (i = 0; i < number_of_materials; i++) {
+	for (GLuint i = 0; i < number_of_materials; i++) {
 		model->materials[i].name = NULL;
 		model->materials[i].shininess = 65.0;
 		model->materials[i].diffuse[0] = 0.8;
@@ -418,7 +414,6 @@ glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 	char *dir;
 	char *filename;
 	GLMmaterial *material;
-	GLuint i;
 
 	dir = glmDirName(model_path);
 	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(mtl_lib_name)));
@@ -448,7 +443,7 @@ glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 	fprintf(file, "#  http://www.pobox.com/~ndr\n");
 	fprintf(file, "#  \n\n");
 
-	for (i = 0; i < model->number_of_materials; i++) {
+	for (GLuint i = 0; i < model->number_of_materials; i++) {
 		material = &model->materials[i];
 		fprintf(file, "newmtl %s\n", material->name);
 		fprintf(file, "Ka %f %f %f\n",
@@ -815,7 +810,6 @@ glmSecondPass(GLMmodel *model, FILE *file)
 GLfloat
 glmUnitize(GLMmodel *model)
 {
-	GLuint  i;
 	GLfloat maximum_x, minimum_x, maximum_y, minimum_y, maximum_z, minimum_z;
 	GLfloat cx, cy, cz, w, h, d;
 	GLfloat scale;
@@ -827,7 +821,7 @@ glmUnitize(GLMmodel *model)
 	maximum_x = minimum_x = model->vertex[3 + 0];
 	maximum_y = minimum_y = model->vertex[3 + 1];
 	maximum_z = minimum_z = model->vertex[3 + 2];
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		if (maximum_x < model->vertex[3 * i + 0]) {
 			maximum_x = model->vertex[3 * i + 0];
 		}
@@ -885,7 +879,7 @@ glmUnitize(GLMmodel *model)
 	scale = 2.0 / glmMax(glmMax(w, h), d);
 
 	/* translate around center then scale */
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		model->vertex[3 * i + 0] -= cx;
 		model->vertex[3 * i + 1] -= cy;
 		model->vertex[3 * i + 2] -= cz;
@@ -907,7 +901,6 @@ glmUnitize(GLMmodel *model)
 GLvoid
 glmDimensions(GLMmodel *model, GLfloat *dimensions)
 {
-	GLuint i;
 	GLfloat maximum_x, minimum_x, maximum_y, minimum_y, maximum_z, minimum_z;
 
 	assert(model);
@@ -918,7 +911,7 @@ glmDimensions(GLMmodel *model, GLfloat *dimensions)
 	maximum_x = minimum_x = model->vertex[3 + 0];
 	maximum_y = minimum_y = model->vertex[3 + 1];
 	maximum_z = minimum_z = model->vertex[3 + 2];
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		if (maximum_x < model->vertex[3 * i + 0]) {
 			maximum_x = model->vertex[3 * i + 0];
 		}
@@ -977,9 +970,7 @@ glmDimensions(GLMmodel *model, GLfloat *dimensions)
 GLvoid
 glmScale(GLMmodel *model, GLfloat scale)
 {
-	GLuint i;
-
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		model->vertex[3 * i + 0] *= scale;
 		model->vertex[3 * i + 1] *= scale;
 		model->vertex[3 * i + 2] *= scale;
@@ -996,11 +987,11 @@ glmScale(GLMmodel *model, GLfloat scale)
 GLvoid
 glmReverseWinding(GLMmodel *model)
 {
-	GLuint i, swap;
+	GLuint swap;
 
 	assert(model);
 
-	for (i = 0; i < model->number_of_triangles; i++) {
+	for (GLuint i = 0; i < model->number_of_triangles; i++) {
 		swap = T(i).vertex_indexes[0];
 		T(i).vertex_indexes[0] = T(i).vertex_indexes[2];
 		T(i).vertex_indexes[2] = swap;
@@ -1025,14 +1016,14 @@ glmReverseWinding(GLMmodel *model)
 	}
 
 	/* reverse facet normals */
-	for (i = 1; i <= model->number_of_facet_normals; i++) {
+	for (GLuint i = 1; i <= model->number_of_facet_normals; i++) {
 		model->facet_normals[3 * i + 0] = -model->facet_normals[3 * i + 0];
 		model->facet_normals[3 * i + 1] = -model->facet_normals[3 * i + 1];
 		model->facet_normals[3 * i + 2] = -model->facet_normals[3 * i + 2];
 	}
 
 	/* reverse vertex normals */
-	for (i = 1; i <= model->number_of_normals_in_model; i++) {
+	for (GLuint i = 1; i <= model->number_of_normals_in_model; i++) {
 		model->normals[3 * i + 0] = -model->normals[3 * i + 0];
 		model->normals[3 * i + 1] = -model->normals[3 * i + 1];
 		model->normals[3 * i + 2] = -model->normals[3 * i + 2];
@@ -1049,7 +1040,6 @@ glmReverseWinding(GLMmodel *model)
 GLvoid
 glmFacetNormals(GLMmodel *model)
 {
-	GLuint  i;
 	GLfloat u[3];
 	GLfloat v[3];
 
@@ -1069,7 +1059,7 @@ glmFacetNormals(GLMmodel *model)
 	model->facet_normals = (GLfloat*)malloc(sizeof(GLfloat) *
 	                     3 * (model->number_of_facet_normals + 1));
 
-	for (i = 0; i < model->number_of_triangles; i++) {
+	for (GLuint i = 0; i < model->number_of_triangles; i++) {
 		model->triangles[i].findex = i+1;
 
 		u[0] = model->vertex[3 * T(i).vertex_indexes[1] + 0] -
@@ -1146,13 +1136,12 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	 * indices for each vertex
 	 */
 	members = (GLMnode**)malloc(sizeof(GLMnode *) * (model->vertices_numbers + 1));
-	GLuint  i;
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		members[i] = NULL;
 	}
 
 	/* for every triangle, create a node for each vertex in it */
-	for (i = 0; i < model->number_of_triangles; i++) {
+	for (GLuint i = 0; i < model->number_of_triangles; i++) {
 		node = (GLMnode *)malloc(sizeof(GLMnode));
 		node->index = i;
 		node->next  = members[T(i).vertex_indexes[0]];
@@ -1171,7 +1160,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 
 	/* calculate the average normal for each vertex */
 	number_of_normals_in_model = 1;
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 	/*
 	 * Calculate an average normal for this vertex
 	 * by averaging the facet normal of every triangle this vertex is in.
@@ -1270,7 +1259,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	model->number_of_normals_in_model = number_of_normals_in_model - 1;
 
 	/* free the member information */
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		node = members[i];
 		while (node) {
 			tail = node;
@@ -1289,7 +1278,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
 	normals = model->normals;
 	model->normals = (GLfloat *)malloc(sizeof(GLfloat) *
 	                  3 * (model->number_of_normals_in_model+1));
-	for (i = 1; i <= model->number_of_normals_in_model; i++) {
+	for (GLuint i = 1; i <= model->number_of_normals_in_model; i++) {
 		model->normals[3 * i + 0] = normals[3 * i + 0];
 		model->normals[3 * i + 1] = normals[3 * i + 1];
 		model->normals[3 * i + 2] = normals[3 * i + 2];
@@ -1312,7 +1301,6 @@ glmLinearTexture(GLMmodel *model)
 	GLfloat x;
 	GLfloat y;
 	GLfloat scalefactor;
-	GLuint i;
 
 	assert(model);
 
@@ -1331,7 +1319,7 @@ glmLinearTexture(GLMmodel *model)
 		glmAbs(glmMax(glmMax(dimensions[0], dimensions[1]), dimensions[2]));
 
 	/* do the calculations */
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		x = model->vertex[3 * i + 0] * scalefactor;
 		y = model->vertex[3 * i + 2] * scalefactor;
 		model->texture_cordinates[2 * i + 0] = (x + 1.0) / 2.0;
@@ -1341,7 +1329,7 @@ glmLinearTexture(GLMmodel *model)
 	/* go through and put texture coordinate indices in all the triangles */
 	group = model->groups;
 	while (group) {
-		for (i = 0; i < group->number_of_triangles; i++) {
+		for (GLuint i = 0; i < group->number_of_triangles; i++) {
 			T(group->triangles[i]).triangle_indexes[0] =
 			    T(group->triangles[i]).vertex_indexes[0];
 			T(group->triangles[i]).triangle_indexes[1] =
@@ -1375,7 +1363,6 @@ glmSpheremapTexture(GLMmodel *model)
 {
 	GLMgroup *group;
 	GLfloat theta, phi, rho, x, y, z, r;
-	GLuint i;
 
 	assert(model);
 	assert(model->normals);
@@ -1390,7 +1377,7 @@ glmSpheremapTexture(GLMmodel *model)
 	model->texture_cordinates=(GLfloat*)malloc(sizeof(GLfloat) *
 	                  2 * (model->texture_cordinates_number + 1));
 
-	for (i = 1; i <= model->number_of_normals_in_model; i++) {
+	for (GLuint i = 1; i <= model->number_of_normals_in_model; i++) {
 		z = model->normals[3 * i + 0];  /* re-arrange for pole distortion */
 		y = model->normals[3 * i + 1];
 		x = model->normals[3 * i + 2];
@@ -1423,7 +1410,7 @@ glmSpheremapTexture(GLMmodel *model)
 	/* go through and put texcoord indices in all the triangles */
 	group = model->groups;
 	while (group) {
-		for (i = 0; i < group->number_of_triangles; i++) {
+		for (GLuint i = 0; i < group->number_of_triangles; i++) {
 			T(group->triangles[i]).triangle_indexes[0] = T(group->triangles[i]).normal_indexes[0];
 			T(group->triangles[i]).triangle_indexes[1] = T(group->triangles[i]).normal_indexes[1];
 			T(group->triangles[i]).triangle_indexes[2] = T(group->triangles[i]).normal_indexes[2];
@@ -1441,7 +1428,6 @@ GLvoid
 glmDelete(GLMmodel *model)
 {
 	GLMgroup *group;
-	GLuint i;
 
 	assert(model);
 
@@ -1495,7 +1481,7 @@ glmDelete(GLMmodel *model)
 	}
 
 	if (model->materials) {
-		for (i = 0; i < model->number_of_materials; i++) {
+		for (GLuint i = 0; i < model->number_of_materials; i++) {
 			free(model->materials[i].name);
 		}
 	}
@@ -1616,7 +1602,6 @@ glmReadOBJ(char *filename)
 GLvoid
 glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 {
-	GLuint i;
 	FILE *file;
 	GLMgroup *group;
 
@@ -1719,7 +1704,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	/* spit out the vertex */
 	fprintf(file, "\n");
 	fprintf(file, "# %d vertex\n", model->vertices_numbers);
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		fprintf(file, "v %f %f %f\n",
 			model->vertex[3 * i + 0],
 			model->vertex[3 * i + 1],
@@ -1730,7 +1715,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	if (mode & GLM_SMOOTH) {
 		fprintf(file, "\n");
 		fprintf(file, "# %d normals\n", model->number_of_normals_in_model);
-		for (i = 1; i <= model->number_of_normals_in_model; i++) {
+		for (GLuint i = 1; i <= model->number_of_normals_in_model; i++) {
 			fprintf(file, "vn %f %f %f\n",
 				model->normals[3 * i + 0],
 				model->normals[3 * i + 1],
@@ -1740,7 +1725,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	else if (mode & GLM_FLAT) {
 		fprintf(file, "\n");
 		fprintf(file, "# %d normals\n", model->number_of_facet_normals);
-		for (i = 1; i <= model->number_of_normals_in_model; i++) {
+		for (GLuint i = 1; i <= model->number_of_normals_in_model; i++) {
 			fprintf(file, "vn %f %f %f\n",
 			        model->facet_normals[3 * i + 0],
 			        model->facet_normals[3 * i + 1],
@@ -1755,7 +1740,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 	if (mode & GLM_TEXTURE) {
 		fprintf(file, "\n");
 		fprintf(file, "# %f texture_cordinates\n", *model->texture_cordinates);
-		for (i = 1; i <= model->texture_cordinates_number; i++) {
+		for (GLuint i = 1; i <= model->texture_cordinates_number; i++) {
 			fprintf(file, "vt %f %f\n",
 			        model->texture_cordinates[2 * i + 0],
 			        model->texture_cordinates[2 * i + 1]);
@@ -1781,7 +1766,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 			/* nothing to do */
 		}
 
-		for (i = 0; i < group->number_of_triangles; i++) {
+		for (GLuint i = 0; i < group->number_of_triangles; i++) {
 			if (mode & GLM_SMOOTH && mode & GLM_TEXTURE) {
 				fprintf(file, "f %d/%d/%d %d/%d/%d %d/%d/%d\n",
 					T(group->triangles[i]).vertex_indexes[0],
@@ -1863,7 +1848,6 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 GLvoid
 glmDraw(GLMmodel *model, GLuint mode)
 {
-	static GLuint i;
 	static GLMgroup *group;
 	static GLMtriangle *triangle;
 	static GLMmaterial *material;
@@ -1970,7 +1954,7 @@ glmDraw(GLMmodel *model, GLuint mode)
 		}
 
 		glBegin(GL_TRIANGLES);
-		for (i = 0; i < group->number_of_triangles; i++) {
+		for (GLuint i = 0; i < group->number_of_triangles; i++) {
 			triangle = &T(group->triangles[i]);
 
 			if (mode & GLM_FLAT) {
@@ -2079,7 +2063,6 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
 	GLfloat *vectors;
 	GLfloat *copies;
 	GLuint number_of_vectors;
-	GLuint i;
 
 	/* vertex */
 	number_of_vectors = model->vertices_numbers;
@@ -2091,7 +2074,7 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
 		model->vertices_numbers - number_of_vectors - 1);
 	#endif
 
-	for (i = 0; i < model->number_of_triangles; i++) {
+	for (GLuint i = 0; i < model->number_of_triangles; i++) {
 		T(i).vertex_indexes[0] = (GLuint)vectors[3 * T(i).vertex_indexes[0] + 0];
 		T(i).vertex_indexes[1] = (GLuint)vectors[3 * T(i).vertex_indexes[1] + 0];
 		T(i).vertex_indexes[2] = (GLuint)vectors[3 * T(i).vertex_indexes[2] + 0];
@@ -2106,7 +2089,7 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
 	                  3 * (model->vertices_numbers + 1));
 
 	/* copy the optimized vertex into the actual vertex list */
-	for (i = 1; i <= model->vertices_numbers; i++) {
+	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		model->vertex[3 * i + 0] = copies[3 * i + 0];
 		model->vertex[3 * i + 1] = copies[3 * i + 1];
 		model->vertex[3 * i + 2] = copies[3 * i + 2];

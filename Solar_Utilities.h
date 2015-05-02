@@ -190,9 +190,8 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		}
 		if (chunkheader < 128) {
 			chunkheader++;
-			short counter;
 
-			for (counter = 0; counter < chunkheader; counter++) {
+			for (short counter = 0; counter < chunkheader; counter++) {
 				if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
 					if (fTGA != NULL) {
 						fclose(fTGA);
@@ -295,8 +294,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				/* nothing to do */
 			}
 
-			short counter;
-			for (counter = 0; counter < chunkheader; counter++) {
+			for (short counter = 0; counter < chunkheader; counter++) {
 				texture->imageData[currentbyte] = colorbuffer[2];
 				texture->imageData[currentbyte + 1] = colorbuffer[1];
 				texture->imageData[currentbyte + 2] = colorbuffer[0];
@@ -413,8 +411,7 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		/* nothing to do */
 	}
 
-	GLuint cswap;
-	for (cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
+	for (GLuint cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
 		texture->imageData[cswap] ^= texture->imageData[cswap+2];
 		texture->imageData[cswap+2] ^=	texture->imageData[cswap];
 		texture->imageData[cswap] ^= texture->imageData[cswap+2];
