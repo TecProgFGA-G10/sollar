@@ -144,8 +144,7 @@ void desenhaGameOver()
 /* updates the state */
 void atualizarEstados(void)
 {
-	int i = 0;
-	for (i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
+	for (int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
 			shots[i].last_position.z = shots[i].position.z;
 			shots[i].position.z += shots[i].acceleration;
@@ -161,8 +160,7 @@ void atualizarEstados(void)
 			else {
 				/* nothing to do */
 			}
-			int m;
-			for (m = 0; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
+			for (int m = 0; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
 				if (meteors[m].visible) {
 					if (verificaColisao(shots[i].collision, meteors[m].collision)) {
 						PlaySound(EXPLOSION_MODEL,explosion_sound);
@@ -196,7 +194,7 @@ void atualizarEstados(void)
 			/* nothing to do */
 		}
 	}
-	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (meteors[i].visible) {
 			meteors[i].last_position.z = meteors[i].position.z;
 			meteors[i].position.z += meteors[i].acceleration;
@@ -383,9 +381,7 @@ void trataTeclas()
 			shots[shot].last_position.y = ship.position.y + 0.9;
 			shots[shot].last_position.z = ship.position.z;
 
-			int c = 0;
-
-			for (c = 0; c < 8; c++) {
+			for (int c = 0; c < 8; c++) {
 				shots[shot].collision.points[c].x = dafault_collision_shot.points[c].x;
 				shots[shot].collision.points[c].y = dafault_collision_shot.points[c].y;
 				shots[shot].collision.points[c].z = dafault_collision_shot.points[c].z;
@@ -459,8 +455,7 @@ void increase_difficulty_level(int t)
 {
 	if (ship.visible) {
 		if (!game_paused) {
-			int i = 0;
-			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+			for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				meteors[i].acceleration += METEOR_SPEED_VARIATION;
 			}
 			if (meteors_to_send < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
@@ -585,8 +580,7 @@ void explosion_timer(int t)
 {
 	if (ship.visible) {
 		if (!game_paused) {
-			int i;
-			for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+			for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				if (explosions[i].visible) {
 					explosions[i].explosion_size -= EXPLOSION_INCREASE_RATE;
 					if (explosions[i].explosion_size <= 0.3) {
@@ -705,8 +699,8 @@ void reconfigura()
 	glutTimerFunc(1000, timer, NEW_METEOR);
 	glutTimerFunc(500, explosion_timer, 0);
 	glutTimerFunc(20000, increase_difficulty_level, 0);
-	int i;
-	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++ ) {
+
+	for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++ ) {
 		explosions[i].visible = FALSE;
 		meteors[i].visible = FALSE;
 	}
