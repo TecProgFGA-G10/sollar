@@ -15,10 +15,9 @@
 /* Creates an empty space for the explosions */
 int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion*/
 {
-	unsigned int i = 0;
 	int result_iteration = -1;
 
-	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if(!explosions[i].visible) {
 			result_iteration = i;
 		}
@@ -31,10 +30,9 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 
 /* Configure the explosions size */
 void configuraTamanhoExplosoes(game_item *explosions){
-	unsigned int i = 0;
 	unsigned int size_value = 1;
 
-	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		explosions[i].explosion_size = size_value;
 	}
 }
@@ -91,12 +89,11 @@ void desenhaExplosoes(game_item *explosions,
 					  Texture explosion_texture,
 					  GLMmodel *explosion)
 {
-	unsigned int i = 0;
 	unsigned int first_color_scale = 255;
 	unsigned int second_color_scale = 255;
 	unsigned int third_color_scale = 255;
 
-	for (i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (explosions[i].visible) {
 			glColor3ub(first_color_scale, second_color_scale, third_color_scale);
 			glPushMatrix();
