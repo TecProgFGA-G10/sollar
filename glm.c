@@ -9,6 +9,7 @@
  * preservation of edges, welding redundant vertex & texture
  * coordinate generation (spheremap and planar projections) + more.
  */
+#define _GNU_SOURCE 1
 
 #include <math.h>
 #include <stdio.h>
@@ -538,45 +539,45 @@ glmFirstPass(GLMmodel *model, FILE *file)
 				/* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
 				if (strstr(buffer, "//")) {
 					/* v//n */
-					sscanf(buffer, "%d//%d", &v, &n);
-					fscanf(file, "%d//%d", &v, &n);
-					fscanf(file, "%d//%d", &v, &n);
+					sscanf(buffer, "%u//%u", &v, &n);
+					fscanf(file, "%u//%u", &v, &n);
+					fscanf(file, "%u//%u", &v, &n);
 					number_of_triangles++;
 					group->number_of_triangles++;
-					while (fscanf(file, "%d//%d", &v, &n) > 0) {
+					while (fscanf(file, "%u//%u", &v, &n) > 0) {
 						number_of_triangles++;
 						group->number_of_triangles++;
 					}
 				}
-				else if (sscanf(buffer, "%d/%d/%d", &v, &t, &n) == 3) {
+				else if (sscanf(buffer, "%u/%u/%u", &v, &t, &n) == 3) {
 					/* v/t/n */
-					fscanf(file, "%d/%d/%d", &v, &t, &n);
-					fscanf(file, "%d/%d/%d", &v, &t, &n);
+					fscanf(file, "%u/%u/%u", &v, &t, &n);
+					fscanf(file, "%u/%u/%u", &v, &t, &n);
 					number_of_triangles++;
 					group->number_of_triangles++;
-					while (fscanf(file, "%d/%d/%d", &v, &t, &n) > 0) {
+					while (fscanf(file, "%u/%u/%u", &v, &t, &n) > 0) {
 						number_of_triangles++;
 						group->number_of_triangles++;
 					}
 				}
-				else if (sscanf(buffer, "%d/%d", &v, &t) == 2) {
+				else if (sscanf(buffer, "%u/%u", &v, &t) == 2) {
 					/* v/t */
-					fscanf(file, "%d/%d", &v, &t);
-					fscanf(file, "%d/%d", &v, &t);
+					fscanf(file, "%u/%u", &v, &t);
+					fscanf(file, "%u/%u", &v, &t);
 					number_of_triangles++;
 					group->number_of_triangles++;
-					while (fscanf(file, "%d/%d", &v, &t) > 0) {
+					while (fscanf(file, "%u/%u", &v, &t) > 0) {
 						number_of_triangles++;
 						group->number_of_triangles++;
 					}
 				}
 				else {
 					/* v */
-					fscanf(file, "%d", &v);
-					fscanf(file, "%d", &v);
+					fscanf(file, "%u", &v);
+					fscanf(file, "%u", &v);
 					number_of_triangles++;
 					group->number_of_triangles++;
-					while (fscanf(file, "%d", &v) > 0) {
+					while (fscanf(file, "%u", &v) > 0) {
 						number_of_triangles++;
 						group->number_of_triangles++;
 					}
@@ -692,18 +693,18 @@ glmSecondPass(GLMmodel *model, FILE *file)
 				/* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
 				if (strstr(buffer, "//")) {
 					/* v//n */
-					sscanf(buffer, "%d//%d", &v, &n);
+					sscanf(buffer, "%u//%u", &v, &n);
 					T(number_of_triangles).vertex_indexes[0] = v;
 					T(number_of_triangles).normal_indexes[0] = n;
-					fscanf(file, "%d//%d", &v, &n);
+					fscanf(file, "%u//%u", &v, &n);
 					T(number_of_triangles).vertex_indexes[1] = v;
 					T(number_of_triangles).normal_indexes[1] = n;
-					fscanf(file, "%d//%d", &v, &n);
+					fscanf(file, "%u//%u", &v, &n);
 					T(number_of_triangles).vertex_indexes[2] = v;
 					T(number_of_triangles).normal_indexes[2] = n;
 					group->triangles[group->number_of_triangles++] = number_of_triangles;
 					number_of_triangles++;
-					while (fscanf(file, "%d//%d", &v, &n) > 0) {
+					while (fscanf(file, "%u//%u", &v, &n) > 0) {
 						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
 						T(number_of_triangles).normal_indexes[0] = T(number_of_triangles-1).normal_indexes[0];
 						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
@@ -714,22 +715,22 @@ glmSecondPass(GLMmodel *model, FILE *file)
 						number_of_triangles++;
 					}
 				}
-				else if (sscanf(buffer, "%d/%d/%d", &v, &t, &n) == 3) {
+				else if (sscanf(buffer, "%u/%u/%u", &v, &t, &n) == 3) {
 					/* v/t/n */
 					T(number_of_triangles).vertex_indexes[0] = v;
 					T(number_of_triangles).triangle_indexes[0] = t;
 					T(number_of_triangles).normal_indexes[0] = n;
-					fscanf(file, "%d/%d/%d", &v, &t, &n);
+					fscanf(file, "%u/%u/%u", &v, &t, &n);
 					T(number_of_triangles).vertex_indexes[1] = v;
 					T(number_of_triangles).triangle_indexes[1] = t;
 					T(number_of_triangles).normal_indexes[1] = n;
-					fscanf(file, "%d/%d/%d", &v, &t, &n);
+					fscanf(file, "%u/%u/%u", &v, &t, &n);
 					T(number_of_triangles).vertex_indexes[2] = v;
 					T(number_of_triangles).triangle_indexes[2] = t;
 					T(number_of_triangles).normal_indexes[2] = n;
 					group->triangles[group->number_of_triangles++] = number_of_triangles;
 					number_of_triangles++;
-					while (fscanf(file, "%d/%d/%d", &v, &t, &n) > 0) {
+					while (fscanf(file, "%u/%u/%u", &v, &t, &n) > 0) {
 						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
 						T(number_of_triangles).triangle_indexes[0] = T(number_of_triangles-1).triangle_indexes[0];
 						T(number_of_triangles).normal_indexes[0] = T(number_of_triangles-1).normal_indexes[0];
@@ -743,19 +744,19 @@ glmSecondPass(GLMmodel *model, FILE *file)
 						number_of_triangles++;
 					}
 				}
-				else if (sscanf(buffer, "%d/%d", &v, &t) == 2) {
+				else if (sscanf(buffer, "%u/%u", &v, &t) == 2) {
 					/* v/t */
 					T(number_of_triangles).vertex_indexes[0] = v;
 					T(number_of_triangles).triangle_indexes[0] = t;
-					fscanf(file, "%d/%d", &v, &t);
+					fscanf(file, "%u/%u", &v, &t);
 					T(number_of_triangles).vertex_indexes[1] = v;
 					T(number_of_triangles).triangle_indexes[1] = t;
-					fscanf(file, "%d/%d", &v, &t);
+					fscanf(file, "%u/%u", &v, &t);
 					T(number_of_triangles).vertex_indexes[2] = v;
 					T(number_of_triangles).triangle_indexes[2] = t;
 					group->triangles[group->number_of_triangles++] = number_of_triangles;
 					number_of_triangles++;
-					while (fscanf(file, "%d/%d", &v, &t) > 0) {
+					while (fscanf(file, "%u/%u", &v, &t) > 0) {
 						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
 						T(number_of_triangles).triangle_indexes[0] = T(number_of_triangles-1).triangle_indexes[0];
 						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
@@ -768,15 +769,15 @@ glmSecondPass(GLMmodel *model, FILE *file)
 				}
 				else {
 					/* v */
-					sscanf(buffer, "%d", &v);
+					sscanf(buffer, "%u", &v);
 					T(number_of_triangles).vertex_indexes[0] = v;
-					fscanf(file, "%d", &v);
+					fscanf(file, "%u", &v);
 					T(number_of_triangles).vertex_indexes[1] = v;
-					fscanf(file, "%d", &v);
+					fscanf(file, "%u", &v);
 					T(number_of_triangles).vertex_indexes[2] = v;
 					group->triangles[group->number_of_triangles++] = number_of_triangles;
 					number_of_triangles++;
-					while (fscanf(file, "%d", &v) > 0) {
+					while (fscanf(file, "%u", &v) > 0) {
 						T(number_of_triangles).vertex_indexes[0] = T(number_of_triangles-1).vertex_indexes[0];
 						T(number_of_triangles).vertex_indexes[1] = T(number_of_triangles-1).vertex_indexes[2];
 						T(number_of_triangles).vertex_indexes[2] = v;
