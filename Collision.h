@@ -13,9 +13,8 @@
 void desenhaCaixaColisao(collision_box *box)
 /* *box - pointer to collision box */
 {
-	int i = 0;
 	glBegin(GL_LINES);
-	for (i = 0; i < CUBE_EDGES; i++) {
+	for (int i = 0; i < CUBE_EDGES; i++) {
 		glColor3ub(i * 10, i * 10, i * 10);
 		glVertex3f(box->points[i].x, box->points[i].y, box->points[i].z);
 	}
@@ -52,7 +51,6 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 		/* nothing to do */
 	}
 
-	int i = 0;
 	int max_vertices_numbers = model->vertices_numbers;
 
 	float greater_x = model->vertex[3];
@@ -66,7 +64,7 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 	float tmp_y;
 	float tmp_z;
 
-	for (i = 2; i < max_vertices_numbers; i++) {
+	for (int i = 2; i < max_vertices_numbers; i++) {
 		tmp_x = model->vertex[i * 3];
 		greater_x = greater_value(greater_x, tmp_x);
 		lesser_x = lesser_value(lesser_x, tmp_x);
@@ -144,10 +142,8 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
   */
 void setaCaixaColisao(collision_box *c, point position)
 {
-	int i;
-
 	/* transfer the box */
-	for (i = 0; i < CUBE_EDGES; i++) {
+	for (int i = 0; i < CUBE_EDGES; i++) {
 		c->points[i].x += position.x;
 		c->points[i].y += position.y;
 		c->points[i].z += position.z;
@@ -158,8 +154,7 @@ void setaCaixaColisao(collision_box *c, point position)
 /* actualizes the shoots and meteors states,positions and visibility */
 void atualizaCaixaColisao(game_item *item)
 {
-	int i = 0;
-	for (i = 0; i < CUBE_EDGES; i++) {
+	for (int i = 0; i < CUBE_EDGES; i++) {
 		if (item->position.z > item->last_position.z) {
 			item->collision.points[i].z += item->acceleration;
 		}
