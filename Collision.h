@@ -22,19 +22,23 @@ void desenhaCaixaColisao(collision_box *box)
 }
 
 float greater_value(float value_a, float value_b) {
+	float result_greater_value = 0;
 	if (value_a > value_b) {
-		return value_a;
+		result_greater_value = value_a;
 	} else {
-		return value_b;
+		result_greater_value = value_b;
 	}
+	return result_greater_value;
 }
 
 float lesser_value(float value_a, float value_b) {
+	float result_lesser_value = 0;
 	if (value_a < value_b) {
-		return value_a;
+		result_lesser_value = value_a;
 	} else {
-		return value_b;
+		result_lesser_value = value_b;
 	}
+	return result_lesser_value;
 }
 
  /*
