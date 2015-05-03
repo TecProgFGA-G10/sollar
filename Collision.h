@@ -155,46 +155,46 @@ void setaCaixaColisao(collision_box *c, point position)
 
 }
 
+/* evaluates collision for every points x, y and z */
+float evaluates_collision(float position, 
+							float last_position, 
+							float collision_points, 
+							float acceleration)
+{
+	if (position > last_position) {
+		collision_points += acceleration;
+	}
+	else {
+		/* nothing to do */
+	}
+	if (position < last_position) {
+		collision_points += -acceleration;
+	}
+	else {
+		/* nothing to do */
+	}
+	return collision_points;
+}
+
 /* actualizes the shoots and meteors states,positions and visibility */
 void atualizaCaixaColisao(game_item *item)
 {
 	for (int i = 0; i < CUBE_EDGES; i++) {
-		if (item->position.z > item->last_position.z) {
-			item->collision.points[i].z += item->acceleration;
-		}
-		else {
-			/* nothing to do */
-		}
-		if (item->position.z < item->last_position.z) {
-			item->collision.points[i].z +=-item->acceleration;
-		}
-		else {
-			/* nothing to do */
-		}
-		if (item->position.x > item->last_position.x) {
-			item->collision.points[i].x += item->acceleration;
-		}
-		else {
-			/* nothing to do */
-		}
-		if (item->position.x < item->last_position.x) {
-			item->collision.points[i].x += -item->acceleration;
-		}
-		else {
-			/* nothing to do */
-		}
-		if (item->position.y > item->last_position.y) {
-			item->collision.points[i].y += item->acceleration;
-		}
-		else {
-			/* nothing to do */
-		}
-		if (item->position.y < item->last_position.y) {
-			item->collision.points[i].y += -item->acceleration;
-		}
-		else {
-			/* nothing to do */
-		}
+		
+		evaluates_collision(item->position.z, 
+								item->last_position.z, 
+								item->collision.points[i].z, 
+								item->acceleration);
+
+		evaluates_collision(item->position.x, 
+								item->last_position.x, 
+								item->collision.points[i].x, 
+								item->acceleration);
+
+		evaluates_collision(item->position.y, 
+								item->last_position.y, 
+								item->collision.points[i].y, 
+								item->acceleration);
 	}
 }
 
