@@ -166,14 +166,11 @@ float evaluates_collision(float position,
 	if (position > last_position) {
 		collision_points += acceleration;
 	}
-	else {
-		/* nothing to do */
-	}
-	if (position < last_position) {
+	else if (position < last_position) {
 		collision_points += -acceleration;
 	}
 	else {
-		/* nothing to do */
+		 /* nothing to do */
 	}
 	return collision_points;
 }
