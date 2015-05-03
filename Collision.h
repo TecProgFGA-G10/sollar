@@ -25,7 +25,8 @@ float greater_value(float value_a, float value_b) {
 	float result_greater_value = 0;
 	if (value_a > value_b) {
 		result_greater_value = value_a;
-	} else {
+	}
+	else {
 		result_greater_value = value_b;
 	}
 	return result_greater_value;
@@ -35,7 +36,8 @@ float lesser_value(float value_a, float value_b) {
 	float result_lesser_value = 0;
 	if (value_a < value_b) {
 		result_lesser_value = value_a;
-	} else {
+	}
+	else {
 		result_lesser_value = value_b;
 	}
 	return result_lesser_value;
@@ -179,22 +181,21 @@ float evaluates_collision(float position,
 /* actualizes the shoots and meteors states,positions and visibility */
 void atualizaCaixaColisao(game_item *item)
 {
-	for (int i = 0; i < CUBE_EDGES; i++) {
-		
+	for (int i = 0; i < CUBE_EDGES; i++) {	
 		evaluates_collision(item->position.z, 
-								item->last_position.z, 
-								item->collision.points[i].z, 
-								item->acceleration);
+							item->last_position.z, 
+							item->collision.points[i].z, 
+							item->acceleration);
 
 		evaluates_collision(item->position.x, 
-								item->last_position.x, 
-								item->collision.points[i].x, 
-								item->acceleration);
+							item->last_position.x, 
+							item->collision.points[i].x, 
+							item->acceleration);
 
 		evaluates_collision(item->position.y, 
-								item->last_position.y, 
-								item->collision.points[i].y, 
-								item->acceleration);
+							item->last_position.y, 
+							item->collision.points[i].y, 
+							item->acceleration);
 	}
 }
 
