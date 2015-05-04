@@ -31,24 +31,32 @@ typedef struct _GLMnode {
 static GLfloat
 glmMax(GLfloat a, GLfloat b)
 {
+	GLfloat result_maximum = 0;
 	if (b > a) {
-		return b;
+		//return b;
+		result_maximum = b;
 	}
 	else {
-		return a;
+		//return a;
+		result_maximum = a;
 	}
+	return result_maximum;
 }
 
 /* glmAbs: returns the absolute value of a float */
 static GLfloat
 glmAbs(GLfloat f)
 {
+	GLfloat result_absolute_value = 0;
 	if (f < 0) {
-		return -f;
+		//return -f;
+		result_absolute_value = -f;
 	}
 	else {
-		return f;
+		//return f;
+		result_absolute_value = f;
 	}
+	return result_absolute_value;
 }
 
 /*
@@ -111,15 +119,19 @@ glmNormalize(GLfloat *v)
 static GLboolean
 glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
 {
+	GLboolean result_values_glmEqual;
 	if (glmAbs(u[0] - v[0]) < epsilon &&
 		glmAbs(u[1] - v[1]) < epsilon &&
 		glmAbs(u[2] - v[2]) < epsilon)
 	{
-		return GL_TRUE;
+		//return GL_TRUE;
+		result_values_glmEqual = GL_TRUE;
 	}
 	else {
-		return GL_FALSE;
+		//return GL_FALSE;
+		result_values_glmEqual = GL_FALSE;
 	}
+	return result_values_glmEqual;
 }
 
 /*
