@@ -148,34 +148,41 @@ glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
 {
 	GLfloat *copies;
 	GLuint copied;
+	GLuint duplicated = 0;
 
 	copies = (GLfloat*)malloc(sizeof(GLfloat) * 3 * (*number_of_vectors + 1));
 	memcpy(copies, vectors, (sizeof(GLfloat) * 3 * (*number_of_vectors + 1)));
 
 	copied = 1;
 	for (GLuint i = 1; i <= *number_of_vectors; i++) {
-		for (GLuint j = 1; j <= copied; j++) {
+		GLuint j = 1;
+		for (j = 1; j <= copied; j++) {
 			if (glmEqual(&vectors[3 * i], &copies[3 * j], epsilon)) {
-				goto duplicate;
+				duplicated = 1;
+				break;
 			}
 			else {
 				/* nothing to do */
 			}
 		}
 
-		/* must not be any duplicates -- add to the copies array */
-		copies[3 * copied + 0] = vectors[3 * i + 0];
-		copies[3 * copied + 1] = vectors[3 * i + 1];
-		copies[3 * copied + 2] = vectors[3 * i + 2];
-		GLuint j = copied; /* pass this along for below */
-		copied++;
+		if (duplicated) {
+			/*
+			 * Set the first component of this vector to point at the correct index
+			 * into the new copies array.
+			 */
+			vectors[3 * i + 0] = (GLfloat)j;
+		}
+		else{
+			/* must not be any duplicates -- add to the copies array */
+			copies[3 * copied + 0] = vectors[3 * i + 0];
+			copies[3 * copied + 1] = vectors[3 * i + 1];
+			copies[3 * copied + 2] = vectors[3 * i + 2];
+			j = copied; /* pass this along for below */
+			copied++;
 
-duplicate:
-	/*
-	 * Set the first component of this vector to point at the correct index
-	 * into the new copies array.
-	 */
-		vectors[3 * i + 0] = (GLfloat)j;
+			vectors[3 * i + 0] = (GLfloat)j;
+		}
 	}
 
 	*number_of_vectors = copied-1;
@@ -231,13 +238,14 @@ glmAddGroup(GLMmodel *model, char *name)
 GLuint
 glmFindMaterial(GLMmodel *model, char *name)
 {
+	GLuint return_value = 0;
 	/*
 	 * XXX doing a linear search on a string key'd list is pretty lame,
 	 * but it works and is fast enough for now.
 	 */
 	for (GLuint i = 0; i < model->number_of_materials; i++) {
 		if (!strcmp(model->materials[i].name, name)) {
-			goto found;
+			return_value = i;
 		}
 		else {
 			/* nothing to do */
@@ -249,10 +257,8 @@ glmFindMaterial(GLMmodel *model, char *name)
 	 * so print a warning and return the default material (0).
 	 */
 	printf("glmFindMaterial():  can't find material \"%s\".\n", name);
-	GLuint i = 0;
 
-found:
-	return i;
+	return return_value;
 }
 
 /*
