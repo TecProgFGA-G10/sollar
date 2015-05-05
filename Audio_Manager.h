@@ -29,20 +29,18 @@ void iniciaAudio(int audio_rate,
 /* plays the music */
 int tocaMusica(Mix_Music *music)
 {
+	int return_value = 0; /* if everything is okay, return 0*/
 	if (music == NULL) {
 		printf("Unable to load Ogg file: %s\n", Mix_GetError());
-		return 1;
+		return_value = 1;
 	}
-	else {
-		/* nothing to do */
-	}
-	if (Mix_PlayMusic(music, -1) == -1) {
+	else if (Mix_PlayMusic(music, -1) == -1) {
 		printf("Unable to play Ogg file: %s\n", Mix_GetError());
 	}
 	else {
 		/* nothing to do */
 	}
-	return 0;
+	return return_value;
 }
 
 /* plays effects sound */
