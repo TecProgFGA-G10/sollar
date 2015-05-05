@@ -54,90 +54,88 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 		exit(1);
 	}
 	else{
-		/* nothing to do */
+		int max_vertices_numbers = model->vertices_numbers;
+
+		float greater_x = model->vertex[3];
+		float lesser_x = model->vertex[3];
+		float greater_y = model->vertex[4];
+		float lesser_y = model->vertex[4];
+		float greater_z = model->vertex[5];
+		float lesser_z = model->vertex[5];
+
+		float tmp_x;
+		float tmp_y;
+		float tmp_z;
+
+		for (int i = 2; i < max_vertices_numbers; i++) {
+			tmp_x = model->vertex[i * 3];
+			greater_x = greater_value(greater_x, tmp_x);
+			lesser_x = lesser_value(lesser_x, tmp_x);
+
+			tmp_y = model->vertex[i * 3 + 1];
+			greater_y = greater_value(greater_y, tmp_y);
+			lesser_y = lesser_value(lesser_y, tmp_y);
+
+			tmp_z = model->vertex[i * 3 + 2];
+			greater_z = greater_value(greater_z, tmp_z);
+			lesser_z = lesser_value(lesser_z, tmp_z);
+		}
+
+		/* front upper left side */
+		box->points[0].x = lesser_x;
+		box->points[0].y = greater_y;
+		box->points[0].z = lesser_z;
+
+		/* front upper right side */
+		box->points[1].x = greater_x;
+		box->points[1].y = greater_y;
+		box->points[1].z = lesser_z;
+
+		/* front lower left side */
+		box->points[2].x = lesser_x;
+		box->points[2].y = lesser_y;
+		box->points[2].z = lesser_z;
+
+		/* front lower right side */
+		box->points[3].x = greater_x;
+		box->points[3].y = lesser_y;
+		box->points[3].z = lesser_z;
+
+		/* back upper left side */
+		box->points[4].x = lesser_x;
+		box->points[1].y = greater_y;
+		box->points[1].z = lesser_z;
+
+		/* back lower left side */
+		box->points[2].x = lesser_x;
+		box->points[2].y = lesser_y;
+		box->points[2].z = lesser_z;
+
+		/* back lower right side */
+		box->points[3].x = greater_x;
+		box->points[3].y = lesser_y;
+		box->points[3].z = lesser_z;
+
+		/* back upper left side */
+		box->points[4].x = lesser_x;
+		box->points[4].y = greater_y;
+		box->points[4].z = greater_z;
+
+		/* back upper right side */
+		box->points[5].x = greater_x;
+		box->points[5].y = greater_y;
+		box->points[5].z = greater_z;
+
+		/* back lower left side */
+		box->points[6].x = lesser_x;
+		box->points[6].y = lesser_y;
+		box->points[6].z = greater_z;
+
+		/* back lower right side */
+		box->points[7].x = greater_x;
+		box->points[7].y = lesser_y;
+		box->points[7].z = greater_z;
 	}
-
-	int max_vertices_numbers = model->vertices_numbers;
-
-	float greater_x = model->vertex[3];
-	float lesser_x = model->vertex[3];
-	float greater_y = model->vertex[4];
-	float lesser_y = model->vertex[4];
-	float greater_z = model->vertex[5];
-	float lesser_z = model->vertex[5];
-
-	float tmp_x;
-	float tmp_y;
-	float tmp_z;
-
-	for (int i = 2; i < max_vertices_numbers; i++) {
-		tmp_x = model->vertex[i * 3];
-		greater_x = greater_value(greater_x, tmp_x);
-		lesser_x = lesser_value(lesser_x, tmp_x);
-
-		tmp_y = model->vertex[i * 3 + 1];
-		greater_y = greater_value(greater_y, tmp_y);
-		lesser_y = lesser_value(lesser_y, tmp_y);
-
-		tmp_z = model->vertex[i * 3 + 2];
-		greater_z = greater_value(greater_z, tmp_z);
-		lesser_z = lesser_value(lesser_z, tmp_z);
-	}
-
-	/* front upper left side */
-	box->points[0].x = lesser_x;
-	box->points[0].y = greater_y;
-	box->points[0].z = lesser_z;
-
-	/* front upper right side */
-	box->points[1].x = greater_x;
-	box->points[1].y = greater_y;
-	box->points[1].z = lesser_z;
-
-	/* front lower left side */
-	box->points[2].x = lesser_x;
-	box->points[2].y = lesser_y;
-	box->points[2].z = lesser_z;
-
-	/* front lower right side */
-	box->points[3].x = greater_x;
-	box->points[3].y = lesser_y;
-	box->points[3].z = lesser_z;
-
-	/* back upper left side */
-	box->points[4].x = lesser_x;
-	box->points[1].y = greater_y;
-	box->points[1].z = lesser_z;
-
-	/* back lower left side */
-	box->points[2].x = lesser_x;
-	box->points[2].y = lesser_y;
-	box->points[2].z = lesser_z;
-
-	/* back lower right side */
-	box->points[3].x = greater_x;
-	box->points[3].y = lesser_y;
-	box->points[3].z = lesser_z;
-
-	/* back upper left side */
-	box->points[4].x = lesser_x;
-	box->points[4].y = greater_y;
-	box->points[4].z = greater_z;
-
-	/* back upper right side */
-	box->points[5].x = greater_x;
-	box->points[5].y = greater_y;
-	box->points[5].z = greater_z;
-
-	/* back lower left side */
-	box->points[6].x = lesser_x;
-	box->points[6].y = lesser_y;
-	box->points[6].z = greater_z;
-
-	/* back lower right side */
-	box->points[7].x = greater_x;
-	box->points[7].y = lesser_y;
-	box->points[7].z = greater_z;
 }
 
 
@@ -158,9 +156,9 @@ void setaCaixaColisao(collision_box *c, point position)
 }
 
 /* evaluates collision for every points x, y and z */
-float evaluates_collision(float position, 
-							float last_position, 
-							float collision_points, 
+float evaluates_collision(float position,
+							float last_position,
+							float collision_points,
 							float acceleration)
 {
 	if (position > last_position) {
@@ -178,20 +176,20 @@ float evaluates_collision(float position,
 /* actualizes the shoots and meteors states,positions and visibility */
 void atualizaCaixaColisao(game_item *item)
 {
-	for (int i = 0; i < CUBE_EDGES; i++) {	
-		evaluates_collision(item->position.z, 
-							item->last_position.z, 
-							item->collision.points[i].z, 
+	for (int i = 0; i < CUBE_EDGES; i++) {
+		evaluates_collision(item->position.z,
+							item->last_position.z,
+							item->collision.points[i].z,
 							item->acceleration);
 
-		evaluates_collision(item->position.x, 
-							item->last_position.x, 
-							item->collision.points[i].x, 
+		evaluates_collision(item->position.x,
+							item->last_position.x,
+							item->collision.points[i].x,
 							item->acceleration);
 
-		evaluates_collision(item->position.y, 
-							item->last_position.y, 
-							item->collision.points[i].y, 
+		evaluates_collision(item->position.y,
+							item->last_position.y,
+							item->collision.points[i].y,
 							item->acceleration);
 	}
 }
