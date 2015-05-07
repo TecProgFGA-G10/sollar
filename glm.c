@@ -28,8 +28,7 @@ typedef struct _GLMnode {
 } GLMnode;
 
 /* glmMax: returns the maximum of two floats */
-static GLfloat
-glmMax(GLfloat a, GLfloat b)
+static GLfloat glmMax(GLfloat a, GLfloat b)
 {
 	GLfloat result_maximum = 0;
 	if (b > a) {
@@ -44,8 +43,7 @@ glmMax(GLfloat a, GLfloat b)
 }
 
 /* glmAbs: returns the absolute value of a float */
-static GLfloat
-glmAbs(GLfloat f)
+static GLfloat glmAbs(GLfloat f)
 {
 	GLfloat result_absolute_value = 0;
 	if (f < 0) {
@@ -65,8 +63,7 @@ glmAbs(GLfloat f)
  * u - array of 3 GLfloats (GLfloat u[3])
  * v - array of 3 GLfloats (GLfloat v[3])
  */
-static GLfloat
-glmDot(GLfloat *u, GLfloat *v)
+static GLfloat glmDot(GLfloat *u, GLfloat *v)
 {
 	assert(u); assert(v);
 
@@ -80,8 +77,7 @@ glmDot(GLfloat *u, GLfloat *v)
  * v - array of 3 GLfloats (GLfloat v[3])
  * n - array of 3 GLfloats (GLfloat n[3]) to return the cross product in
  */
-static GLvoid
-glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
+static GLvoid glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
 {
 	assert(u); assert(v); assert(n);
 
@@ -95,8 +91,7 @@ glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
  *
  * v - array of 3 GLfloats (GLfloat v[3]) to be normalized
  */
-static GLvoid
-glmNormalize(GLfloat *v)
+static GLvoid glmNormalize(GLfloat *v)
 {
 	GLfloat l;
 
@@ -116,8 +111,7 @@ glmNormalize(GLfloat *v)
  * u - array of 3 GLfloats (GLfloat u[3])
  * v - array of 3 GLfloats (GLfloat v[3])
  */
-static GLboolean
-glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
+static GLboolean glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
 {
 	GLboolean result_values_glmEqual;
 	if (glmAbs(u[0] - v[0]) < epsilon &&
@@ -143,8 +137,7 @@ glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
  * epsilon     - maximum difference between vectors
  *
  */
-GLfloat*
-glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
+GLfloat *glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
 {
 	GLfloat *copies;
 	GLuint copied;
@@ -190,8 +183,7 @@ glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat epsilon)
 }
 
 /* glmFindGroup: Find a group in the model */
-GLMgroup*
-glmFindGroup(GLMmodel *model, char *name)
+GLMgroup *glmFindGroup(GLMmodel *model, char *name)
 {
 	GLMgroup *group;
 
@@ -211,8 +203,7 @@ glmFindGroup(GLMmodel *model, char *name)
 }
 
 /* glmAddGroup: Add a group to the model */
-GLMgroup*
-glmAddGroup(GLMmodel *model, char *name)
+GLMgroup *glmAddGroup(GLMmodel *model, char *name)
 {
 	GLMgroup *group;
 
@@ -268,8 +259,7 @@ GLuint glmFindMaterial(GLMmodel *model, char *name)
  *
  * NOTE: the return value should be free'd.
  */
-static char*
-glmDirName(char *path)
+static char *glmDirName(char *path)
 {
 	char *dir;
 	char *s;
@@ -293,8 +283,7 @@ glmDirName(char *path)
  * model - properly initialized GLMmodel structure
  * name  - name of the material library
  */
-static GLvoid
-glmReadMTL(GLMmodel *model, char *name)
+static GLvoid glmReadMTL(GLMmodel *model, char *name)
 {
 	FILE *file;
 	char *dir;
@@ -425,8 +414,7 @@ glmReadMTL(GLMmodel *model, char *name)
  * model_path  - path_name of the model being written
  * mtl_lib_name - name of the material library to be written
  */
-static GLvoid
-glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
+static GLvoid glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 {
 	FILE *file;
 	char *dir;
@@ -482,8 +470,7 @@ glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
  * model - properly initialized GLMmodel structure
  * file  - (fopen'd) file descriptor
  */
-static GLvoid
-glmFirstPass(GLMmodel *model, FILE *file)
+static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 {
 	GLuint vertices_numbers;  /* number of vertex in model  */
 	GLuint number_of_normals_in_model;   /* number of normals in model   */
@@ -626,8 +613,7 @@ glmFirstPass(GLMmodel *model, FILE *file)
  * model - properly initialized GLMmodel structure
  * file  - (fopen'd) file descriptor
  */
-static GLvoid
-glmSecondPass(GLMmodel *model, FILE *file)
+static GLvoid glmSecondPass(GLMmodel *model, FILE *file)
 {
 	GLuint vertices_numbers;  /* number of vertex in model  */
 	GLuint number_of_normals_in_model;   /* number of normals in model   */
@@ -825,8 +811,7 @@ glmSecondPass(GLMmodel *model, FILE *file)
  *
  * model - properly initialized GLMmodel structure
  */
-GLfloat
-glmUnitize(GLMmodel *model)
+GLfloat glmUnitize(GLMmodel *model)
 {
 	GLfloat maximum_x, minimum_x, maximum_y, minimum_y, maximum_z, minimum_z;
 	GLfloat cx, cy, cz, w, h, d;
@@ -916,8 +901,7 @@ glmUnitize(GLMmodel *model)
  * model   - initialized GLMmodel structure
  * dimensions - array of 3 GLfloats (GLfloat dimensions[3])
  */
-GLvoid
-glmDimensions(GLMmodel *model, GLfloat *dimensions)
+GLvoid glmDimensions(GLMmodel *model, GLfloat *dimensions)
 {
 	GLfloat maximum_x, minimum_x, maximum_y, minimum_y, maximum_z, minimum_z;
 
@@ -985,8 +969,7 @@ glmDimensions(GLMmodel *model, GLfloat *dimensions)
  * model - properly initialized GLMmodel structure
  * scale - scalefactor (0.5 = half as large, 2.0 = twice as large)
  */
-GLvoid
-glmScale(GLMmodel *model, GLfloat scale)
+GLvoid glmScale(GLMmodel *model, GLfloat scale)
 {
 	for (GLuint i = 1; i <= model->vertices_numbers; i++) {
 		model->vertex[3 * i + 0] *= scale;
@@ -1002,8 +985,7 @@ glmScale(GLMmodel *model, GLfloat scale)
  *
  * model - properly initialized GLMmodel structure
  */
-GLvoid
-glmReverseWinding(GLMmodel *model)
+GLvoid glmReverseWinding(GLMmodel *model)
 {
 	GLuint swap;
 
@@ -1055,8 +1037,7 @@ glmReverseWinding(GLMmodel *model)
  *
  * model - initialized GLMmodel structure
  */
-GLvoid
-glmFacetNormals(GLMmodel *model)
+GLvoid glmFacetNormals(GLMmodel *model)
 {
 	GLfloat u[3];
 	GLfloat v[3];
@@ -1117,8 +1098,7 @@ glmFacetNormals(GLMmodel *model)
  * model - initialized GLMmodel structure
  * angle - maximum angle (in degrees) to smooth across
  */
-GLvoid
-glmVertexNormals(GLMmodel *model, GLfloat angle)
+GLvoid glmVertexNormals(GLMmodel *model, GLfloat angle)
 {
 	GLMnode *node;
 	GLMnode *tail;
@@ -1311,8 +1291,7 @@ glmVertexNormals(GLMmodel *model, GLfloat angle)
  *
  * model - pointer to initialized GLMmodel structure
  */
-GLvoid
-glmLinearTexture(GLMmodel *model)
+GLvoid glmLinearTexture(GLMmodel *model)
 {
 	GLMgroup *group;
 	GLfloat dimensions[3];
@@ -1376,8 +1355,7 @@ glmLinearTexture(GLMmodel *model)
  *
  * model - pointer to initialized GLMmodel structure
  */
-GLvoid
-glmSpheremapTexture(GLMmodel *model)
+GLvoid glmSpheremapTexture(GLMmodel *model)
 {
 	GLMgroup *group;
 	GLfloat theta, phi, rho, x, y, z, r;
@@ -1442,8 +1420,7 @@ glmSpheremapTexture(GLMmodel *model)
  *
  * model - initialized GLMmodel structure
  */
-GLvoid
-glmDelete(GLMmodel *model)
+GLvoid glmDelete(GLMmodel *model)
 {
 	GLMgroup *group;
 
@@ -1526,8 +1503,7 @@ glmDelete(GLMmodel *model)
  *
  * filename - name of the file containing the Wavefront .OBJ format data.
  */
-GLMmodel*
-glmReadOBJ(char *filename)
+GLMmodel *glmReadOBJ(char *filename)
 {
 	GLMmodel *model;
 	FILE *file;
@@ -1617,8 +1593,7 @@ glmReadOBJ(char *filename)
  * GLM_COLOR and GLM_MATERIAL should not both be specified.
  * GLM_FLAT and GLM_SMOOTH should not both be specified.
  */
-GLvoid
-glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
+GLvoid glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
 {
 	FILE *file;
 	GLMgroup *group;
@@ -1863,8 +1838,7 @@ glmWriteOBJ(GLMmodel *model, char *filename, GLuint mode)
  * GLM_COLOR and GLM_MATERIAL should not both be specified.
  * GLM_FLAT and GLM_SMOOTH should not both be specified.
  */
-GLvoid
-glmDraw(GLMmodel *model, GLuint mode)
+GLvoid glmDraw(GLMmodel *model, GLuint mode)
 {
 	static GLMgroup *group;
 	static GLMtriangle *triangle;
@@ -2053,8 +2027,7 @@ glmDraw(GLMmodel *model, GLuint mode)
  * GLM_COLOR and GLM_MATERIAL should not both be specified.
  * GLM_FLAT and GLM_SMOOTH should not both be specified.
  */
-GLuint
-glmList(GLMmodel *model, GLuint mode)
+GLuint glmList(GLMmodel *model, GLuint mode)
 {
 	GLuint list;
 
@@ -2075,8 +2048,7 @@ glmList(GLMmodel *model, GLuint mode)
  *               ( 0.00001 is a good start for a unitized model)
  *
  */
-GLvoid
-glmWeld(GLMmodel *model, GLfloat epsilon)
+GLvoid glmWeld(GLMmodel *model, GLfloat epsilon)
 {
 	GLfloat *vectors;
 	GLfloat *copies;
@@ -2144,8 +2116,7 @@ glmWeld(GLMmodel *model, GLfloat epsilon)
  * width    - will contain the width of the image on return.
  * height   - will contain the height of the image on return.
  */
-GLubyte*
-glmReadPPM(char *filename, int *width, int *height)
+GLubyte *glmReadPPM(char *filename, int *width, int *height)
 {
 	FILE *fp;
 	int i, w, h, d;
