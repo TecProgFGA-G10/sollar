@@ -235,8 +235,7 @@ glmAddGroup(GLMmodel *model, char *name)
 }
 
 /* glmFindGroup: Find a material in the model */
-GLuint
-glmFindMaterial(GLMmodel *model, char *name)
+GLuint glmFindMaterial(GLMmodel *model, char *name)
 {
 	GLuint model_found = 0;
 	/*
