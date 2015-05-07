@@ -21,7 +21,8 @@ void desenhaCaixaColisao(collision_box *box)
 	glEnd();
 }
 
-float greater_value(float value_a, float value_b) {
+float greater_value(float value_a, float value_b)
+{
 	float result_greater_value = 0;
 	if (value_a > value_b) {
 		result_greater_value = value_a;
@@ -32,7 +33,8 @@ float greater_value(float value_a, float value_b) {
 	return result_greater_value;
 }
 
-float lesser_value(float value_a, float value_b) {
+float lesser_value(float value_a, float value_b)
+{
 	float result_lesser_value = 0;
 	if (value_a < value_b) {
 		result_lesser_value = value_a;
@@ -41,6 +43,66 @@ float lesser_value(float value_a, float value_b) {
 		result_lesser_value = value_b;
 	}
 	return result_lesser_value;
+}
+
+void update_box_points(collision_box *box,
+                       float lesser_x, float lesser_y, float lesser_z,
+                       float greater_x, float greater_y, float greater_z)
+{
+	/* front upper left side */
+	box->points[0].x = lesser_x;
+	box->points[0].y = greater_y;
+	box->points[0].z = lesser_z;
+
+	/* front upper right side */
+	box->points[1].x = greater_x;
+	box->points[1].y = greater_y;
+	box->points[1].z = lesser_z;
+
+	/* front lower left side */
+	box->points[2].x = lesser_x;
+	box->points[2].y = lesser_y;
+	box->points[2].z = lesser_z;
+
+	/* front lower right side */
+	box->points[3].x = greater_x;
+	box->points[3].y = lesser_y;
+	box->points[3].z = lesser_z;
+
+	/* back upper left side */
+	box->points[4].x = lesser_x;
+	box->points[1].y = greater_y;
+	box->points[1].z = lesser_z;
+
+	/* back lower left side */
+	box->points[2].x = lesser_x;
+	box->points[2].y = lesser_y;
+	box->points[2].z = lesser_z;
+
+	/* back lower right side */
+	box->points[3].x = greater_x;
+	box->points[3].y = lesser_y;
+	box->points[3].z = lesser_z;
+
+	/* back upper left side */
+	box->points[4].x = lesser_x;
+	box->points[4].y = greater_y;
+	box->points[4].z = greater_z;
+
+	/* back upper right side */
+	box->points[5].x = greater_x;
+	box->points[5].y = greater_y;
+	box->points[5].z = greater_z;
+
+	/* back lower left side */
+	box->points[6].x = lesser_x;
+	box->points[6].y = lesser_y;
+	box->points[6].z = greater_z;
+
+	/* back lower right side */
+	box->points[7].x = greater_x;
+	box->points[7].y = lesser_y;
+	box->points[7].z = greater_z;
 }
 
  /*
@@ -81,60 +143,9 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 			lesser_z = lesser_value(lesser_z, tmp_z);
 		}
 
-		/* front upper left side */
-		box->points[0].x = lesser_x;
-		box->points[0].y = greater_y;
-		box->points[0].z = lesser_z;
-
-		/* front upper right side */
-		box->points[1].x = greater_x;
-		box->points[1].y = greater_y;
-		box->points[1].z = lesser_z;
-
-		/* front lower left side */
-		box->points[2].x = lesser_x;
-		box->points[2].y = lesser_y;
-		box->points[2].z = lesser_z;
-
-		/* front lower right side */
-		box->points[3].x = greater_x;
-		box->points[3].y = lesser_y;
-		box->points[3].z = lesser_z;
-
-		/* back upper left side */
-		box->points[4].x = lesser_x;
-		box->points[1].y = greater_y;
-		box->points[1].z = lesser_z;
-
-		/* back lower left side */
-		box->points[2].x = lesser_x;
-		box->points[2].y = lesser_y;
-		box->points[2].z = lesser_z;
-
-		/* back lower right side */
-		box->points[3].x = greater_x;
-		box->points[3].y = lesser_y;
-		box->points[3].z = lesser_z;
-
-		/* back upper left side */
-		box->points[4].x = lesser_x;
-		box->points[4].y = greater_y;
-		box->points[4].z = greater_z;
-
-		/* back upper right side */
-		box->points[5].x = greater_x;
-		box->points[5].y = greater_y;
-		box->points[5].z = greater_z;
-
-		/* back lower left side */
-		box->points[6].x = lesser_x;
-		box->points[6].y = lesser_y;
-		box->points[6].z = greater_z;
-
-		/* back lower right side */
-		box->points[7].x = greater_x;
-		box->points[7].y = lesser_y;
-		box->points[7].z = greater_z;
+		update_box_points(box,
+		                  lesser_x, lesser_y, lesser_z,
+		                  greater_x, greater_y, greater_z);
 	}
 }
 
