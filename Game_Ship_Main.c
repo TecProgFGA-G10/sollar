@@ -395,11 +395,8 @@ void trataTeclas()
 	}
 	atualizaCaixaColisao(&ship);
 
-	if (shooting) {
+	while (shooting) {
 		fire_shot();
-	}
-	else {
-		/* nothing to do */
 	}
 
 	/* asks the OpenGL to redraw the screen, the ship now have new coordinates */
