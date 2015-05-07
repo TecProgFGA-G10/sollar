@@ -294,6 +294,35 @@ void DesenhaTexto(char *string, int position_x, int position_y)
 		glPopMatrix();
 }
 
+/* shoot fire and updates collision */
+void fire_shot()
+{
+	PlaySound(SHOT_MODEL, shot_sound);
+	shooting = FALSE;
+	int shot = posicaoVaziaTiros(shots);
+
+	if (shot >= 0) {
+		shots[shot].position.x = ship.position.x - 1;
+		shots[shot].position.y = ship.position.y + 0.9;
+		shots[shot].position.z = ship.position.z;
+		shots[shot].visible = TRUE;
+
+		shots[shot].last_position.x = ship.position.x - 1;
+		shots[shot].last_position.y = ship.position.y + 0.9;
+		shots[shot].last_position.z = ship.position.z;
+
+		for (int c = 0; c < 8; c++) {
+			shots[shot].collision.points[c].x = dafault_collision_shot.points[c].x;
+			shots[shot].collision.points[c].y = dafault_collision_shot.points[c].y;
+			shots[shot].collision.points[c].z = dafault_collision_shot.points[c].z;
+		}
+		setaCaixaColisao(&shots[shot].collision, shots[shot].position);
+	}
+	else {
+		/* nothing to do */
+	}
+}
+
 /* treats keys */
 void trataTeclas()
 {
@@ -367,30 +396,7 @@ void trataTeclas()
 	atualizaCaixaColisao(&ship);
 
 	if (shooting) {
-		PlaySound(SHOT_MODEL, shot_sound);
-		shooting = FALSE;
-		int shot = posicaoVaziaTiros(shots);
-
-		if (shot >= 0) {
-			shots[shot].position.x = ship.position.x - 1;
-			shots[shot].position.y = ship.position.y + 0.9;
-			shots[shot].position.z = ship.position.z;
-			shots[shot].visible = TRUE;
-
-			shots[shot].last_position.x = ship.position.x - 1;
-			shots[shot].last_position.y = ship.position.y + 0.9;
-			shots[shot].last_position.z = ship.position.z;
-
-			for (int c = 0; c < 8; c++) {
-				shots[shot].collision.points[c].x = dafault_collision_shot.points[c].x;
-				shots[shot].collision.points[c].y = dafault_collision_shot.points[c].y;
-				shots[shot].collision.points[c].z = dafault_collision_shot.points[c].z;
-			}
-			setaCaixaColisao(&shots[shot].collision, shots[shot].position);
-		}
-		else {
-			/* nothing to do */
-		}
+		fire_shot();
 	}
 	else {
 		/* nothing to do */
