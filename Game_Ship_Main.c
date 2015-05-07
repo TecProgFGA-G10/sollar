@@ -581,27 +581,22 @@ void resizes(int larg, int alt)
 /* explosion timer */
 void explosion_timer(int t)
 {
-	if (ship.visible) {
-		if (!game_paused) {
-			for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-				if (explosions[i].visible) {
-					explosions[i].explosion_size -= EXPLOSION_INCREASE_RATE;
-					if (explosions[i].explosion_size <= 0.3) {
-						explosions[i].visible = FALSE;
-					}
-					else {
-						/* nothing to do */
-					}
+	if (ship.visible && !game_paused) {
+		for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+			if (explosions[i].visible) {
+				explosions[i].explosion_size -= EXPLOSION_INCREASE_RATE;
+				if (explosions[i].explosion_size <= 0.3) {
+					explosions[i].visible = FALSE;
 				}
 				else {
 					/* nothing to do */
 				}
 			}
-			glutTimerFunc(200, explosion_timer, t);
+			else {
+				/* nothing to do */
+			}
 		}
-		else {
-			/* nothing to do */
-		}
+		glutTimerFunc(200, explosion_timer, t);
 	}
 	else {
 		/* nothing to do */
@@ -611,16 +606,11 @@ void explosion_timer(int t)
 /* timer to new meteor */
 void timer(int t)
 {
-	if (ship.visible) {
-		if (!game_paused) {
-			printf("novo meteor");
-			if (t == NEW_METEOR) {
-				enviameteor(meteors, meteors_to_send, dafault_meteor_collision);
-				glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);
-			}
-			else {
-				/* nothing to do */
-			}
+	if (ship.visible && !game_paused) {
+		printf("novo meteor");
+		if (t == NEW_METEOR) {
+			enviameteor(meteors, meteors_to_send, dafault_meteor_collision);
+			glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);
 		}
 		else {
 			/* nothing to do */
