@@ -18,11 +18,11 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 	int result_iteration = -1;
 
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		if(!explosions[i].visible) {
-			result_iteration = i;
+		if(explosions[i].visible) {
+			/* nothing to do */
 		}
 		else {
-		  /* nothing to do */
+		  result_iteration = i;
 		}
 	}
 	return result_iteration;
