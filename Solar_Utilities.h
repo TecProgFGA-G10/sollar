@@ -384,10 +384,11 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	}
 	else {
 		texture->type = GL_RGBA;
-		tga.bytesPerPixel = (tga.Bpp / 8);
-		tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
-		texture->imageData = (GLubyte *)malloc(tga.imageSize);
 	}
+
+	tga.bytesPerPixel = (tga.Bpp / 8);
+	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
+	texture->imageData = (GLubyte *)malloc(tga.imageSize);
 
 	if (texture->imageData == NULL) {
 		fclose(fTGA);
