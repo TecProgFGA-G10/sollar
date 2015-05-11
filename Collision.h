@@ -21,6 +21,7 @@ void desenhaCaixaColisao(collision_box *box)
 	glEnd();
 }
 
+/* return the greater value of two values */
 float greater_value(float value_a, float value_b)
 {
 	float result_greater_value = 0;
@@ -33,6 +34,7 @@ float greater_value(float value_a, float value_b)
 	return result_greater_value;
 }
 
+/* return the lesse value of two values */
 float lesser_value(float value_a, float value_b)
 {
 	float result_lesser_value = 0;
@@ -45,6 +47,7 @@ float lesser_value(float value_a, float value_b)
 	return result_lesser_value;
 }
 
+/* updates the points of the box in collision */
 void update_box_points(collision_box *box,
                        float lesser_x, float lesser_y, float lesser_z,
                        float greater_x, float greater_y, float greater_z)
