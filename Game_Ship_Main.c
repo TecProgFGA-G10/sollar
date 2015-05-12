@@ -540,9 +540,9 @@ void draw()
 		if (ship.visible) {
 			desenhaFundo(background_texture);
 			glPushMatrix();
-				glTranslatef(ship.position.x, ship.position.y, ship.position.z);
-				glRotatef(ship.rotation, 0, 0, ship.rotation_in_z);
-				desenhaModelo(SHIP_MODEL, ship_texture, ship.model);
+			glTranslatef(ship.position.x, ship.position.y, ship.position.z);
+			glRotatef(ship.rotation, 0, 0, ship.rotation_in_z);
+			desenhaModelo(SHIP_MODEL, ship_texture, ship.model);
 			glPopMatrix();
 			desenhaTiros(shots, shot_texture, shot);
 			desenhameteors(meteors, meteor_texture, meteor);
@@ -556,7 +556,7 @@ void draw()
 		trataTeclas();
 	}
 	else {
-		DesenhaTexto("PAUSE",  5,5);
+		DesenhaTexto("PAUSE", 0, 0);
 	}
 	glutSwapBuffers();
 }
@@ -571,10 +571,8 @@ void resizes(int larg, int alt)
 	/* resets the MODELVIEW alterations */
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(ship.position.x, ship.position.y + 20, 20,
-			  0, 0, 0,
-			  0, 1, 0);
-	glViewport(0, 0, larg,alt);
+	gluLookAt(ship.position.x, ship.position.y + 20, 20, 0, 0, 0, 0, 1, 0);
+	glViewport(0, 0, larg, alt);
 	glEnable(GL_DEPTH_TEST);
 }
 

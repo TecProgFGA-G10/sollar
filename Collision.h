@@ -113,12 +113,12 @@ void update_box_points(collision_box *box,
   * and smaller points in wich axix.
   */
 void criaCaixaColisao(GLMmodel *model, collision_box *box)
-/* *box - pointer to collision box */
+/* box - pointer to collision box */
 {
 	if (!model) {
 		exit(1);
 	}
-	else{
+	else {
 		int max_vertices_numbers = model->vertices_numbers;
 
 		float greater_x = model->vertex[3];

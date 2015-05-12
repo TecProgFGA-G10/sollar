@@ -12,7 +12,7 @@
 /* creates an empty position to the shots */
 int posicaoVaziaTiros(game_item *shots)
 {
-	unsigned int result_iterator = -1;
+	int result_iterator = -1;
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		/* finds the first empty shot and returns it */
 		if (!shots[i].visible) {
@@ -76,7 +76,7 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = 0;
 	unsigned int border = 0;
-   if (LoadTGA(shot_texture,filePath)) {
+   	if (LoadTGA(shot_texture,filePath)) {
 		glGenTextures(amount_of_textures, &shot_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, shot_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
