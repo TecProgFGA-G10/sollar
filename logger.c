@@ -9,9 +9,7 @@
 #include <string.h>
  
 FILE *log_file ;
-static int ERROR_SESSION_TRACKER; //Keeps track of session
-static int DEBUG_SESSION_TRACKER; //Keeps track of session
- 
+
 char* print_time()
 {
     time_t t;
@@ -30,9 +28,6 @@ void print_debug_log(char* filename, int line, char *fmt,...)
     char            *p, *r;
     int             e;
  
-    if(DEBUG_SESSION_TRACKER > 0)
-      log_file = fopen ("debug.log","a+");
-    else
       log_file = fopen ("debug.log","a+");
     
     fprintf(log_file,"[%s][%s][line: %d] ",print_time(),filename,line);
@@ -74,7 +69,6 @@ void print_debug_log(char* filename, int line, char *fmt,...)
     va_end( list );
     fputc( '\n', log_file );
     fclose(log_file);
-    DEBUG_SESSION_TRACKER++;
 }
 void print_error_log(char* filename, int line, char *fmt,...)
 {
@@ -82,9 +76,6 @@ void print_error_log(char* filename, int line, char *fmt,...)
     char            *p, *r;
     int             e;
  
-    if(ERROR_SESSION_TRACKER > 0)
-      log_file = fopen ("error.log","a+");
-    else
       log_file = fopen ("error.log","a+");
      
     fprintf(log_file,"[%s][%s][line: %d] ",print_time(),filename,line);
@@ -126,5 +117,4 @@ void print_error_log(char* filename, int line, char *fmt,...)
     va_end( list );
     fputc( '\n', log_file );
     fclose(log_file);
-    ERROR_SESSION_TRACKER++;
 }
