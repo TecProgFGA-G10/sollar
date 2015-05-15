@@ -13,6 +13,7 @@
 #include "Explosion.h"
 #include "Meteor.h"
 #include "Shots.h"
+#include "logger.h"
 
 /* loads the background texture */
 void load_background_texture(Texture *background_texture, char *filePath)
@@ -62,6 +63,7 @@ void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_debug_log("gameover texture");
 	}
 	else {
 		printf("\nErro carregando a textura do gameover");

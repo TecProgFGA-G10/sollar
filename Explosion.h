@@ -11,7 +11,8 @@
 
 #include "Display_Manager.h"
 #include "Solar_Utilities.h"
-
+#include "logger.h"
+ 
 /* Creates an empty space for the explosions */
 int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion*/
 {

@@ -10,6 +10,7 @@
 #define meteor_H
 #include <GL/glut.h>
 #include "Collision.h"
+#include "logger.h"
 
 /* loads the meteor model */
 void carregaModelometeor(GLMmodel **meteor)

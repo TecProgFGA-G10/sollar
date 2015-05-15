@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
+#include "logger.h"
 
 /* initialize the library Glut */
 void iniciaGlut(int argc, char **argv)

@@ -8,6 +8,7 @@
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
 #define CUBE_EDGES 8
+#include "logger.h"
 
 /* draws the collision box */
 void desenhaCaixaColisao(collision_box *box)

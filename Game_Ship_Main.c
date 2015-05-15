@@ -20,6 +20,7 @@
 #include "Explosion.h"
 #include "Game.h"
 #include "Ship.h"
+#include "logger.h"
 
 void desenhaGameOver(void);
 void atualizarEstados(void);
@@ -605,7 +606,7 @@ void explosion_timer(int t)
 void timer(int t)
 {
 	if (ship.visible && !game_paused) {
-		printf("novo meteor");
+		print_debug_log("new meteor");
 		if (t == NEW_METEOR) {
 			enviameteor(meteors, meteors_to_send, dafault_meteor_collision);
 			glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);

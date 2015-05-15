@@ -3,7 +3,7 @@
  * This file defines the graphics interface of the game, load the
  * textures and manage the TGA files from the folder "data".
  */
-
+#include "logger.h"
 #ifndef SOLAR_UTIL_H
 #define SOLAR_UTIL_H
 #define MAX_NUMBER_OF_SHOTS 10 /* max numbers of shoots */

@@ -7,6 +7,7 @@
 #define SHIP_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
+#include "logger.h"
 
 /* loads the ship model */
 void carregaModeloship(game_item *ship)

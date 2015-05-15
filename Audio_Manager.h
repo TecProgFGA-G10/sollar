@@ -9,6 +9,8 @@
 #include <SDL/SDL_audio.h>
 #include <SDL/SDL_mixer.h>
 #include "Solar_Utilities.h"
+#include <stdio.h>
+#include "logger.h"
 
 /* initializes the sound */
 void iniciaAudio(int audio_rate,
@@ -17,8 +19,7 @@ void iniciaAudio(int audio_rate,
 				 int audio_buffers)
 {
 	if (Mix_OpenAudio(audio_rate, audio_format,
-					  audio_channels, audio_buffers) != 0)
-	{
+					  audio_channels, audio_buffers) != 0) {
 		printf("Unable to initialize audio: %s\n", Mix_GetError());
 	}
 	else {

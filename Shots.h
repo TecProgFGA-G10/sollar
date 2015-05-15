@@ -8,6 +8,7 @@
 #ifndef SHOTS_H
 #define SHOTS_H
 #include "Solar_Utilities.h"
+#include "logger.h"
 
 /* creates an empty position to the shots */
 int posicaoVaziaTiros(game_item *shots)
