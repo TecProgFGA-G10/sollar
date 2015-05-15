@@ -20,7 +20,7 @@ void iniciaAudio(int audio_rate,
 {
 	if (Mix_OpenAudio(audio_rate, audio_format,
 					  audio_channels, audio_buffers) != 0) {
-		printf("Unable to initialize audio: %s\n", Mix_GetError());
+		print_error_log("Unable to initialize audio: %s", Mix_GetError());
 	}
 	else {
 		/* nothing to do */
@@ -32,11 +32,11 @@ int tocaMusica(Mix_Music *music)
 {
 	int return_value = 0; /* if everything is okay, return 0*/
 	if (music == NULL) {
-		printf("Unable to load Ogg file: %s\n", Mix_GetError());
+		print_error_log("Unable to load Ogg file: %s", Mix_GetError());
 		return_value = 1;
 	}
 	else if (Mix_PlayMusic(music, -1) == -1) {
-		printf("Unable to play Ogg file: %s\n", Mix_GetError());
+		print_error_log("Unable to play Ogg file: %s", Mix_GetError());
 	}
 	else {
 		/* nothing to do */
