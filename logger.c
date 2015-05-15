@@ -10,6 +10,7 @@
  
 FILE *log_file ;
 
+// gets the real time of the execution of the log and sends the information to the main function
 char* print_time()
 {
     time_t t;
@@ -22,27 +23,26 @@ char* print_time()
     
     return buf;
 }
+
 void print_debug_log(char* filename, int line, char *fmt,...)
 {
-    va_list         list;
-    char            *p, *r;
-    int             e;
+    va_list list;
+    char *p, *r;
+    int e;
  
-      log_file = fopen ("debug.log","a+");
+    log_file = fopen ("debug.log","a+");
     
     fprintf(log_file,"[%s][%s][line: %d] ",print_time(),filename,line);
     va_start( list, fmt );
  
     for ( p = fmt ; *p ; ++p )
     {
-        if ( *p != '%' )//If simple string
-        {
+        //If simple string
+        if ( *p != '%' ) {
             fputc( *p,log_file );
         }
-        else
-        {
-            switch ( *++p )
-            {
+        else {
+            switch ( *++p ) {
                 /* string */
             case 's':
             {
@@ -70,27 +70,25 @@ void print_debug_log(char* filename, int line, char *fmt,...)
     fputc( '\n', log_file );
     fclose(log_file);
 }
+
 void print_error_log(char* filename, int line, char *fmt,...)
 {
-    va_list         list;
-    char            *p, *r;
-    int             e;
+    va_list list;
+    char *p, *r;
+    int e;
  
-      log_file = fopen ("error.log","a+");
+    log_file = fopen ("error.log","a+");
      
     fprintf(log_file,"[%s][%s][line: %d] ",print_time(),filename,line);
     va_start( list, fmt );
  
-    for ( p = fmt ; *p ; ++p )
-    {
-        if ( *p != '%' )//If simple string
-        {
+    for ( p = fmt ; *p ; ++p ) {
+        //If simple string
+        if ( *p != '%' ) {
             fputc( *p,log_file );
         }
-        else
-        {
-            switch ( *++p )
-            {
+        else {
+            switch ( *++p ) {
                 /* string */
             case 's':
             {
