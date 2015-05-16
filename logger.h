@@ -5,3 +5,4 @@
 */
 #define print_error_log(...) print_error_log(__FILE__, __LINE__, __VA_ARGS__ )
 #define print_debug_log(...) print_debug_log(__FILE__, __LINE__, __VA_ARGS__ )
+#define print_verbose_log(...) print_verbose_log(__FILE__, __LINE__, __VA_ARGS__ )

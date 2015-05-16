@@ -19,11 +19,11 @@ void iniciaAudio(int audio_rate,
 				 int audio_buffers)
 {
 	if (Mix_OpenAudio(audio_rate, audio_format,
-					  audio_channels, audio_buffers) != 0) {
-		print_error_log("Unable to initialize audio: %s", Mix_GetError());
+					  audio_channels, audio_buffers) == 0) {
+		print_verbose_log("Audio sucessfully initiated");
 	}
 	else {
-		/* nothing to do */
+		print_error_log("Unable to initialize audio: %s", Mix_GetError());
 	}
 }
 
