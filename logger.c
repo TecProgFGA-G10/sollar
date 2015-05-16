@@ -116,3 +116,50 @@ void print_error_log(char* filename, int line, char *fmt,...)
     fputc( '\n', log_file );
     fclose(log_file);
 }
+
+void print_verbose_log(char* filename, int line, char *fmt,...)
+{
+    va_list list;
+    char *p, *r;
+    int e;
+ 
+    log_file = fopen ("verbose.log","a+");
+    
+    fprintf(log_file,"[%s][%s][line: %d] ",print_time(),filename,line);
+    va_start( list, fmt );
+ 
+    for ( p = fmt ; *p ; ++p )
+    {
+        //If simple string
+        if ( *p != '%' ) {
+            fputc( *p,log_file );
+        }
+        else {
+            switch ( *++p ) {
+                /* string */
+            case 's':
+            {
+                r = va_arg( list, char * );
+ 
+                fprintf(log_file,"%s", r);
+                continue;
+            }
+ 
+            /* integer */
+            case 'd':
+            {
+                e = va_arg( list, int );
+ 
+                fprintf(log_file,"%d", e);
+                continue;
+            }
+ 
+            default:
+                fputc( *p, log_file );
+            }
+        }
+    }
+    va_end( list );
+    fputc( '\n', log_file );
+    fclose(log_file);
+}
