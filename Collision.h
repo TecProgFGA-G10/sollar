@@ -235,6 +235,7 @@ int verificaColisao(collision_box a, collision_box b)
 			    (a.points[2].y <= b.points[0].y)))
 			{
 				boolean_value = TRUE;
+				print_verbose_log("Collision detected");
 			}
 			else {
 			/* nothing to do */
