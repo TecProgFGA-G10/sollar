@@ -215,7 +215,7 @@ void atualizarEstados(void)
 				else {
 					/* nothing to do */
 				}
-				if (remaining_lives < 0) {
+				if (remaining_lives == 0) {
 					ship.visible = FALSE;
 				}
 				else {
@@ -270,14 +270,17 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 		case 13: /* ENTER */
 			if(game_over_selected == GAME_OVER) {
 				exit(0);
+				print_verbose_log("Game ended by exit button");
 			}
 			else {
 				reconfigura();
+				print_verbose_log("Restart the game");
 			}
 			glutPostRedisplay();
 			break;
 		case 27: /* ESC */
 			exit(0);
+			print_verbose_log("Game ended by esc key");
 			break;
 	}
 
@@ -398,6 +401,7 @@ void trataTeclas()
 
 	while (shooting) {
 		fire_shot();
+		print_verbose_log("Shot's fired");
 	}
 
 	/* asks the OpenGL to redraw the screen, the ship now have new coordinates */
@@ -416,17 +420,21 @@ void special_key(int pressed_key, int x, int y)
 			left_button_pressed = TRUE;
 			ship.rotation = 30;
 			ship.rotation_in_z = 1;
+			print_verbose_log("Ship is going to left");
 			break;
 		case GLUT_KEY_RIGHT:
 			right_button_pressed = TRUE;
 			ship.rotation = -30;
 			ship.rotation_in_z = 1;
+			print_verbose_log("Ship is going to right");
 			break;
 		case GLUT_KEY_UP:
 			up_button_pressed = TRUE;
+			print_verbose_log("Ship is going up");
 			break;
 		case GLUT_KEY_DOWN:
 			down_button_pressed = TRUE;
+			print_verbose_log("Ship is going down");
 			break;
 	}
 }
@@ -507,6 +515,7 @@ void controls(unsigned char pressed_key, int x, int y)
 				glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);
 				glutTimerFunc(200, explosion_timer, 0);
 				glutTimerFunc(10000, increase_difficulty_level, 0);
+				print_verbose_log("Unpaused the game");
 			}
 			else {
 				glutSpecialFunc(NULL);
@@ -514,6 +523,7 @@ void controls(unsigned char pressed_key, int x, int y)
 				glutReshapeFunc(NULL);
 				game_paused = TRUE;
 				glutPostRedisplay();
+				print_verbose_log("Paused the game");
 			}
 			break;
 		default:
@@ -606,7 +616,7 @@ void explosion_timer(int t)
 void timer(int t)
 {
 	if (ship.visible && !game_paused) {
-		print_debug_log("new meteor");
+		print_verbose_log("New meteor");
 		if (t == NEW_METEOR) {
 			enviameteor(meteors, meteors_to_send, dafault_meteor_collision);
 			glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);
