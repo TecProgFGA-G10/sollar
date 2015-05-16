@@ -38,7 +38,7 @@ void load_background_texture(Texture *background_texture, char *filePath)
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do fundo");
+		print_error_log("Error loading background texture");
 	}
 }
 
@@ -63,10 +63,10 @@ void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
-		print_debug_log("gameover texture");
+		print_debug_log("gameover texture loaded");
 	}
 	else {
-		printf("\nErro carregando a textura do gameover");
+		print_error_log("Error loading gameover texture");
 	}
 }
 
@@ -93,7 +93,7 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura continuar jogo");
+		print_error_log("Error loading continue texture");
 	}
 }
 
@@ -120,7 +120,7 @@ void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do game_over_texture");
+		print_error_log("Error loading game over texture");
 	}
 }
 
@@ -175,9 +175,11 @@ void desenhaBotaoContinuar(int game_over_selected,
 
 	if (game_over_selected == CONTINUE) {
 		glBindTexture(GL_TEXTURE_2D, game_continue_green_texture.texture_id);
+		print_verbose_log("Continue button selected");
 	}
 	else {
 		glBindTexture(GL_TEXTURE_2D, game_continue_red_texture.texture_id);
+		print_verbose_log("Continue button deselected");
 	}
 
 	glBegin(GL_QUADS);
@@ -207,9 +209,11 @@ void desenhaBotaoSair(int game_over_selected,
 
 	if (game_over_selected == GAME_OVER) {
 		glBindTexture(GL_TEXTURE_2D, game_over_green_texture.texture_id);
+		print_verbose_log("Game over selected");
 	}
 	else {
 		glBindTexture(GL_TEXTURE_2D, game_over_red_texture.texture_id);
+		print_verbose_log("Game over deselected");
 	}
 
 	glBegin(GL_QUADS);
