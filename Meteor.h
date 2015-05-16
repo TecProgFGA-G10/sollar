@@ -19,7 +19,7 @@ void carregaModelometeor(GLMmodel **meteor)
 	if (*meteor == NULL) {
 		*meteor = glmReadOBJ("data/meteoro/meteoro.obj");
 		if (*meteor == NULL){
-			printf("\n\nErro carregando meteoro.obj");
+			print_error_log("Error loading meteoro.obj");
 			exit(0);
 		}
 		else {
@@ -30,7 +30,7 @@ void carregaModelometeor(GLMmodel **meteor)
 		glmVertexNormals(*meteor, explosion_angle);
 	}
 	else {
-		printf("meteoro nao carregado! \n");
+		print_error_log("Meteor not loaded");
 	}
 }
 
@@ -109,7 +109,7 @@ void load_meteor_texture(Texture *meteor_texture, char *filePath)
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do meteoro");
+		print_error_log("Error loading the meteor texture");
 	}
 }
 
