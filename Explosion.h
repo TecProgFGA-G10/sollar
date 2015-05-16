@@ -45,12 +45,12 @@ void carregaModeloExplosao(GLMmodel **explosion){
 	if (*explosion == NULL) {
 			*explosion = glmReadOBJ("data/explosao/explosao.obj");
 
-			if (*explosion == NULL) {
-				printf("\n\nErro carregando explosion.obj");
-				exit(NEUTRAL_VALUE);
+			if (*explosion != NULL) {
+				print_verbose_log("Explosion sucessfully loaded");
 			}
 			else {
-				/* nothing to do */
+				print_error_log("explosion.obj not loaded");
+				exit(NEUTRAL_VALUE);
 			}
 			/* redimension to unity matrix */
 			glmUnitize(*explosion);
@@ -58,7 +58,7 @@ void carregaModeloExplosao(GLMmodel **explosion){
 			glmVertexNormals(*explosion, explosion_angle);
 	}
 	else {
-		printf("model explosion nao carregou!");
+		print_error_log("Explosion model not loaded");
 	}
 }
 
@@ -80,7 +80,7 @@ void load_explosion_texture(Texture *explosion_texture, char* filePath){
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura da explosion");
+		print_error_log("Explosion texture not loaded");
 	}
 
 }
