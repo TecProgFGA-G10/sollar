@@ -31,15 +31,15 @@ void iniciaAudio(int audio_rate,
 int tocaMusica(Mix_Music *music)
 {
 	int return_value = 0; /* if everything is okay, return 0*/
-	if (music == NULL) {
-		print_error_log("Unable to load Ogg file: %s", Mix_GetError());
-		return_value = 1;
+	if (music != NULL) {
+		print_verbose_log("Music sucessfully initiated");
 	}
 	else if (Mix_PlayMusic(music, -1) == -1) {
 		print_error_log("Unable to play Ogg file: %s", Mix_GetError());
 	}
 	else {
-		/* nothing to do */
+		print_error_log("Unable to load Ogg file: %s", Mix_GetError());
+		return_value = 1;
 	}
 	return return_value;
 }
@@ -49,9 +49,11 @@ void PlaySound(int sound, Mix_Chunk *sound_effect)
 {
 	if (sound == SHOT_MODEL) {
 		Mix_PlayChannel(2, sound_effect, 0);
+		print_verbose_log("Shot audio effect");
 	}
 	else if (sound == EXPLOSION_MODEL) {
 		Mix_PlayChannel(3, sound_effect, 0);
+		print_verbose_log("Explosion audio effect");
 	}
 
 }
@@ -64,6 +66,7 @@ void limpa(Mix_Music *music)
 	music = NULL;
 	Mix_HaltChannel(2);
 	Mix_HaltChannel(3);
+	print_verbose_log("Audio cleared");
 }
 
 #endif
