@@ -215,7 +215,7 @@ void atualizarEstados(void)
 				else {
 					/* nothing to do */
 				}
-				if (remaining_lives == 0) {
+				if (remaining_lives <= 0) {
 					ship.visible = FALSE;
 				}
 				else {
@@ -684,6 +684,7 @@ void configura(int argc, char **argv)
 /* reconfigurs objects */
 void reconfigura()
 {
+	remaining_lives = 3;
 	inicializaObjetos(&ship,
 					  &meteor,
 					  &explosion,
