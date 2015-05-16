@@ -33,12 +33,12 @@ void carregaModeloTiro(GLMmodel **shot)
 	if (*shot == NULL) {
 		*shot = glmReadOBJ("data/tiro/tiro.obj");
 
-		if (*shot == NULL) {
-			printf("\n\nErro carregando tiro.obj");
-			exit(0);
+		if (*shot != NULL) {
+			print_verbose_log("tiro.obj sucessfully loaded");
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Error loading tiro.obj");
+			exit(0);
 		}
 		/* calculate the normal ones */
 		glmUnitize(*shot);
@@ -46,7 +46,7 @@ void carregaModeloTiro(GLMmodel **shot)
 		glmVertexNormals(*shot, shot_angle);
 	}
 	else {
-		printf("model shot nao carregado!\n");
+		print_error_log("Shot model not loaded");
 	}
 
 }
@@ -94,7 +94,7 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 		glEnable(GL_TEXTURE_2D);
 	}
 	else {
-		printf("\nErro carregando a textura do shot");
+		print_error_log("Error loading shot texture");
 	}
 }
 
