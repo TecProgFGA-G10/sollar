@@ -72,9 +72,10 @@ void load_ship_texture(Texture *ship_texture, char* filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("Ship texture loaded")
 	}
 	else {
-		printf("\nErro carregando a textura do jato.");
+		print_error_log("Error loading ship texture");
 	}
 
 }
