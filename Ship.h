@@ -21,7 +21,8 @@ void load_ship_model(game_item *ship)
 	ship->last_position.x = 0;
 	ship->last_position.y = 0;
 	ship->last_position.z = 0;
-	ship->acceleration = 0.03;
+	ship->acceleration = 0.4;
+	//ship->acceleration = 0.03;
 	ship->visible = TRUE;
 
 	double model_angle = 90.0;
