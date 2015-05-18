@@ -127,7 +127,7 @@ void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 }
 
 /* configures shot's acceleration */
-void configuraAceleracaoTiros(game_item *shots)
+void set_shot_acceleration(game_item *shots)
 {
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		shots[i].acceleration = -0.9;

@@ -254,7 +254,7 @@ void inicializaObjetos(game_item *ship,
 	configuraTamanhoExplosoes(explosions);
 	criaCaixaColisao(shot[0], dafault_collision_shot);
 	configuraCaixaColisaoTiro(dafault_collision_shot);
-	configuraAceleracaoTiros(shots);
+	set_shot_acceleration(shots);
 }
 
 #endif
