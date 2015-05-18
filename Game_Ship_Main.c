@@ -303,7 +303,7 @@ void fire_shot()
 {
 	PlaySound(SHOT_MODEL, shot_sound);
 	shooting = FALSE;
-	int shot = posicaoVaziaTiros(shots);
+	int shot = create_empty_shot_position(shots);
 
 	if (shot >= 0) {
 		shots[shot].position.x = ship.position.x - 1;

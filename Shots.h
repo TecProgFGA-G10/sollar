@@ -11,7 +11,7 @@
 #include "logger.h"
 
 /* creates an empty position to the shots */
-int posicaoVaziaTiros(game_item *shots)
+int create_empty_shot_position(game_item *shots)
 {
 	int result_iterator = -1;
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
