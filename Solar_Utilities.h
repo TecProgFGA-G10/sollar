@@ -10,6 +10,7 @@
 #define MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR 20 /* max number of meteors that can appear */
 #define FALSE 0
 #define TRUE 1
+#define INITIALIZE_ZERO 0 /* constant used to initialize variables with 0 number */ 
 
 /* max distance to treat a shoot, on the z axis */
 #define MAX_DISTANCE_FOR_SHOOT_TREATMENT -30
@@ -37,6 +38,7 @@
 #define SHOT_MODEL 3 /* draw the shoot model */
 #define EXPLOSION_MODEL 4 /* draw the explosion model */
 #define EXPLOSION_INCREASE_RATE 0.1 /* will loose 0.1 each time count */
+#define SHIP_ACCELERATION 0.4 /* acceleration that the ship change directions */
 
 #define GAME_OVER 666 /* game over button selected */
 #define CONTINUE 777 /* continue button selected */

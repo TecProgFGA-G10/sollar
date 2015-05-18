@@ -19,8 +19,8 @@
 void load_background_texture(Texture *background_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
 	if (LoadTGA(background_texture, filePath)) {
 		glGenTextures(amount_of_textures, &background_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, background_texture->texture_id);
@@ -46,8 +46,8 @@ void load_background_texture(Texture *background_texture, char *filePath)
 void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
 	if (LoadTGA(game_over_texture, filePath)) {
 		glGenTextures(amount_of_textures, &game_over_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, game_over_texture->texture_id);
@@ -74,8 +74,8 @@ void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 void load_game_texture(Texture *game_continue_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
 	if (LoadTGA(game_continue_texture, filePath)) {
 		glGenTextures(amount_of_textures, &game_continue_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, game_continue_texture->texture_id);
@@ -101,8 +101,8 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
 	if (LoadTGA(end_game_texture, filePath)) {
 		glGenTextures(amount_of_textures, &end_game_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, end_game_texture->texture_id);
@@ -143,7 +143,7 @@ void configuratextures(Texture **textures)
 void desenhaPlanoGameOver(Texture game_over_texture)
 {
 	glPushMatrix();
-	glTranslatef(0, 0, 0); /* coordinates x, y, z */
+	glTranslatef(INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO); /* coordinates x, y, z */
 	glBindTexture(GL_TEXTURE_2D, game_over_texture.texture_id);
 	glScalef(0.6, 0.6, 0.6); /* coordinates x, y, z */
 

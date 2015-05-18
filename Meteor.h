@@ -11,6 +11,7 @@
 #include <GL/glut.h>
 #include "Collision.h"
 #include "logger.h"
+#include "Solar_Utilities.h"
 
 /* loads the meteor model */
 void carregaModelometeor(GLMmodel **meteor)
@@ -38,7 +39,7 @@ void carregaModelometeor(GLMmodel **meteor)
 int posicaoVaziameteors(game_item *meteors)
 {
 	unsigned int result_iteration = -1;
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (!meteors[i].visible) {
 			result_iteration = i;
 		}
@@ -54,7 +55,7 @@ void enviameteor(game_item *meteors,
 				  int meteors_to_send,
 				  collision_box dafault_meteor_collision)
 {
-	for (unsigned int i = 0; i < meteors_to_send; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < meteors_to_send; i++) {
 		unsigned int pos = posicaoVaziameteors(meteors);
 
 		if (pos >= 0) { /* position can be 0 or greater than 0 so that can view the meteor and calculate colision */
@@ -73,7 +74,7 @@ void enviameteor(game_item *meteors,
 			meteors[pos].last_position.y = meteors[pos].position.y;
 
 			/* fix me. I am out of the bounds*/
-			for (unsigned int c = 0; c < 8; c++){
+			for (unsigned int c = INITIALIZE_ZERO; c < 8; c++){
 				meteors[pos].collision.points[c].x = dafault_meteor_collision.points[c].x;
 				meteors[pos].collision.points[c].y = dafault_meteor_collision.points[c].y;
 				meteors[pos].collision.points[c].z = dafault_meteor_collision.points[c].z;
@@ -90,8 +91,8 @@ void enviameteor(game_item *meteors,
 void load_meteor_texture(Texture *meteor_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
 	if (LoadTGA(meteor_texture, filePath)) {
 		glGenTextures(amount_of_textures, &meteor_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, meteor_texture->texture_id);
@@ -116,7 +117,7 @@ void load_meteor_texture(Texture *meteor_texture, char *filePath)
 /* configur the meteor collision box */
 void configuraCaixaColisaometeor(collision_box *dafault_meteor_collision)
 {
-	for (unsigned int c = 0; c < 8; c++){
+	for (unsigned int c = INITIALIZE_ZERO; c < 8; c++){
 		dafault_meteor_collision->points[c].x*=METEOR_SCALE;
 		dafault_meteor_collision->points[c].y*=METEOR_SCALE;
 		dafault_meteor_collision->points[c].z*=METEOR_SCALE;
@@ -126,7 +127,7 @@ void configuraCaixaColisaometeor(collision_box *dafault_meteor_collision)
 /* configur the meteors' aceleration */
 void configuraAceleracaometeors(game_item *meteors)
 {
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		meteors[i].acceleration = 5.00;
 	}
 }
@@ -136,7 +137,7 @@ void desenhameteors(game_item *meteors,
 					 Texture meteor_texture,
 					 GLMmodel *meteor)
 {
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (meteors[i].visible) {
 			glPushMatrix();
 			glTranslatef(meteors[i].position.x,

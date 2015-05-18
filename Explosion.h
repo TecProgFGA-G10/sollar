@@ -18,7 +18,7 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 {
 	int result_iteration = -1;
 
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if(explosions[i].visible) {
 			/* nothing to do */
 		}
@@ -33,7 +33,7 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 void configuraTamanhoExplosoes(game_item *explosions){
 	unsigned int size_value = 1;
 
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		explosions[i].explosion_size = size_value;
 	}
 }
@@ -67,11 +67,11 @@ void load_explosion_texture(Texture *explosion_texture, char* filePath){
 	if (LoadTGA(explosion_texture, filePath)) {
 		glGenTextures(1, &explosion_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, explosion_texture->texture_id);
-		glTexImage2D(GL_TEXTURE_2D, 0,
+		glTexImage2D(GL_TEXTURE_2D, INITIALIZE_ZERO,
 					 GL_RGBA,
 					 explosion_texture->width,
 					 explosion_texture->height,
-					 0,
+					 INITIALIZE_ZERO,
 					 explosion_texture->type,
 					 GL_UNSIGNED_BYTE,
 					 explosion_texture->imageData);
@@ -94,7 +94,7 @@ void draw_explosion(game_item *explosions,
 	unsigned int second_color_scale = 255;
 	unsigned int third_color_scale = 255;
 
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (explosions[i].visible) {
 			glColor3ub(first_color_scale, second_color_scale, third_color_scale);
 			glPushMatrix();

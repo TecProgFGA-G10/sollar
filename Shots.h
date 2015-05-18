@@ -14,7 +14,7 @@
 int create_empty_shot_position(game_item *shots)
 {
 	int result_iterator = -1;
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		/* finds the first empty shot and returns it */
 		if (!shots[i].visible) {
 			result_iterator = i;
@@ -55,7 +55,7 @@ void load_shot_model(GLMmodel **shot)
 void atualizaCaixaColisaoTiro(game_item *item)
 {
 	/* total points collision box */
-	for (unsigned int i = 0; i < 8; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < 8; i++) {
 		if (item->position.z > item->last_position.z) {
 			item->collision.points[i].z += -item->acceleration;
 		}
@@ -75,8 +75,8 @@ void atualizaCaixaColisaoTiro(game_item *item)
 void load_shot_texture(Texture *shot_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
    	if (LoadTGA(shot_texture,filePath)) {
 		glGenTextures(amount_of_textures, &shot_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, shot_texture->texture_id);
@@ -101,7 +101,7 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 /* draws the shots */
 void draw_shot(game_item *shots, Texture shot_texture, GLMmodel *shot)
 {
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
 			glPushMatrix();
 				glTranslatef(shots[i].position.x,
@@ -119,7 +119,7 @@ void draw_shot(game_item *shots, Texture shot_texture, GLMmodel *shot)
 /* configures shot's collision box */
 void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 {
-	for (unsigned int c = 0; c < 8; c++) {
+	for (unsigned int c = INITIALIZE_ZERO; c < 8; c++) {
 		dafault_collision_shot->points[c].x *= SHOT_SCALE;
 		dafault_collision_shot->points[c].y *= SHOT_SCALE;
 		dafault_collision_shot->points[c].z *= SHOT_SCALE;
@@ -129,7 +129,7 @@ void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 /* configures shot's acceleration */
 void set_shot_acceleration(game_item *shots)
 {
-	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
+	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		shots[i].acceleration = -0.9;
 	}
 }

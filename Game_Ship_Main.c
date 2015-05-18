@@ -21,6 +21,7 @@
 #include "Game.h"
 #include "Ship.h"
 #include "logger.h"
+#include "Solar_Utilities.h"
 
 void desenhaGameOver(void);
 void atualizarEstados(void);
@@ -145,7 +146,7 @@ void desenhaGameOver()
 /* updates the state */
 void atualizarEstados(void)
 {
-	for (int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
+	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
 			shots[i].last_position.z = shots[i].position.z;
 			shots[i].position.z += shots[i].acceleration;
@@ -161,7 +162,7 @@ void atualizarEstados(void)
 			else {
 				/* nothing to do */
 			}
-			for (int m = 0; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
+			for (int m = INITIALIZE_ZERO; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
 				if (meteors[m].visible) {
 					if (verificaColisao(shots[i].collision, meteors[m].collision)) {
 						PlaySound(EXPLOSION_MODEL,explosion_sound);
@@ -195,7 +196,7 @@ void atualizarEstados(void)
 			/* nothing to do */
 		}
 	}
-	for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (meteors[i].visible) {
 			meteors[i].last_position.z = meteors[i].position.z;
 			meteors[i].position.z += meteors[i].acceleration;
@@ -315,7 +316,7 @@ void fire_shot()
 		shots[shot].last_position.y = ship.position.y + 0.9;
 		shots[shot].last_position.z = ship.position.z;
 
-		for (int c = 0; c < 8; c++) {
+		for (int c = INITIALIZE_ZERO; c < 8; c++) {
 			shots[shot].collision.points[c].x = dafault_collision_shot.points[c].x;
 			shots[shot].collision.points[c].y = dafault_collision_shot.points[c].y;
 			shots[shot].collision.points[c].z = dafault_collision_shot.points[c].z;
@@ -445,13 +446,13 @@ void special_key_unpressed(int pressed_key, int x, int y)
 	switch (pressed_key) {
 		case GLUT_KEY_LEFT:
 			left_button_pressed = FALSE;
-			ship.rotation = 0;
-			ship.rotation_in_z = 0;
+			ship.rotation = INITIALIZE_ZERO;
+			ship.rotation_in_z = INITIALIZE_ZERO;
 			break;
 		case GLUT_KEY_RIGHT:
 			right_button_pressed = FALSE;
-			ship.rotation = 0;
-			ship.rotation_in_z = 0;
+			ship.rotation = INITIALIZE_ZERO;
+			ship.rotation_in_z = INITIALIZE_ZERO;
 			break;
 		case GLUT_KEY_UP:
 			up_button_pressed = FALSE;
@@ -467,7 +468,7 @@ void increase_difficulty_level(int t)
 {
 	if (ship.visible) {
 		if (!game_paused) {
-			for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+			for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 				meteors[i].acceleration += METEOR_SPEED_VARIATION;
 			}
 			if (meteors_to_send < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR) {
@@ -477,8 +478,8 @@ void increase_difficulty_level(int t)
 				/* nothing to do */
 			}
 			time_until_next_meteors_round -= 10;
-			glutTimerFunc(time_until_next_meteors_round, timer, 0);
-			glutTimerFunc(10000, increase_difficulty_level, 0);
+			glutTimerFunc(time_until_next_meteors_round, timer, INITIALIZE_ZERO);
+			glutTimerFunc(10000, increase_difficulty_level, INITIALIZE_ZERO);
 		}
 		else {
 			/* nothing to do */
@@ -513,8 +514,8 @@ void controls(unsigned char pressed_key, int x, int y)
 				glutReshapeFunc(resizes);
 				glutPostRedisplay();
 				glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);
-				glutTimerFunc(200, explosion_timer, 0);
-				glutTimerFunc(10000, increase_difficulty_level, 0);
+				glutTimerFunc(200, explosion_timer, INITIALIZE_ZERO);
+				glutTimerFunc(10000, increase_difficulty_level, INITIALIZE_ZERO);
 				print_verbose_log("Unpaused the game");
 			}
 			else {
@@ -591,7 +592,7 @@ void resizes(int larg, int alt)
 void explosion_timer(int t)
 {
 	if (ship.visible && !game_paused) {
-		for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+		for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 			if (explosions[i].visible) {
 				explosions[i].explosion_size -= EXPLOSION_INCREASE_RATE;
 				if (explosions[i].explosion_size <= 0.3) {
@@ -635,7 +636,7 @@ void configura(int argc, char **argv)
 {
 	meteors_to_send = 10;
 	time_until_next_meteors_round = 2000;
-	score = 0;
+	score = INITIALIZE_ZERO;
 	remaining_lives = 3;
 	game_over_selected = CONTINUE;
 
@@ -695,7 +696,7 @@ void reconfigura()
 					  &dafault_collision_shot,
 					  shots);
 	criaCaixaColisao(ship.model, &ship.collision);
-	glClearColor(0, 0, 0, 0);
+	glClearColor(INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO);
 	glutKeyboardFunc(controls);
 	glutSpecialFunc(special_key);
 	glutSpecialUpFunc(special_key_unpressed);
@@ -703,7 +704,7 @@ void reconfigura()
 	glutTimerFunc(500, explosion_timer, 0);
 	glutTimerFunc(20000, increase_difficulty_level, 0);
 
-	for (int i = 0; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++ ) {
+	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++ ) {
 		explosions[i].visible = FALSE;
 		meteors[i].visible = FALSE;
 	}

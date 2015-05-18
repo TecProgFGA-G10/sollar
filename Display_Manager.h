@@ -19,9 +19,9 @@ void iniciaGlut(int argc, char **argv)
 	/* 2 buffer mode and RGBA (accepts alpha) */
 	glutInitDisplayMode(GRAPHIC_MODEL);
 	glutInitWindowSize(WIDTH, HEIGHT); /* initial size of the window */
-	glutInitWindowPosition(0, 0); /* initial position of the window */
+	glutInitWindowPosition(INITIALIZE_ZERO, INITIALIZE_ZERO); /* initial position of the window */
 	glutCreateWindow(WINDOW_NAME); /* window's name created */
-	glClearColor(0, 0, 0, 0); /* clean collor, background collor */
+	glClearColor(INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO); /* clean collor, background collor */
 }
 
 /* initializes camera */
@@ -35,7 +35,7 @@ void iniciaCamera()
 	gluLookAt(0, 10, 20,
 			  0,  0,  0,
 			  0,  1,  0);
-	glViewport(0, 0, WIDTH,HEIGHT);
+	glViewport(INITIALIZE_ZERO, INITIALIZE_ZERO, WIDTH,HEIGHT);
 	glEnable(GL_DEPTH_TEST); /* loads the depth test */
 	glDepthFunc(GL_LESS);
 }

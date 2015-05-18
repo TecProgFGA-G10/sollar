@@ -12,17 +12,16 @@
 /* loads the ship model */
 void load_ship_model(game_item *ship)
 {
-	ship->position.x = 0;
-	ship->position.y = 0;
-	ship->position.z = 0;
-	ship->rotation_in_x = 0;
-	ship->rotation_in_y = 0;
-	ship->rotation_in_z = 0;
-	ship->last_position.x = 0;
-	ship->last_position.y = 0;
-	ship->last_position.z = 0;
-	ship->acceleration = 0.4;
-	//ship->acceleration = 0.03;
+	ship->position.x = INITIALIZE_ZERO;
+	ship->position.y = INITIALIZE_ZERO;
+	ship->position.z = INITIALIZE_ZERO;
+	ship->rotation_in_x = INITIALIZE_ZERO;
+	ship->rotation_in_y = INITIALIZE_ZERO;
+	ship->rotation_in_z = INITIALIZE_ZERO;
+	ship->last_position.x = INITIALIZE_ZERO;
+	ship->last_position.y = INITIALIZE_ZERO;
+	ship->last_position.z = INITIALIZE_ZERO;
+	ship->acceleration = SHIP_ACCELERATION;
 	ship->visible = TRUE;
 
 	double model_angle = 90.0;
@@ -41,7 +40,7 @@ void load_ship_model(game_item *ship)
 		glmFacetNormals(ship->model);
 		glmVertexNormals(ship->model, model_angle);
 
-		for (unsigned int scale = 0; scale < 8; scale++) {
+		for (unsigned int scale = INITIALIZE_ZERO; scale < 8; scale++) {
 			ship->collision.points[scale].x *= SHIP_SCALE;
 			ship->collision.points[scale].y *= SHIP_SCALE;
 			ship->collision.points[scale].z *= SHIP_SCALE;
@@ -56,8 +55,8 @@ void load_ship_model(game_item *ship)
 void load_ship_texture(Texture *ship_texture, char* filePath)
 {
 	unsigned int amount_of_textures = 1;
-	unsigned int level_of_detail = 0;
-	unsigned int border = 0;
+	unsigned int level_of_detail = INITIALIZE_ZERO;
+	unsigned int border = INITIALIZE_ZERO;
 	if (LoadTGA(ship_texture,filePath)) {
 		glGenTextures(amount_of_textures, &ship_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, ship_texture->texture_id);
