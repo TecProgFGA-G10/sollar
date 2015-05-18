@@ -86,7 +86,7 @@ void load_explosion_texture(Texture *explosion_texture, char* filePath){
 }
 
 /* draws the explosions */
-void desenhaExplosoes(game_item *explosions,
+void draw_explosion(game_item *explosions,
 					  Texture explosion_texture,
 					  GLMmodel *explosion)
 {

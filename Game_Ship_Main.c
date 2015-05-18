@@ -557,7 +557,7 @@ void draw()
 			glPopMatrix();
 			draw_shot(shots, shot_texture, shot);
 			desenhameteors(meteors, meteor_texture, meteor);
-			desenhaExplosoes(explosions, explosion_texture, explosion);
+			draw_explosion(explosions, explosion_texture, explosion);
 			desenhaHUD();
 		}
 		else {
