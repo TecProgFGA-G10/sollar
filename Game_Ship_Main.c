@@ -555,7 +555,7 @@ void draw()
 			glRotatef(ship.rotation, 0, 0, ship.rotation_in_z);
 			desenhaModelo(SHIP_MODEL, ship_texture, ship.model);
 			glPopMatrix();
-			desenhaTiros(shots, shot_texture, shot);
+			draw_shot(shots, shot_texture, shot);
 			desenhameteors(meteors, meteor_texture, meteor);
 			desenhaExplosoes(explosions, explosion_texture, explosion);
 			desenhaHUD();

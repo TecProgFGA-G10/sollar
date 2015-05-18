@@ -99,7 +99,7 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 }
 
 /* draws the shots */
-void desenhaTiros(game_item *shots, Texture shot_texture, GLMmodel *shot)
+void draw_shot(game_item *shots, Texture shot_texture, GLMmodel *shot)
 {
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
