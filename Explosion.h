@@ -104,7 +104,7 @@ void draw_explosion(game_item *explosions,
 			glScalef(explosions[i].explosion_size,
 					 explosions[i].explosion_size,
 					 explosions[i].explosion_size);
-			desenhaModelo(EXPLOSION_MODEL, explosion_texture, explosion);
+			draw_model(EXPLOSION_MODEL, explosion_texture, explosion);
 			glPopMatrix();
 		}
 		else {

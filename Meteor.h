@@ -142,7 +142,7 @@ void desenhameteors(game_item *meteors,
 			glTranslatef(meteors[i].position.x,
 						 meteors[i].position.y,
 						 meteors[i].position.z);
-			desenhaModelo(METEOR_MODEL, meteor_texture, meteor);
+			draw_model(METEOR_MODEL, meteor_texture, meteor);
 			glPopMatrix();
 		}
 		else {

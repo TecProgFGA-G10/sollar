@@ -553,7 +553,7 @@ void draw()
 			glPushMatrix();
 			glTranslatef(ship.position.x, ship.position.y, ship.position.z);
 			glRotatef(ship.rotation, 0, 0, ship.rotation_in_z);
-			desenhaModelo(SHIP_MODEL, ship_texture, ship.model);
+			draw_model(SHIP_MODEL, ship_texture, ship.model);
 			glPopMatrix();
 			draw_shot(shots, shot_texture, shot);
 			desenhameteors(meteors, meteor_texture, meteor);

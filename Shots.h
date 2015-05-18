@@ -107,7 +107,7 @@ void draw_shot(game_item *shots, Texture shot_texture, GLMmodel *shot)
 				glTranslatef(shots[i].position.x,
 							 shots[i].position.y,
 							 shots[i].position.z);
-				desenhaModelo(SHOT_MODEL, shot_texture, shot);
+				draw_model(SHOT_MODEL, shot_texture, shot);
 			glPopMatrix();
 		}
 		else {

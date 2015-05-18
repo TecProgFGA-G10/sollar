@@ -61,7 +61,7 @@ void configuraIluminacao()
 }
 
 /* draws models */
-void desenhaModelo(int tipo, Texture textura, GLMmodel *model)
+void draw_model(int tipo, Texture textura, GLMmodel *model)
 {
 	glBindTexture(GL_TEXTURE_2D, textura.texture_id);
 
