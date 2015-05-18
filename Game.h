@@ -247,7 +247,7 @@ void inicializaObjetos(game_item *ship,
 	carregaModeloship(ship);
 	carregaModelometeor(meteor);
 	carregaModeloExplosao(explosion);
-	carregaModeloTiro(shot);
+	load_shot_model(shot);
 	criaCaixaColisao(meteor[0], dafault_meteor_collision);
 	configuraCaixaColisaometeor(dafault_meteor_collision);
 	configuraAceleracaometeors(meteors);

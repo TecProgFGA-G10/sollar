@@ -27,7 +27,7 @@ int create_empty_shot_position(game_item *shots)
 }
 
 /* loads shot model */
-void carregaModeloTiro(GLMmodel **shot)
+void load_shot_model(GLMmodel **shot)
 {
 	double shot_angle = 90.0;
 	if (*shot == NULL) {
