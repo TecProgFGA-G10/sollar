@@ -244,7 +244,7 @@ void inicializaObjetos(game_item *ship,
 					   collision_box *dafault_collision_shot,
 					   game_item *shots)
 {
-	carregaModeloship(ship);
+	load_ship_model(ship);
 	carregaModelometeor(meteor);
 	carregaModeloExplosao(explosion);
 	load_shot_model(shot);

@@ -10,7 +10,7 @@
 #include "logger.h"
 
 /* loads the ship model */
-void carregaModeloship(game_item *ship)
+void load_ship_model(game_item *ship)
 {
 	ship->position.x = 0;
 	ship->position.y = 0;
