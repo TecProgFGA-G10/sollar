@@ -25,14 +25,18 @@ void desenhaCaixaColisao(collision_box *box)
 /* return the greater value of two values */
 float greater_value(float value_a, float value_b)
 {
-	float result_greater_value = INITIALIZE_ZERO;
-	if (value_a > value_b) {
-		result_greater_value = value_a;
-	}
-	else {
-		result_greater_value = value_b;
-	}
-	return result_greater_value;
+  float result_greater_value = INITIALIZE_ZERO;
+  if (value_a > value_b) {
+    result_greater_value = value_a;
+    print_debug_log("Value  %f is greater than %f",
+                    result_greater_value, value_b);
+  }
+  else {
+    result_greater_value = value_b;
+    print_debug_log("Value  %f is greater than %f",
+                    result_greater_value, value_a);
+  }
+  return result_greater_value;
 }
 
 /* return the lesse value of two values */
