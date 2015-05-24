@@ -46,12 +46,12 @@ float lesser_value(float value_a, float value_b)
   if (value_a < value_b) {
     result_lesser_value = value_a;
     print_debug_log("Value  %f is lower than %f",
-                    result_greater_value, value_b);
+                    result_lesser_value, value_b);
   }
   else {
     result_lesser_value = value_b;
     print_debug_log("Value  %f is lower than %f",
-                    result_greater_value, value_a);
+                    result_lesser_value, value_a);
   }
   return result_lesser_value;
 }
