@@ -19,6 +19,7 @@ void desenhaCaixaColisao(collision_box *box)
 		glColor3ub(i * 10, i * 10, i * 10);
 		glVertex3f(box->points[i].x, box->points[i].y, box->points[i].z);
 	}
+  print_verbose_log("The for was in loop %d times", i);
 	glEnd();
 }
 
