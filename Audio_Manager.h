@@ -31,11 +31,12 @@ void iniciaAudio(int audio_rate,
 int tocaMusica(Mix_Music *music)
 {
 	int return_value = 0; /* if everything is okay, return 0*/
-	if (music != NULL) {
+	if (music == NULL) {
 		print_verbose_log("Music sucessfully initiated");
 	}
 	else if (Mix_PlayMusic(music, -1) == -1) {
 		print_error_log("Unable to play Ogg file: %s", Mix_GetError());
+		return_value = 1;
 	}
 	else {
 		print_error_log("Unable to load Ogg file: %s", Mix_GetError());
