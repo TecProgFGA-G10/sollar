@@ -211,6 +211,13 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 			lesser_z = lesser_value(lesser_z, tmp_z);
 		}
 
+    print_verbose_log("Value of variable greater_x: ", greater_x);
+    print_verbose_log("Value of variable lesser_x: ", lesser_x);
+    print_verbose_log("Value of variable greater_y: ", greater_y);
+    print_verbose_log("Value of variable lesser_y: ", lesser_y);
+    print_verbose_log("Value of variable greater_z: ", greater_z);
+    print_verbose_log("Value of variable lesser_z: ", lesser_x);
+
 		update_box_points(box,
 		                  lesser_x, lesser_y, lesser_z,
 		                  greater_x, greater_y, greater_z);
