@@ -193,9 +193,9 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
 		float greater_z = model->vertex[5];
 		float lesser_z = model->vertex[5];
 
-		float tmp_x;
-		float tmp_y;
-		float tmp_z;
+		float tmp_x = 0;
+		float tmp_y = 0;
+		float tmp_z = 0;
 
 		for (int i = 2; i < max_vertices_numbers; i++) {
 			tmp_x = model->vertex[i * 3];
