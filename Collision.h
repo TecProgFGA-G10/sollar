@@ -19,7 +19,6 @@ void desenhaCaixaColisao(collision_box *box)
 		glColor3ub(i * 10, i * 10, i * 10);
 		glVertex3f(box->points[i].x, box->points[i].y, box->points[i].z);
 	}
-  print_verbose_log("The for was in loop %d times", i);
 	glEnd();
 }
 
@@ -237,8 +236,11 @@ void setaCaixaColisao(collision_box *c, point position)
 		c->points[i].x += position.x;
 		c->points[i].y += position.y;
 		c->points[i].z += position.z;
-	}
 
+    print_debug_log("Final value of c->point[%d].x: %d", c->points[i].x);
+    print_debug_log("Final value of c->point[%d].y: %d", c->points[i].y);
+    print_debug_log("Final value of c->point[%d].z: %d", c->points[i].z);
+	}
 }
 
 /* evaluates collision for every points x, y and z */
