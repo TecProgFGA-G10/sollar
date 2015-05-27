@@ -312,7 +312,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 
 	/* count the number of materials in the file */
 	number_of_materials = 1;
-	while (fscanf(file, "%s", buffer) != EOF) {
+	while (fscanf(file, "%20s", buffer) != EOF) {
 		switch (buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
@@ -321,7 +321,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 			case 'n': /* newmtl */
 				fgets(buffer, sizeof(buffer), file);
 				number_of_materials++;
-				sscanf(buffer, "%s %s", buffer, buffer);
+				sscanf(buffer, "%20s %20s", buffer, buffer);
 				break;
 			default:
 				/* eat up rest of line */
@@ -356,7 +356,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 
 	/* now, read in the data */
 	number_of_materials = 0;
-	while (fscanf(file, "%s", buffer) != EOF) {
+	while (fscanf(file, "%50s", buffer) != EOF) {
 		switch (buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
@@ -364,7 +364,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 				break;
 			case 'n': /* newmtl */
 				fgets(buffer, sizeof(buffer), file);
-				sscanf(buffer, "%s %s", buffer, buffer);
+				sscanf(buffer, "%50s %50s", buffer, buffer);
 				number_of_materials++;
 				model->materials[number_of_materials].name = strdup(buffer);
 				break;
@@ -485,7 +485,7 @@ static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 	group = glmAddGroup(model, "default");
 
 	vertices_numbers = number_of_normals_in_model = texture_cordinates_number = number_of_triangles = 0;
-	while (fscanf(file, "%s", buffer) != EOF) {
+	while (fscanf(file, "%50s", buffer) != EOF) {
 		switch (buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
@@ -516,7 +516,7 @@ static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 				break;
 				case 'm':
 					fgets(buffer, sizeof(buffer), file);
-					sscanf(buffer, "%s %s", buffer, buffer);
+					sscanf(buffer, "%50s %50s", buffer, buffer);
 					model->mtl_lib_name = strdup(buffer);
 					glmReadMTL(model, buffer);
 					break;
@@ -528,7 +528,7 @@ static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 					/* eat up rest of line */
 					fgets(buffer, sizeof(buffer), file);
 				#if SINGLE_STRING_GROUP_NAMES
-				sscanf(buffer, "%s", buffer);
+				sscanf(buffer, "%50s", buffer);
 				#else
 				buffer[strlen(buffer)-1] = '\0'; /* nuke '\n' */
 				#endif
@@ -536,7 +536,7 @@ static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 				break;
 			case 'f': /* face */
 				v = n = t = 0;
-				fscanf(file, "%s", buffer);
+				fscanf(file, "%50s", buffer);
 				/* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
 				if (strstr(buffer, "//")) {
 					/* v//n */
@@ -641,7 +641,7 @@ static GLvoid glmSecondPass(GLMmodel *model, FILE *file)
 	vertices_numbers = number_of_normals_in_model = texture_cordinates_number = 1;
 	number_of_triangles = 0;
 	material = 0;
-	while (fscanf(file, "%s", buffer) != EOF) {
+	while (fscanf(file, "%50s", buffer) != EOF) {
 		switch(buffer[0]) {
 			case '#': /* comment */
 				/* eat up rest of line */
@@ -673,14 +673,14 @@ static GLvoid glmSecondPass(GLMmodel *model, FILE *file)
 				break;
 				case 'u':
 					fgets(buffer, sizeof(buffer), file);
-					sscanf(buffer, "%s %s", buffer, buffer);
+					sscanf(buffer, "%50s %50s", buffer, buffer);
 					group->material = material = glmFindMaterial(model, buffer);
 					break;
 				case 'g': /* group */
 					/* eat up rest of line */
 					fgets(buffer, sizeof(buffer), file);
 				#if SINGLE_STRING_GROUP_NAMES
-				sscanf(buffer, "%s", buffer);
+				sscanf(buffer, "%50s", buffer);
 				#else
 				buffer[strlen(buffer)-1] = '\0'; /* nuke '\n' */
 				#endif
@@ -689,7 +689,7 @@ static GLvoid glmSecondPass(GLMmodel *model, FILE *file)
 				break;
 			case 'f': /* face */
 				v = n = t = 0;
-				fscanf(file, "%s", buffer);
+				fscanf(file, "%50s", buffer);
 				/* can be one of %d, %d//%d, %d/%d, %d/%d/%d %d//%d */
 				if (strstr(buffer, "//")) {
 					/* v//n */
