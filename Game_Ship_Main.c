@@ -421,21 +421,41 @@ void special_key(int pressed_key, int x, int y)
 			left_button_pressed = TRUE;
 			ship.rotation = 30;
 			ship.rotation_in_z = 1;
-			print_verbose_log("Ship is going to left");
+			if (ship.visible){
+				print_verbose_log("Ship is going to left");
+			}
+			else {
+				/* nothing to do */
+			}
 			break;
 		case GLUT_KEY_RIGHT:
 			right_button_pressed = TRUE;
 			ship.rotation = -30;
 			ship.rotation_in_z = 1;
-			print_verbose_log("Ship is going to right");
+			if (ship.visible){
+				print_verbose_log("Ship is going to right");
+			}
+			else {
+				/* nothing to do */
+			}
 			break;
 		case GLUT_KEY_UP:
 			up_button_pressed = TRUE;
-			print_verbose_log("Ship is going up");
+			if (ship.visible){
+				print_verbose_log("Ship is going up");
+			}
+			else {
+				/* nothing to do */
+			}
 			break;
 		case GLUT_KEY_DOWN:
 			down_button_pressed = TRUE;
-			print_verbose_log("Ship is going down");
+			if (ship.visible){
+				print_verbose_log("Ship is going down");
+			}
+			else {
+				/* nothing to do */
+			}
 			break;
 	}
 }
