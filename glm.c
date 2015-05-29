@@ -287,16 +287,12 @@ static char *glmDirName(char *path)
 static GLvoid glmReadMTL(GLMmodel *model, char *name)
 {
 	FILE *file;
-	char *dir;
 	char *filename;
 	char buffer[128];
 	GLuint number_of_materials;
 
-	dir = glmDirName(model->path_name);
-	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(name) + 1));
-	strcpy(filename, dir);
-	strcat(filename, name);
-	free(dir);
+	filename = glmDirName(model->path_name);
+	strncat(filename, name, sizeof(char) * (strlen(filename) + strlen(name)));
 
 	file = fopen(filename, "r");
 	if (!file) {
