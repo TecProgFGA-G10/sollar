@@ -421,7 +421,9 @@ static GLvoid glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 	dir = glmDirName(model_path);
 	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(mtl_lib_name)));
 	strcpy(filename, dir);
-	strcat(filename, mtl_lib_name);
+	strncat(filename, mtl_lib_name, 128);
+	//strcat_s, strncat, or strlcat (warning, strncat is easily misused).
+
 	free(dir);
 
 	/* open the file */
