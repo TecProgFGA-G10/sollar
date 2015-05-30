@@ -419,7 +419,7 @@ void special_key(int pressed_key, int x, int y)
 	switch (pressed_key) {
 		case GLUT_KEY_LEFT:
 			left_button_pressed = TRUE;
-			ship.rotation = 30;
+			ship.rotation = -30;
 			ship.rotation_in_z = 1;
 			if (ship.visible){
 				print_verbose_log("Ship is going to left");
@@ -430,7 +430,7 @@ void special_key(int pressed_key, int x, int y)
 			break;
 		case GLUT_KEY_RIGHT:
 			right_button_pressed = TRUE;
-			ship.rotation = -30;
+			ship.rotation = 30;
 			ship.rotation_in_z = 1;
 			if (ship.visible){
 				print_verbose_log("Ship is going to right");
@@ -573,6 +573,11 @@ void draw()
 			desenhaFundo(background_texture);
 			glPushMatrix();
 			glTranslatef(ship.position.x, ship.position.y, ship.position.z);
+			
+			//Rotating the ship 180 degrees in x axis to fix the bug of position of the ship
+			glRotatef(180, 1, 0, 0);
+			glRotatef(180, 0, 0, 1);
+
 			glRotatef(ship.rotation, 0, 0, ship.rotation_in_z);
 			draw_model(SHIP_MODEL, ship_texture, ship.model);
 			glPopMatrix();
