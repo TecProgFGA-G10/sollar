@@ -582,7 +582,7 @@ void draw()
 			draw_model(SHIP_MODEL, ship_texture, ship.model);
 			glPopMatrix();
 			draw_shot(shots, shot_texture, shot);
-			desenhameteors(meteors, meteor_texture, meteor);
+			draw_meteor(meteors, meteor_texture, meteor);
 			draw_explosion(explosions, explosion_texture, explosion);
 			desenhaHUD();
 		}

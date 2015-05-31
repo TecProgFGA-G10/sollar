@@ -133,7 +133,7 @@ void configuraAceleracaometeors(game_item *meteors)
 }
 
 /* draws meteors */
-void desenhameteors(game_item *meteors,
+void draw_meteor(game_item *meteors,
 					 Texture meteor_texture,
 					 GLMmodel *meteor)
 {
