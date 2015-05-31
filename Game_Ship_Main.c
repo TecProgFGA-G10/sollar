@@ -35,8 +35,8 @@ void draw();
 void resizes(int , int);
 void explosion_timer(int );
 void timer(int );
-void configura();
-void reconfigura();
+void configure();
+void reconfigure();
 void game_over_special_key(int, int, int);
 void game_over_normal_key(unsigned char , int, int);
 extern void mixaudio(void *unused, Uint8 *stream, int len);
@@ -112,7 +112,7 @@ int audio_buffers = 4096;
 /* Main function */
 int main(int argc, char **argv)
 {
-	configura(argc,argv);
+	configure(argc,argv);
 	glutMainLoop();
 	return 0;
 }
@@ -274,7 +274,7 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 				print_verbose_log("Game ended by exit button");
 			}
 			else {
-				reconfigura();
+				reconfigure();
 				print_verbose_log("Restart the game");
 			}
 			glutPostRedisplay();
@@ -657,7 +657,7 @@ void timer(int t)
 }
 
 /* configurs meteors */
-void configura(int argc, char **argv)
+void configure(int argc, char **argv)
 {
 	meteors_to_send = 10;
 	time_until_next_meteors_round = 2000;
@@ -708,7 +708,7 @@ void configura(int argc, char **argv)
 }
 
 /* reconfigurs objects */
-void reconfigura()
+void reconfigure()
 {
 	remaining_lives = 3;
 	inicializaObjetos(&ship,
