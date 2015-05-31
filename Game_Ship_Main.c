@@ -23,7 +23,7 @@
 #include "logger.h"
 #include "Solar_Utilities.h"
 
-void desenhaGameOver(void);
+void draw_game_over(void);
 void update(void);
 void trataTeclas(void);
 void special_key(int , int , int );
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 }
 
 /* produces the game over screen */
-void desenhaGameOver()
+void draw_game_over()
 {
 	glutSpecialFunc(NULL);
 	glutKeyboardFunc(NULL);
@@ -587,7 +587,7 @@ void draw()
 			desenhaHUD();
 		}
 		else {
-			desenhaGameOver();
+			draw_game_over();
 		}
 		update();
 		trataTeclas();
