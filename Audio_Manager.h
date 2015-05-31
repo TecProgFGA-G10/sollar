@@ -46,7 +46,7 @@ int play_music(Mix_Music *music)
 }
 
 /* plays effects sound */
-void PlaySound(int sound, Mix_Chunk *sound_effect)
+void play_sound(int sound, Mix_Chunk *sound_effect)
 {
 	if (sound == SHOT_MODEL) {
 		Mix_PlayChannel(2, sound_effect, 0);

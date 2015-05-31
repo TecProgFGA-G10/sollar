@@ -165,7 +165,7 @@ void update(void)
 			for (int m = INITIALIZE_ZERO; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
 				if (meteors[m].visible) {
 					if (verificaColisao(shots[i].collision, meteors[m].collision)) {
-						PlaySound(EXPLOSION_MODEL,explosion_sound);
+						play_sound(EXPLOSION_MODEL,explosion_sound);
 						meteors[m].visible = FALSE;
 						shots[i].visible = FALSE;
 
@@ -202,7 +202,7 @@ void update(void)
 			meteors[i].position.z += meteors[i].acceleration;
 			atualizaCaixaColisao(&meteors[i]);
 			if (verificaColisao(meteors[i].collision, ship.collision)) {
-				PlaySound(EXPLOSION_MODEL, explosion_sound);
+				play_sound(EXPLOSION_MODEL, explosion_sound);
 				meteors[i].visible = FALSE;
 				remaining_lives--;
 				int explos = posicaoVaziaExplosoes(explosions);
@@ -302,7 +302,7 @@ void DesenhaTexto(char *string, int position_x, int position_y)
 /* shoot fire and updates collision */
 void fire_shot()
 {
-	PlaySound(SHOT_MODEL, shot_sound);
+	play_sound(SHOT_MODEL, shot_sound);
 	shooting = FALSE;
 	int shot = create_empty_shot_position(shots);
 
