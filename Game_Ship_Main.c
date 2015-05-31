@@ -704,7 +704,7 @@ void configure(int argc, char **argv)
 	shot_sound = Mix_LoadWAV("data/audio/tiro.wav");
 	explosion_sound = Mix_LoadWAV("data/audio/explosao.wav");
 
-	tocaMusica(music);
+	play_music(music);
 }
 
 /* reconfigurs objects */

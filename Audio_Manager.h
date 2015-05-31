@@ -28,7 +28,7 @@ void audio_initialize(int audio_rate,
 }
 
 /* plays the music */
-int tocaMusica(Mix_Music *music)
+int play_music(Mix_Music *music)
 {
 	int return_value = 0; /* if everything is okay, return 0*/
 	if (music == NULL) {
