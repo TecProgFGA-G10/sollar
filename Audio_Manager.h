@@ -13,7 +13,7 @@
 #include "logger.h"
 
 /* initializes the sound */
-void iniciaAudio(int audio_rate,
+void audio_initialize(int audio_rate,
 				 Uint16 audio_format,
 				 int audio_channels,
 				 int audio_buffers)

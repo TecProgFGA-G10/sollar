@@ -699,7 +699,7 @@ void configure(int argc, char **argv)
 	glutTimerFunc(500, explosion_timer, 0);
 	glutTimerFunc(20000, increase_difficulty_level, 0);
 
-	iniciaAudio(audio_rate, audio_format, audio_channels, audio_buffers);
+	audio_initialize(audio_rate, audio_format, audio_channels, audio_buffers);
 	music = Mix_LoadMUS("data/musica/musica.ogg");
 	shot_sound = Mix_LoadWAV("data/audio/tiro.wav");
 	explosion_sound = Mix_LoadWAV("data/audio/explosao.wav");
