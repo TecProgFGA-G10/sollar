@@ -515,7 +515,7 @@ void controls(unsigned char pressed_key, int x, int y)
 {
 	switch (pressed_key){
 		case 27:
-			limpa(music);
+			clear_sound(music);
 			exit(0) ;
 			break;
 		case ' ':

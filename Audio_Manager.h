@@ -60,7 +60,7 @@ void play_sound(int sound, Mix_Chunk *sound_effect)
 }
 
 /* clear audio */
-void limpa(Mix_Music *music)
+void clear_sound(Mix_Music *music)
 {
 	Mix_HaltMusic();
 	Mix_FreeMusic(music);
