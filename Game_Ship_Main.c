@@ -24,7 +24,7 @@
 #include "Solar_Utilities.h"
 
 void desenhaGameOver(void);
-void atualizarEstados(void);
+void update(void);
 void trataTeclas(void);
 void special_key(int , int , int );
 void special_key_unpressed(int, int , int );
@@ -144,7 +144,7 @@ void desenhaGameOver()
 }
 
 /* updates the state */
-void atualizarEstados(void)
+void update(void)
 {
 	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
@@ -589,7 +589,7 @@ void draw()
 		else {
 			desenhaGameOver();
 		}
-		atualizarEstados();
+		update();
 		trataTeclas();
 	}
 	else {
