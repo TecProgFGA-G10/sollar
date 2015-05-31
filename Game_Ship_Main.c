@@ -30,7 +30,7 @@ void special_key(int , int , int );
 void special_key_unpressed(int, int , int );
 void increase_difficulty_level(int );
 void controls(unsigned char , int , int );
-void desenhaHUD();
+void draw_HUD();
 void draw();
 void resizes(int , int);
 void explosion_timer(int );
@@ -553,7 +553,7 @@ void controls(unsigned char pressed_key, int x, int y)
 }
 
 /* draws HUD */
-void desenhaHUD()
+void draw_HUD()
 {
 	char *texto;
 	snprintf(texto, 8 * sizeof(char), "Vida: %d", remaining_lives);
@@ -584,7 +584,7 @@ void draw()
 			draw_shot(shots, shot_texture, shot);
 			draw_meteor(meteors, meteor_texture, meteor);
 			draw_explosion(explosions, explosion_texture, explosion);
-			desenhaHUD();
+			draw_HUD();
 		}
 		else {
 			draw_game_over();
