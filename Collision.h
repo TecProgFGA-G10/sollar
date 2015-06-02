@@ -230,7 +230,7 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
   * Meteors have other positions, then the default patter must be
   * calculated again.
   */
-void setaCaixaColisao(collision_box *c, point position)
+void set_collision_box(collision_box *c, point position)
 {
 	/* transfer the box */
 	for (int i = INITIALIZE_ZERO; i < CUBE_EDGES; i++) {

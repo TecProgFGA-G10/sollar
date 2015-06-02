@@ -79,7 +79,7 @@ void enviameteor(game_item *meteors,
 				meteors[pos].collision.points[c].y = dafault_meteor_collision.points[c].y;
 				meteors[pos].collision.points[c].z = dafault_meteor_collision.points[c].z;
 			}
-			setaCaixaColisao(&meteors[pos].collision, meteors[pos].position);
+			set_collision_box(&meteors[pos].collision, meteors[pos].position);
 		}
 		else {
 			/* nothing to do */

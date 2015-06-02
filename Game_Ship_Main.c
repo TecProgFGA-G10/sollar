@@ -321,7 +321,7 @@ void fire_shot()
 			shots[shot].collision.points[c].y = dafault_collision_shot.points[c].y;
 			shots[shot].collision.points[c].z = dafault_collision_shot.points[c].z;
 		}
-		setaCaixaColisao(&shots[shot].collision, shots[shot].position);
+		set_collision_box(&shots[shot].collision, shots[shot].position);
 	}
 	else {
 		/* nothing to do */
