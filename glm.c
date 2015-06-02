@@ -293,12 +293,14 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 
 	filename = glmDirName(model->path_name);
 	strncat(filename, name, sizeof(char) * strlen(filename));
+	print_debug_log("Filename: %s", filename);
 
 	file = fopen(filename, "r");
 	if (!file) {
 		fprintf(stderr,
 		        "glmReadMTL() failed: can't open material file \"%s\".\n",
 		        filename);
+		print_error_log("Error in open file: %s", filename);
 		exit(1);
 	}
 	else {
