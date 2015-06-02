@@ -200,7 +200,7 @@ void update(void)
 		if (meteors[i].visible) {
 			meteors[i].last_position.z = meteors[i].position.z;
 			meteors[i].position.z += meteors[i].acceleration;
-			atualizaCaixaColisao(&meteors[i]);
+			update_collision_box(&meteors[i]);
 			if (verify_collision(meteors[i].collision, ship.collision)) {
 				play_sound(EXPLOSION_MODEL, explosion_sound);
 				meteors[i].visible = FALSE;
@@ -398,7 +398,7 @@ void trataTeclas()
 	else {
 		/* nothing to do */
 	}
-	atualizaCaixaColisao(&ship);
+	update_collision_box(&ship);
 
 	while (shooting) {
 		fire_shot();

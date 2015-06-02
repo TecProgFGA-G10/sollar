@@ -266,7 +266,7 @@ float evaluates_collision(float position,
 }
 
 /* actualizes the shoots and meteors states,positions and visibility */
-void atualizaCaixaColisao(game_item *item)
+void update_collision_box(game_item *item)
 {
 	for (int i = INITIALIZE_ZERO; i < CUBE_EDGES; i++) {
 		item->collision.points[i].z = evaluates_collision(
