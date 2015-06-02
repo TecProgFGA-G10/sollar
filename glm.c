@@ -420,7 +420,7 @@ static GLvoid glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 	GLMmaterial *material;
 
 	filename = glmDirName(model_path);
-	strncat(filename, mtl_lib_name, 128);
+	strncat(filename, mtl_lib_name, sizeof(mtl_lib_name));
 	print_debug_log("Filename: %s", filename);
 
 	/* open the file */
