@@ -416,17 +416,11 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 static GLvoid glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 {
 	FILE *file;
-	char *dir;
 	char *filename;
 	GLMmaterial *material;
 
-	dir = glmDirName(model_path);
-	filename = (char *)malloc(sizeof(char) * (strlen(dir) + strlen(mtl_lib_name)));
-	strcpy(filename, dir);
+	filename = glmDirName(model_path);
 	strncat(filename, mtl_lib_name, 128);
-	//strcat_s, strncat, or strlcat (warning, strncat is easily misused).
-
-	free(dir);
 
 	/* open the file */
 	file = fopen(filename, "w");
