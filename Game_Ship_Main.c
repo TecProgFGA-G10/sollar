@@ -164,7 +164,7 @@ void update(void)
 			}
 			for (int m = INITIALIZE_ZERO; m < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; m++) {
 				if (meteors[m].visible) {
-					if (verificaColisao(shots[i].collision, meteors[m].collision)) {
+					if (verify_collision(shots[i].collision, meteors[m].collision)) {
 						play_sound(EXPLOSION_MODEL,explosion_sound);
 						meteors[m].visible = FALSE;
 						shots[i].visible = FALSE;
@@ -201,7 +201,7 @@ void update(void)
 			meteors[i].last_position.z = meteors[i].position.z;
 			meteors[i].position.z += meteors[i].acceleration;
 			atualizaCaixaColisao(&meteors[i]);
-			if (verificaColisao(meteors[i].collision, ship.collision)) {
+			if (verify_collision(meteors[i].collision, ship.collision)) {
 				play_sound(EXPLOSION_MODEL, explosion_sound);
 				meteors[i].visible = FALSE;
 				remaining_lives--;

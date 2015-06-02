@@ -4,11 +4,12 @@
  */
 
 #ifndef COLLISION_H
-#define COLLISION_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
-#define CUBE_EDGES 8
 #include "logger.h"
+
+#define CUBE_EDGES 8
+#define COLLISION_H
 
 /* draws the collision box */
 void desenhaCaixaColisao(collision_box *box)
@@ -169,7 +170,7 @@ void update_box_points(collision_box *box,
   /* Log */
   print_debug_log("Box->points[7].x = %f", box->points[7].x);
   print_debug_log("Box->points[7].y = %f", box->points[7].y);
-  print_debug_log("Box->points[7:.z = %f", box->points[7].z);
+  print_debug_log("Box->points[7].z = %f", box->points[7].z);
 }
 
  /*
@@ -292,7 +293,7 @@ void atualizaCaixaColisao(game_item *item)
 }
 
 /* verifies the ship's collision with the asteroids */
-int verificaColisao(collision_box a, collision_box b)
+int verify_collision(collision_box a, collision_box b)
 {
 	int boolean_value = FALSE;
 	if (((a.points[0].z >= b.points[0].z) &&
