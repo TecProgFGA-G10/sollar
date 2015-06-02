@@ -292,7 +292,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 	GLuint number_of_materials;
 
 	filename = glmDirName(model->path_name);
-	strncat(filename, name, sizeof(char) * (strlen(filename) + strlen(name)));
+	strncat(filename, name, sizeof(char) * strlen(filename));
 
 	file = fopen(filename, "r");
 	if (!file) {
