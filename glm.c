@@ -526,7 +526,7 @@ static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 				#if SINGLE_STRING_GROUP_NAMES
 				sscanf(buffer, "%50s", buffer);
 				#else
-				buffer[strlen(buffer)-1] = '\0'; /* nuke '\n' */
+				buffer[strnlen(buffer, sizeof(buffer))-1] = '\0'; /* nuke '\n' */
 				#endif
 				group = glmAddGroup(model, buffer);
 				break;
