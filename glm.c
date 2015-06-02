@@ -300,7 +300,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 		fprintf(stderr,
 		        "glmReadMTL() failed: can't open material file \"%s\".\n",
 		        filename);
-		print_error_log("Error in open file: %s", filename);
+		print_error_log("Error opening file: %s", filename);
 		exit(1);
 	}
 	else {
@@ -421,12 +421,14 @@ static GLvoid glmWriteMTL(GLMmodel *model, char *model_path, char *mtl_lib_name)
 
 	filename = glmDirName(model_path);
 	strncat(filename, mtl_lib_name, 128);
+	print_debug_log("Filename: %s", filename);
 
 	/* open the file */
 	file = fopen(filename, "w");
 	if (!file) {
 		fprintf(stderr, "glmWriteMTL() failed: can't open file \"%s\".\n",
 			filename);
+		print_error_log("Error opening file: %s", filename);
 		exit(1);
 	}
 	else {
