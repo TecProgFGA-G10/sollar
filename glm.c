@@ -2133,7 +2133,7 @@ GLubyte *glmReadPPM(char *filename, int *width, int *height)
 	 * grab first two chars of the file and make sure that it has the
 	 * correct magic cookie for a raw PPM file.
 	 */
-	fgets(head, 70, fp);
+	fgets(head, sizeof(head), fp);
 	if (strncmp(head, "P6", 2)) {
 		fprintf(stderr, "%s: Not a raw PPM file\n", filename);
 		return NULL;
@@ -2145,7 +2145,7 @@ GLubyte *glmReadPPM(char *filename, int *width, int *height)
 	/* grab the three elements in the header (width, height, maxval). */
 	i = 0;
 	while(i < 3) {
-		fgets(head, 70, fp);
+		fgets(head, sizeof(head), fp);
 		if (head[0] == '#') {     /* skip comments. */
 			continue;
 		}
