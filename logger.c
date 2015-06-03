@@ -15,12 +15,12 @@ char* print_time()
 {
     time_t t;
     char *buf;
-     
     time(&t);
-    buf = (char*)malloc(strlen(ctime(&t))+ 1);
-     
-    snprintf(buf,strlen(ctime(&t)),"%s ", ctime(&t));
     
+    buf = (char*)malloc(strnlen(ctime(&t))+ 1);
+
+    snprintf(buf,strnlen(ctime(&t)),"%s ", ctime(&t));
+ 
     return buf;
 }
 
