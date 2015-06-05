@@ -249,7 +249,7 @@ GLuint glmFindMaterial(GLMmodel *model, char *name)
 	}
 
 	if (!model_found) {
-	printf("glmFindMaterial():  can't find material \"%s\".\n", name);
+	print_error_log("glmFindMaterial(): can't find material \"%s\".", name);
 	}
 	else {
 		/* nothing to do */
@@ -298,11 +298,9 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 
 	filename = glmDirName(model->path_name);
 
-		#ifdef __STDC_LIB_EXT1__
-    		//set_constraint_handler_s(ignore_handler_s);
-    		strcat_s(filename, sizeof filename, name);
-		#endif
-
+	#ifdef __STDC_LIB_EXT1__
+    	strcat_s(filename, sizeof filename, name);
+	#endif
 	//strncat(filename, name, sizeof(char) * strlen(filename));
 	print_debug_log("Filename: %s", filename);
 

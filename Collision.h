@@ -29,13 +29,9 @@ float greater_value(float value_a, float value_b)
   float result_greater_value = INITIALIZE_ZERO;
   if (value_a > value_b) {
     result_greater_value = value_a;
-    print_debug_log("Value  %f is greater than %f",
-                    result_greater_value, value_b);
   }
   else {
     result_greater_value = value_b;
-    print_debug_log("Value  %f is greater than %f",
-                    result_greater_value, value_a);
   }
   return result_greater_value;
 }
@@ -46,13 +42,9 @@ float lesser_value(float value_a, float value_b)
   float result_lesser_value = INITIALIZE_ZERO;
   if (value_a < value_b) {
     result_lesser_value = value_a;
-    print_debug_log("Value  %f is lower than %f",
-                    result_lesser_value, value_b);
   }
   else {
     result_lesser_value = value_b;
-    print_debug_log("Value  %f is lower than %f",
-                    result_lesser_value, value_a);
   }
   return result_lesser_value;
 }
