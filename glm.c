@@ -9,6 +9,7 @@
  * preservation of edges, welding redundant vertex & texture
  * coordinate generation (spheremap and planar projections) + more.
  */
+#define __STDC_WANT_LIB_EXT1__ 1
 #define _GNU_SOURCE 1
 
 #include <math.h>
@@ -296,7 +297,13 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 	GLuint number_of_materials;
 
 	filename = glmDirName(model->path_name);
-	strncat(filename, name, sizeof(char) * strlen(filename));
+
+		#ifdef __STDC_LIB_EXT1__
+    		//set_constraint_handler_s(ignore_handler_s);
+    		strcat_s(filename, sizeof filename, name);
+		#endif
+
+	//strncat(filename, name, sizeof(char) * strlen(filename));
 	print_debug_log("Filename: %s", filename);
 
 	file = fopen(filename, "r");
