@@ -521,7 +521,7 @@ static GLvoid glmFirstPass(GLMmodel *model, FILE *file)
 					texture_cordinates_number++;
 					break;
 				default:
-					printf("glmFirstPass(): Unknown token \"%s\".\n", buffer);
+					print_debug_log("glmFirstPass(): Unknown token \"%s\".\n", buffer);
 					exit(1);
 					break;
 				}
@@ -2134,8 +2134,10 @@ GLubyte *glmReadPPM(char *filename, int *width, int *height)
 	FILE *fp;
 	int i, w, h, d;
 	unsigned char *image;
-	char head[70]; /* max line <= 70 in PPM (per spec) */
+	char *head; /* max line <= 70 in PPM (per spec) */
 
+	head = (char*) calloc(sizeof(filename), sizeof(char));
+	
 	fp = fopen(filename, "rb");
 	if (!fp) {
 		perror(filename);
@@ -2191,6 +2193,7 @@ GLubyte *glmReadPPM(char *filename, int *width, int *height)
 	*width = w;
 	*height = h;
 	return image;
+	free(head);
 }
 
 #if 0
