@@ -71,8 +71,12 @@ static GLfloat glmDot(GLfloat *u, GLfloat *v)
 	return u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
 }
 
-/*
- * glmCross: compute the cross product of two vectors
+/*llar/glm.c:681:  [1] (buffer) strlen:
+llar/glm.c:681:  [1] (buffer) strlen:llar/glm.c:681:  [1] (buffer) strlen:
+
+
+ * glmCross: compute the cross product of two vectllar/glm.c:681:  [1] (buffer) strlen:
+ors
  *
  * u - array of 3 GLfloats (GLfloat u[3])
  * v - array of 3 GLfloats (GLfloat v[3])
@@ -678,7 +682,7 @@ static GLvoid glmSecondPass(GLMmodel *model, FILE *file)
 				#if SINGLE_STRING_GROUP_NAMES
 				sscanf(buffer, "%50s", buffer);
 				#else
-				buffer[strlen(buffer)-1] = '\0'; /* nuke '\n' */
+				buffer[strnlen(buffer,sizeof(buffer))-1] = '\0'; /* nuke '\n' */
 				#endif
 				group = glmFindGroup(model, buffer);
 				group->material = material;
