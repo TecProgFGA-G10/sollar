@@ -153,7 +153,7 @@ GLfloat *glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat eps
 	GLuint duplicated = 0;
 
 	copies = (GLfloat*)malloc(sizeof(GLfloat) * 3 * (*number_of_vectors + 1));
-	memcpy(copies, vectors, (sizeof(GLfloat) * 3 * (*number_of_vectors + 1)));
+	memmove(copies, vectors, (sizeof(GLfloat) * 3 * (*number_of_vectors + 1)));
 
 	copied = 1;
 	for (GLuint i = 1; i <= *number_of_vectors; i++) {
