@@ -67,7 +67,8 @@ static GLfloat glmAbs(GLfloat f)
  */
 static GLfloat glmDot(GLfloat *u, GLfloat *v)
 {
-	assert(u); assert(v);
+	assert(u); 
+	assert(v);
 
 	return u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
 }
@@ -85,7 +86,9 @@ ors
  */
 static GLvoid glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
 {
-	assert(u); assert(v); assert(n);
+	assert(u); 
+	assert(v); 
+	assert(n);
 
 	n[0] = u[1] * v[2] - u[2] * v[1];
 	n[1] = u[2] * v[0] - u[0] * v[2];
@@ -293,10 +296,13 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 {
 	FILE *file;
 	char *filename;
-	char buffer[128];
+	char *buffer;
+
 	GLuint number_of_materials;
 
 	filename = glmDirName(model->path_name);
+
+	buffer = (char*) calloc(sizeof(filename), sizeof(char));
 
 	#ifdef __STDC_LIB_EXT1__
     	strcat_s(filename, sizeof filename, name);
@@ -413,6 +419,7 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 					break;
 		}
 	}
+	free(buffer);
 }
 
 /*
