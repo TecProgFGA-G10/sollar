@@ -100,7 +100,7 @@ static void glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
  *
  * v - array of 3 GLfloats (GLfloat v[3]) to be normalized
  */
-static GLvoid glmNormalize(GLfloat *v)
+static void glmNormalize(GLfloat *v)
 {
 	GLfloat l;
 
