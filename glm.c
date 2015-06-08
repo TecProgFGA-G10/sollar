@@ -67,8 +67,8 @@ static GLfloat glmAbs(GLfloat f)
  */
 static GLfloat glmDot(GLfloat *u, GLfloat *v)
 {
-	assert(u);
-	assert(v);
+	assert(u > (GLfloat*)0);
+	assert(v > (GLfloat*)0);
 
 	return u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
 }
