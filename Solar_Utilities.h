@@ -42,6 +42,7 @@
 
 #define GAME_OVER 666 /* game over button selected */
 #define CONTINUE 777 /* continue button selected */
+#define TEXTURE_SIZE 256; /* quantity of texture */
 
 /* rgba colors and depth test */
 #define GRAPHIC_MODEL  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
@@ -148,8 +149,8 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		/* nothing to do */
 	}
 
-	texture->width = tga.header[1] * 256 + tga.header[0];
-	texture->height = tga.header[3] * 256 + tga.header[2];
+	texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
+	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
 	texture->bpp = tga.header[4];
 	tga.Width = texture->width;
 	tga.Height = texture->height;
@@ -402,8 +403,8 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		/* nothing to do */
 	}
 
-	texture->width = tga.header[1] * 256 + tga.header[0];
-	texture->height = tga.header[3] * 256 + tga.header[2];
+	texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
+	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
 	texture->bpp = tga.header[4];
 	tga.Width = texture->width;
 	tga.Height = texture->height;
