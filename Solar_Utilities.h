@@ -156,8 +156,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	tga.Height = texture->height;
 	tga.Bpp = texture->bpp;
 
-	if ((texture->width <= 0) || (texture->height <= 0) ||
-		((texture->bpp != 24) && (texture->bpp != 32)))
+	if ((texture->bpp != 24) && (texture->bpp != 32))
 	{
 		if (fTGA != NULL) {
 			if (fclose(fTGA) != 0){
