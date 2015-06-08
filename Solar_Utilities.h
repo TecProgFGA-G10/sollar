@@ -10,7 +10,7 @@
 #define MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR 20 /* max number of meteors that can appear */
 #define FALSE 0
 #define TRUE 1
-#define INITIALIZE_ZERO 0 /* constant used to initialize variables with 0 number */ 
+#define INITIALIZE_ZERO 0 /* constant used to initialize variables with 0 number */
 
 /* max distance to treat a shoot, on the z axis */
 #define MAX_DISTANCE_FOR_SHOOT_TREATMENT -30
@@ -103,8 +103,32 @@ typedef struct {
 TGAHeader tgaheader;
 TGA tga;
 
-GLubyte uTGAcompare[12] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-GLubyte cTGAcompare[12] = {0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+GLubyte uTGAcompare[12] = {
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)2,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0};
+GLubyte cTGAcompare[12] = {
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)10,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0,
+	(GLubyte)0};
 
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
