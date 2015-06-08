@@ -135,7 +135,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
 		if (fTGA != NULL) {
-			fclose(fTGA);
+			if (fclose(fTGA) != 0){
+				print_error_log("File %s was not close!", filename);
+			}
 		}
 		else {
 			/* nothing to do */
@@ -157,7 +159,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		((texture->bpp != 24) && (texture->bpp != 32)))
 	{
 		if (fTGA != NULL) {
-			fclose(fTGA);
+			if (fclose(fTGA) != 0){
+				print_error_log("File %s was not close!", filename);
+			}
 		}
 		else {
 			/* nothing to do */
@@ -180,7 +184,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	texture->imageData = (GLubyte *)malloc(tga.imageSize);
 
 	if (texture->imageData == NULL) {
-		fclose(fTGA);
+		if (fclose(fTGA) != 0){
+			print_error_log("File %s was not close!", filename);
+		}
 		return FALSE;
 	}
 	else {
@@ -196,7 +202,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		GLubyte chunkheader = 0;
 		if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0) {
 			if (fTGA != NULL) {
-				fclose(fTGA);
+				if (fclose(fTGA) != 0){
+					print_error_log("File %s was not close!", filename);
+				}
 			}
 			else {
 				/* nothing to do */
@@ -220,7 +228,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			for (short counter = 0; counter < chunkheader; counter++) {
 				if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
 					if (fTGA != NULL) {
-						fclose(fTGA);
+						if (fclose(fTGA) != 0){
+							print_error_log("File %s was not close!", filename);
+						}
 					}
 					else {
 						/* nothing to do */
@@ -262,7 +272,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (currentpixel > pixelcount) {
 					if (fTGA != NULL) {
-						fclose(fTGA);
+						if (fclose(fTGA) != 0){
+							print_error_log("File %s was not close!", filename);
+						}
 					}
 					else {
 						/* nothing to do */
@@ -294,7 +306,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
 
 				if (fTGA != NULL) {
-					fclose(fTGA);
+					if (fclose(fTGA) != 0){
+						print_error_log("File %s was not close!", filename);
+					}
 				}
 				else {
 					/* nothing to do */
@@ -336,7 +350,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				currentpixel++;
 				if (currentpixel > pixelcount) {
 					if (fTGA != NULL) {
-						fclose(fTGA);
+						if (fclose(fTGA) != 0){
+							print_error_log("File %s was not close!", filename);
+						}
 					}
 					else {
 						/* nothing to do */
@@ -364,7 +380,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			}
 		}
 	} while (currentpixel < pixelcount);
-	fclose(fTGA);
+	if (fclose(fTGA) != 0){
+		print_error_log("File %s was not close!", filename);
+	}
 	return TRUE;
 }
 
