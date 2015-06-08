@@ -84,7 +84,7 @@ ors
  * v - array of 3 GLfloats (GLfloat v[3])
  * n - array of 3 GLfloats (GLfloat n[3]) to return the cross product in
  */
-static GLvoid glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
+static void glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
 {
 	assert(u > (GLfloat*)0);
 	assert(v > (GLfloat*)0);
