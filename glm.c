@@ -104,7 +104,7 @@ static GLvoid glmNormalize(GLfloat *v)
 {
 	GLfloat l;
 
-	assert(v);
+	assert(v > (GLfloat*)0);
 
 	l = (GLfloat)sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 	v[0] /= l;
