@@ -128,11 +128,11 @@ static GLboolean glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
 		glmAbs(u[2] - v[2]) < epsilon)
 	{
 		//return GL_TRUE;
-		result_values_glmEqual = GL_TRUE;
+		result_values_glmEqual = (GLboolean)GL_TRUE;
 	}
 	else {
 		//return GL_FALSE;
-		result_values_glmEqual = GL_FALSE;
+		result_values_glmEqual = (GLboolean)GL_FALSE;
 	}
 	return result_values_glmEqual;
 }
