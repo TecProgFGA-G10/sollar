@@ -149,9 +149,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		/* nothing to do */
 	}
 
-	texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
-	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
-	texture->bpp = tga.header[4];
+	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
+	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
+	texture->bpp = (GLuint)tga.header[4];
 	tga.Width = texture->width;
 	tga.Height = texture->height;
 	tga.Bpp = texture->bpp;
