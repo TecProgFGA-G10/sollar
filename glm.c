@@ -67,7 +67,7 @@ static GLfloat glmAbs(GLfloat f)
  */
 static GLfloat glmDot(GLfloat *u, GLfloat *v)
 {
-	assert(u); 
+	assert(u);
 	assert(v);
 
 	return u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
@@ -86,9 +86,9 @@ ors
  */
 static GLvoid glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
 {
-	assert(u); 
-	assert(v); 
-	assert(n);
+	assert(u > (GLfloat*)0);
+	assert(v > (GLfloat*)0);
+	assert(n > (GLfloat*)0);
 
 	n[0] = u[1] * v[2] - u[2] * v[1];
 	n[1] = u[2] * v[0] - u[0] * v[2];
@@ -2142,7 +2142,7 @@ GLubyte *glmReadPPM(char *filename, int *width, int *height)
 	char *head; /* max line <= 70 in PPM (per spec) */
 
 	head = (char*) calloc(sizeof(filename), sizeof(char));
-	
+
 	fp = fopen(filename, "rb");
 	if (!fp) {
 		perror(filename);
