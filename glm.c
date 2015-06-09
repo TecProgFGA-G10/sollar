@@ -247,15 +247,8 @@ GLuint glmFindMaterial(GLMmodel *model, char *name)
 			model_found = i;
 		}
 		else {
-			/* nothing to do */
+			print_error_log("glmFindMaterial(): can't find material \"%s\".", name);
 		}
-	}
-
-	if (!model_found) {
-	print_error_log("glmFindMaterial(): can't find material \"%s\".", name);
-	}
-	else {
-		/* nothing to do */
 	}
 
 	return model_found;
