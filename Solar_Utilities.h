@@ -181,7 +181,8 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
-	texture->imageData = (GLubyte *)malloc(tga.imageSize);
+	free(texture->imageData);
+	texture->imageData = (GLubyte *)malloc(tga.imageSize * sizeof(GLubyte));
 
 	if (texture->imageData == NULL) {
 		if (fclose(fTGA) != 0){
