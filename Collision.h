@@ -252,8 +252,6 @@ float evaluates_collision(float position,
 		 /* nothing to do */
 	}
 
-  print_debug_log("Final value of collision_points: %f", collision_points);
-
 	return collision_points;
 }
 
