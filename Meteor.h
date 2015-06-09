@@ -17,21 +17,15 @@
 void carregaModelometeor(GLMmodel **meteor)
 {
 	double explosion_angle = 90.0;
-	if (*meteor == NULL) {
-		*meteor = glmReadOBJ("data/meteoro/meteoro.obj");
-		if (*meteor == NULL){
-			print_error_log("Error loading meteoro.obj");
-			exit(0);
-		}
-		else {
-		  /* nothing to do */
-		}
+	*meteor = glmReadOBJ("data/meteoro/meteoro.obj");
+	if (*meteor != NULL) {
 		glmUnitize(*meteor); /* redimensions to unity matrix */
 		glmFacetNormals(*meteor);
 		glmVertexNormals(*meteor, explosion_angle);
 	}
 	else {
-		print_error_log("Meteor not loaded");
+		print_error_log("Error loading meteoro.obj");
+		exit(0);
 	}
 }
 
