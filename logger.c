@@ -8,10 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
  
-FILE *log_file ;
+static FILE *log_file ;
 
 // gets the real time of the execution of the log and sends the information to the main function
-char* print_time()
+static char* print_time()
 {
     time_t t;
     char *buf;
