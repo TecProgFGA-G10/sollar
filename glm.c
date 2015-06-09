@@ -245,6 +245,7 @@ GLuint glmFindMaterial(GLMmodel *model, char *name)
 	for (GLuint i = 0; i < model->number_of_materials; i++) {
 		if (!strcmp(model->materials[i].name, name)) {
 			model_found = i;
+			print_verbose_log("Material \"%s\" found.", name);
 		}
 		else {
 			print_error_log("glmFindMaterial(): can't find material \"%s\".", name);
