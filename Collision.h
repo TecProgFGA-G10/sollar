@@ -70,9 +70,9 @@ void update_box_points(collision_box *box,
   box->points[1].z = lesser_z;
 
   /* Log */
-  print_debug_log("Box->points[1].x = %f", box->points[1].x);
-  print_debug_log("Box->points[1].y = %f", box->points[1].y);
-  print_debug_log("Box->points[1].z = %f", box->points[1].z);
+  print_debug_log("Box->points[1].x = %d", box->points[1].x);
+  print_debug_log("Box->points[1].y = %d", box->points[1].y);
+  print_debug_log("Box->points[1].z = %d", box->points[1].z);
 
   /* front lower left side */
   box->points[2].x = lesser_x;
@@ -80,9 +80,9 @@ void update_box_points(collision_box *box,
   box->points[2].z = lesser_z;
 
   /* Log */
-  print_debug_log("Box->points[2].x = %f", box->points[2].x);
-  print_debug_log("Box->points[2].y = %f", box->points[2].y);
-  print_debug_log("Box->points[2].z = %f", box->points[2].z);
+  print_debug_log("Box->points[2].x = %d", box->points[2].x);
+  print_debug_log("Box->points[2].y = %d", box->points[2].y);
+  print_debug_log("Box->points[2].z = %d", box->points[2].z);
 
   /* front lower right side */
   box->points[3].x = greater_x;
@@ -90,9 +90,9 @@ void update_box_points(collision_box *box,
   box->points[3].z = lesser_z;
 
   /* Log */
-  print_debug_log("Box->points[3].x = %f", box->points[3].x);
-  print_debug_log("Box->points[3].y = %f", box->points[3].y);
-  print_debug_log("Box->points[3].z = %f", box->points[3].z);
+  print_debug_log("Box->points[3].x = %d", box->points[3].x);
+  print_debug_log("Box->points[3].y = %d", box->points[3].y);
+  print_debug_log("Box->points[3].z = %d", box->points[3].z);
 
   /* back upper left side */
   box->points[4].x = lesser_x;
@@ -100,9 +100,9 @@ void update_box_points(collision_box *box,
   box->points[1].z = lesser_z;
 
   /* Log */
-  print_debug_log("Box->points[4].x = %f", box->points[4].x);
-  print_debug_log("Box->points[1].y = %f", box->points[1].y);
-  print_debug_log("Box->points[1].z = %f", box->points[1].z);
+  print_debug_log("Box->points[4].x = %d", box->points[4].x);
+  print_debug_log("Box->points[1].y = %d", box->points[1].y);
+  print_debug_log("Box->points[1].z = %d", box->points[1].z);
 
   /* back lower left side */
   box->points[2].x = lesser_x;
@@ -110,9 +110,9 @@ void update_box_points(collision_box *box,
   box->points[2].z = lesser_z;
 
   /* Log */
-  print_debug_log("Box->points[2].x = %f", box->points[2].x);
-  print_debug_log("Box->points[2].y = %f", box->points[2].y);
-  print_debug_log("Box->points[2].z = %f", box->points[2].z);
+  print_debug_log("Box->points[2].x = %d", box->points[2].x);
+  print_debug_log("Box->points[2].y = %d", box->points[2].y);
+  print_debug_log("Box->points[2].z = %d", box->points[2].z);
 
   /* back lower right side */
   box->points[3].x = greater_x;
@@ -120,9 +120,9 @@ void update_box_points(collision_box *box,
   box->points[3].z = lesser_z;
 
   /* Log */
-  print_debug_log("Box->points[3].x = %f", box->points[3].x);
-  print_debug_log("Box->points[3].y = %f", box->points[3].y);
-  print_debug_log("Box->points[3].z = %f", box->points[3].z);
+  print_debug_log("Box->points[3].x = %d", box->points[3].x);
+  print_debug_log("Box->points[3].y = %d", box->points[3].y);
+  print_debug_log("Box->points[3].z = %d", box->points[3].z);
 
   /* back upper left side */
   box->points[4].x = lesser_x;
@@ -130,9 +130,9 @@ void update_box_points(collision_box *box,
   box->points[4].z = greater_z;
 
   /* Log */
-  print_debug_log("Box->points[4].x = %f", box->points[4].x);
-  print_debug_log("Box->points[4].y = %f", box->points[4].y);
-  print_debug_log("Box->points[4].z = %f", box->points[4].z);
+  print_debug_log("Box->points[4].x = %d", box->points[4].x);
+  print_debug_log("Box->points[4].y = %d", box->points[4].y);
+  print_debug_log("Box->points[4].z = %d", box->points[4].z);
 
   /* back upper right side */
   box->points[5].x = greater_x;
@@ -140,9 +140,9 @@ void update_box_points(collision_box *box,
   box->points[5].z = greater_z;
 
   /* Log */
-  print_debug_log("Box->points[5].x = %f", box->points[5].x);
-  print_debug_log("Box->points[5].y = %f", box->points[5].y);
-  print_debug_log("Box->points[5].z = %f", box->points[5].z);
+  print_debug_log("Box->points[5].x = %d", box->points[5].x);
+  print_debug_log("Box->points[5].y = %d", box->points[5].y);
+  print_debug_log("Box->points[5].z = %d", box->points[5].z);
 
   /* back lower left side */
   box->points[6].x = lesser_x;
@@ -150,9 +150,9 @@ void update_box_points(collision_box *box,
   box->points[6].z = greater_z;
 
   /* Log */
-  print_debug_log("Box->points[6].x = %f", box->points[6].x);
-  print_debug_log("Box->points[6].y = %f", box->points[6].y);
-  print_debug_log("Box->points[6].z = %f", box->points[6].z);
+  print_debug_log("Box->points[6].x = %d", box->points[6].x);
+  print_debug_log("Box->points[6].y = %d", box->points[6].y);
+  print_debug_log("Box->points[6].z = %d", box->points[6].z);
 
   /* back lower right side */
   box->points[7].x = greater_x;
@@ -160,9 +160,9 @@ void update_box_points(collision_box *box,
   box->points[7].z = greater_z;
 
   /* Log */
-  print_debug_log("Box->points[7].x = %f", box->points[7].x);
-  print_debug_log("Box->points[7].y = %f", box->points[7].y);
-  print_debug_log("Box->points[7].z = %f", box->points[7].z);
+  print_debug_log("Box->points[7].x = %d", box->points[7].x);
+  print_debug_log("Box->points[7].y = %d", box->points[7].y);
+  print_debug_log("Box->points[7].z = %d", box->points[7].z);
 }
 
  /*
