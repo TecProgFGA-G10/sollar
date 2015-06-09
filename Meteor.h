@@ -32,7 +32,7 @@ void carregaModelometeor(GLMmodel **meteor)
 /* creates an empty meteor position */
 int posicaoVaziameteors(game_item *meteors)
 {
-	unsigned int result_iteration = -1;
+	int result_iteration = -1;
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (!meteors[i].visible) {
 			result_iteration = i;
