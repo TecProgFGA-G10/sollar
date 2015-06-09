@@ -42,7 +42,7 @@
 
 #define GAME_OVER 666 /* game over button selected */
 #define CONTINUE 777 /* continue button selected */
-#define TEXTURE_SIZE 256; /* quantity of texture */
+#define TEXTURE_SIZE 256 /* quantity of texture */
 
 /* rgba colors and depth test */
 #define GRAPHIC_MODEL  GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
