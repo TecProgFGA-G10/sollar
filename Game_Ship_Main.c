@@ -270,18 +270,18 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 
 		case 13: /* ENTER */
 			if(game_over_selected == GAME_OVER) {
-				exit(0);
 				print_verbose_log("Game ended by exit button");
+				exit(0);
 			}
 			else {
-				reconfigure();
 				print_verbose_log("Restart the game");
+				reconfigure();
 			}
 			glutPostRedisplay();
 			break;
 		case 27: /* ESC */
-			exit(0);
 			print_verbose_log("Game ended by esc key");
+			exit(0);
 			break;
 	}
 
