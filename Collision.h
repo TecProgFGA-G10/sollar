@@ -66,6 +66,15 @@ void update_box_points(collision_box *box,
                        float lesser_x, float lesser_y, float lesser_z,
                        float greater_x, float greater_y, float greater_z)
 {
+  /* Testing parameters */
+  assert(box);
+  assert(lesser_x);
+  assert(lesser_z);
+  assert(lesser_y);
+  assert(greater_y);
+  assert(greater_x);
+  assert(greater_z);
+
   /* front upper left side */
   box->points[0].x = lesser_x;
   box->points[0].y = greater_y;
@@ -184,6 +193,10 @@ void update_box_points(collision_box *box,
 void criaCaixaColisao(GLMmodel *model, collision_box *box)
 /* box - pointer to collision box */
 {
+  /* Testing parameters */
+  assert(model);
+  assert(box);
+
 	if (!model) {
 		exit(1);
 	}
