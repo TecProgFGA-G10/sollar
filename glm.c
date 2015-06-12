@@ -32,6 +32,10 @@ typedef struct _GLMnode {
 /* glmMax: returns the maximum of two floats */
 static GLfloat glmMax(GLfloat a, GLfloat b)
 {
+	/* Testing parameters */
+	assert(a);
+	assert(b);
+
 	GLfloat result_maximum = 0;
 	if (b > a) {
 		//return b;
@@ -67,6 +71,10 @@ static GLfloat glmAbs(GLfloat f)
  */
 static GLfloat glmDot(GLfloat *u, GLfloat *v)
 {
+	/* Testing parameters */
+	assert(u);
+	assert(v);
+
 	assert(u > (GLfloat*)0);
 	assert(v > (GLfloat*)0);
 
@@ -86,6 +94,12 @@ ors
  */
 static void glmCross(GLfloat* u, GLfloat* v, GLfloat* n)
 {
+
+	/* Testing parameters */
+	assert(u);
+	assert(v);
+	assert(n);
+
 	assert(u > (GLfloat*)0);
 	assert(v > (GLfloat*)0);
 	assert(n > (GLfloat*)0);
@@ -123,6 +137,12 @@ static void glmNormalize(GLfloat *v)
 static GLboolean glmEqual(GLfloat *u, GLfloat *v, GLfloat epsilon)
 {
 	GLboolean result_values_glmEqual;
+	
+	/* Testing parameters */
+	assert(u);
+	assert(v);
+	assert(epsilon);
+
 	if (glmAbs(u[0] - v[0]) < epsilon &&
 		glmAbs(u[1] - v[1]) < epsilon &&
 		glmAbs(u[2] - v[2]) < epsilon)
@@ -151,6 +171,11 @@ GLfloat *glmWeldVectors(GLfloat *vectors, GLuint *number_of_vectors, GLfloat eps
 	GLfloat *copies;
 	GLuint copied;
 	GLuint duplicated = 0;
+
+	/* Testing parameters */
+	assert(vectors);
+	assert(number_of_vectors);
+	assert(epsilon);
 
 	copies = (GLfloat*)malloc(sizeof(GLfloat) * 3 * (*number_of_vectors + 1));
 	memmove(copies, vectors, (sizeof(GLfloat) * 3 * (*number_of_vectors + 1)));
@@ -196,7 +221,9 @@ GLMgroup *glmFindGroup(GLMmodel *model, char *name)
 {
 	GLMgroup *group;
 
+	/* Testing parameters */
 	assert(model);
+	assert(name);
 
 	group = model->groups;
 	while (group) {
@@ -215,6 +242,10 @@ GLMgroup *glmFindGroup(GLMmodel *model, char *name)
 GLMgroup *glmAddGroup(GLMmodel *model, char *name)
 {
 	GLMgroup *group;
+
+	/* Testing parameters */
+	assert(model);
+	assert(name);
 
 	group = glmFindGroup(model, name);
 	if (!group) {
@@ -238,6 +269,11 @@ GLMgroup *glmAddGroup(GLMmodel *model, char *name)
 GLuint glmFindMaterial(GLMmodel *model, char *name)
 {
 	GLuint model_found = 0;
+
+	/* Testing parameters */
+	assert(model);
+	assert(name);
+
 	/*
 	 * XXX doing a linear search on a string key'd list is pretty lame,
 	 * but it works and is fast enough for now.
@@ -267,6 +303,9 @@ static char *glmDirName(char *path)
 	char *dir;
 	char *s;
 
+	/* Testing parameters */
+	assert(path);
+
 	dir = strdup(path);
 
 	s = strrchr(dir, '/');
@@ -291,6 +330,10 @@ static GLvoid glmReadMTL(GLMmodel *model, char *name)
 	FILE *file;
 	char *filename;
 	char *buffer;
+
+	/* Testing parameters */
+	assert(model);
+	assert(name);
 
 	GLuint number_of_materials;
 
