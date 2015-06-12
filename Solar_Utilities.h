@@ -139,6 +139,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			if (fclose(fTGA) != 0){
 				print_error_log("File %s was not close!", filename);
 			}
+			else {
+				print_verbose_log("File %s was close.", filename);
+			}
 		}
 		else {
 			/* nothing to do */
@@ -161,6 +164,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		if (fTGA != NULL) {
 			if (fclose(fTGA) != 0){
 				print_error_log("File %s was not close!", filename);
+			}
+			else {
+				print_verbose_log("File %s was close.", filename);
 			}
 		}
 		else {
@@ -188,6 +194,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		if (fclose(fTGA) != 0){
 			print_error_log("File %s was not close!", filename);
 		}
+		else {
+				print_verbose_log("File %s was close.", filename);
+		}
+
 		return FALSE;
 	}
 	else {
@@ -205,6 +215,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			if (fTGA != NULL) {
 				if (fclose(fTGA) != 0){
 					print_error_log("File %s was not close!", filename);
+				}
+				else {
+					print_verbose_log("File %s was close.", filename);
 				}
 			}
 			else {
@@ -232,6 +245,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 						if (fclose(fTGA) != 0){
 							print_error_log("File %s was not close!", filename);
 						}
+						else {
+							print_verbose_log("File %s was close.", filename);
+						}
+
 					}
 					else {
 						/* nothing to do */
@@ -276,6 +293,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 						if (fclose(fTGA) != 0){
 							print_error_log("File %s was not close!", filename);
 						}
+						else {
+							print_verbose_log("File %s was close.", filename);
+						}
 					}
 					else {
 						/* nothing to do */
@@ -309,6 +329,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				if (fTGA != NULL) {
 					if (fclose(fTGA) != 0){
 						print_error_log("File %s was not close!", filename);
+					}
+					else {
+						print_verbose_log("File %s was close.", filename);
 					}
 				}
 				else {
@@ -354,6 +377,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 						if (fclose(fTGA) != 0){
 							print_error_log("File %s was not close!", filename);
 						}
+						else {
+							print_verbose_log("File %s was close.", filename);
+						}
 					}
 					else {
 						/* nothing to do */
@@ -383,6 +409,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	} while (currentpixel < pixelcount);
 	if (fclose(fTGA) != 0){
 		print_error_log("File %s was not close!", filename);
+	}
+	else {
+		print_verbose_log("File %s was close.", filename);
 	}
 	return TRUE;
 }
