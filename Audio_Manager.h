@@ -9,6 +9,7 @@
 #include <SDL/SDL_audio.h>
 #include <SDL/SDL_mixer.h>
 #include "Solar_Utilities.h"
+#include <assert.h>
 #include <stdio.h>
 #include "logger.h"
 
@@ -36,6 +37,9 @@ void audio_initialize(int audio_rate,
 /* plays the music */
 int play_music(Mix_Music *music)
 {
+	/* Testing parameters */
+	assert(music);
+
 	int return_value = 0; /* if everything is okay, return 0*/
 	if (music == NULL) {
 		print_error_log("Unable to load Ogg file: %s", Mix_GetError());
@@ -54,6 +58,10 @@ int play_music(Mix_Music *music)
 /* plays effects sound */
 void play_sound(int sound, Mix_Chunk *sound_effect)
 {
+	/* Testing parameters */
+	assert(sound);
+	assert(sound_effect);
+
 	if (sound == SHOT_MODEL) {
 		Mix_PlayChannel(2, sound_effect, 0);
 		print_verbose_log("Shot audio effect");
@@ -68,6 +76,9 @@ void play_sound(int sound, Mix_Chunk *sound_effect)
 /* clear audio */
 void clear_sound(Mix_Music *music)
 {
+	/* Testing parameters */
+	assert(music);
+
 	Mix_HaltMusic();
 	Mix_FreeMusic(music);
 	music = NULL;
