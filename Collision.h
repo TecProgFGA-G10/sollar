@@ -249,6 +249,10 @@ void criaCaixaColisao(GLMmodel *model, collision_box *box)
   */
 void set_collision_box(collision_box *c, point position)
 {
+  /* Testing parameters */
+  assert(c);
+  assert(position);
+
 	/* transfer the box */
 	for (int i = INITIALIZE_ZERO; i < CUBE_EDGES; i++) {
 		c->points[i].x += position.x;
@@ -267,6 +271,12 @@ float evaluates_collision(float position,
 							float collision_points,
 							float acceleration)
 {
+  /* Testing parameters */
+  assert(position);
+  assert(last_position);
+  assert(collision_points);
+  assert(acceleration);
+
 	if (position > last_position) {
 		collision_points += acceleration;
 	}

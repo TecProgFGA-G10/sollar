@@ -41,7 +41,6 @@ void configuraTamanhoExplosoes(game_item *explosions){
 		explosions[i].explosion_size = size_value;
 		
 		/* Test and verification of explosion size of the explosion */
-		assert(explosion[i].explosion_size != 0);
 	}
 }
 
