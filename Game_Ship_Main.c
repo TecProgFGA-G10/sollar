@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <GL/glut.h>
 #include "glm.h"
 #include "Display_Manager.h"
@@ -112,6 +113,10 @@ int audio_buffers = 4096;
 /* Main function */
 int main(int argc, char **argv)
 {
+	/* Testing parameters */
+	assert (argc);
+	assert (argv);
+
 	configure(argc,argv);
 	glutMainLoop();
 	return 0;
@@ -245,6 +250,11 @@ void update(void)
  */
 void game_over_special_key(int pressed_key, int x, int y)
 {
+	/* Testing parameters */
+	assert(pressed_key);
+	assert(x);
+	assert(y);
+
 	switch (pressed_key) {
 		case GLUT_KEY_LEFT:
 		case GLUT_KEY_RIGHT:
@@ -265,6 +275,11 @@ void game_over_special_key(int pressed_key, int x, int y)
 /* normal game over key */
 void game_over_normal_key(unsigned char pressed_key, int x, int y)
 {
+	/* Testing parameters */
+	assert(pressed_key);
+	assert(x);
+	assert(y);
+
 	switch(pressed_key) {
 		case ' ':
 
@@ -290,6 +305,11 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 /* draws text */
 void DesenhaTexto(char *string, int position_x, int position_y)
 {
+	/* Testing parameters */
+	assert(string);
+	assert(position_x);
+	assert(position_y);
+
 		glPushMatrix();
 			glRasterPos2f(ship.position.x-position_x, ship.position.y-position_y);
 
@@ -416,6 +436,11 @@ void trataTeclas()
  */
 void special_key(int pressed_key, int x, int y)
 {
+	/* Testing parameters */
+	assert(pressed_key);
+	assert(x);
+	assert(y);
+
 	switch (pressed_key) {
 		case GLUT_KEY_LEFT:
 			left_button_pressed = TRUE;
@@ -463,6 +488,11 @@ void special_key(int pressed_key, int x, int y)
 /* When a key is released, keeps it state when released */
 void special_key_unpressed(int pressed_key, int x, int y)
 {
+	/* Testing parameters */
+	assert(pressed_key);
+	assert(x);
+	assert(y);
+
 	switch (pressed_key) {
 		case GLUT_KEY_LEFT:
 			left_button_pressed = FALSE;
@@ -486,6 +516,9 @@ void special_key_unpressed(int pressed_key, int x, int y)
 /* raises the difficult */
 void increase_difficulty_level(int t)
 {
+	/* Testing parameters */
+	assert(t);
+
 	if (ship.visible) {
 		if (!game_paused) {
 			for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
@@ -513,6 +546,11 @@ void increase_difficulty_level(int t)
 /* controls */
 void controls(unsigned char pressed_key, int x, int y)
 {
+	/* Testing parameters */
+	assert(pressed_key);
+	assert(x);
+	assert(y);
+
 	switch (pressed_key){
 		case 27:
 			clear_sound(music);
@@ -601,6 +639,10 @@ void draw()
 /* redimensions */
 void resizes(int larg, int alt)
 {
+	/* Testing parameters */
+	assert(larg);
+	assert(alt);
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(60, larg/alt, 0.5, 110);
@@ -616,6 +658,9 @@ void resizes(int larg, int alt)
 /* explosion timer */
 void explosion_timer(int t)
 {
+	/* Testing parameters */
+	assert(t);
+
 	if (ship.visible && !game_paused) {
 		for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 			if (explosions[i].visible) {
@@ -641,6 +686,9 @@ void explosion_timer(int t)
 /* timer to new meteor */
 void timer(int t)
 {
+	/* Testing parameters */
+	assert(t);
+
 	if (ship.visible && !game_paused) {
 		print_verbose_log("New meteor");
 		if (t == NEW_METEOR) {
@@ -659,6 +707,10 @@ void timer(int t)
 /* configurs meteors */
 void configure(int argc, char **argv)
 {
+	/* Testing parameters */
+	assert(argc);
+	assert(argv);
+
 	meteors_to_send = 10;
 	time_until_next_meteors_round = 2000;
 	score = INITIALIZE_ZERO;
