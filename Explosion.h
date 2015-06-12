@@ -12,7 +12,8 @@
 #include "Display_Manager.h"
 #include "Solar_Utilities.h"
 #include "logger.h"
- 
+#include <assert.h>
+
 /* Creates an empty space for the explosions */
 int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion*/
 {
@@ -26,6 +27,9 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 		  result_iteration = i;
 		}
 	}
+	/*test of result_iteration*/
+	assert(result_iteration != 0);
+
 	return result_iteration;
 }
 
@@ -35,6 +39,9 @@ void configuraTamanhoExplosoes(game_item *explosions){
 
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		explosions[i].explosion_size = size_value;
+		
+		/* Test and verification of explosion size of the explosion */
+		assert(explosion[i].explosion_size != 0);
 	}
 }
 
