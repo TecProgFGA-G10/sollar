@@ -18,6 +18,12 @@ void audio_initialize(int audio_rate,
 				 int audio_channels,
 				 int audio_buffers)
 {
+	/* Testing parameters */
+	assert(audio_rate);
+	assert(audio_format);
+	assert(audio_channels);
+	assert(audio_buffers);
+
 	if (Mix_OpenAudio(audio_rate, audio_format,
 					  audio_channels, audio_buffers) == 0) {
 		print_verbose_log("Audio sucessfully initiated");
