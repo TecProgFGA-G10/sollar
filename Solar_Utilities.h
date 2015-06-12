@@ -131,6 +131,21 @@ GLubyte cTGAcompare[12] = {
 	(GLubyte)0,
 	(GLubyte)0};
 
+/*
+ * Closes a file and record in log file the operation result
+ * Parameters:	*file_to_close - pointer to the file to be close
+ * 				*filename - pointer to the name of file that will be close
+ * Return:		void
+ */
+void close_file(FILE *file_to_close, char *filename) {
+	if (fclose(file_to_close) != 0){
+		print_error_log("File %s was not close!", filename);
+	}
+	else {
+		print_verbose_log("File %s was close.", filename);
+	}
+}
+
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
