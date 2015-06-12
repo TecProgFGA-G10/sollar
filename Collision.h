@@ -6,6 +6,7 @@
 #ifndef COLLISION_H
 #include <GL/glut.h>
 #include "Solar_Utilities.h"
+#include <assert.h>
 #include "logger.h"
 
 #define CUBE_EDGES 8
@@ -15,6 +16,9 @@
 void desenhaCaixaColisao(collision_box *box)
 /* *box - pointer to collision box */
 {
+  /* Testing parameters */
+  assert(box);
+
 	glBegin(GL_LINES);
 	for (int i = INITIALIZE_ZERO; i < CUBE_EDGES; i++) {
 		glColor3ub(i * 10, i * 10, i * 10);
@@ -26,6 +30,10 @@ void desenhaCaixaColisao(collision_box *box)
 /* return the greater value of two values */
 float greater_value(float value_a, float value_b)
 {
+  /* Testing parameters */
+  assert(value_a);
+  assert(value_b);
+
   float result_greater_value = INITIALIZE_ZERO;
   if (value_a > value_b) {
     result_greater_value = value_a;
@@ -39,6 +47,10 @@ float greater_value(float value_a, float value_b)
 /* return the lesse value of two values */
 float lesser_value(float value_a, float value_b)
 {
+  /* Testing parameters */
+  assert(value_a);
+  assert(value_b);
+
   float result_lesser_value = INITIALIZE_ZERO;
   if (value_a < value_b) {
     result_lesser_value = value_a;
