@@ -158,6 +158,7 @@ void update(void)
 			 */
 			if (shots[i].position.z < MAX_DISTANCE_FOR_SHOOT_TREATMENT) {
 				shots[i].visible = FALSE;
+				print_error_log("Not is possible visible shots");
 			}
 			else {
 				/* nothing to do */
@@ -178,19 +179,23 @@ void update(void)
 							explosions[explos].position.z = meteors[m].position.z;
 							explosions[explos].explosion_size = 1;
 							explosions[explos].visible = TRUE;
+							print_verbose_log("Explosion shots it is visible");
 						}
 						else {
-							/* nothing to do */
+							print_error_log("Explosion shots is not visible");
 						}
+					print_verbose_log("Collision between meteors and shots detected");	
 					}
 					else {
 						/* nothing to do */
 					}
+				print_verbose_log("Meteors it is visible");
 				}
 				else {
 					/* nothing to do */
 				}
 			}
+		print_verbose_log("Shots it is visible");	
 		}
 		else {
 			/* nothing to do */
@@ -200,7 +205,7 @@ void update(void)
 		if (meteors[i].visible) {
 			meteors[i].last_position.z = meteors[i].position.z;
 			meteors[i].position.z += meteors[i].acceleration;
-			update_collision_box(&meteors[i]);
+			update_collision_box(&meteors[i]);			
 			if (verify_collision(meteors[i].collision, ship.collision)) {
 				play_sound(EXPLOSION_MODEL, explosion_sound);
 				meteors[i].visible = FALSE;
@@ -212,12 +217,14 @@ void update(void)
 					explosions[explos].position.z = meteors[i].position.z;
 					explosions[explos].explosion_size = 1;
 					explosions[explos].visible = TRUE;
+					print_verbose_log("Explosion ship it is visible");
 				}
 				else {
 					/* nothing to do */
 				}
 				if (remaining_lives <= 0) {
 					ship.visible = FALSE;
+					print_error_log("Not is possible visible ship");
 				}
 				else {
 					/* nothing to do */
@@ -228,10 +235,12 @@ void update(void)
 			}
 			if (meteors[i].position.z > MAX_DISTANCE_OF_METEOR) {
 				meteors[i].visible = FALSE;
+				print_error_log("Not is possible visible meteors");
 			}
 			else {
 				/* nothing to do */
 			}
+		print_verbose_log("Meteors it is visible");	
 		}
 		else {
 			/* nothing to do */
