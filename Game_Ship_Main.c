@@ -555,11 +555,11 @@ void controls(unsigned char pressed_key, int x, int y)
 /* draws HUD */
 void draw_HUD()
 {
-	char *texto;
-	snprintf(texto, 8 * sizeof(char), "Vida: %d", remaining_lives);
+	char texto[20];
+	sprintf(texto, "Vida: %d", remaining_lives);
 	DesenhaTexto(texto, 5, 5);
-	char *texto2;
-	snprintf(texto2, 20 * sizeof(char), "Pontuacao: %d", score);
+	char texto2[20];
+	sprintf(texto2, "Pontuacao: %d", score);
 	DesenhaTexto(texto2, 6, 6);
 }
 
