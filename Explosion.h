@@ -18,12 +18,13 @@ int posicaoVaziaExplosoes(game_item *explosions) /*pointer to the item explosion
 {
 	int result_iteration = -1;
 
-	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
+	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if(explosions[i].visible) {
-			/* nothing to do */
+			print_verbose_log("Explosion can't appear here");
 		}
 		else {
 		  result_iteration = i;
+		  	print_verbose_log("go iterator");
 		}
 	}
 	return result_iteration;
@@ -36,6 +37,7 @@ void configuraTamanhoExplosoes(game_item *explosions){
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		explosions[i].explosion_size = size_value;
 	}
+	print_verbose_log("size explosion configurated");
 }
 
 /* loads the explosion's model */
@@ -44,6 +46,7 @@ void carregaModeloExplosao(GLMmodel **explosion){
 	const unsigned int NEUTRAL_VALUE = 0;
 	if (*explosion == NULL) {
 			*explosion = glmReadOBJ("data/explosao/explosao.obj");
+			print_verbose_log("Object readed");
 
 			if (*explosion != NULL) {
 				print_verbose_log("Explosion sucessfully loaded");
@@ -78,11 +81,11 @@ void load_explosion_texture(Texture *explosion_texture, char* filePath){
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("Explosion textured");
 	}
 	else {
 		print_error_log("Explosion texture not loaded");
 	}
-
 }
 
 /* draws the explosions */
@@ -106,9 +109,10 @@ void draw_explosion(game_item *explosions,
 					 explosions[i].explosion_size);
 			draw_model(EXPLOSION_MODEL, explosion_texture, explosion);
 			glPopMatrix();
+			print_verbose_log("Draw explosion sucessfully");
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Not possible draw to explosion");
 		}
 	}
 }
