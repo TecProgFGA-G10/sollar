@@ -122,7 +122,7 @@ void configuraCaixaColisaometeor(collision_box *dafault_meteor_collision)
 void configuraAceleracaometeors(game_item *meteors)
 {
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
-		meteors[i].acceleration = 5.00;
+		meteors[i].acceleration = 1.00;
 	}
 }
 
