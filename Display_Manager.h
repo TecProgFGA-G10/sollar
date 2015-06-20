@@ -22,6 +22,7 @@ void iniciaGlut(int argc, char **argv)
 	glutInitWindowPosition(INITIALIZE_ZERO, INITIALIZE_ZERO); /* initial position of the window */
 	glutCreateWindow(WINDOW_NAME); /* window's name created */
 	glClearColor(INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO); /* clean collor, background collor */
+	print_verbose_log("Lib Glut initialized");
 }
 
 /* initializes camera */
@@ -38,6 +39,7 @@ void iniciaCamera()
 	glViewport(INITIALIZE_ZERO, INITIALIZE_ZERO, WIDTH,HEIGHT);
 	glEnable(GL_DEPTH_TEST); /* loads the depth test */
 	glDepthFunc(GL_LESS);
+	print_verbose_log("Camera initialized");
 }
 
 /* configure the ilumination */
@@ -58,6 +60,7 @@ void configuraIluminacao()
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	print_verbose_log("Ilumination configureted");
 }
 
 /* draws models */
@@ -67,11 +70,13 @@ void draw_model(int tipo, Texture textura, GLMmodel *model)
 
 	if (tipo == SHIP_MODEL) {
 		glScalef(SHIP_SCALE, SHIP_SCALE, SHIP_SCALE);
+		print_verbose_log("Scale factors specified");
 	}
 	else {
-		/* nothing to do */
+		print_error_log("Error, not possible draw model");
 	}
 	glmDraw(model, GLM_SMOOTH | GLM_TEXTURE);
+	print_verbose_log("Model is drawned");
 }
 
 /* draws the background */
@@ -93,6 +98,7 @@ void desenhaFundo(Texture background_texture)
 
 	glEnd();
 	glPopMatrix();
+	print_verbose_log("Background is drawned");
 }
 
 #endif
