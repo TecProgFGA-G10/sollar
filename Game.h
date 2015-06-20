@@ -36,6 +36,7 @@ void load_background_texture(Texture *background_texture, char *filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("Background texture is loaded");
 	}
 	else {
 		print_error_log("Error loading background texture");
@@ -63,7 +64,7 @@ void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
-		print_debug_log("gameover texture loaded");
+		print_verbose_log("Gameover texture is loaded");
 	}
 	else {
 		print_error_log("Error loading gameover texture");
@@ -91,13 +92,14 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("Game texture is loaded");
 	}
 	else {
 		print_error_log("Error loading continue texture");
 	}
 }
 
-/* loads the game over texture */
+/* loads the end game over texture */
 void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
@@ -118,6 +120,7 @@ void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("End game over texture is loaded");
 	}
 	else {
 		print_error_log("Error loading game over texture");
@@ -137,6 +140,7 @@ void configuratextures(Texture **textures)
 	load_game_texture(textures[7], "data/gameover/continuarVermelho.tga");
 	carrega_game_over_texture(textures[8], "data/gameover/fimJogoVerde.tga");
 	carrega_game_over_texture(textures[9], "data/gameover/fimJogoVermelho.tga");
+	print_verbose_log("Texture configureted");
 }
 
 /* draws game over plan */
@@ -163,6 +167,7 @@ void desenhaPlanoGameOver(Texture game_over_texture)
 	glEnd();
 	glPopMatrix();
 	glTranslatef(0, 0, 1); /* coordinates x, y, z */
+	print_verbose_log("Game over plan is drawned");
 }
 
 /* draws continue button */
@@ -197,6 +202,7 @@ void desenhaBotaoContinuar(int game_over_selected,
 
 	glEnd();
 	glPopMatrix();
+	print_verbose_log("Continue button is drawned");
 }
 
 /* draws the leave button */
@@ -231,6 +237,7 @@ void desenhaBotaoSair(int game_over_selected,
 
 	glEnd();
 	glPopMatrix();
+	print_verbose_log("Leave button is drawned");
 }
 
 /* initializes objects */
@@ -255,6 +262,7 @@ void inicializaObjetos(game_item *ship,
 	criaCaixaColisao(shot[0], dafault_collision_shot);
 	configuraCaixaColisaoTiro(dafault_collision_shot);
 	set_shot_acceleration(shots);
+	print_verbose_log("Objects initialized");
 }
 
 #endif
