@@ -22,6 +22,7 @@ void carregaModelometeor(GLMmodel **meteor)
 		glmUnitize(*meteor); /* redimensions to unity matrix */
 		glmFacetNormals(*meteor);
 		glmVertexNormals(*meteor, explosion_angle);
+		print_verbose_log("Meteor is loaded");
 	}
 	else {
 		print_error_log("Error loading meteoro.obj");
@@ -36,9 +37,10 @@ int posicaoVaziameteors(game_item *meteors)
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		if (!meteors[i].visible) {
 			result_iteration = i;
+			print_verbose_log("Position of meteor created");
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Error, position not created");
 		}
 	}
 	return result_iteration;
@@ -59,6 +61,10 @@ void enviameteor(game_item *meteors,
 									   -20);
 			meteors[pos].position.x = MINIMUN_X + rand() % (MAXIMUM_X-MINIMUN_X);
 			meteors[pos].position.y = MINIMUM_Y + rand() % (MAXIMUM_Y-MINIMUM_Y);
+			
+			print_debug_log("Value of meteors[%d].position.z: %d%d", meteors[pos].position.z);
+			print_debug_log("Value of meteors[%d].position.x: %d%d", meteors[pos].position.x);
+			print_debug_log("Value of meteors[%d].position.y: %d%d", meteors[pos].position.y);
 			/*
 			 * Keep the last position to calculate the collision box
 			 * to the meteor in a different position of <0, 0, 0>
@@ -67,16 +73,24 @@ void enviameteor(game_item *meteors,
 			meteors[pos].last_position.x = meteors[pos].position.x;
 			meteors[pos].last_position.y = meteors[pos].position.y;
 
+			print_debug_log("Value of meteors[%d].last_position.z: %d%d", meteors[pos].last_position.z);
+			print_debug_log("Value of meteors[%d].last_position.x: %d%d", meteors[pos].last_position.x);
+			print_debug_log("Value of meteors[%d].last_position.y: %d%d", meteors[pos].last_position.y);
+
 			/* fix me. I am out of the bounds*/
 			for (unsigned int c = INITIALIZE_ZERO; c < 8; c++){
 				meteors[pos].collision.points[c].x = dafault_meteor_collision.points[c].x;
 				meteors[pos].collision.points[c].y = dafault_meteor_collision.points[c].y;
 				meteors[pos].collision.points[c].z = dafault_meteor_collision.points[c].z;
+
+				print_debug_log("Value of meteors[%d].colision.points[%d].x: %d%d", meteors[pos].collision.points[c].x);
+				print_debug_log("Value of meteors[%d].colision.points[%d].y: %d%d", meteors[pos].collision.points[c].y);
+				print_debug_log("Value of meteors[%d].colision.points[%d].z: %d%d", meteors[pos].collision.points[c].z);
 			}
 			set_collision_box(&meteors[pos].collision, meteors[pos].position);
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Error, meteor not send");
 		}
 	}
 }
@@ -102,6 +116,7 @@ void load_meteor_texture(Texture *meteor_texture, char *filePath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("Texture of meteor is loaded");
 	}
 	else {
 		print_error_log("Error loading the meteor texture");
@@ -115,6 +130,10 @@ void configuraCaixaColisaometeor(collision_box *dafault_meteor_collision)
 		dafault_meteor_collision->points[c].x*=METEOR_SCALE;
 		dafault_meteor_collision->points[c].y*=METEOR_SCALE;
 		dafault_meteor_collision->points[c].z*=METEOR_SCALE;
+
+		print_debug_log("Value of dafault_meteor_collision->points[%d].x: %d", dafault_meteor_collision->points[c].x);
+		print_debug_log("Value of dafault_meteor_collision->points[%d].y: %d", dafault_meteor_collision->points[c].y);
+		print_debug_log("Value of dafault_meteor_collision->points[%d].z: %d", dafault_meteor_collision->points[c].z);
 	}
 }
 
@@ -123,6 +142,7 @@ void configuraAceleracaometeors(game_item *meteors)
 {
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_METEORS_THAT_WILL_APPEAR; i++) {
 		meteors[i].acceleration = 1.00;
+		print_debug_log("Value of meteors[%d].acceleration: %d", meteors[i].acceleration);
 	}
 }
 
@@ -139,9 +159,10 @@ void draw_meteor(game_item *meteors,
 						 meteors[i].position.z);
 			draw_model(METEOR_MODEL, meteor_texture, meteor);
 			glPopMatrix();
+			print_verbose_log("Meteor is drwaned");
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Error, metor not drawned");
 		}
 	}
 }
