@@ -18,12 +18,14 @@ int create_empty_shot_position(game_item *shots)
 		/* finds the first empty shot and returns it */
 		if (!shots[i].visible) {
 			result_iterator = i;
+			print_verbose_log("Empty shot located");
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Error, not possible find empty shot");
 		}
 	}
 	return result_iterator;
+	print_verbose_log("Empty shot position is created");
 }
 
 /* loads shot model */
@@ -48,7 +50,7 @@ void load_shot_model(GLMmodel **shot)
 	else {
 		print_error_log("Shot model not loaded");
 	}
-
+	print_verbose_log("Shot model is loaded");
 }
 
 /* update shot's box collision */
@@ -58,17 +60,22 @@ void atualizaCaixaColisaoTiro(game_item *item)
 	for (unsigned int i = INITIALIZE_ZERO; i < 8; i++) {
 		if (item->position.z > item->last_position.z) {
 			item->collision.points[i].z += -item->acceleration;
+			print_debug_log("Value of item->collision.points[%d].z: %d%d", item->collision.points[i].z);
+			print_verbose_log("points collision is acelerated");
 		}
 		else {
 			/* nothing to do */
 		}
 		if (item->position.z < item->last_position.z) {
 			item->collision.points[i].z += item->acceleration;
+			print_debug_log("Value of item->collision.points[%d].z: %d%d", item->collision.points[i].z);
+			print_verbose_log("points collision is acelerated");
 		}
 		else {
 			/* nothing to do */
 		}
 	}
+	print_verbose_log("Shot box collision is updated");
 }
 
 /* loads shot's texture */
@@ -92,10 +99,12 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glEnable(GL_TEXTURE_2D);
+		print_verbose_log("Texture TGA is loaded");
 	}
 	else {
 		print_error_log("Error loading shot texture");
 	}
+	print_verbose_log("Shot texture is loaded");
 }
 
 /* draws the shots */
@@ -109,11 +118,13 @@ void draw_shot(game_item *shots, Texture shot_texture, GLMmodel *shot)
 							 shots[i].position.z);
 				draw_model(SHOT_MODEL, shot_texture, shot);
 			glPopMatrix();
+			print_verbose_log("Shots is visible");
 		}
 		else {
-			/* nothing to do */
+			print_error_log("Error, shots not visible");
 		}
 	}
+	print_verbose_log("Shots is drawned");
 }
 
 /* configures shot's collision box */
@@ -123,7 +134,12 @@ void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
 		dafault_collision_shot->points[c].x *= SHOT_SCALE;
 		dafault_collision_shot->points[c].y *= SHOT_SCALE;
 		dafault_collision_shot->points[c].z *= SHOT_SCALE;
+
+		print_debug_log("Value of dafault_collision_shot->points[%d].x: %d", dafault_collision_shot->points[c].x);
+		print_debug_log("Value of dafault_collision_shot->points[%d].y: %d", dafault_collision_shot->points[c].y);
+		print_debug_log("Value of dafault_collision_shot->points[%d].z: %d", dafault_collision_shot->points[c].z);
 	}
+	print_verbose_log("Shots collision box is configureted");
 }
 
 /* configures shot's acceleration */
@@ -131,7 +147,9 @@ void set_shot_acceleration(game_item *shots)
 {
 	for (unsigned int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		shots[i].acceleration = -0.9;
+		print_debug_log("Value of shots[%d].acceleration: %d", shots[i].acceleration);
 	}
+	print_verbose_log("Shot acceleration is configureted");
 }
 
 #endif
