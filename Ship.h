@@ -24,11 +24,22 @@ void load_ship_model(game_item *ship)
 	ship->acceleration = SHIP_ACCELERATION;
 	ship->visible = TRUE;
 
+	print_debug_log("Value of ship->position.x: %d%d", ship->position.x);
+	print_debug_log("Value of ship->position.y: %d%d", ship->position.y);
+	print_debug_log("Value of ship->position.z: %d%d", ship->position.z);
+	print_debug_log("Value of ship->rotation_in_x: %d", ship->rotation_in_x);
+	print_debug_log("Value of ship->rotation_in_y: %d", ship->rotation_in_y);
+	print_debug_log("Value of ship->rotation_in_z: %d", ship->rotation_in_z);
+	print_debug_log("Value of ship->last_position.x: %d%d", ship->last_position.x);
+	print_debug_log("Value of ship->last_position.x: %d%d", ship->last_position.x);
+	print_debug_log("Value of ship->last_position.x: %d%d", ship->last_position.x);
+
 	double model_angle = 90.0;
 
 	if (!ship->model) {
 		ship->model = glmReadOBJ("data/aviao/jato.obj");
 		if (!ship->model) {
+			print_error_log("Object not readed");
 			exit(0);
 		}
 		else {
@@ -44,11 +55,17 @@ void load_ship_model(game_item *ship)
 			ship->collision.points[scale].x *= SHIP_SCALE;
 			ship->collision.points[scale].y *= SHIP_SCALE;
 			ship->collision.points[scale].z *= SHIP_SCALE;
+
+			print_debug_log("Value of ship->collision.points[%d].x: %d%d", ship->collision.points[scale].x);
+			print_debug_log("Value of ship->collision.points[%d].y: %d%d", ship->collision.points[scale].y);
+			print_debug_log("Value of ship->collision.points[%d].z: %d%d", ship->collision.points[scale].z);
 		}
+		print_verbose_log("Ship model rendered");
 	}
 	else {
-		/* nothing to do */
+		print_error_log("Error, ship model is not empty");
 	}
+	print_verbose_log("Ship model is loaded");
 }
 
 /* loads shit texture */
@@ -75,7 +92,7 @@ void load_ship_texture(Texture *ship_texture, char* filePath)
 		print_verbose_log("Ship texture loaded");
 	}
 	else {
-		print_error_log("Error loading ship texture");
+		print_error_log("Error, not loading ship texture");
 	}
 
 }
