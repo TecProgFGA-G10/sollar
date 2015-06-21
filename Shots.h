@@ -153,3 +153,4 @@ void set_shot_acceleration(game_item *shots)
 }
 
 #endif
+
