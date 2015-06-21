@@ -151,11 +151,12 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
 		close_file(fTGA, filename);
+		print_error_log("Error, file is empty, not readed");
 
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
+		print_verbose_log("File is readed");
 	}
 
 	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
@@ -168,18 +169,21 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	if ((texture->bpp != 24) && (texture->bpp != 32))
 	{
 		close_file(fTGA, filename);
+		print_error_log("Error, invalid texture");
 
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
+		print_verbose_log("Texture is valid");
 	}
 
 	if (texture->bpp == 24) {
 		texture->type = GL_RGB;
+		print_verbose_log("RGB is seted for type");
 	}
 	else {
 		texture->type = GL_RGBA;
+		print_verbose_log("RGBA is seted for type");
 	}
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
@@ -189,11 +193,12 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	if (texture->imageData == NULL) {
 		close_file(fTGA, filename);
+		print_error_log("Error, image Data is null");
 
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
+		print_verbose_log("Image data filled");
 	}
 
 	GLuint pixelcount = tga.Height * tga.Width;
@@ -208,15 +213,16 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 			if (texture->imageData != NULL) {
 				free(texture->imageData);
+				print_verbose_log("texture->imageData is released");
 			}
 			else {
-				/* nothing to do */
+				print_verbose_log("texture->imageData not released");
 			}
 
 			return FALSE;
 		}
 		else {
-			/* nothing to do */
+			print_error_log("fTGA arquive is closed");
 		}
 		if (chunkheader < 128) {
 			chunkheader++;
@@ -227,22 +233,25 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 					if (colorbuffer != NULL) {
 						free(colorbuffer);
+						print_verbose_log("colorbuffer is released");
 					}
 					else {
-						/* nothing to do */
+						print_verbose_log("colorbuffer not released");
 					}
 
 					if (texture->imageData != NULL) {
 						free(texture->imageData);
+						print_verbose_log("texture->imageData is released");
 					}
 					else {
-						/* nothing to do */
+						print_verbose_log("texture->imageData not released");
 					}
+					print_verbose_log("Variables clean");
 
 					return FALSE;
 				}
 				else {
-					/* nothing to do */
+					print_error_log("Error, not possible clean variables");
 				}
 
 				texture->imageData[currentbyte] = colorbuffer[2];
@@ -251,6 +260,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (tga.bytesPerPixel == 4) {
 						texture->imageData[currentbyte + 3] = colorbuffer[3];
+						print_verbose_log("imageData received bytesPerPixel");
 				}
 				else {
 					/* nothing to do */
