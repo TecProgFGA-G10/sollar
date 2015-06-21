@@ -259,11 +259,11 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				texture->imageData[currentbyte + 2] = colorbuffer[0];
 
 				if (tga.bytesPerPixel == 4) {
-						texture->imageData[currentbyte + 3] = colorbuffer[3];
-						print_verbose_log("imageData received bytesPerPixel");
+					texture->imageData[currentbyte + 3] = colorbuffer[3];
+					print_verbose_log("imageData received bytesPerPixel");
 				}
 				else {
-					/* nothing to do */
+					print_error_log("Error, not possible receives bytesPerPixel");
 				}
 
 				currentbyte += tga.bytesPerPixel;
@@ -274,15 +274,17 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 					if (texture->imageData != NULL) {
 						free(texture->imageData);
+						print_verbose_log("texture->imageData is released");
 					}
 					else {
-						/* nothing to do */
+						print_verbose_log("texture->imageData not released");
 					}
+					print_verbose_log("fTGA is closed");
 
 					return FALSE;
 				}
 				else {
-					/* nothing to do */
+					print_error_log("Error, not possible close fTGA");
 				}
 			}
 		}
@@ -293,22 +295,25 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (colorbuffer != NULL) {
 					free(colorbuffer);
+					print_verbose_log("colorbuffer is released");
 				}
 				else {
-					/* nothing to do */
+					print_verbose_log("colorbuffer not released");
 				}
 
 				if (texture->imageData != NULL) {
 					free(texture->imageData);
+					print_verbose_log("texture->imageData is released");
 				}
 				else {
-					/* nothing to do */
+					print_verbose_log("texture->imageData not released");
 				}
+				print_verbose_log("fTGA is closed");
 
 				return FALSE;
 			}
 			else {
-				/* nothing to do */
+				print_error_log("Error, not possible close fTGA");
 			}
 
 			for (short counter = 0; counter < chunkheader; counter++) {
@@ -318,9 +323,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (tga.bytesPerPixel == 4) {
 					texture->imageData[currentbyte + 3] = colorbuffer[3];
+					print_verbose_log("imageData received bytesPerPixel");
 				}
 				else {
-					/* nothing to do */
+					print_error_log("Error, not possible receives bytesPerPixel");
 				}
 
 				currentbyte += tga.bytesPerPixel;
@@ -330,26 +336,30 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 					if (colorbuffer != NULL) {
 						free(colorbuffer);
+						print_verbose_log("colorbuffer is released");
 					}
 					else {
-						/* nothing to do */
+						print_verbose_log("colorbuffer not released");
 					}
 
 					if (texture->imageData != NULL) {
 						free(texture->imageData);
+						print_verbose_log("texture->imageData is released");
 					}
 					else {
-						/* nothing to do */
+						print_verbose_log("texture->imageData not released");
 					}
+					print_verbose_log("fTGA is closed");
 
 					return FALSE;
 				}
 				else {
-					/* nothing to do */
+					print_error_log("Error, not possible close fTGA");
 				}
 			}
 		}
-	} while (currentpixel < pixelcount);
+	} 
+	while (currentpixel < pixelcount);
 
 	close_file(fTGA, filename);
 
