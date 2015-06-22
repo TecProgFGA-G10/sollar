@@ -169,7 +169,18 @@ int Verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel) {
 	else {
 		print_verbose_log("Texture is valid");
 	}
-} 
+}
+
+void Set_rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture) {
+	if (bytes_per_pixel == 24) {
+		type_texture = GL_RGB;
+		print_verbose_log("RGB is seted for type");
+	}
+	else {
+		type_texture = GL_RGBA;
+		print_verbose_log("RGBA is seted for type");
+	}
+}
 
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
@@ -214,6 +225,8 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		texture->type = GL_RGBA;
 		print_verbose_log("RGBA is seted for type");
 	}
+
+	//Set_rgb_for_type(texture->bpp, texture->type, GL_RGB, GL_RGBA);
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
