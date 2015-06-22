@@ -171,14 +171,14 @@ int Verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel) {
 	}
 }
 
-void Set_rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture) {
+GLuint rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture) {
 	if (bytes_per_pixel == 24) {
-		type_texture = GL_RGB;
 		print_verbose_log("RGB is seted for type");
+		return GL_RGB;
 	}
 	else {
-		type_texture = GL_RGBA;
 		print_verbose_log("RGBA is seted for type");
+		return GL_RGBA;
 	}
 }
 
@@ -217,16 +217,16 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	Verify_correct_bits(fTGA, filename, texture->bpp);
 
-	if (texture->bpp == 24) {
+	/*if (texture->bpp == 24) {
 		texture->type = GL_RGB;
 		print_verbose_log("RGB is seted for type");
 	}
 	else {
 		texture->type = GL_RGBA;
 		print_verbose_log("RGBA is seted for type");
-	}
+	}*/
 
-	//Set_rgb_for_type(texture->bpp, texture->type, GL_RGB, GL_RGBA);
+	texture->type = rgb_for_type(texture->bpp, texture->type);
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
