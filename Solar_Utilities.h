@@ -146,11 +146,9 @@ void close_file(FILE *file_to_close, char *filename) {
 	}
 }
 
-/* fix me! I am a monster! */
-int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
-{
-	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
-		close_file(fTGA, filename);
+int Verify_header(FILE *file, char *filename){
+	if (fread(tga.header, sizeof(tga.header), 1, file) == 0) {
+		close_file(file, filename);
 		print_error_log("Error, file is empty, not readed");
 
 		return FALSE;
@@ -158,6 +156,22 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	else {
 		print_verbose_log("File is readed");
 	}
+}
+
+/* fix me! I am a monster! */
+int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
+{
+	/*if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
+		close_file(fTGA, filename);
+		print_error_log("Error, file is empty, not readed");
+
+		return FALSE;
+	}
+	else {
+		print_verbose_log("File is readed");
+	}*/
+
+	Verify_header(fTGA, filename);
 
 	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
 	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
