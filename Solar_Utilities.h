@@ -222,7 +222,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			return FALSE;
 		}
 		else {
-			print_error_log("fTGA arquive is closed");
+			//print_error_log("fTGA arquive is closed");
 		}
 		if (chunkheader < 128) {
 			chunkheader++;
@@ -233,25 +233,25 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 					if (colorbuffer != NULL) {
 						free(colorbuffer);
-						print_verbose_log("colorbuffer is released");
+						//print_verbose_log("colorbuffer is released");
 					}
 					else {
-						print_verbose_log("colorbuffer not released");
+						//print_verbose_log("colorbuffer not released");
 					}
 
 					if (texture->imageData != NULL) {
 						free(texture->imageData);
-						print_verbose_log("texture->imageData is released");
+						//print_verbose_log("texture->imageData is released");
 					}
 					else {
-						print_verbose_log("texture->imageData not released");
+						//print_verbose_log("texture->imageData not released");
 					}
-					print_verbose_log("Variables clean");
+					//print_verbose_log("Variables clean");
 
 					return FALSE;
 				}
 				else {
-					print_error_log("Error, not possible clean variables");
+					//print_error_log("Error, not possible clean variables");
 				}
 
 				texture->imageData[currentbyte] = colorbuffer[2];
@@ -260,10 +260,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (tga.bytesPerPixel == 4) {
 					texture->imageData[currentbyte + 3] = colorbuffer[3];
-					print_verbose_log("imageData received bytesPerPixel");
+					//print_verbose_log("imageData received bytesPerPixel");
 				}
 				else {
-					print_error_log("Error, not possible receives bytesPerPixel");
+					//print_error_log("Error, not possible receives bytesPerPixel");
 				}
 
 				currentbyte += tga.bytesPerPixel;
@@ -274,17 +274,17 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 					if (texture->imageData != NULL) {
 						free(texture->imageData);
-						print_verbose_log("texture->imageData is released");
+						//print_verbose_log("texture->imageData is released");
 					}
 					else {
-						print_verbose_log("texture->imageData not released");
+						//print_verbose_log("texture->imageData not released");
 					}
-					print_verbose_log("fTGA is closed");
+					//print_verbose_log("fTGA is closed");
 
 					return FALSE;
 				}
 				else {
-					print_error_log("Error, not possible close fTGA");
+					//print_error_log("Error, not possible close fTGA");
 				}
 			}
 		}
@@ -295,25 +295,25 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (colorbuffer != NULL) {
 					free(colorbuffer);
-					print_verbose_log("colorbuffer is released");
+					//print_verbose_log("colorbuffer is released");
 				}
 				else {
-					print_verbose_log("colorbuffer not released");
+					//print_verbose_log("colorbuffer not released");
 				}
 
 				if (texture->imageData != NULL) {
 					free(texture->imageData);
-					print_verbose_log("texture->imageData is released");
+					//print_verbose_log("texture->imageData is released");
 				}
 				else {
-					print_verbose_log("texture->imageData not released");
+					//print_verbose_log("texture->imageData not released");
 				}
-				print_verbose_log("fTGA is closed");
+				//print_verbose_log("fTGA is closed");
 
 				return FALSE;
 			}
 			else {
-				print_error_log("Error, not possible close fTGA");
+				//print_error_log("Error, not possible close fTGA");
 			}
 
 			for (short counter = 0; counter < chunkheader; counter++) {
@@ -323,10 +323,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 				if (tga.bytesPerPixel == 4) {
 					texture->imageData[currentbyte + 3] = colorbuffer[3];
-					print_verbose_log("imageData received bytesPerPixel");
+					//print_verbose_log("imageData received bytesPerPixel");
 				}
 				else {
-					print_error_log("Error, not possible receives bytesPerPixel");
+					//print_error_log("Error, not possible receives bytesPerPixel");
 				}
 
 				currentbyte += tga.bytesPerPixel;
@@ -336,25 +336,25 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 					if (colorbuffer != NULL) {
 						free(colorbuffer);
-						print_verbose_log("colorbuffer is released");
+						//print_verbose_log("colorbuffer is released");
 					}
 					else {
-						print_verbose_log("colorbuffer not released");
+						//print_verbose_log("colorbuffer not released");
 					}
 
 					if (texture->imageData != NULL) {
 						free(texture->imageData);
-						print_verbose_log("texture->imageData is released");
+						//print_verbose_log("texture->imageData is released");
 					}
 					else {
-						print_verbose_log("texture->imageData not released");
+						//print_verbose_log("texture->imageData not released");
 					}
-					print_verbose_log("fTGA is closed");
+					//print_verbose_log("fTGA is closed");
 
 					return FALSE;
 				}
 				else {
-					print_error_log("Error, not possible close fTGA");
+					//print_error_log("Error, not possible close fTGA");
 				}
 			}
 		}
@@ -482,3 +482,536 @@ int LoadTGA(Texture *texture, char *filename)
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
