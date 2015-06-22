@@ -158,6 +158,19 @@ int Verify_header(FILE *file, char *filename){
 	}
 }
 
+int Verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel) {
+	if ((bytes_per_pixel != 24) && (bytes_per_pixel != 32))
+	{
+		close_file(file, filename);
+		print_error_log("Error, invalid texture");
+
+		return FALSE;
+	}
+	else {
+		print_verbose_log("Texture is valid");
+	}
+} 
+
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
@@ -180,7 +193,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	tga.Height = texture->height;
 	tga.Bpp = texture->bpp;
 
-	if ((texture->bpp != 24) && (texture->bpp != 32))
+	/*if ((texture->bpp != 24) && (texture->bpp != 32))
 	{
 		close_file(fTGA, filename);
 		print_error_log("Error, invalid texture");
@@ -189,7 +202,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	}
 	else {
 		print_verbose_log("Texture is valid");
-	}
+	}*/
+
+	Verify_correct_bits(fTGA, filename, texture->bpp);
 
 	if (texture->bpp == 24) {
 		texture->type = GL_RGB;
