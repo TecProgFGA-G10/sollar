@@ -412,13 +412,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 						//print_verbose_log("colorbuffer not released");
 					}
 
-					if (texture->imageData != NULL) {
+					/*if (texture->imageData != NULL) {
 						free(texture->imageData);
 						//print_verbose_log("texture->imageData is released");
 					}
 					else {
 						//print_verbose_log("texture->imageData not released");
-					}
+					}*/
+					Evaluate_image_data_to_release(&texture->imageData);
 					//print_verbose_log("fTGA is closed");
 
 					return FALSE;
