@@ -182,7 +182,7 @@ GLuint rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture) {
 	}
 }
 
-int Evaluate_image_data(FILE *file, char *filename, GLubyte **image_data) {
+int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte **image_data) {
 	if (image_data == NULL) {
 		close_file(file, filename);
 		print_error_log("Error, image Data is null");
@@ -191,6 +191,16 @@ int Evaluate_image_data(FILE *file, char *filename, GLubyte **image_data) {
 	}
 	else {
 		print_verbose_log("Image data filled");
+	}
+}
+
+void Evaluate_image_data_to_release(GLubyte **image_data) {
+	if (image_data != NULL) {
+		free(image_data);
+		print_verbose_log("texture->imageData is released");
+	}
+	else {
+		print_verbose_log("texture->imageData not released");
 	}
 }
 
@@ -255,7 +265,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		print_verbose_log("Image data filled");
 	}*/
 
-	Evaluate_image_data(fTGA, filename, &texture->imageData);
+	Evaluate_image_data_to_close(fTGA, filename, &texture->imageData);
 
 	GLuint pixelcount = tga.Height * tga.Width;
 	GLuint currentpixel = 0;
@@ -267,13 +277,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0) {
 			close_file(fTGA, filename);
 
-			if (texture->imageData != NULL) {
+			/*if (texture->imageData != NULL) {
 				free(texture->imageData);
 				print_verbose_log("texture->imageData is released");
 			}
 			else {
 				print_verbose_log("texture->imageData not released");
-			}
+			}*/
+			Evaluate_image_data_to_release(&texture->imageData);
 
 			return FALSE;
 		}
