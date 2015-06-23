@@ -340,13 +340,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				if (currentpixel > pixelcount) {
 					close_file(fTGA, filename);
 
-					if (texture->imageData != NULL) {
+					/*if (texture->imageData != NULL) {
 						free(texture->imageData);
 						//print_verbose_log("texture->imageData is released");
 					}
 					else {
 						//print_verbose_log("texture->imageData not released");
-					}
+					}*/
+					Evaluate_image_data_to_release(&texture->imageData);
 					//print_verbose_log("fTGA is closed");
 
 					return FALSE;
