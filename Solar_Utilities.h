@@ -3,6 +3,7 @@
  * This file defines the graphics interface of the game, load the
  * textures and manage the TGA files from the folder "data".
  */
+ 
 #include "logger.h"
 #ifndef SOLAR_UTIL_H
 #define SOLAR_UTIL_H
@@ -194,13 +195,26 @@ int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte **image_dat
 	}
 }
 
-void Evaluate_image_data_to_release(GLubyte **image_data) {
+void Evaluate_image_data_to_release(GLubyte *image_data) {
 	if (image_data != NULL) {
 		free(image_data);
 		print_verbose_log("texture->imageData is released");
 	}
 	else {
 		print_verbose_log("texture->imageData not released");
+	}
+}
+
+int Verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte *chunkheader) {
+	if (fread(chunkheader, sizeof(GLubyte), 1, file) == 0) {
+		close_file(file, filename);
+		Evaluate_image_data_to_release(image_data);
+
+		return FALSE;
+	}
+	else {
+		//print_error_log("fTGA arquive is closed");
+		return TRUE;
 	}
 }
 
@@ -274,23 +288,29 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	do {
 		GLubyte chunkheader = 0;
-		if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0) {
-			close_file(fTGA, filename);
+		// if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0) {
+		// 	close_file(fTGA, filename);
 
-			/*if (texture->imageData != NULL) {
-				free(texture->imageData);
-				print_verbose_log("texture->imageData is released");
-			}
-			else {
-				print_verbose_log("texture->imageData not released");
-			}*/
-			Evaluate_image_data_to_release(&texture->imageData);
+		// 	if (texture->imageData != NULL) {
+		// 		free(texture->imageData);
+		// 		print_verbose_log("texture->imageData is released");
+		// 	}
+		// 	else {
+		// 		print_verbose_log("texture->imageData not released");
+		// 	}
+		// 	Evaluate_image_data_to_release(texture->imageData);
 
+		// 	return FALSE;
+		// }
+		// else {
+		// 	print_error_log("fTGA arquive is closed");
+		// }
+
+		int result_verify_chunkheader =  Verify_chunkheader(fTGA, filename, texture->imageData, &chunkheader);
+		if (result_verify_chunkheader != TRUE){
 			return FALSE;
 		}
-		else {
-			//print_error_log("fTGA arquive is closed");
-		}
+
 		if (chunkheader < 128) {
 			chunkheader++;
 
@@ -313,7 +333,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 					else {
 						print_verbose_log("texture->imageData not released");
 					}*/
-					Evaluate_image_data_to_release(&texture->imageData);
+					Evaluate_image_data_to_release(texture->imageData);
 					//print_verbose_log("Variables clean");
 
 					return FALSE;
@@ -347,7 +367,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 					else {
 						//print_verbose_log("texture->imageData not released");
 					}*/
-					Evaluate_image_data_to_release(&texture->imageData);
+					Evaluate_image_data_to_release(texture->imageData);
 					//print_verbose_log("fTGA is closed");
 
 					return FALSE;
@@ -377,7 +397,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				else {
 					//print_verbose_log("texture->imageData not released");
 				}*/
-				Evaluate_image_data_to_release(&texture->imageData);
+				Evaluate_image_data_to_release(texture->imageData);
 				//print_verbose_log("fTGA is closed");
 
 				return FALSE;
@@ -419,7 +439,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 					else {
 						//print_verbose_log("texture->imageData not released");
 					}*/
-					Evaluate_image_data_to_release(&texture->imageData);
+					Evaluate_image_data_to_release(texture->imageData);
 					//print_verbose_log("fTGA is closed");
 
 					return FALSE;
