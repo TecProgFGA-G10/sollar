@@ -214,7 +214,7 @@ int Verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte 
 	}
 	else {
 		//print_error_log("fTGA arquive is closed");
-		return TRUE;
+		return TRUE; /*Included after the create this function*/
 	}
 }
 
@@ -225,6 +225,20 @@ void Evaluate_color_buffer(GLubyte *colorbuffer){
 	}
 	else {
 		//print_verbose_log("colorbuffer not released");
+	}
+}
+
+int Evaluate_size_object(GLubyte *colorbuffer, GLuint bytes_per_pixel, FILE *file, char *filename, GLubyte *image_data){
+	if (fread(colorbuffer, 1, bytes_per_pixel, file) != tga.bytesPerPixel) {
+		close_file(file, filename);
+		Evaluate_color_buffer(colorbuffer);
+		Evaluate_image_data_to_release(image_data);
+		//print_verbose_log("Variables clean");
+
+		return FALSE;
+	}
+	else {
+		//print_error_log("Error, not possible clean variables");
 	}
 }
 
@@ -325,16 +339,16 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			chunkheader++;
 
 			for (short counter = 0; counter < chunkheader; counter++) {
-				if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
+				/*if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
 					close_file(fTGA, filename);
 
-					/*if (colorbuffer != NULL) {
+					if (colorbuffer != NULL) {
 						free(colorbuffer);
 						//print_verbose_log("colorbuffer is released");
 					}
 					else {
 						//print_verbose_log("colorbuffer not released");
-					}*/
+					}
 					Evaluate_color_buffer(colorbuffer);
 
 					/*if (texture->imageData != NULL) {
@@ -343,7 +357,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 					}
 					else {
 						print_verbose_log("texture->imageData not released");
-					}*/
+					}
 					Evaluate_image_data_to_release(texture->imageData);
 					//print_verbose_log("Variables clean");
 
@@ -351,7 +365,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				}
 				else {
 					//print_error_log("Error, not possible clean variables");
-				}
+				}*/
+				
+				//avalia se o arquivo pode ser fechado, avalia se há cor e libera memória, avalia a imagem da textura e libera memória
+				Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
 
 				texture->imageData[currentbyte] = colorbuffer[2];
 				texture->imageData[currentbyte + 1] = colorbuffer[1];
@@ -586,52 +603,4 @@ int LoadTGA(Texture *texture, char *filename)
 }
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
