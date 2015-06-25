@@ -393,13 +393,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
 				close_file(fTGA, filename);
 
-				if (colorbuffer != NULL) {
+				/*if (colorbuffer != NULL) {
 					free(colorbuffer);
 					//print_verbose_log("colorbuffer is released");
 				}
 				else {
 					//print_verbose_log("colorbuffer not released");
-				}
+				}*/
+				Evaluate_color_buffer(colorbuffer);
 
 				/*if (texture->imageData != NULL) {
 					free(texture->imageData);
@@ -435,13 +436,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				if (currentpixel > pixelcount) {
 					close_file(fTGA, filename);
 
-					if (colorbuffer != NULL) {
+					/*if (colorbuffer != NULL) {
 						free(colorbuffer);
 						//print_verbose_log("colorbuffer is released");
 					}
 					else {
 						//print_verbose_log("colorbuffer not released");
-					}
+					}*/
+					Evaluate_color_buffer(colorbuffer);
 
 					/*if (texture->imageData != NULL) {
 						free(texture->imageData);
@@ -584,146 +586,6 @@ int LoadTGA(Texture *texture, char *filename)
 }
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
