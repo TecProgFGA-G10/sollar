@@ -254,6 +254,20 @@ GLubyte Check_pixels_for_image_data(GLuint bytes_per_pixel, GLubyte *colorbuffer
 	}
 }
 
+int Evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *filename, GLubyte *image_data){
+	if (current_pixel > pixel_count) {
+		close_file(file, filename);
+
+		Evaluate_image_data_to_release(image_data);
+		//print_verbose_log("fTGA is closed");
+
+		return FALSE;
+	}
+	else {
+		//print_error_log("Error, not possible close fTGA");
+	}
+}
+
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
@@ -398,16 +412,16 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				currentbyte += tga.bytesPerPixel;
 				currentpixel++;
 
-				if (currentpixel > pixelcount) {
+				/*if (currentpixel > pixelcount) {
 					close_file(fTGA, filename);
 
-					/*if (texture->imageData != NULL) {
+					if (texture->imageData != NULL) {
 						free(texture->imageData);
 						//print_verbose_log("texture->imageData is released");
 					}
 					else {
 						//print_verbose_log("texture->imageData not released");
-					}*/
+					}
 					Evaluate_image_data_to_release(texture->imageData);
 					//print_verbose_log("fTGA is closed");
 
@@ -415,7 +429,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				}
 				else {
 					//print_error_log("Error, not possible close fTGA");
-				}
+				}*/
+				
+				Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData);
 			}
 		}
 		else {
