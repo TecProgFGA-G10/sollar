@@ -254,10 +254,10 @@ GLubyte Check_pixels_for_image_data(GLuint bytes_per_pixel, GLubyte *colorbuffer
 	}
 }
 
-int Evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *filename, GLubyte *image_data) {
+int Evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *filename, GLubyte *image_data, GLubyte *colorbuffer) {
 	if (current_pixel > pixel_count) {
 		close_file(file, filename);
-
+		Evaluate_color_buffer(colorbuffer);
 		Evaluate_image_data_to_release(image_data);
 		//print_verbose_log("fTGA is closed");
 
@@ -431,7 +431,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 					//print_error_log("Error, not possible close fTGA");
 				}*/
 				
-				Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData);
+				Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
 			}
 
 		}
