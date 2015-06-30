@@ -572,12 +572,13 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		/* nothing to do */
 	}
 
-	if (texture->bpp == 24) {
+	/*if (texture->bpp == 24) {
 		texture->type = GL_RGB;
 	}
 	else {
 		texture->type = GL_RGBA;
-	}
+	}*/
+	texture->type = rgb_for_type(texture->bpp, texture->type);
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
