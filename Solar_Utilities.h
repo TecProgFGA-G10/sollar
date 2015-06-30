@@ -518,16 +518,30 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	return TRUE;
 }
 
+void Evaluate_file(FILE *file){
+	if (file != NULL) {
+		fclose(file);
+	}
+	else {
+		/* nothing to do */
+	}
+}
+
+/*int Evaluate_file(GLubyte tga_header, FILE *file){
+
+}*/
+
 /* loads uncompressed TGA */
 int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
-		if (fTGA != NULL) {
+		/*if (fTGA != NULL) {
 			fclose(fTGA);
 		}
 		else {
-			/* nothing to do */
-		}
+			/* nothing to do
+		}*/
+		Evaluate_file(fTGA);
 		return FALSE;
 	}
 	else {
