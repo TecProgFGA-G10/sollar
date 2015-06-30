@@ -268,6 +268,12 @@ int Evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *f
 	}
 }
 
+void Set_image_data(GLubyte *image_data, GLuint current_byte, GLubyte *colorbuffer) {
+	image_data[current_byte] = colorbuffer[2];
+	image_data[current_byte + 1] = colorbuffer[1];
+	image_data[current_byte + 2] = colorbuffer[0];
+}
+
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
@@ -396,9 +402,11 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				//avalia se o arquivo pode ser fechado, avalia se há cor e libera memória, avalia a imagem da textura e libera memória
 				Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
 
-				texture->imageData[currentbyte] = colorbuffer[2];
+				/*texture->imageData[currentbyte] = colorbuffer[2];
 				texture->imageData[currentbyte + 1] = colorbuffer[1];
-				texture->imageData[currentbyte + 2] = colorbuffer[0];
+				texture->imageData[currentbyte + 2] = colorbuffer[0];*/
+
+				Set_image_data(texture->imageData, currentbyte, colorbuffer);
 
 				/*if (tga.bytesPerPixel == 4) {
 					texture->imageData[currentbyte + 3] = colorbuffer[3];
