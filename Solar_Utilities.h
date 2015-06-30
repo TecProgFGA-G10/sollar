@@ -268,10 +268,11 @@ int Evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *f
 	}
 }
 
-void Set_image_data(GLubyte *image_data, GLuint current_byte, GLubyte *colorbuffer) {
+void Set_image_data(GLubyte *image_data, GLuint current_byte, GLubyte *colorbuffer, GLuint bytes_per_pixel) {
 	image_data[current_byte] = colorbuffer[2];
 	image_data[current_byte + 1] = colorbuffer[1];
 	image_data[current_byte + 2] = colorbuffer[0];
+	image_data[current_byte + 3] = Check_pixels_for_image_data(bytes_per_pixel, colorbuffer);
 }
 
 /* fix me! I am a monster! */
@@ -406,7 +407,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				texture->imageData[currentbyte + 1] = colorbuffer[1];
 				texture->imageData[currentbyte + 2] = colorbuffer[0];*/
 
-				Set_image_data(texture->imageData, currentbyte, colorbuffer);
+				
 
 				/*if (tga.bytesPerPixel == 4) {
 					texture->imageData[currentbyte + 3] = colorbuffer[3];
@@ -415,7 +416,8 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				else {
 					//print_error_log("Error, not possible receives bytesPerPixel");
 				}*/
-				texture->imageData[currentbyte + 3] = Check_pixels_for_image_data(tga.bytesPerPixel, colorbuffer);
+				//texture->imageData[currentbyte + 3] = Check_pixels_for_image_data(tga.bytesPerPixel, colorbuffer);
+				Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
 
 				currentbyte += tga.bytesPerPixel;
 				currentpixel++;
