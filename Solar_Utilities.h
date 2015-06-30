@@ -593,12 +593,13 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	}
 	/* attempt to read image data */
 	if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize) {
-		if (texture->imageData != NULL) {
+		/*if (texture->imageData != NULL) {
 			free(texture->imageData);
 		}
 		else {
-			/* nothing to do */
-		}
+			/* nothing to do
+		}*/
+		Evaluate_image_data_to_release(texture->imageData);
 		fclose(fTGA);
 		return FALSE;
 	}
