@@ -471,13 +471,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				texture->imageData[currentbyte + 1] = colorbuffer[1];
 				texture->imageData[currentbyte + 2] = colorbuffer[0];
 
-				if (tga.bytesPerPixel == 4) {
+				/*if (tga.bytesPerPixel == 4) {
 					texture->imageData[currentbyte + 3] = colorbuffer[3];
 					//print_verbose_log("imageData received bytesPerPixel");
 				}
 				else {
 					//print_error_log("Error, not possible receives bytesPerPixel");
-				}
+				}*/
+				texture->imageData[currentbyte + 3] = Check_pixels_for_image_data(tga.bytesPerPixel, colorbuffer);
 
 				currentbyte += tga.bytesPerPixel;
 				currentpixel++;
