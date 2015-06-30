@@ -183,7 +183,7 @@ GLuint rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture) {
 	}
 }
 
-int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte **image_data) {
+int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data) {
 	if (image_data == NULL) {
 		close_file(file, filename);
 		print_error_log("Error, image Data is null");
@@ -329,7 +329,7 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 		print_verbose_log("Image data filled");
 	}*/
 
-	Evaluate_image_data_to_close(fTGA, filename, &texture->imageData);
+	Evaluate_image_data_to_close(fTGA, filename, texture->imageData);
 
 	GLuint pixelcount = tga.Height * tga.Width;
 	GLuint currentpixel = 0;
