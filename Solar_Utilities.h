@@ -527,6 +527,8 @@ void Evaluate_file(FILE *file){
 	}
 }
 
+
+
 /*int Evaluate_file(GLubyte tga_header, FILE *file){
 
 }*/
@@ -557,12 +559,13 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	if ((texture->width <= 0) || (texture->height <= 0) ||
 		((texture->bpp != 24) && (texture->bpp !=32))) {
-		if (fTGA != NULL) {
+		/*if (fTGA != NULL) {
 			fclose(fTGA);
 		}
 		else {
-			/* nothing to do */
-		}
+			/* nothing to do
+		}*/
+		Evaluate_file(fTGA);
 		return FALSE;
 	}
 	else {
@@ -623,12 +626,13 @@ int LoadTGA(Texture *texture, char *filename)
 		/* nothing to do */
 	}
 	if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0) {
-		if (fTGA != NULL) {
+		/*if (fTGA != NULL) {
 			fclose(fTGA);
 		}
 		else {
-			/* nothing to do */
-		}
+			/* nothing to do
+		}*/
+		Evaluate_file(fTGA);
 		return FALSE;
 	}
 	else {
