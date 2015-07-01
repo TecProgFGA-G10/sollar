@@ -397,15 +397,17 @@ int Verify_and_evaluate_header(FILE *file, char *filename) {
 	}
 }
 
-/*int Evaluate_texture(FILE *file, ) {
-
-}*/
-
-/*void Set_textures(Texture *texture){
-	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
-	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
-	texture->bpp = (GLuint)tga.header[4];
-}*/
+int Evaluate_texture(Texture *texture, FILE *file){
+	if ((texture->width <= 0) || (texture->height <= 0) ||
+		((texture->bpp != 24) && (texture->bpp !=32))) {
+		
+		Evaluate_file(file);
+		return FALSE;
+	}
+	else {
+		/* nothing to do */
+	}
+}
 
 
 /* loads uncompressed TGA */
@@ -430,24 +432,27 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
 	texture->bpp = tga.header[4];*/
 	Set_textures(texture);
-	tga.Width = texture->width;
+	/*tga.Width = texture->width;
 	tga.Height = texture->height;
-	tga.Bpp = texture->bpp;
+	tga.Bpp = texture->bpp;*/
+	Set_tgas(texture);
 
-	if ((texture->width <= 0) || (texture->height <= 0) ||
+	/*if ((texture->width <= 0) || (texture->height <= 0) ||
 		((texture->bpp != 24) && (texture->bpp !=32))) {
 		/*if (fTGA != NULL) {
 			fclose(fTGA);
 		}
 		else {
 			/* nothing to do
-		}*/
+		}
 		Evaluate_file(fTGA);
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
-	}
+		/* nothing to do 
+	}*/
+
+	Evaluate_texture(texture, fTGA);
 
 	/*if (texture->bpp == 24) {
 		texture->type = GL_RGB;
