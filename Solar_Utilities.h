@@ -431,6 +431,14 @@ int Verify_and_evaluate_image_data(GLubyte *image_data, GLuint image_size, FILE 
 	}
 }
 
+void Loop_set_textures(GLubyte *image_data, GLuint image_size, GLuint bytes_per_pixel){
+	for (GLuint cswap = 0; cswap < (int)image_size; cswap += bytes_per_pixel) {
+		image_data[cswap] ^= image_data[cswap+2];
+		image_data[cswap+2] ^=	image_data[cswap];
+		image_data[cswap] ^= image_data[cswap+2];
+	}
+}
+
 /* loads uncompressed TGA */
 int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
@@ -452,11 +460,12 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	Verify_and_evaluate_image_data(texture->imageData, tga.imageSize, fTGA);
 
-	for (GLuint cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
+	/*for (GLuint cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
 		texture->imageData[cswap] ^= texture->imageData[cswap+2];
 		texture->imageData[cswap+2] ^=	texture->imageData[cswap];
 		texture->imageData[cswap] ^= texture->imageData[cswap+2];
-	}
+	}*/
+	Loop_set_textures(texture->imageData, tga.imageSize, tga.bytesPerPixel);
 	fclose(fTGA);
 	return TRUE;
 }
@@ -500,30 +509,7 @@ int LoadTGA(Texture *texture, char *filename)
 	fTGA = fopen(filename, "rb");
 	
 	Evaluate_file_is_null(fTGA);
-	/*if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0) {
-		/*if (fTGA != NULL) {
-			fclose(fTGA);
-		}
-		else {
-			/* nothing to do
-		}
-		Evaluate_file(fTGA);
-		return FALSE;
-	}
-	else {
-		/* nothing to do 
-	}*/
 	Verify_and_evaluate_tgaheader(fTGA, texture);
-	/*if (memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
-		LoadUncompressedTGA(texture, filename, fTGA);
-	}
-	else if (memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
-		LoadCompressedTGA(texture, filename, fTGA);
-	}
-	else {
-		fclose(fTGA);
-		return FALSE;
-	}*/
 	Verify_memory_to_texture(texture, filename, fTGA);
 	return TRUE;
 }
