@@ -286,49 +286,27 @@ GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel) {
 	return current_byte;
 }
 
-/* fix me! I am a monster! */
-int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
-{
-	/*if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
-		close_file(fTGA, filename);
-		print_error_log("Error, file is empty, not readed");
-
-		return FALSE;
-	}
-	else {
-		print_verbose_log("File is readed");
-	}*/
-
-	Verify_header(fTGA, filename);
-
+void Set_textures(Texture *texture){
 	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
 	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
 	texture->bpp = (GLuint)tga.header[4];
+}
+
+
+/* fix me! I am a monster! */
+int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
+{
+	Verify_header(fTGA, filename);
+
+	/*texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
+	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
+	texture->bpp = (GLuint)tga.header[4];*/
+	Set_textures(texture);
 	tga.Width = texture->width;
 	tga.Height = texture->height;
 	tga.Bpp = texture->bpp;
 
-	/*if ((texture->bpp != 24) && (texture->bpp != 32))
-	{
-		close_file(fTGA, filename);
-		print_error_log("Error, invalid texture");
-
-		return FALSE;
-	}
-	else {
-		print_verbose_log("Texture is valid");
-	}*/
-
 	Verify_correct_bits(fTGA, filename, texture->bpp);
-
-	/*if (texture->bpp == 24) {
-		texture->type = GL_RGB;
-		print_verbose_log("RGB is seted for type");
-	}
-	else {
-		texture->type = GL_RGBA;
-		print_verbose_log("RGBA is seted for type");
-	}*/
 
 	texture->type = rgb_for_type(texture->bpp, texture->type);
 
@@ -336,16 +314,6 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
 	free(texture->imageData);
 	texture->imageData = (GLubyte *)malloc(tga.imageSize * sizeof(GLubyte));
-
-	/*if (texture->imageData == NULL) {
-		close_file(fTGA, filename);
-		print_error_log("Error, image Data is null");
-
-		return FALSE;
-	}
-	else {
-		print_verbose_log("Image data filled");
-	}*/
 
 	Evaluate_image_data_to_close(fTGA, filename, texture->imageData);
 
@@ -356,186 +324,34 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 	do {
 		GLubyte chunkheader = 0;
-		// if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0) {
-		// 	close_file(fTGA, filename);
-
-		// 	if (texture->imageData != NULL) {
-		// 		free(texture->imageData);
-		// 		print_verbose_log("texture->imageData is released");
-		// 	}
-		// 	else {
-		// 		print_verbose_log("texture->imageData not released");
-		// 	}
-		// 	Evaluate_image_data_to_release(texture->imageData);
-
-		// 	return FALSE;
-		// }
-		// else {
-		// 	print_error_log("fTGA arquive is closed");
-		// }
-
 		int result_verify_chunkheader =  Verify_chunkheader(fTGA, filename, texture->imageData, &chunkheader);
-		/*if (result_verify_chunkheader != TRUE){
-			return FALSE;
-		}*/
 
 		if (chunkheader < 128) {
 			chunkheader++;
+			//Loop_chunkheader(chunkheader, colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData, currentpixel, currentbyte, pixelcount);
 
-			for (short counter = 0; counter < chunkheader; counter++) {
-				/*if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
-					close_file(fTGA, filename);
-
-					if (colorbuffer != NULL) {
-						free(colorbuffer);
-						//print_verbose_log("colorbuffer is released");
-					}
-					else {
-						//print_verbose_log("colorbuffer not released");
-					}
-					Evaluate_color_buffer(colorbuffer);
-
-					/*if (texture->imageData != NULL) {
-						free(texture->imageData);
-						print_verbose_log("texture->imageData is released");
-					}
-					else {
-						print_verbose_log("texture->imageData not released");
-					}
-					Evaluate_image_data_to_release(texture->imageData);
-					//print_verbose_log("Variables clean");
-
-					return FALSE;
-				}
-				else {
-					//print_error_log("Error, not possible clean variables");
-				}*/
+			 for (short counter = 0; counter < chunkheader; counter++) {
 				
-				//avalia se o arquivo pode ser fechado, avalia se há cor e libera memória, avalia a imagem da textura e libera memória
-				Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
-
-				/*texture->imageData[currentbyte] = colorbuffer[2];
-				texture->imageData[currentbyte + 1] = colorbuffer[1];
-				texture->imageData[currentbyte + 2] = colorbuffer[0];*/
-
-				
-
-				/*if (tga.bytesPerPixel == 4) {
-					texture->imageData[currentbyte + 3] = colorbuffer[3];
-					//print_verbose_log("imageData received bytesPerPixel");
-				}
-				else {
-					//print_error_log("Error, not possible receives bytesPerPixel");
-				}*/
-				//texture->imageData[currentbyte + 3] = Check_pixels_for_image_data(tga.bytesPerPixel, colorbuffer);
-				Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
-
-				currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
-				//currentbyte += tga.bytesPerPixel;
-				//currentpixel++;
-				currentpixel = Increment_pixel(currentpixel);
-
-				
-
-				/*if (currentpixel > pixelcount) {
-					close_file(fTGA, filename);
-
-					if (texture->imageData != NULL) {
-						free(texture->imageData);
-						//print_verbose_log("texture->imageData is released");
-					}
-					else {
-						//print_verbose_log("texture->imageData not released");
-					}
-					Evaluate_image_data_to_release(texture->imageData);
-					//print_verbose_log("fTGA is closed");
-
-					return FALSE;
-				}
-				else {
-					//print_error_log("Error, not possible close fTGA");
-				}*/
-				
-				Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
+			 	//avalia se o arquivo pode ser fechado, avalia se há cor e libera memória, avalia a imagem da textura e libera memória
+			 	Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
+			 	Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
+			 	currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
+			 	currentpixel = Increment_pixel(currentpixel);
+			 	//printf("André gay %d\n",currentpixel);
+			 	Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
+			 	//printf("André gay %d\n",currentpixel);
 			}
 
 		}
 		else {
 			chunkheader -= 127;
-			/*if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) {
-				close_file(fTGA, filename);
-
-				/*if (colorbuffer != NULL) {
-					free(colorbuffer);
-					//print_verbose_log("colorbuffer is released");
-				}
-				else {
-					//print_verbose_log("colorbuffer not released");
-				}
-				Evaluate_color_buffer(colorbuffer);
-
-				/*if (texture->imageData != NULL) {
-					free(texture->imageData);
-					//print_verbose_log("texture->imageData is released");
-				}
-				else {
-					//print_verbose_log("texture->imageData not released");
-				}
-				Evaluate_image_data_to_release(texture->imageData);
-				//print_verbose_log("fTGA is closed");
-
-				return FALSE;
-			}
-			else {
-				//print_error_log("Error, not possible close fTGA");
-			}*/
 			Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
 
 			for (short counter = 0; counter < chunkheader; counter++) {
-				/*texture->imageData[currentbyte] = colorbuffer[2];
-				texture->imageData[currentbyte + 1] = colorbuffer[1];
-				texture->imageData[currentbyte + 2] = colorbuffer[0];*/
-
-				/*if (tga.bytesPerPixel == 4) {
-					texture->imageData[currentbyte + 3] = colorbuffer[3];
-					//print_verbose_log("imageData received bytesPerPixel");
-				}
-				else {
-					//print_error_log("Error, not possible receives bytesPerPixel");
-				}*/
-				//texture->imageData[currentbyte + 3] = Check_pixels_for_image_data(tga.bytesPerPixel, colorbuffer);
-
+			
 				Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
-
 				currentbyte += tga.bytesPerPixel;
 				currentpixel++;
-				/*if (currentpixel > pixelcount) {
-					close_file(fTGA, filename);
-
-					/*if (colorbuffer != NULL) {
-						free(colorbuffer);
-						//print_verbose_log("colorbuffer is released");
-					}
-					else {
-						//print_verbose_log("colorbuffer not released");
-					}
-					Evaluate_color_buffer(colorbuffer);
-
-					/*if (texture->imageData != NULL) {
-						free(texture->imageData);
-						//print_verbose_log("texture->imageData is released");
-					}
-					else {
-						//print_verbose_log("texture->imageData not released");
-					}
-					Evaluate_image_data_to_release(texture->imageData);
-					//print_verbose_log("fTGA is closed");
-
-					return FALSE;
-				}
-				else {
-					//print_error_log("Error, not possible close fTGA");
-				}*/
 				Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
 			}
 		}
@@ -683,6 +499,501 @@ int LoadTGA(Texture *texture, char *filename)
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
