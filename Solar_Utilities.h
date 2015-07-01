@@ -419,14 +419,9 @@ int Evaluate_texture_is_null(GLubyte *image_data, FILE *file){
 	}
 }
 
+/* attempt to read image data */
 int Verify_and_evaluate_image_data(GLubyte *image_data, GLuint image_size, FILE *file) {
 	if (fread(image_data, 1, image_size, file) != image_size) {
-		/*if (texture->imageData != NULL) {
-			free(texture->imageData);
-		}
-		else {
-			/* nothing to do
-		}*/
 		Evaluate_image_data_to_release(image_data);
 		fclose(file);
 		return FALSE;
@@ -439,83 +434,22 @@ int Verify_and_evaluate_image_data(GLubyte *image_data, GLuint image_size, FILE 
 /* loads uncompressed TGA */
 int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
-	/*if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
-		/*if (fTGA != NULL) {
-			fclose(fTGA);
-		}
-		else {
-			/* nothing to do
-		}
-		Evaluate_file(fTGA);
-		return FALSE;
-	}
-	else {
-		/* nothing to do
-	}*/
 	Verify_and_evaluate_header(fTGA, filename);
 
 	/*texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
 	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
 	texture->bpp = tga.header[4];*/
 	Set_textures(texture);
-	/*tga.Width = texture->width;
-	tga.Height = texture->height;
-	tga.Bpp = texture->bpp;*/
 	Set_tgas(texture);
-
-	/*if ((texture->width <= 0) || (texture->height <= 0) ||
-		((texture->bpp != 24) && (texture->bpp !=32))) {
-		/*if (fTGA != NULL) {
-			fclose(fTGA);
-		}
-		else {
-			/* nothing to do
-		}
-		Evaluate_file(fTGA);
-		return FALSE;
-	}
-	else {
-		/* nothing to do 
-	}*/
-
 	Evaluate_texture(texture, fTGA);
-
-	/*if (texture->bpp == 24) {
-		texture->type = GL_RGB;
-	}
-	else {
-		texture->type = GL_RGBA;
-	}*/
 	texture->type = rgb_for_type(texture->bpp, texture->type);
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
 	texture->imageData = (GLubyte *)malloc(tga.imageSize);
 
-	/*if (texture->imageData == NULL) {
-		fclose(fTGA);
-		return FALSE;
-	}
-	else {
-		/* nothing to do 
-	}*/
 	Evaluate_texture_is_null(texture->imageData, fTGA);
 
-	/* attempt to read image data */
-	/*if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize) {
-		/*if (texture->imageData != NULL) {
-			free(texture->imageData);
-		}
-		else {
-			/* nothing to do
-		}
-		Evaluate_image_data_to_release(texture->imageData);
-		fclose(fTGA);
-		return FALSE;
-	}
-	else {
-		/* nothing to do
-	}*/
 	Verify_and_evaluate_image_data(texture->imageData, tga.imageSize, fTGA);
 
 	for (GLuint cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
@@ -527,17 +461,27 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	return TRUE;
 }
 
-/* loads TGA */
-int LoadTGA(Texture *texture, char *filename)
-{
-	FILE *fTGA;
-	fTGA = fopen(filename, "rb");
-	if (fTGA == NULL) {
+int Evaluate_file_is_null(FILE *file){
+	if (file == NULL) {
 		return FALSE;
 	}
 	else {
 		/* nothing to do */
 	}
+}
+
+/* loads TGA */
+int LoadTGA(Texture *texture, char *filename)
+{
+	FILE *fTGA;
+	fTGA = fopen(filename, "rb");
+	/*if (fTGA == NULL) {
+		return FALSE;
+	}
+	else {
+		/* nothing to do 
+	}*/
+	Evaluate_file_is_null(fTGA);
 	if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0) {
 		/*if (fTGA != NULL) {
 			fclose(fTGA);
@@ -565,6 +509,609 @@ int LoadTGA(Texture *texture, char *filename)
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
