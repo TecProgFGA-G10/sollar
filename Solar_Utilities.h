@@ -139,6 +139,12 @@ void Set_textures(Texture *texture){
 	texture->bpp = (GLuint)tga.header[4];
 }
 
+void Set_tgas(Texture *texture){
+	tga.Width = texture->width;
+	tga.Height = texture->height;
+	tga.Bpp = texture->bpp;
+}
+
 /*
  * Closes a file and record in log file the operation result
  * Parameters:	*file_to_close - pointer to the file to be close
@@ -293,24 +299,13 @@ GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel) {
 	return current_byte;
 }
 
-void Set_tgas(Texture *texture){
-	tga.Width = texture->width;
-	tga.Height = texture->height;
-	tga.Bpp = texture->bpp;
-}
+
 
 /* fix me! I am a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	Verify_header(fTGA, filename);
-
-	/*texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
-	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
-	texture->bpp = (GLuint)tga.header[4];*/
 	Set_textures(texture);
-	/*tga.Width = texture->width;
-	tga.Height = texture->height;
-	tga.Bpp = texture->bpp;*/
 	Set_tgas(texture);
 
 	Verify_correct_bits(fTGA, filename, texture->bpp);
@@ -357,8 +352,8 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			for (short counter = 0; counter < chunkheader; counter++) {
 			
 				Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
-				currentbyte += tga.bytesPerPixel;
-				currentpixel++;
+				currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
+			 	currentpixel = Increment_pixel(currentpixel);
 				Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
 			}
 		}
