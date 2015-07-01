@@ -470,31 +470,43 @@ int Evaluate_file_is_null(FILE *file){
 	}
 }
 
-/* loads TGA */
-int LoadTGA(Texture *texture, char *filename)
-{
-	FILE *fTGA;
-	fTGA = fopen(filename, "rb");
-	/*if (fTGA == NULL) {
-		return FALSE;
-	}
-	else {
-		/* nothing to do 
-	}*/
-	Evaluate_file_is_null(fTGA);
-	if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0) {
+int Verify_and_evaluate_tgaheader(FILE *file, Texture *texture) {
+	if (fread(&tgaheader, sizeof(TGAHeader), 1, file) == 0) {
 		/*if (fTGA != NULL) {
 			fclose(fTGA);
 		}
 		else {
 			/* nothing to do
 		}*/
-		Evaluate_file(fTGA);
+		Evaluate_file(file);
 		return FALSE;
 	}
 	else {
 		/* nothing to do */
 	}
+}
+
+/* loads TGA */
+int LoadTGA(Texture *texture, char *filename)
+{
+	FILE *fTGA;
+	fTGA = fopen(filename, "rb");
+	
+	Evaluate_file_is_null(fTGA);
+	/*if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0) {
+		/*if (fTGA != NULL) {
+			fclose(fTGA);
+		}
+		else {
+			/* nothing to do
+		}
+		Evaluate_file(fTGA);
+		return FALSE;
+	}
+	else {
+		/* nothing to do 
+	}*/
+	Verify_and_evaluate_tgaheader(fTGA, texture);
 	if (memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
 		LoadUncompressedTGA(texture, filename, fTGA);
 	}
