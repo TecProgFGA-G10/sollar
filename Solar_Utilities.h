@@ -276,9 +276,11 @@ void Set_image_data(GLubyte *image_data, GLuint current_byte, GLubyte *colorbuff
 	//current_byte += bytes_per_pixel;
 }
 
-void Increment_pixel(GLuint current_byte, GLuint bytes_per_pixel) {
+
+
+GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel) {
 	current_byte += bytes_per_pixel;
-	//current_pixel++;
+	return current_byte;
 }
 
 /* fix me! I am a monster! */
@@ -425,9 +427,10 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 				//texture->imageData[currentbyte + 3] = Check_pixels_for_image_data(tga.bytesPerPixel, colorbuffer);
 				Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
 
-				//Increment_pixel(currentbyte, tga.bytesPerPixel);
-				currentbyte += tga.bytesPerPixel;
+				currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
+				//currentbyte += tga.bytesPerPixel;
 				currentpixel++;
+				
 
 				
 
