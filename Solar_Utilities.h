@@ -419,6 +419,23 @@ int Evaluate_texture_is_null(GLubyte *image_data, FILE *file){
 	}
 }
 
+int Verify_and_evaluate_image_data(GLubyte *image_data, GLuint image_size, FILE *file) {
+	if (fread(image_data, 1, image_size, file) != image_size) {
+		/*if (texture->imageData != NULL) {
+			free(texture->imageData);
+		}
+		else {
+			/* nothing to do
+		}*/
+		Evaluate_image_data_to_release(image_data);
+		fclose(file);
+		return FALSE;
+	}
+	else {
+		/* nothing to do */
+	}
+}
+
 /* loads uncompressed TGA */
 int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
@@ -485,20 +502,21 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	Evaluate_texture_is_null(texture->imageData, fTGA);
 
 	/* attempt to read image data */
-	if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize) {
+	/*if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize) {
 		/*if (texture->imageData != NULL) {
 			free(texture->imageData);
 		}
 		else {
 			/* nothing to do
-		}*/
+		}
 		Evaluate_image_data_to_release(texture->imageData);
 		fclose(fTGA);
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
-	}
+		/* nothing to do
+	}*/
+	Verify_and_evaluate_image_data(texture->imageData, tga.imageSize, fTGA);
 
 	for (GLuint cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel) {
 		texture->imageData[cswap] ^= texture->imageData[cswap+2];
