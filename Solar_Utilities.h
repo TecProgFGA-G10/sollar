@@ -393,9 +393,20 @@ int Verify_and_evaluate_header(FILE *file, char *filename) {
 		return FALSE;
 	}
 	else {
-		print_verbose_log("File is readed");
+		/* nothing to do */
 	}
 }
+
+/*int Evaluate_texture(FILE *file, ) {
+
+}*/
+
+/*void Set_textures(Texture *texture){
+	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
+	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
+	texture->bpp = (GLuint)tga.header[4];
+}*/
+
 
 /* loads uncompressed TGA */
 int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
@@ -415,9 +426,10 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	}*/
 	Verify_and_evaluate_header(fTGA, filename);
 
-	texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
+	/*texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
 	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
-	texture->bpp = tga.header[4];
+	texture->bpp = tga.header[4];*/
+	Set_textures(texture);
 	tga.Width = texture->width;
 	tga.Height = texture->height;
 	tga.Bpp = texture->bpp;
