@@ -376,24 +376,24 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	return TRUE;
 }
 
-void Evaluate_file(FILE *file){
+void Evaluate_file(FILE *file) {
 	if (file != NULL) {
 		fclose(file);
+		print_verbose_log("File is closed");
 	}
 	else {
 		/* nothing to do */
 	}
 }
 
-
-int Verify_and_evaluate_header(FILE *file, char *filename){
+int Verify_and_evaluate_header(FILE *file, char *filename) {
 	if (fread(tga.header, sizeof(tga.header), 1, file) == 0) {
 		Evaluate_file(file);
 
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
+		print_verbose_log("File is readed");
 	}
 }
 
