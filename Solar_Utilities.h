@@ -299,7 +299,19 @@ GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel) {
 	return current_byte;
 }
 
-
+/*void Loop_chunkheader(Texture *texture, char *filename, FILE *fTGA) {
+	for (short counter = 0; counter < chunkheader; counter++) {
+				
+		//avalia se o arquivo pode ser fechado, avalia se há cor e libera memória, avalia a imagem da textura e libera memória
+		Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
+		Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
+		currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
+		currentpixel = Increment_pixel(currentpixel);
+		//printf("João gay %d\n",currentpixel);
+		Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
+		//printf("João gay %d\n",currentpixel);
+	}
+}*/
 
 /* fix me! But I am not more a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
@@ -307,14 +319,14 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	Verify_header(fTGA, filename);
 	Set_textures(texture);
 	Set_tgas(texture);
-
 	Verify_correct_bits(fTGA, filename, texture->bpp);
-
 	texture->type = rgb_for_type(texture->bpp, texture->type);
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
+
 	free(texture->imageData);
+
 	texture->imageData = (GLubyte *)malloc(tga.imageSize * sizeof(GLubyte));
 
 	Evaluate_image_data_to_close(fTGA, filename, texture->imageData);
@@ -339,9 +351,9 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			 	Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
 			 	currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
 			 	currentpixel = Increment_pixel(currentpixel);
-			 	//printf("André gay %d\n",currentpixel);
+			 	//printf("João gay %d\n",currentpixel);
 			 	Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
-			 	//printf("André gay %d\n",currentpixel);
+			 	//printf("João gay %d\n",currentpixel);
 			}
 		}
 		else {
@@ -374,27 +386,34 @@ void Evaluate_file(FILE *file){
 }
 
 
+int Verify_and_evaluate_header(FILE *file, char *filename){
+	if (fread(tga.header, sizeof(tga.header), 1, file) == 0) {
+		Evaluate_file(file);
 
-/*int Evaluate_file(GLubyte tga_header, FILE *file){
-
-}*/
-
-/* loads uncompressed TGA */
-int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
-{
-	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
-		/*if (fTGA != NULL) {
-			fclose(fTGA);
-		}
-		else {
-			/* nothing to do
-		}*/
-		Evaluate_file(fTGA);
 		return FALSE;
 	}
 	else {
 		/* nothing to do */
 	}
+}
+
+/* loads uncompressed TGA */
+int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
+{
+	/*if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0) {
+		/*if (fTGA != NULL) {
+			fclose(fTGA);
+		}
+		else {
+			/* nothing to do
+		}
+		Evaluate_file(fTGA);
+		return FALSE;
+	}
+	else {
+		/* nothing to do
+	}*/
+	Verify_and_evaluate_header(fTGA, filename);
 
 	texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
 	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
