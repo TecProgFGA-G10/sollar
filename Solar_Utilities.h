@@ -301,7 +301,7 @@ GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel) {
 
 
 
-/* fix me! I am a monster! */
+/* fix me! But I am not more a monster! */
 int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	Verify_header(fTGA, filename);
@@ -343,7 +343,6 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 			 	Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
 			 	//printf("André gay %d\n",currentpixel);
 			}
-
 		}
 		else {
 			chunkheader -= 127;
