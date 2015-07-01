@@ -409,6 +409,15 @@ int Evaluate_texture(Texture *texture, FILE *file){
 	}
 }
 
+int Evaluate_texture_is_null(GLubyte *image_data, FILE *file){
+	if (image_data == NULL) {
+		fclose(file);
+		return FALSE;
+	}
+	else {
+		/* nothing to do */
+	}
+}
 
 /* loads uncompressed TGA */
 int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
@@ -466,13 +475,15 @@ int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
 	texture->imageData = (GLubyte *)malloc(tga.imageSize);
 
-	if (texture->imageData == NULL) {
+	/*if (texture->imageData == NULL) {
 		fclose(fTGA);
 		return FALSE;
 	}
 	else {
-		/* nothing to do */
-	}
+		/* nothing to do 
+	}*/
+	Evaluate_texture_is_null(texture->imageData, fTGA);
+
 	/* attempt to read image data */
 	if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize) {
 		/*if (texture->imageData != NULL) {
