@@ -149,6 +149,7 @@ void Set_tgas(Texture *texture)
 
 /*
  * Closes a file and record in log file the operation result
+ * Assesses whether the file can be closed
  * Parameters:	*file_to_close - pointer to the file to be close
  * 				*filename - pointer to the name of file that will be close
  * Return:		void
@@ -215,6 +216,7 @@ int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data
 	}
 }
 
+/* Evaluates a texture image and frees memory */
 void Evaluate_image_data_to_release(GLubyte *image_data)
 {
 	if (image_data != NULL) {
@@ -240,6 +242,7 @@ int Verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte 
 	}
 }
 
+/* It assesses whether there is color and frees memory */
 void Evaluate_color_buffer(GLubyte *colorbuffer)
 {
 	if (colorbuffer != NULL) {
@@ -251,6 +254,8 @@ void Evaluate_color_buffer(GLubyte *colorbuffer)
 	}
 }
 
+/* Assesses the size of the object by evaluating whether the file can be closed
+* if there is color and a texture image and frees memory */
 int Evaluate_size_object(GLubyte *colorbuffer, GLuint bytes_per_pixel, FILE *file, char *filename, GLubyte *image_data)
 {
 	if (fread(colorbuffer, 1, bytes_per_pixel, file) != bytes_per_pixel) {
@@ -362,14 +367,11 @@ int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
 
 			 for (short counter = 0; counter < chunkheader; counter++) {
 				
-			 	//avalia se o arquivo pode ser fechado, avalia se há cor e libera memória, avalia a imagem da textura e libera memória
 			 	Evaluate_size_object(colorbuffer, tga.bytesPerPixel, fTGA, filename, texture->imageData);
 			 	Set_image_data(texture->imageData, currentbyte, colorbuffer, tga.bytesPerPixel);
 			 	currentbyte = Set_byte(currentbyte, tga.bytesPerPixel);
 			 	currentpixel = Increment_pixel(currentpixel);
-			 	//printf("João gay %d\n",currentpixel);
 			 	Evaluate_pixel(currentpixel, pixelcount, fTGA, filename, texture->imageData, colorbuffer);
-			 	//printf("João gay %d\n",currentpixel);
 			}
 		}
 		else {
