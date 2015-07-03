@@ -13,6 +13,7 @@
 
 ## Instrunctions to execute in Linux
 ```bash
+./configure
 make
 ./sollar
 ```
