@@ -1,4 +1,65 @@
-sollar
-debug.log
-error.log
-verbose.log
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*-lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+
+# Log files
+*.log
+
+# Makefile
+Makefile
+Makefile.in
+
+# Scripts
+*.sh
+*-sh
+
+# m4 related files
+*.m4
+
+# Cache files
+*.cache
+
+# Configuration files
+config*
+
+# Autotools related files
+compile
+depcomp
+.deps
+missing
+libtool
+test-driver
+stamp-h1
+
+# Executable
+src/sollar
