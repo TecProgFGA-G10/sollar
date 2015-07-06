@@ -34,14 +34,14 @@ int main() {
         return CU_get_error();
 
     /* Add a suite to the registry */
-    pSuite = CU_add_suite("correlacaoLinearTeste", init_suite, clean_suite);
+    pSuite = CU_add_suite("Test_Audio_Manager", init_suite, clean_suite);
     if (NULL == pSuite) {
         CU_cleanup_registry();
         return CU_get_error();
     }
 
     /* Add the tests to the suite */
-    if ((NULL == CU_add_test(pSuite, "testMetodoCorrelacao", testMetodoCorrelacao))) {
+    if ((NULL == CU_add_test(pSuite, "testplay_music", testplay_music))) {
         CU_cleanup_registry();
         return CU_get_error();
     }
