@@ -16,7 +16,7 @@ void testposicaoVaziameteors() {
     int result_empty_meteors = 0;
     int number_of_meteors = 20;
 
-    result_empty_meteors = create_empty_shot_position(number_of_meteors);
+    result_empty_meteors = posicaoVaziameteors(number_of_meteors);
   
     CU_ASSERT_EQUAL(result_empty_meteors, 20);
 }
