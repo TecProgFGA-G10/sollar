@@ -13,7 +13,9 @@ int clean_suite(void) {
 int play_music(Mix_Music *music);
 
 void testplay_music() {
-    int result_play_music = 0;
+    int result_play_music_first_case = 0;
+    int result_play_music_second_case = 0;
+    int result_play_music_third_case = 0;
     int first_case_music = -1;
     int second_case_music = 1;
     int third_case_music = NULL;
