@@ -15,9 +15,9 @@ static FILE *log_file ;
 
 static void initialize()
 {
-    struct stat st = {0};
+    struct status file_status = {0};
 
-    if (stat("log", &st) == -1) {
+    if (stat("log", &file_status) == -1) {
         mkdir("log", 0700);
     }
     else {
@@ -28,15 +28,15 @@ static void initialize()
 // gets the real time of the execution of the log and sends the information to the main function
 static char* print_time()
 {
-    time_t t;
-    char *buf;
-    time(&t);
+    time_t time_in_seconds;
+    char *buffer;
+    time(&time_in_seconds);
 
-    buf = (char*)malloc(strnlen(ctime(&t))+ 1);
+    buffer = (char*)malloc(strnlen(ctime(&time_in_seconds))+ 1);
 
-    snprintf(buf,strnlen(ctime(&t)),"%s ", ctime(&t));
+    snprintf(buffer,strnlen(ctime(&time_in_seconds)),"%s ", ctime(&time_in_seconds));
 
-    return buf;
+    return buffer;
 }
 
 void print_debug_log(char* filename, int line, char *fmt,...)
@@ -138,7 +138,7 @@ void print_verbose_log(char* filename, int line, char *fmt,...)
 {
     initialize();
     va_list list;
-    char *p, *r;
+    char *char_pointer, *new_char;
     int e;
 
     log_file = fopen ("log/verbose.log","a+");
@@ -146,20 +146,20 @@ void print_verbose_log(char* filename, int line, char *fmt,...)
     fprintf(log_file,"[%s][%s][line: %d] ",print_time(),filename,line);
     va_start( list, fmt );
 
-    for ( p = fmt ; *p ; ++p )
+    for ( char_pointer = fmt ; *char_pointer ; ++char_pointer )
     {
         //If simple string
-        if ( *p != '%' ) {
-            fputc( *p,log_file );
+        if ( *char_pointer != '%' ) {
+            fputc( *char_pointer,log_file );
         }
         else {
-            switch ( *++p ) {
+            switch ( *++char_pointer ) {
                 /* string */
             case 's':
             {
-                r = va_arg( list, char * );
+                new_char = va_arg( list, char * );
 
-                fprintf(log_file,"%s", r);
+                fprintf(log_file,"%s", new_char);
                 continue;
             }
 
@@ -173,7 +173,7 @@ void print_verbose_log(char* filename, int line, char *fmt,...)
             }
 
             default:
-                fputc( *p, log_file );
+                fputc( *char_pointer, log_file );
             }
         }
     }
