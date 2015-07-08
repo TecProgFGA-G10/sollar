@@ -133,14 +133,14 @@ GLubyte cTGAcompare[12] = {
 	(GLubyte)0};
 
 
-void Set_textures(Texture *texture)
+void set_textures(Texture *texture)
 {
 	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
 	texture->height = (GLuint)tga.header[3] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[2];
 	texture->bpp = (GLuint)tga.header[4];
 }
 
-void Set_tgas(Texture *texture)
+void set_tgas(Texture *texture)
 {
 	tga.Width = texture->width;
 	tga.Height = texture->height;
@@ -154,7 +154,7 @@ void Set_tgas(Texture *texture)
  * 				*filename - pointer to the name of file that will be close
  * Return:		void
  */
-void close_file(FILE *file_to_close, char *filename)
+void checks_file_can_be_closed(FILE *file_to_close, char *filename)
 {
 	if (fclose(file_to_close) != 0){
 		print_error_log("File %s was not close!", filename);
@@ -164,10 +164,10 @@ void close_file(FILE *file_to_close, char *filename)
 	}
 }
 
-int Verify_header(FILE *file, char *filename)
+int verify_header(FILE *file, char *filename)
 {
 	if (fread(tga.header, sizeof(tga.header), 1, file) == 0) {
-		close_file(file, filename);
+		checks_file_can_be_closed(file, filename);
 		print_error_log("Error, file is empty, not readed");
 
 		return FALSE;
@@ -177,11 +177,11 @@ int Verify_header(FILE *file, char *filename)
 	}
 }
 
-int Verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel)
+int verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel)
 {
 	if ((bytes_per_pixel != 24) && (bytes_per_pixel != 32))
 	{
-		close_file(file, filename);
+		checks_file_can_be_closed(file, filename);
 		print_error_log("Error, invalid texture");
 
 		return FALSE;
@@ -203,10 +203,10 @@ GLuint rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture)
 	}
 }
 
-int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data)
+int evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data)
 {
 	if (image_data == NULL) {
-		close_file(file, filename);
+		checks_file_can_be_closed(file, filename);
 		print_error_log("Error, image Data is null");
 
 		return FALSE;
@@ -217,7 +217,7 @@ int Evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data
 }
 
 /* Evaluates a texture image and frees memory */
-void Evaluate_image_data_to_release(GLubyte *image_data)
+void evaluate_image_data_to_release(GLubyte *image_data)
 {
 	if (image_data != NULL) {
 		free(image_data);
@@ -228,11 +228,11 @@ void Evaluate_image_data_to_release(GLubyte *image_data)
 	}
 }
 
-int Verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte *chunkheader)
+int verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte *chunkheader)
 {
 	if (fread(chunkheader, sizeof(GLubyte), 1, file) == 0) {
-		close_file(file, filename);
-		Evaluate_image_data_to_release(image_data);
+		checks_file_can_be_closed(file, filename);
+		evaluate_image_data_to_release(image_data);
 
 		return FALSE;
 	}
@@ -259,9 +259,9 @@ void Evaluate_color_buffer(GLubyte *colorbuffer)
 int Evaluate_size_object(GLubyte *colorbuffer, GLuint bytes_per_pixel, FILE *file, char *filename, GLubyte *image_data)
 {
 	if (fread(colorbuffer, 1, bytes_per_pixel, file) != bytes_per_pixel) {
-		close_file(file, filename);
+		checks_file_can_be_closed(file, filename);
 		Evaluate_color_buffer(colorbuffer);
-		Evaluate_image_data_to_release(image_data);
+		evaluate_image_data_to_release(image_data);
 		//print_verbose_log("Variables clean");
 
 		return FALSE;
@@ -287,9 +287,9 @@ GLubyte Check_pixels_for_image_data(GLuint bytes_per_pixel, GLubyte *colorbuffer
 int Evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *filename, GLubyte *image_data, GLubyte *colorbuffer)
 {
 	if (current_pixel > pixel_count) {
-		close_file(file, filename);
+		checks_file_can_be_closed(file, filename);
 		Evaluate_color_buffer(colorbuffer);
-		Evaluate_image_data_to_release(image_data);
+		evaluate_image_data_to_release(image_data);
 		//print_verbose_log("fTGA is closed");
 
 		return FALSE;
@@ -337,10 +337,10 @@ GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel)
 /* fix me! But I am not more a monster! */
 int load_compressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 {
-	Verify_header(fTGA, filename);
-	Set_textures(texture);
-	Set_tgas(texture);
-	Verify_correct_bits(fTGA, filename, texture->bpp);
+	verify_header(fTGA, filename);
+	set_textures(texture);
+	set_tgas(texture);
+	verify_correct_bits(fTGA, filename, texture->bpp);
 	texture->type = rgb_for_type(texture->bpp, texture->type);
 
 	tga.bytesPerPixel = (tga.Bpp / 8);
@@ -350,7 +350,7 @@ int load_compressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 
 	texture->imageData = (GLubyte *)malloc(tga.imageSize * sizeof(GLubyte));
 
-	Evaluate_image_data_to_close(fTGA, filename, texture->imageData);
+	evaluate_image_data_to_close(fTGA, filename, texture->imageData);
 
 	GLuint pixelcount = tga.Height * tga.Width;
 	GLuint currentpixel = 0;
@@ -359,7 +359,7 @@ int load_compressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 
 	do {
 		GLubyte chunkheader = 0;
-		int result_verify_chunkheader =  Verify_chunkheader(fTGA, filename, texture->imageData, &chunkheader);
+		int result_verify_chunkheader =  verify_chunkheader(fTGA, filename, texture->imageData, &chunkheader);
 
 		if (chunkheader < 128) {
 			chunkheader++;
@@ -389,7 +389,7 @@ int load_compressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 	} 
 	while (currentpixel < pixelcount);
 
-	close_file(fTGA, filename);
+	checks_file_can_be_closed(fTGA, filename);
 
 	return TRUE;
 }
@@ -445,7 +445,7 @@ int Evaluate_texture_is_null(GLubyte *image_data, FILE *file)
 int Verify_and_evaluate_image_data(GLubyte *image_data, GLuint image_size, FILE *file)
 {
 	if (fread(image_data, 1, image_size, file) != image_size) {
-		Evaluate_image_data_to_release(image_data);
+		evaluate_image_data_to_release(image_data);
 		fclose(file);
 		return FALSE;
 	}
@@ -471,8 +471,8 @@ int load_uncompressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 	/*texture->width = tga.header[1] * TEXTURE_SIZE + tga.header[0];
 	texture->height = tga.header[3] * TEXTURE_SIZE + tga.header[2];
 	texture->bpp = tga.header[4];*/
-	Set_textures(texture);
-	Set_tgas(texture);
+	set_textures(texture);
+	set_tgas(texture);
 	Evaluate_texture(texture, fTGA);
 	texture->type = rgb_for_type(texture->bpp, texture->type);
 
