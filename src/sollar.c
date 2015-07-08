@@ -24,8 +24,8 @@
 #include "Solar_Utilities.h"
 
 void draw_game_over(void);
-void update(void);
-void trataTeclas(void);
+void update_states(void);
+void treat_keyboard_keys(void);
 void special_key(int , int , int );
 void special_key_unpressed(int, int , int );
 void increase_difficulty_level(int );
@@ -144,7 +144,7 @@ void draw_game_over()
 }
 
 /* updates the state */
-void update(void)
+void update_states(void)
 {
 	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
 		if (shots[i].visible) {
@@ -297,7 +297,7 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 }
 
 /* draws text */
-void DesenhaTexto(char *string, int position_x, int position_y)
+void draws_text(char *string, int position_x, int position_y)
 {
 		glPushMatrix();
 			glRasterPos2f(ship.position.x-position_x, ship.position.y-position_y);
@@ -338,7 +338,7 @@ void fire_shot()
 }
 
 /* treats keys */
-void trataTeclas()
+void treat_keyboard_keys()
 {
 	ship.last_position.x = ship.position.x;
 	ship.last_position.y = ship.position.y;
@@ -566,10 +566,10 @@ void draw_HUD()
 {
 	char texto[20];
 	sprintf(texto, "Vida: %d", remaining_lives);
-	DesenhaTexto(texto, 5, 5);
+	draws_text(texto, 5, 5);
 	char texto2[20];
 	sprintf(texto2, "Pontuacao: %d", score);
-	DesenhaTexto(texto2, 6, 6);
+	draws_text(texto2, 6, 6);
 }
 
 /* draws */
@@ -598,11 +598,11 @@ void draw()
 		else {
 			draw_game_over();
 		}
-		update();
-		trataTeclas();
+		update_states();
+		treat_keyboard_keys();
 	}
 	else {
-		DesenhaTexto("PAUSE", 0, 0);
+		draws_text("PAUSE", 0, 0);
 	}
 	glutSwapBuffers();
 }
