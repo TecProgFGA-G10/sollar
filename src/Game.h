@@ -21,7 +21,7 @@ void load_background_texture(Texture *background_texture, char *filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
 	unsigned int border = INITIALIZE_ZERO;
-	if (LoadTGA(background_texture, filePath)) {
+	if (load_TGA(background_texture, filePath)) {
 		glGenTextures(amount_of_textures, &background_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, background_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
@@ -49,7 +49,7 @@ void load_game_over_texture(Texture *game_over_texture, char* filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
 	unsigned int border = INITIALIZE_ZERO;
-	if (LoadTGA(game_over_texture, filePath)) {
+	if (load_TGA(game_over_texture, filePath)) {
 		glGenTextures(amount_of_textures, &game_over_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, game_over_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
@@ -77,7 +77,7 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
 	unsigned int border = INITIALIZE_ZERO;
-	if (LoadTGA(game_continue_texture, filePath)) {
+	if (load_TGA(game_continue_texture, filePath)) {
 		glGenTextures(amount_of_textures, &game_continue_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, game_continue_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
@@ -105,7 +105,7 @@ void load_end_game_texture(Texture *end_game_texture, char *filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
 	unsigned int border = INITIALIZE_ZERO;
-	if (LoadTGA(end_game_texture, filePath)) {
+	if (load_TGA(end_game_texture, filePath)) {
 		glGenTextures(amount_of_textures, &end_game_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, end_game_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,

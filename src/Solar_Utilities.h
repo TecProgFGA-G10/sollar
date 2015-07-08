@@ -335,7 +335,7 @@ GLuint Set_byte(GLuint current_byte, GLuint bytes_per_pixel)
 }*/
 
 /* fix me! But I am not more a monster! */
-int LoadCompressedTGA(Texture *texture, char *filename, FILE *fTGA)
+int load_compressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	Verify_header(fTGA, filename);
 	Set_textures(texture);
@@ -464,7 +464,7 @@ void Loop_set_textures(GLubyte *image_data, GLuint image_size, GLuint bytes_per_
 }
 
 /* loads uncompressed TGA */
-int LoadUncompressedTGA(Texture *texture, char *filename, FILE *fTGA)
+int load_uncompressed_TGA(Texture *texture, char *filename, FILE *fTGA)
 {
 	Verify_and_evaluate_header(fTGA, filename);
 
@@ -511,10 +511,10 @@ int Verify_and_evaluate_tgaheader(FILE *file, Texture *texture)
 int Verify_memory_to_texture(Texture *texture, char *filename, FILE *file)
 {
 	if (memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
-		LoadUncompressedTGA(texture, filename, file);
+		load_uncompressed_TGA(texture, filename, file);
 	}
 	else if (memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0) {
-		LoadCompressedTGA(texture, filename, file);
+		load_compressed_TGA(texture, filename, file);
 	}
 	else {
 		fclose(file);
@@ -523,7 +523,7 @@ int Verify_memory_to_texture(Texture *texture, char *filename, FILE *file)
 }
 
 /* loads TGA */
-int LoadTGA(Texture *texture, char *filename)
+int load_TGA(Texture *texture, char *filename)
 {
 	FILE *fTGA;
 	fTGA = fopen(filename, "rb");

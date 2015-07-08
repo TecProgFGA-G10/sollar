@@ -74,7 +74,7 @@ void load_ship_texture(Texture *ship_texture, char* filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
 	unsigned int border = INITIALIZE_ZERO;
-	if (LoadTGA(ship_texture,filePath)) {
+	if (load_TGA(ship_texture,filePath)) {
 		glGenTextures(amount_of_textures, &ship_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, ship_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,

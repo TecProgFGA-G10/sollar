@@ -84,7 +84,7 @@ void load_shot_texture(Texture *shot_texture, char *filePath)
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
 	unsigned int border = INITIALIZE_ZERO;
-   	if (LoadTGA(shot_texture,filePath)) {
+   	if (load_TGA(shot_texture,filePath)) {
 		glGenTextures(amount_of_textures, &shot_texture->texture_id);
 		glBindTexture(GL_TEXTURE_2D, shot_texture->texture_id);
 		glTexImage2D(GL_TEXTURE_2D,
