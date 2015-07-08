@@ -579,7 +579,7 @@ void draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!game_paused) {
 		if (ship.visible) {
-			desenhaFundo(background_texture);
+			draws_fund(background_texture);
 			glPushMatrix();
 			glTranslatef(ship.position.x, ship.position.y, ship.position.z);
 			
@@ -683,7 +683,7 @@ void configure(int argc, char **argv)
 					  explosions,
 					  &dafault_collision_shot,
 					  shots);
-	iniciaGlut(argc, argv);
+	starts_glut(argc, argv);
 
 	glutDisplayFunc(draw);
 	glutKeyboardFunc(controls);
@@ -691,7 +691,7 @@ void configure(int argc, char **argv)
 	glutSpecialUpFunc(special_key_unpressed);
 	glutReshapeFunc(resizes);
 
-	iniciaCamera();
+	starts_camera();
 
 	Texture *textures[] = {&ship_texture,
 						   &meteor_texture,

@@ -13,7 +13,7 @@
 #include "logger.h"
 
 /* initialize the library Glut */
-void iniciaGlut(int argc, char **argv)
+void starts_glut(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	/* 2 buffer mode and RGBA (accepts alpha) */
@@ -26,7 +26,7 @@ void iniciaGlut(int argc, char **argv)
 }
 
 /* initializes camera */
-void iniciaCamera()
+void starts_camera()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -43,7 +43,7 @@ void iniciaCamera()
 }
 
 /* configure the ilumination */
-void configuraIluminacao()
+void configures_lighting()
 {
 	float environment_color_light[] = {1, 1, 1, 1}; /* white light */
 	float light_position[] = {0, 0, 0, 0.2}; /* light's position */
@@ -80,7 +80,7 @@ void draw_model(int tipo, Texture textura, GLMmodel *model)
 }
 
 /* draws the background */
-void desenhaFundo(Texture background_texture)
+void draws_fund(Texture background_texture)
 {
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, background_texture.texture_id);
