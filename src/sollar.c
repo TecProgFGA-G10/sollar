@@ -150,7 +150,7 @@ void update(void)
 		if (shots[i].visible) {
 			shots[i].last_position.z = shots[i].position.z;
 			shots[i].position.z += shots[i].acceleration;
-			atualizaCaixaColisaoTiro(&shots[i]);
+			updates_collision_box_shots(&shots[i]);
 			/*
 			 * Shot will move at Z axis, goint to the
 			 * negative value of it. When z value is less then the maximum,

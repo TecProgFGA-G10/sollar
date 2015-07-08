@@ -54,7 +54,7 @@ void load_shot_model(GLMmodel **shot)
 }
 
 /* update shot's box collision */
-void atualizaCaixaColisaoTiro(game_item *item)
+void updates_collision_box_shots(game_item *item)
 {
 	/* total points collision box */
 	for (unsigned int i = INITIALIZE_ZERO; i < 8; i++) {
@@ -128,7 +128,7 @@ void draw_shot(game_item *shots, Texture shot_texture, GLMmodel *shot)
 }
 
 /* configures shot's collision box */
-void configuraCaixaColisaoTiro(collision_box *dafault_collision_shot)
+void sets_collision_box_shots(collision_box *dafault_collision_shot)
 {
 	for (unsigned int c = INITIALIZE_ZERO; c < 8; c++) {
 		dafault_collision_shot->points[c].x *= SHOT_SCALE;

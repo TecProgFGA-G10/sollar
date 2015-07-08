@@ -260,7 +260,7 @@ void initializes_objects(game_item *ship,
 	sets_acceleration_of_meteors(meteors);
 	configuraTamanhoExplosoes(explosions);
 	create_collision_box(shot[0], dafault_collision_shot);
-	configuraCaixaColisaoTiro(dafault_collision_shot);
+	sets_collision_box_shots(dafault_collision_shot);
 	set_shot_acceleration(shots);
 	print_verbose_log("Objects initialized");
 }
