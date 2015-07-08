@@ -729,7 +729,7 @@ void reconfigure()
 					  explosions,
 					  &dafault_collision_shot,
 					  shots);
-	criaCaixaColisao(ship.model, &ship.collision);
+	create_collision_box(ship.model, &ship.collision);
 	glClearColor(INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO);
 	glutKeyboardFunc(controls);
 	glutSpecialFunc(special_key);

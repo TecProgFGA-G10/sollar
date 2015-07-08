@@ -12,7 +12,7 @@
 #define COLLISION_H
 
 /* draws the collision box */
-void desenhaCaixaColisao(collision_box *box)
+void draw_collision_box(collision_box *box)
 /* *box - pointer to collision box */
 {
 	glBegin(GL_LINES);
@@ -169,7 +169,7 @@ void update_box_points(collision_box *box,
   * Creates one collision box by the bigger
   * and smaller points in wich axix.
   */
-void criaCaixaColisao(GLMmodel *model, collision_box *box)
+void create_collision_box(GLMmodel *model, collision_box *box)
 /* box - pointer to collision box */
 {
 	if (!model) {

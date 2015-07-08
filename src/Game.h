@@ -255,11 +255,11 @@ void inicializaObjetos(game_item *ship,
 	carregaModelometeor(meteor);
 	carregaModeloExplosao(explosion);
 	load_shot_model(shot);
-	criaCaixaColisao(meteor[0], dafault_meteor_collision);
+	create_collision_box(meteor[0], dafault_meteor_collision);
 	configuraCaixaColisaometeor(dafault_meteor_collision);
 	configuraAceleracaometeors(meteors);
 	configuraTamanhoExplosoes(explosions);
-	criaCaixaColisao(shot[0], dafault_collision_shot);
+	create_collision_box(shot[0], dafault_collision_shot);
 	configuraCaixaColisaoTiro(dafault_collision_shot);
 	set_shot_acceleration(shots);
 	print_verbose_log("Objects initialized");

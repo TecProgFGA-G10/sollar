@@ -47,7 +47,7 @@ void load_ship_model(game_item *ship)
 		}
 
 		glmUnitize(ship->model);
-		criaCaixaColisao(ship->model, &ship->collision);
+		create_collision_box(ship->model, &ship->collision);
 		glmFacetNormals(ship->model);
 		glmVertexNormals(ship->model, model_angle);
 
