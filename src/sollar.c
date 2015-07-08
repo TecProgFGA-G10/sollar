@@ -132,9 +132,9 @@ void draw_game_over()
 			   0, 0, 0 ,
 			   0, 1, 0);
 	/* draws background and two buttons to continue or leave the game */
-	desenhaPlanoGameOver(game_over_texture);
+	draws_game_over_plan(game_over_texture);
 	/* continue button */
-	desenhaBotaoContinuar(game_over_selected,
+	draws_continue_button(game_over_selected,
 						  game_continue_green_texture,
 						  game_continue_red_texture);
 	/* leave button */
@@ -703,7 +703,7 @@ void configure(int argc, char **argv)
 						   &game_continue_red_texture,
 						   &game_over_green_texture,
 						   &game_over_red_texture};
-	configuratextures(textures);
+	configures_textures(textures);
 	glutTimerFunc(1000, timer, NEW_METEOR);
 	glutTimerFunc(500, explosion_timer, 0);
 	glutTimerFunc(20000, increase_difficulty_level, 0);

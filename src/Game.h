@@ -44,7 +44,7 @@ void load_background_texture(Texture *background_texture, char *filePath)
 }
 
 /* loads the game over texture */
-void carrega_game_over_texture(Texture *game_over_texture, char* filePath)
+void load_game_over_texture(Texture *game_over_texture, char* filePath)
 {
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
@@ -100,7 +100,7 @@ void load_game_texture(Texture *game_continue_texture, char *filePath)
 }
 
 /* loads the end game over texture */
-void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
+void load_end_game_texture(Texture *end_game_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
 	unsigned int level_of_detail = INITIALIZE_ZERO;
@@ -128,23 +128,23 @@ void carrega_end_game_texture(Texture *end_game_texture, char *filePath)
 }
 
 /* configures textures */
-void configuratextures(Texture **textures)
+void configures_textures(Texture **textures)
 {
 	load_ship_texture(textures[0], "data/aviao/textura_jato.tga");
 	load_meteor_texture(textures[1], "data/meteoro/meteoro_Sphere.tga");
 	load_shot_texture(textures[2], "data/tiro/tiro_Cube.tga");
 	load_background_texture(textures[3], "data/fundo/fundo.tga");
 	load_explosion_texture(textures[4], "data/explosao/explosao.tga");
-	carrega_game_over_texture(textures[5], "data/gameover/gameover.tga");
+	load_game_over_texture(textures[5], "data/gameover/gameover.tga");
 	load_game_texture(textures[6], "data/gameover/continuarVerde.tga");
 	load_game_texture(textures[7], "data/gameover/continuarVermelho.tga");
-	carrega_game_over_texture(textures[8], "data/gameover/fimJogoVerde.tga");
-	carrega_game_over_texture(textures[9], "data/gameover/fimJogoVermelho.tga");
+	load_game_over_texture(textures[8], "data/gameover/fimJogoVerde.tga");
+	load_game_over_texture(textures[9], "data/gameover/fimJogoVermelho.tga");
 	print_verbose_log("Texture configureted");
 }
 
 /* draws game over plan */
-void desenhaPlanoGameOver(Texture game_over_texture)
+void draws_game_over_plan(Texture game_over_texture)
 {
 	glPushMatrix();
 	glTranslatef(INITIALIZE_ZERO, INITIALIZE_ZERO, INITIALIZE_ZERO); /* coordinates x, y, z */
@@ -171,7 +171,7 @@ void desenhaPlanoGameOver(Texture game_over_texture)
 }
 
 /* draws continue button */
-void desenhaBotaoContinuar(int game_over_selected,
+void draws_continue_button(int game_over_selected,
 						   Texture game_continue_green_texture,
 						   Texture game_continue_red_texture)
 {
