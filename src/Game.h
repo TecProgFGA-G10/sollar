@@ -252,12 +252,12 @@ void initializes_objects(game_item *ship,
 					   game_item *shots)
 {
 	load_ship_model(ship);
-	carregaModelometeor(meteor);
+	carries_meteor_model(meteor);
 	carregaModeloExplosao(explosion);
 	load_shot_model(shot);
 	create_collision_box(meteor[0], dafault_meteor_collision);
-	configuraCaixaColisaometeor(dafault_meteor_collision);
-	configuraAceleracaometeors(meteors);
+	configures_meteor_collision_box(dafault_meteor_collision);
+	sets_acceleration_of_meteors(meteors);
 	configuraTamanhoExplosoes(explosions);
 	create_collision_box(shot[0], dafault_collision_shot);
 	configuraCaixaColisaoTiro(dafault_collision_shot);

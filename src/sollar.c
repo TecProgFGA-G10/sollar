@@ -653,7 +653,7 @@ void timer(int t)
 	if (ship.visible && !game_paused) {
 		print_verbose_log("New meteor");
 		if (t == NEW_METEOR) {
-			enviameteor(meteors, meteors_to_send, dafault_meteor_collision);
+			sends_meteor(meteors, meteors_to_send, dafault_meteor_collision);
 			glutTimerFunc(time_until_next_meteors_round, timer, NEW_METEOR);
 		}
 		else {

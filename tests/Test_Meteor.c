@@ -10,13 +10,13 @@ int clean_suite(void) {
     return 0;
 }
 
-int posicaoVaziameteors(game_item *meteors);
+int creates_empty_position_for_meteor(game_item *meteors);
 
-void testposicaoVaziameteors() {
+void testcreates_empty_position_for_meteor() {
     int result_empty_meteors = 0;
     int number_of_meteors = 20;
 
-    result_empty_meteors = posicaoVaziameteors(number_of_meteors);
+    result_empty_meteors = creates_empty_position_for_meteor(number_of_meteors);
   
     CU_ASSERT_EQUAL(result_empty_meteors, 20);
 }
@@ -36,7 +36,7 @@ int main() {
     }
 
     /* Add the tests to the suite */
-    if ((NULL == CU_add_test(pSuite, "testposicaoVaziameteors", testposicaoVaziameteors))) {
+    if ((NULL == CU_add_test(pSuite, "testcreates_empty_position_for_meteor", testcreates_empty_position_for_meteor))) {
         CU_cleanup_registry();
         return CU_get_error();
     }
