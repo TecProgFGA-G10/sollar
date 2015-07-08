@@ -138,7 +138,7 @@ void draw_game_over()
 						  game_continue_green_texture,
 						  game_continue_red_texture);
 	/* leave button */
-	desenhaBotaoSair(game_over_selected,
+	draws_out_button(game_over_selected,
 					 game_over_green_texture,
 					 game_over_red_texture);
 }
@@ -674,7 +674,7 @@ void configure(int argc, char **argv)
 	remaining_lives = 3;
 	game_over_selected = CONTINUE;
 
-	inicializaObjetos(&ship,
+	initializes_objects(&ship,
 					  &meteor,
 					  &explosion,
 					  &shot,
@@ -720,7 +720,7 @@ void configure(int argc, char **argv)
 void reconfigure()
 {
 	remaining_lives = 3;
-	inicializaObjetos(&ship,
+	initializes_objects(&ship,
 					  &meteor,
 					  &explosion,
 					  &shot,

@@ -206,7 +206,7 @@ void draws_continue_button(int game_over_selected,
 }
 
 /* draws the leave button */
-void desenhaBotaoSair(int game_over_selected,
+void draws_out_button(int game_over_selected,
 					  Texture game_over_green_texture,
 					  Texture game_over_red_texture)
 {
@@ -241,7 +241,7 @@ void desenhaBotaoSair(int game_over_selected,
 }
 
 /* initializes objects */
-void inicializaObjetos(game_item *ship,
+void initializes_objects(game_item *ship,
 					   GLMmodel **meteor,
 					   GLMmodel **explosion,
 					   GLMmodel **shot,
