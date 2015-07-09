@@ -9,7 +9,7 @@
 #include "Solar_Utilities.h"
 #include "logger.h"
 
-/* loads the ship model */
+/* loads the ship model in the game */
 void load_ship_model(game_item *ship)
 {
 	ship->position.x = INITIALIZE_ZERO;
@@ -68,7 +68,7 @@ void load_ship_model(game_item *ship)
 	print_verbose_log("Ship model is loaded");
 }
 
-/* loads shit texture */
+/* loads ship texture */
 void load_ship_texture(Texture *ship_texture, char* filePath)
 {
 	unsigned int amount_of_textures = 1;
