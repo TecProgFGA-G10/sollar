@@ -296,6 +296,7 @@ GLubyte check_pixels_for_image_data(GLuint bytes_per_pixel, GLubyte *colorbuffer
 	}
 }
 
+/* assesses the current pixels to release or not memory */
 int evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *filename, GLubyte *image_data, GLubyte *colorbuffer)
 {
 	if (current_pixel > pixel_count) {
