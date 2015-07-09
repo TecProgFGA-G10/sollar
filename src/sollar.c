@@ -341,7 +341,7 @@ void fire_shot()
 	}
 }
 
-/* treats keys */
+/* treats keys as the movement and shots of the game */
 void treat_keyboard_keys()
 {
 	ship.last_position.x = ship.position.x;
