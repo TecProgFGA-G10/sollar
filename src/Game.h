@@ -143,7 +143,7 @@ void configures_textures(Texture **textures)
 	print_verbose_log("Texture configureted");
 }
 
-/* draws game over plan */
+/* draws game over plan of the game */
 void draws_game_over_plan(Texture game_over_texture)
 {
 	glPushMatrix();
@@ -170,7 +170,7 @@ void draws_game_over_plan(Texture game_over_texture)
 	print_verbose_log("Game over plan is drawned");
 }
 
-/* draws continue button */
+/* draws continue button and the selection logic */
 void draws_continue_button(int game_over_selected,
 						   Texture game_continue_green_texture,
 						   Texture game_continue_red_texture)
