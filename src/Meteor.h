@@ -13,7 +13,7 @@
 #include "logger.h"
 #include "Solar_Utilities.h"
 
-/* loads the meteor model */
+/* loads the meteor model in the game */
 void carries_meteor_model(GLMmodel **meteor)
 {
 	double explosion_angle = 90.0;
@@ -30,7 +30,7 @@ void carries_meteor_model(GLMmodel **meteor)
 	}
 }
 
-/* creates an empty meteor position */
+/* creates an empty meteor position to allocate the meteor */
 int creates_empty_position_for_meteor(game_item *meteors)
 {
 	int result_iteration = -1;
