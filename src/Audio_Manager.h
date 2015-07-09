@@ -45,7 +45,7 @@ int play_music(Mix_Music *music)
 	return return_value;
 }
 
-/* plays effects sound */
+/* plays effects sound of the shots and explosions */
 void play_sound(int sound, Mix_Chunk *sound_effect)
 {
 	if (sound == SHOT_MODEL) {
