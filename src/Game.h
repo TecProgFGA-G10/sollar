@@ -240,7 +240,7 @@ void draws_out_button(int game_over_selected,
 	print_verbose_log("Leave button is drawned");
 }
 
-/* initializes objects */
+/* initializes all the objects of the game */
 void initializes_objects(game_item *ship,
 					   GLMmodel **meteor,
 					   GLMmodel **explosion,
