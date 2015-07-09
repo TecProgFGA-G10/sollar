@@ -194,6 +194,7 @@ int verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel)
 	}
 }
 
+/* checks the correct type color according to bytes per pixel */
 GLuint rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture)
 {
 	if (bytes_per_pixel == 24) {
