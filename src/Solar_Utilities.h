@@ -282,6 +282,7 @@ int evaluate_size_object(GLubyte *colorbuffer, GLuint bytes_per_pixel, FILE *fil
 	}
 }
 
+/* check the pixels to define the color */
 GLubyte check_pixels_for_image_data(GLuint bytes_per_pixel, GLubyte *colorbuffer)
 {
 	GLubyte image_data = 0;;
