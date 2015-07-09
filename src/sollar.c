@@ -576,7 +576,7 @@ void draw_HUD()
 	draws_text(texto2, 6, 6);
 }
 
-/* draws */
+/* draws the rest of the game items : ship, meteors, fire and background */
 void draw()
 {
 	/* cleans the color and depth buffers */
