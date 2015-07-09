@@ -221,7 +221,7 @@ int evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data
 	}
 }
 
-/* Evaluates a texture image and frees memory */
+/* evaluates a texture image and frees memory */
 void evaluate_image_data_to_release(GLubyte *image_data)
 {
 	if (image_data != NULL) {
@@ -233,6 +233,10 @@ void evaluate_image_data_to_release(GLubyte *image_data)
 	}
 }
 
+/* 
+ * checks the chunkheader exists or not, if there is no rating can be closed 
+ * and can free up memory 
+ */
 int verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte *chunkheader)
 {
 	if (fread(chunkheader, sizeof(GLubyte), 1, file) == 0) {
@@ -247,7 +251,7 @@ int verify_chunkheader(FILE *file, char *filename, GLubyte *image_data, GLubyte 
 	}
 }
 
-/* It assesses whether there is color and frees memory */
+/* it assesses whether there is color and frees memory */
 void evaluate_color_buffer(GLubyte *colorbuffer)
 {
 	if (colorbuffer != NULL) {
@@ -259,8 +263,10 @@ void evaluate_color_buffer(GLubyte *colorbuffer)
 	}
 }
 
-/* Assesses the size of the object by evaluating whether the file can be closed
-* if there is color and a texture image and frees memory */
+/* 
+ * assesses the size of the object by evaluating whether the file can be closed
+ * if there is color and a texture image and frees memory 
+ */
 int evaluate_size_object(GLubyte *colorbuffer, GLuint bytes_per_pixel, FILE *file, char *filename, GLubyte *image_data)
 {
 	if (fread(colorbuffer, 1, bytes_per_pixel, file) != bytes_per_pixel) {
