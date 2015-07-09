@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "logger.h"
 
-/* initializes the sound */
+/* initializes the sound of the game */
 void audio_initialize(int audio_rate,
 				 Uint16 audio_format,
 				 int audio_channels,
@@ -27,7 +27,7 @@ void audio_initialize(int audio_rate,
 	}
 }
 
-/* plays the music */
+/* plays the music of the game */
 int play_music(Mix_Music *music)
 {
 	int return_value = 0; /* if everything is okay, return 0*/
