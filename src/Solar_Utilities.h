@@ -207,6 +207,7 @@ GLuint rgb_for_type(GLuint bytes_per_pixel, GLuint type_texture)
 	}
 }
 
+/* assesses whether the image data can be closed */
 int evaluate_image_data_to_close(FILE *file, char *filename, GLubyte *image_data)
 {
 	if (image_data == NULL) {
