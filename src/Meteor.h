@@ -46,7 +46,7 @@ int creates_empty_position_for_meteor(game_item *meteors)
 	return result_iteration;
 }
 
-/* send meteor to the screen */
+/* send meteors to the screen */
 void sends_meteor(game_item *meteors,
 				  int meteors_to_send,
 				  collision_box dafault_meteor_collision)
