@@ -165,6 +165,7 @@ void checks_file_can_be_closed(FILE *file_to_close, char *filename)
 	}
 }
 
+/* checks the file header and can be closed */
 int verify_header(FILE *file, char *filename)
 {
 	if (fread(tga.header, sizeof(tga.header), 1, file) == 0) {
