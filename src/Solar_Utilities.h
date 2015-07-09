@@ -179,6 +179,7 @@ int verify_header(FILE *file, char *filename)
 	}
 }
 
+/* checks whether the bits are correct */
 int verify_correct_bits(FILE *file, char *filename, GLuint bytes_per_pixel)
 {
 	if ((bytes_per_pixel != 24) && (bytes_per_pixel != 32))
