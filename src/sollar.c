@@ -300,7 +300,7 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 
 }
 
-/* draws text */
+/* draws the game's text at a given position */
 void draws_text(char *string, int position_x, int position_y)
 {
 		glPushMatrix();
