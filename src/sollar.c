@@ -425,7 +425,7 @@ void treat_keyboard_keys()
 /*
  * When pressing a key keep it state to below.
  * This way the ship moves while the key is pressed
- * a pressed_key estiver pressionada
+ * a pressed_key
  */
 void special_key(int pressed_key, int x, int y)
 {
@@ -496,7 +496,7 @@ void special_key_unpressed(int pressed_key, int x, int y)
 	}
 }
 
-/* raises the difficult */
+/* raises the difficult game increasing the speed of meteors */
 void increase_difficulty_level(int t)
 {
 	if (ship.visible) {
