@@ -43,7 +43,7 @@ void load_background_texture(Texture *background_texture, char *filePath)
 	}
 }
 
-/* loads the game over texture */
+/* loads the game over texture text */
 void load_game_over_texture(Texture *game_over_texture, char* filePath)
 {
 	unsigned int amount_of_textures = 1;
@@ -71,7 +71,7 @@ void load_game_over_texture(Texture *game_over_texture, char* filePath)
 	}
 }
 
-/* loads the game texture */
+/* loads the game continue texture */
 void load_game_texture(Texture *game_continue_texture, char *filePath)
 {
 	unsigned int amount_of_textures = 1;
@@ -127,7 +127,7 @@ void load_end_game_texture(Texture *end_game_texture, char *filePath)
 	}
 }
 
-/* configures textures */
+/* configures all the textures of the game */
 void configures_textures(Texture **textures)
 {
 	load_ship_texture(textures[0], "data/aviao/textura_jato.tga");
