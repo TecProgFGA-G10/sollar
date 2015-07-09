@@ -312,6 +312,7 @@ int evaluate_pixel(GLuint current_pixel, GLuint pixel_count, FILE *file, char *f
 	}
 }
 
+/* sets color to the image data */
 void set_image_data(GLubyte *image_data, GLuint current_byte, GLubyte *colorbuffer, GLuint bytes_per_pixel)
 {
 	image_data[current_byte] = colorbuffer[2];
@@ -321,6 +322,7 @@ void set_image_data(GLubyte *image_data, GLuint current_byte, GLubyte *colorbuff
 	//current_byte += bytes_per_pixel;
 }
 
+/* increases the current pixels */
 GLuint increment_pixel(GLuint current_pixel)
 {
 	current_pixel++;
