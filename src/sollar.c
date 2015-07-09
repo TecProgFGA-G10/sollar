@@ -523,7 +523,7 @@ void increase_difficulty_level(int t)
 	}
 }
 
-/* controls */
+/* controls to pause the game if pressed the P key */
 void controls(unsigned char pressed_key, int x, int y)
 {
 	switch (pressed_key){
