@@ -565,7 +565,7 @@ void controls(unsigned char pressed_key, int x, int y)
 	}
 }
 
-/* draws HUD */
+/* draws HUD: draws the text of life and score the game */
 void draw_HUD()
 {
 	char texto[20];
