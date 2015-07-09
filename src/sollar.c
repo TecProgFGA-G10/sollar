@@ -143,7 +143,11 @@ void draw_game_over()
 					 game_over_red_texture);
 }
 
-/* updates the state */
+/* 
+ * updates the state of play regarding the acceleration of meteors, 
+ * visibility of explosions, as the shot collision with meteor and 
+ * ship with meteor and caused sounds
+ */
 void update_states(void)
 {
 	for (int i = INITIALIZE_ZERO; i < MAX_NUMBER_OF_SHOTS; i++) {
