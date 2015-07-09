@@ -275,13 +275,13 @@ void game_over_special_key(int pressed_key, int x, int y)
 
 }
 
-/* normal game over key */
+/* normal game over key, when pressed, he leaves the game */
 void game_over_normal_key(unsigned char pressed_key, int x, int y)
 {
 	switch(pressed_key) {
 		case ' ':
 
-		case 13: /* ENTER */
+		case 13: /* ENTER: when pressed, you can exit the game or restart */
 			if(game_over_selected == GAME_OVER) {
 				print_verbose_log("Game ended by exit button");
 				exit(0);
@@ -292,7 +292,7 @@ void game_over_normal_key(unsigned char pressed_key, int x, int y)
 			}
 			glutPostRedisplay();
 			break;
-		case 27: /* ESC */
+		case 27: /* ESC: When pressed, the game out */
 			print_verbose_log("Game ended by esc key");
 			exit(0);
 			break;
