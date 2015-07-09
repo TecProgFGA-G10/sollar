@@ -63,7 +63,7 @@ void configures_lighting()
 	print_verbose_log("Ilumination configureted");
 }
 
-/* draws models */
+/* draws models of th ship */
 void draw_model(int tipo, Texture textura, GLMmodel *model)
 {
 	glBindTexture(GL_TEXTURE_2D, textura.texture_id);
@@ -79,7 +79,7 @@ void draw_model(int tipo, Texture textura, GLMmodel *model)
 	print_verbose_log("Model is drawned");
 }
 
-/* draws the background */
+/* draws the background of the game */
 void draws_fund(Texture background_texture)
 {
 	glPushMatrix();
