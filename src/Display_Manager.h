@@ -25,7 +25,7 @@ void starts_glut(int argc, char **argv)
 	print_verbose_log("Lib Glut initialized");
 }
 
-/* initializes camera */
+/* initializes camera projection and perspective of the game */
 void starts_camera()
 {
 	glMatrixMode(GL_PROJECTION);
