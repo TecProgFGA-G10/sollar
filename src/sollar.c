@@ -611,7 +611,7 @@ void draw()
 	glutSwapBuffers();
 }
 
-/* redimensions */
+/* redimensions the ship's position */
 void resizes(int larg, int alt)
 {
 	glMatrixMode(GL_PROJECTION);
