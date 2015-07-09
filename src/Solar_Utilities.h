@@ -329,6 +329,7 @@ GLuint increment_pixel(GLuint current_pixel)
 	return current_pixel;
 }
 
+/* set bytes for current pixels */
 GLuint set_byte(GLuint current_byte, GLuint bytes_per_pixel)
 {
 	current_byte += bytes_per_pixel;
