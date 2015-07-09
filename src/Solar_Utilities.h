@@ -132,7 +132,7 @@ GLubyte cTGAcompare[12] = {
 	(GLubyte)0,
 	(GLubyte)0};
 
-
+/* set the width, height and bpp textures */
 void set_textures(Texture *texture)
 {
 	texture->width = (GLuint)tga.header[1] * (GLuint)TEXTURE_SIZE + (GLuint)tga.header[0];
@@ -140,6 +140,7 @@ void set_textures(Texture *texture)
 	texture->bpp = (GLuint)tga.header[4];
 }
 
+/* set the width, height and Bpp of the struct tga textures */
 void set_tgas(Texture *texture)
 {
 	tga.Width = texture->width;
