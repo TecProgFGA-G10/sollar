@@ -312,7 +312,7 @@ void draws_text(char *string, int position_x, int position_y)
 		glPopMatrix();
 }
 
-/* shoot fire and updates collision */
+/* shoot fire and shot collision with meteor updates */
 void fire_shot()
 {
 	play_sound(SHOT_MODEL, shot_sound);
